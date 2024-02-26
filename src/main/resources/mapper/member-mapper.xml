@@ -2,7 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
-<mapper namespace="memebr">
+<mapper namespace="member">
+    <resultMap id="memberMap" type="com.green.Team3.member.vo.MemberVO">
+        <id     column="MEMBER_ID"                       property="memberId"/>
+        <result column="MEMBER_PW"                       property="memberPw"/>
+        <result column="MEMBER_NAME"                     property="memberName"/>
+        <result column="MEMBER_TEL"                      property="memberTel"/>
+        <result column="MEMBER_EMAIL"                    property="memberEmail"/>
+        <result column="MEMBER_AGE"                      property="memberAge"/>
+        <result column="MEMBER_ADDR"                     property="memberAddr"/>
+        <result column="ADDR_DETAIL"                     property="addrDetail"/>
+        <result column="MEMBER_GENDER"                   property="memberGender"/>
+        <result column="REG_DATE"                        property="regDate"/>
+        <result column="CLASS_NUM"                       property="classNum"/>
+        <result column="MEMBER_ROLL"                     property="memberRoll"/>
+        <result column="POST_CODE"                       property="postCode"/>
+
+    </resultMap>
+
     <!-- 회원가입 -->
     <insert id="join">
         INSERT INTO MEMBER(
@@ -33,6 +50,21 @@
         , #{postCode}
         )
     </insert>
+
+    <!-- 로그인 -->
+    <select id="login" resultMap="memberMap">
+        SELECT MEMBER_ID
+            , MEMBER_NAME
+            , MEMBER_ROLL
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+        AND MEMBER_PW = #{memberPw}
+    </select>
+
+
+
+
+
 
 </mapper>
 

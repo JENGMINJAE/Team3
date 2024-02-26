@@ -4,17 +4,106 @@
         layout:decorate="~{fragment/personal_layout}" >
 
 <th:block layout:fragment="content_css">
-    <!-- html 파일이 열릴 때 같이 실행되는 CSS -->
-    <!-- <link rel="stylesheet" href="/"> -->
 </th:block>
 
 <th:block layout:fragment="contentFragment">
-    <!-- html 코드 작성 -->
-    회원가입 페이지입니다 ㅋ
+
+<div class="container">
+    <div class="title2">
+        <h3>회원가입</h3>
+    </div>
+    <div>
+        <form class="row-g3" action="/member/join" method="post">
+            <!-- 회원가입 부트스트랩 -->
+            <div class="col-12">
+                <label for="" class="form-label">아이디</label>
+                <input type="text" class="form-control" name="memberId">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" neme="memberPw">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">비밀번호 확인</label>
+                <input type="password" class="form-control" name="memberPw">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">이름</label>
+                <input type="text" class="form-control" name="memberName">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">나이</label>
+                <input type="text" class="form-control" name="memberAge">
+            </div>
+            <div class="col-4">
+                <label for="" class="form-label">전화번호</label>
+                <select id="" class="form-select" name="memberTel">
+                    <option value="010" selected>010</option>
+                    <option value="011">011</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <label for="" class="form-label">&nbsp;</label>
+                <input type="text" class="form-control" name="memberTel">
+            </div>
+            <div class="col-4">
+                <label for="" class="form-label">&nbsp;</label>
+                <input type="text" class="form-control" name="memberTel">
+            </div>
+            <!-- EMAIL -->
+            <div class="col-6">
+                <label for="" class="form-label">EMAIL</label>
+                <input type="text" class="form-control" name="memberEmail">
+            </div>
+            <div class="col-6">
+                <label for="" class="form-label">&nbsp;</label>
+                <select id="" class="form-select" name="memberEmail">
+                    <option value="@naver.com" selected>@naver.com</option>
+                    <option value="@gmail.com">@gmail.com</option>
+                </select>
+            </div>
+            <!-- ADDRESS -->
+            <div class="col-8">
+                <label for="" class="form-label">주소</label>
+                <input type="text" class="form-control" id="postCode" name="postCode" readonly>
+            </div>
+            <div class="col-4 d-grid">
+                <label for="" class="form-label">&nbsp;</label>
+                <input type="button" value="SEARCH" class="btn btn-primary" onclick="searchAddress()">
+            </div>
+            <div class="col-12">
+                <input type="text" class="form-control" id="roadAddr" name="memberAddr" readonly>
+            </div>
+            <div class="col-12">
+            <input type="text" class="form-control" name="addrDetail">
+        </div>
+            <!-- GENDER -->
+            <div class="col-12">
+                <label for="" class="form-label">성별</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" value="male" checked>
+                <label class="form-check-label" for="">남</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" value="female">
+                <label class="form-check-label" for="">여</label>
+            </div>
+            </div>
+        </form>
+        <div>
+            <button type="button" class="btn btn-primary" onclick="join()">회원가입</button>
+        </div>
+        <!-- onclick="location.href='/member/join';" -->
+
+    </div>
+
+</div>
+
+
 </th:block>
 
 <th:block layout:fragment="content_js">
-    <!-- html 파일이 열릴 때 같이 실행되는 JS -->
-    <!-- <script src="/"></script> -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/join.js"></script>
 </th:block>
 </html>
