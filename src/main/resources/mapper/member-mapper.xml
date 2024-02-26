@@ -2,35 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
-<mapper namespace="member">
-<!-- 회원가입 -->
-	<insert id="join">
+<mapper namespace="memebr">
+    <!-- 회원가입 -->
+    <insert id="join">
         INSERT INTO MEMBER(
-            MEMBER_ID
-            , MEMBER_PW
-            , MEMBER_NAME
-            , MEMBER_TEL
-            , MEMBER_EMAIL
-            , MEMBER_AGE
-            , MEMBER_ADDR
-            , ADDR_DETAIL
-            , MEMBER_GENDER
-            , CLASS_NUM
-            , MEMBER_ROLL
-            , POST_CODE
+        MEMBER_ID
+        , MEMBER_PW
+        , MEMBER_NAME
+        , MEMBER_TEL
+        , MEMBER_EMAIL
+        , MEMBER_AGE
+        , MEMBER_ADDR
+        , ADDR_DETAIL
+        , MEMBER_GENDER
+        , CLASS_NUM
+        , MEMBER_ROLL
+        , POST_CODE
         )VALUES(
-            #{memberId}
-            , #{memberPw}
-            , #{memberName}
-            , #{memberTel}
-            , #{memberEmail}
-            , #{memberAge}
-            , #{memberAddr}
-            , #{addrDetail}
-            , #{memberGender}
-            , #{classNum}
-            , #{memberRoll}
-            , #{postCode}
+        #{memberId}
+        , #{memberPw}
+        , #{memberName}
+        , #{memberTel}
+        , #{memberEmail}
+        , #{memberAge}
+        , #{memberAddr}
+        , #{addrDetail}
+        , #{memberGender}
+        , #{classNum}
+        , #{memberRoll}
+        , #{postCode}
         )
     </insert>
 
