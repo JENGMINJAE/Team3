@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     //로그인
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(MemberVO memberVO, HttpSession session){
         MemberVO loginInfo = memberService.login(memberVO);
         //로그인 성공
