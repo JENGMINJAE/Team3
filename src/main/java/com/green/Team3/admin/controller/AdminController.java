@@ -14,10 +14,21 @@ public class AdminController {
     @Resource(name = "adminService")
     private AdminService adminService;
 
+    // 관리자 클릭 시 페이지 이동
+    @GetMapping("/notice")
+    public String notice(){
+        return "content/admin/admin_list";
+    }
+
+    // 강사 권한 수정 페이지 이동
+    @GetMapping("/goAdminTeacher")
+    public String goAdminTeacher(){
+        return "content/admin/admin_teacher";
+    }
     // 강사 권한 수정 (학생 -> 강사)
     @GetMapping("/updateTeacher")
     public String updateTeacher(MemberVO memberVO){
         adminService.updateTeacher(memberVO);
-        return "";
+        return "redirect:/admin/goAdminTeacher";
     }
 }
