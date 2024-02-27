@@ -3,11 +3,22 @@
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="admin">
+    <!-- 관리자 회원 등급 변경 -->
     <update id="updateTeacher">
         UPDATE MEMBER
         SET MEMBER_ROLL = #{memberRoll}
         WHERE MEMBER_ID = #{memberId}
     </update>
+
+    <!-- 반 생성 -->
+    <insert id="makeCls">
+        INSERT INTO CLASS_INFO
+        VALUES (
+            #{className}
+            , #{classPayment}
+            , #{stuInfo}
+        )
+    </insert>
 </mapper>
 
 
