@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/teacher_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴 때 같이 실행 되는 css -->
+    <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성-->
+    <table>
+        <tr>
+            <td th:each="atd : ${atds}">
+                <input type="radio" class="btn-check" th:name="${atd.atdNum}" id="option1" autocomplete="off" checked>
+                <label class="btn btn-secondary" for="option1">[[${atd.atdName}]]</label>
+            </td>
+        </tr>
+    </table>
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴 때 같이 실행 되는 js-->
+    <script src="/"></script>
+</th:block>
+</html>

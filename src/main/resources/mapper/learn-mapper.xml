@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<mapper namespace="learnMapper">
+    <resultMap id="attendance" type="com.green.Team3.learn.vo.AttendanceVO">
+        <id column="ATD_NUM" property="atdNum"/>
+        <result column="ATD_NAME" property="atdName"/>
+    </resultMap>
+    <select id="selectAtd" resultMap="attendance">
+        SELECT  ATD_NUM,
+                ATD_NAME
+        FROM ATTENDANCE
+        ORDER BY ATD_NUM ASC
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
