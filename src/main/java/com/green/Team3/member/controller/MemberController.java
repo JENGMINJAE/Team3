@@ -22,7 +22,7 @@ public class MemberController {
     }
 
     //회원가입
-    @GetMapping("/join")
+    @PostMapping("/join")
     public String join(MemberVO memberVO){
 
         //연락처 세팅 (010,0000, 0000 -> 010-0000-0000) 변환 후 set(저장)
@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     //로그인
-    @PostMapping("/login")
+    @GetMapping("/login")
     public String login(MemberVO memberVO, HttpSession session){
         MemberVO loginInfo = memberService.login(memberVO);
         //로그인 성공

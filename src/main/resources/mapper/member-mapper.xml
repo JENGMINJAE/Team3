@@ -32,8 +32,6 @@
         , MEMBER_ADDR
         , ADDR_DETAIL
         , MEMBER_GENDER
-        , CLASS_NUM
-        , MEMBER_ROLL
         , POST_CODE
         )VALUES(
         #{memberId}
@@ -45,8 +43,6 @@
         , #{memberAddr}
         , #{addrDetail}
         , #{memberGender}
-        , #{classNum}
-        , #{memberRoll}
         , #{postCode}
         )
     </insert>
