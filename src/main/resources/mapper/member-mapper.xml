@@ -51,11 +51,12 @@
     <select id="login" resultMap="memberMap">
         SELECT MEMBER_ID
             , MEMBER_NAME
-            , MEMBER_ROLL
+            , member_roll
         FROM MEMBER
         WHERE MEMBER_ID = #{memberId}
         AND MEMBER_PW = #{memberPw}
     </select>
+
 
 
 
