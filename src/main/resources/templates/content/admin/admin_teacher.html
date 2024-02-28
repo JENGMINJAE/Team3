@@ -9,12 +9,128 @@
 </th:block>
 
 <th:block layout:fragment="contentFragment">
+    <input type="hidden" th:value="${teacherList.teacherNum}" id="teacherNum">
     <!-- html 코드 작성 -->
-    강사 권한 수정
+    <div class="row">
+        <div class="col-5">
+            <div class="row mb-3">
+                <div class="col">
+                    <h5>직원 목록</h5>
+                    [[${teacherList}]]
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col">
+                    <span style="color: red;" class="text-end"> * 총 00명의 직원이 있습니다.</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table text-center align-middle table-hover">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="30%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <td>No</td>
+                                <td>이름</td>
+                                <td>반</td>
+                                <td>근무 현황</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr onclick="teacherInfo()">
+                                <td>1</td>
+                                <td>왕자바</td>
+                                <td>자바반</td>
+                                <td>근무 중</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-7">
+            <div class="row">
+
+                <div class="col">
+                    <h5>선생님 list</h5>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col teacher-list-div">
+                    <!-- <form action=""> -->
+                    <div class="row">
+                        <div class="col-2 text-center">강사명</div>
+                        <div class="col-10 d-grid">
+                            <input class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="row align-middle">
+                        <div class="col-2 text-center">반</div>
+                        <div class="col-10 d-grid">
+                            <input class="form-control" type="text" value="자바반" readonly>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <table class="table table-primary">
+                                <colgroup>
+                                    <col width="20%">
+                                    <col width="30%">
+                                    <col width="20%">
+                                    <col width="30%">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <td>No</td>
+                                        <td>반이름</td>
+                                        <td>인원수</td>
+                                        <td>과목</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>자바반</td>
+                                        <td>20/40</td>
+                                        <td>자바</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-2 text-center">재직상태</div>
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col">
+                                    <input class="form-check-input" type="radio" name="condition" value="1"> 재직 
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input" type="radio" name="condition" value="2"> 퇴직 
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴때 같이 실행되는 js -->
-    <!-- <script src="/"></script> -->
+    <script src="/js/content/admin_teacher.js"></script>
 </th:block>
 </html>
