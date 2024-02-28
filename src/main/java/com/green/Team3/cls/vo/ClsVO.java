@@ -11,5 +11,8 @@ public class ClsVO {
     private int classNum;
     private String className;
     private int classPayment;
-    private int stuInfo;
+    private int classPersonnel;
+    private String classSdate;
+    private String classEdate;
+    private int teacherNum;
 }

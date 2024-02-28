@@ -7,12 +7,27 @@
         <id column="ATD_NUM" property="atdNum"/>
         <result column="ATD_NAME" property="atdName"/>
     </resultMap>
+    <!-- 출결 리스트 조회 -->
     <select id="selectAtd" resultMap="attendance">
         SELECT  ATD_NUM,
                 ATD_NAME
         FROM ATTENDANCE
         ORDER BY ATD_NUM ASC
     </select>
+    <!-- 과제 추가 테이블 -->
+    <insert id="homeworkAdd">
+        INSERT INTO HOMEWORK (
+        HW_NAME,
+        HW_SDATE,
+        HW_EDATE,
+        CLASS_NUM
+        ) VALUES (
+        #{hwName},
+        #{hwSdate},
+        #{hwEdate},
+        #{classNum}
+        );
+    </insert>
 </mapper>
 
 
