@@ -15,4 +15,10 @@ public class MemberServiceImpl implements MemberService{
     public void join(MemberVO memberVO) {
         sqlSession.insert("member.join", memberVO);
     }
+
+    //로그인
+    @Override
+    public MemberVO login(MemberVO memberVO) {
+        return sqlSession.selectOne("member.login", memberVO);
+    }
 }
