@@ -33,6 +33,12 @@ public class MemberController {
         return "redirect:/";
     }
 
+    //아이디 중복 확인
+//    public int idCheck(String memberId){
+//
+//    }
+
+
     //로그인
     @PostMapping("/login")
     public String login(MemberVO memberVO, HttpSession session){

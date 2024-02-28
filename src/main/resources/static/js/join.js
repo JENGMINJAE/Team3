@@ -1,3 +1,21 @@
+// 아이디 중복 확인
+function idCheck(){
+  const idChk = document.querySelector('#memberId');
+  if(idChk.value == idChk.value){
+    alert('중복 아이디가 존재합니다. \n 다른 아이디를 입력해주세요.')
+    return;
+  }
+  else{
+    alert('사용 가능한 아이디입니다.')
+    return;
+  }
+
+
+
+
+}
+
+// 주소 검색
 function searchAddress(){
     new daum.Postcode({
       oncomplete: function(data) {
@@ -7,6 +25,7 @@ function searchAddress(){
       }).open();
   }
 
+  // 회원 가입
 function join(){
     //0. submit 전에 유효성 검사 
     // -1) ID를 입력했는지 확인
