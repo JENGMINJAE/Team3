@@ -12,10 +12,10 @@ import java.util.List;
 @ToString
 public class TeacherVO {
     private int teacherNum;
-    private String teacherClass;
-    private int workCode;
+    private int workNum;
     private String memberId;
-    private String workStatus;
+    private int classNum;
+    private int learnNum;
     private MemberVO memberVO;
     private List<ClsVO> clsVO;
 }

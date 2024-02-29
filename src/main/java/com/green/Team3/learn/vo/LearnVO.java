@@ -11,10 +11,8 @@ public class LearnVO {
     private int learnNum;
     private String learnStatus;
     private String learnConsult;
-    private int hwNum;
-    private int stuNum;
-    private int teacherNum;
-    private int atdNum;
     private String consultStatus;
     private int classNum;
+    private int atdNum;
+    private int hwNum;
 }

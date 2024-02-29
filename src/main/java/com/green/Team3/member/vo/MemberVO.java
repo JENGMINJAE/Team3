@@ -14,11 +14,10 @@ public class MemberVO {
     private String memberTel;
     private String memberEmail;
     private int memberAge;
+    private String memberGender;
     private String memberAddr;
     private String addrDetail;
-    private String memberGender;
-    private String regDate;
-    private int classNum;
-    private int memberRoll;
     private String postCode;
+    private String regDate;
+    private int memberRoll;
 }

@@ -11,5 +11,5 @@ public class AdminVO {
     private int operNum;
     private int operPay;
     private String isPay;
-    private int payStuNum;
+    private int stuNum;
 }

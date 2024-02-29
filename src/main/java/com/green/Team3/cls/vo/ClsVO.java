@@ -14,5 +14,6 @@ public class ClsVO {
     private int classPersonnel;
     private String classSdate;
     private String classEdate;
-    private int teacherNum;
+    private String classEnter;
+    private int classStatus;
 }

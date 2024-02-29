@@ -10,13 +10,12 @@
         <result column="MEMBER_TEL"                      property="memberTel"/>
         <result column="MEMBER_EMAIL"                    property="memberEmail"/>
         <result column="MEMBER_AGE"                      property="memberAge"/>
+        <result column="MEMBER_GENDER"                   property="memberGender"/>
         <result column="MEMBER_ADDR"                     property="memberAddr"/>
         <result column="ADDR_DETAIL"                     property="addrDetail"/>
-        <result column="MEMBER_GENDER"                   property="memberGender"/>
-        <result column="REG_DATE"                        property="regDate"/>
-        <result column="CLASS_NUM"                       property="classNum"/>
-        <result column="MEMBER_ROLL"                     property="memberRoll"/>
         <result column="POST_CODE"                       property="postCode"/>
+        <result column="REG_DATE"                        property="regDate"/>
+        <result column="MEMBER_ROLL"                     property="memberRoll"/>
 
     </resultMap>
 
