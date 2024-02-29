@@ -23,15 +23,15 @@ public class AdminController {
 
     // 강사 관리 페이지 이동
     @GetMapping("/goAdminTeacher")
-    public String goAdminTeacher(Model model){
+    public String goAdminTeacher(Model model, TeacherVO teacherVO){
         model.addAttribute("teacherList", adminService.selectTeachers()); // 강사 목록 조회
         return "content/admin/admin_teacher";
     }
     // 강사 권한 수정 (학생 -> 강사)
     @GetMapping("/updateTeacher")
-    public String updateTeacher(MemberVO memberVO){
-        adminService.updateTeacher(memberVO);
-        return "redirect:/admin/goAdminTeacher";
+    public String updateTeacher(TeacherVO teacherVO){
+        adminService.updateTeacher(teacherVO);
+        return "redirect:/admin/goAdminTeacher?teacherNum= " + teacherVO.getTeacherNum();
     }
 
     // 학급 생성 페이지 이동
@@ -43,8 +43,9 @@ public class AdminController {
     // 강사 정보 상세 조회
     @ResponseBody
     @PostMapping("/selectTeacher")
-    public void detailTeacher(@RequestBody TeacherVO teacherVO, Model model){
+    public TeacherVO detailTeacher(@RequestBody TeacherVO teacherVO){
         TeacherVO teacherInfo = adminService.detailTeacher(teacherVO);
-        model.addAttribute("teacherInfo", teacherInfo);
+
+        return teacherInfo;
     }
 }

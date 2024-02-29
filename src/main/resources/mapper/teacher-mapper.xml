@@ -23,21 +23,27 @@
         ORDER BY MEMBER_NAME DESC
     </select>
 
+    <!--  선생님 상세 정보 조회  -->
     <select id="detailTeacher" resultMap="teacherInfo">
         SELECT T.MEMBER_ID
-        , MEMBER_NAME
-        , MEMBER_TELL
-        , MEMBER_EMAIL
-        , MEMBER_ADDR
-        , ADDR_DETAIL
-        , MEMBER_GENDER
-        , REG_DATE
-        , TEACHER_CLASS
-        , TEACHER_NUM
-        , WORK_CODE
+            , MEMBER_NAME
+            , MEMBER_TELL
+            , MEMBER_EMAIL
+            , MEMBER_ADDR
+            , ADDR_DETAIL
+            , MEMBER_GENDER
+            , REG_DATE
+            , TEACHER_CLASS
+            , TEACHER_NUM
+            , WORK_CODE
+            , CASE
+                WHEN WORK_NUM = 1 THEN '재직'
+                WHEN WORK_NUM = 2 THEN '퇴직'
+                ELSE WORK_NUM = 3 THEN '휴가'
+            END AS WORK_STATUS
         FROM TEACHER AS T INNER JOIN MEMBER AS M
         ON T.MEMBER_ID = M.MEMBER_ID
-        WHERE MEMBER_ID = #{memberId}
+        WHERE TEACHER_NUM = #{teacherNum}
         ORDER BY MEMBER_NAME DESC
     </select>
 </mapper>

@@ -14,22 +14,24 @@ public class AdminServiceImpl implements AdminService{
     @Autowired
     SqlSessionTemplate sqlSession;
 
-    // 강사 권한 수정
-    @Override
-    public void updateTeacher(MemberVO memberVO) {
-        sqlSession.update("admin.updateTeacher", memberVO);
-    }
-
     // 강사 전체 목록 조회
     @Override
     public List<TeacherVO> selectTeachers() {
         return sqlSession.selectList("teacher.selectTeachers");
     }
-
+    // 강사 상세 정보 조회
     @Override
     public TeacherVO detailTeacher(TeacherVO teacherVO) {
         return sqlSession.selectOne("teacher.detailTeacher", teacherVO);
     }
+
+    // 강사 권한 수정
+    @Override
+    public void updateTeacher(TeacherVO teacherVO) {
+        sqlSession.update("admin.updateTeacher", teacherVO);
+    }
+
+
 
 
 }
