@@ -15,6 +15,7 @@ public class HomeworkController {
 
     @GetMapping("/addHomework")
     private String addHomework(){
+
         return "/content/teacher/add_homework";
     }
 }
