@@ -12,9 +12,21 @@
     <!-- html 코드 작성-->
     <table>
         <tr>
-            <td th:each="atd : ${atds}">
-                <input type="radio" class="btn-check" th:name="${atd.atdNum}" id="option1" autocomplete="off" checked>
-                <label class="btn btn-secondary" for="option1">[[${atd.atdName}]]</label>
+            <td th:each="atd, state : ${atds}">
+                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio1" th:id="${'aaa_' + state.index}" autocomplete="off" th:value="${atd.atdNum}">
+                <label class="aaa btn btn-outline-secondary" th:for="${'aaa_' + state.index}">[[${atd.atdName}]]</label>
+            </td>
+        </tr>
+        <tr>
+            <td th:each="atd, state : ${atds}">
+                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio2" th:id="${'bbb_' + state.index}" autocomplete="off" th:value="${atd.atdNum}">
+                <label class="aaa btn btn-outline-secondary" th:for="${'bbb_' + state.index}">[[${atd.atdName}]]</label>
+            </td>
+        </tr>
+        <tr>
+            <td th:each="atd, state : ${atds}">
+                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio3" th:id="${'ccc_' + state.index}" autocomplete="off" th:value="${atd.atdNum}">
+                <label class="aaa btn btn-outline-secondary" th:for="${'ccc_' + state.index}">[[${atd.atdName}]]</label>
             </td>
         </tr>
     </table>
@@ -22,6 +34,6 @@
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴 때 같이 실행 되는 js-->
-    <script src="/"></script>
+    <script src="/js/teacher/attendance.js"></script>
 </th:block>
 </html>
