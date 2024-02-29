@@ -9,10 +9,6 @@ function idCheck(){
     alert('사용 가능한 아이디입니다.')
     return;
   }
-
-
-
-
 }
 
 // 주소 검색

@@ -12,9 +12,22 @@
 
     <div class="row">
         <div class="col">
+            <form action="/board/write" method="post"></form>
             <div class="row">
                 <div class="col">
-                    
+                    제목
+                    <input type="text" name="boardTitle">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    내용
+                    <textarea name="boardContent" cols="30" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <input type="submit" value="게시" onclick="Posting()">
                 </div>
             </div>
         </div>

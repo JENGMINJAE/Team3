@@ -29,6 +29,19 @@
         ORDER BY BOARD_NUM DESC
     </select>
 
+    <!-- 공지사항 작성 -->
+    <insert id="insertNotice">
+        INSERT INTO BOARD (
+            BOARD_TITLE
+            , BOARD_CONTENT
+        ) VALUES (
+            #{boardTitle}
+            , #{boardContent}
+        )
+    </insert>
+
+
+
 
 
 

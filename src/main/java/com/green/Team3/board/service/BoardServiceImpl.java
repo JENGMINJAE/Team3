@@ -15,10 +15,15 @@ public class BoardServiceImpl implements BoardService {
     //공지사항 목록 조회
     @Override
     public List<BoardVO> selectNoticeList() {
-        List<BoardVO> list = sqlSession.selectList("selectNoticeList");
+        List<BoardVO> list = sqlSession.selectList("board.selectNoticeList");
         return list;
     }
 
-    //
+    //공지사항 등록
+    @Override
+    public void insertNotice(BoardVO boardVO) {
+       sqlSession.insert("board.insertNotice", boardVO);
+    }
+
 
 }
