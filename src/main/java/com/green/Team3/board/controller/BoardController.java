@@ -19,7 +19,7 @@ public class BoardController {
     private BoardServiceImpl boardService;
 
     //공지사항 페이지
-    @GetMapping("/noticeList")
+    @RequestMapping("/noticeList")
     public String List(Model model){
         //공지사항 목록 조회
         List<BoardVO> noticeList = boardService.selectNoticeList();
@@ -31,6 +31,8 @@ public class BoardController {
 
         return "content/common/notice_list";
     }
+
+
 
 
 }

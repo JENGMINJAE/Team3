@@ -11,6 +11,7 @@
         <result column="TYPE_NUM"                property="typeNum"/>
         <result column="BOARD_CNT"               property="boardCnt"/>
     </resultMap>
+
     <resultMap id="boardTypeMap" type="com.green.Team3.board.vo.BoardTypeVO">
         <id column="TYPE_NUM"                    property="typeNum"/>
         <result column="TYPE_NAME"               property="typeName"/>
@@ -18,14 +19,13 @@
 
     <!-- 공지사항 목록 조회 -->
     <select id="selectNoticeList" resultMap="boardMap">
-        SELECT BOARD
-            , BOARD_NUM
+        SELECT BOARD_NUM
             , BOARD_TITLE
             , BOARD_CONTENT
             , MEMBER_ID
             , TYPE_NUM
             , BOARD_CNT
-        FORM BOARD
+        FROM BOARD
         ORDER BY BOARD_NUM DESC
     </select>
 
