@@ -9,5 +9,8 @@ public interface MemberService {
     //로그인
     MemberVO login(MemberVO memberVO);
 
+    //아이디 중복 확인
+//    int idCheck(MemberVO memberVO);
+
 
 }

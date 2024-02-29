@@ -47,11 +47,18 @@
         )
     </insert>
 
+    <!-- 아이디 중복 확인 -->
+<!--    <select id="idCheck" resultType="boolean">-->
+<!--        SELECT COUNT(*)-->
+<!--        FROM MEMBER-->
+<!--        WHERE MEMBER_ID = #{memberId}-->
+<!--    </select>-->
+
     <!-- 로그인 -->
     <select id="login" resultMap="memberMap">
         SELECT MEMBER_ID
             , MEMBER_NAME
-            , member_roll
+            , MEMBER_ROLL
         FROM MEMBER
         WHERE MEMBER_ID = #{memberId}
         AND MEMBER_PW = #{memberPw}
