@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -23,8 +25,9 @@ public class AdminController {
 
     // 강사 관리 페이지 이동
     @GetMapping("/goAdminTeacher")
-    public String goAdminTeacher(Model model, TeacherVO teacherVO){
-        model.addAttribute("teacherList", adminService.selectTeachers()); // 강사 목록 조회
+    public String goAdminTeacher(Model model){
+        List<TeacherVO> list = adminService.selectTeachers();
+        model.addAttribute("teacherList", list); // 강사 목록 조회
         return "content/admin/admin_teacher";
     }
     // 강사 권한 수정 (학생 -> 강사)

@@ -5,9 +5,23 @@
 <mapper namespace="teacher">
     <resultMap id="teacherInfo" type="com.green.Team3.member.vo.TeacherVO">
         <id column="TEACHER_NUM"        property="teacherNum"/>
-        <result column="TEACHER_CLASS"  property="teacherClass"/>
-        <result column="WORK_CODE"      property="workCode"/>
+        <result column="WORK_NUM"       property="workNum"/>
         <result column="MEMBER_ID"      property="memberId"/>
+        <result column="CLASS_NUM"      property="classNum"/>
+        <result column="LEARN_NUM"      property="learnNum"/>
+        <association property="memberVO" resultMap="member.memberMap"/>
+        <collection property="clsVO"    resultMap="clsVO"/>
+    </resultMap>
+
+    <resultMap id="clsVO" type="com.green.Team3.cls.vo.ClsVO">
+        <id column="CLASS_NUM"              property="classNum"/>
+        <result column="CLASS_NAME"         property="className"/>
+        <result column="CLASS_PAYMENT"      property="classPayment"/>
+        <result column="CLASS_PERSONNEL"    property="classPersonnel"/>
+        <result column="CLASS_SDATE"        property="classSdate"/>
+        <result column="CLASS_EDATE"        property="classEdate"/>
+        <result column="CLASS_ENTER"        property="classEnter"/>
+        <result column="CLASS_STATUS"       property="classStatus"/>
     </resultMap>
 
 
@@ -15,11 +29,12 @@
     <select id="selectTeachers" resultMap="teacherInfo">
         SELECT T.MEMBER_ID
             , REG_DATE
-            , TEACHER_CLASS
             , TEACHER_NUM
-            , WORK_CODE
+            , CLASS_STATUS
         FROM TEACHER AS T INNER JOIN MEMBER AS M
         ON T.MEMBER_ID = M.MEMBER_ID
+        INNER JOIN CLASS_INFO AS CLS
+        ON CLS.CLASS_NUM = T.CLASS_NUM
         ORDER BY MEMBER_NAME DESC
     </select>
 
@@ -27,15 +42,14 @@
     <select id="detailTeacher" resultMap="teacherInfo">
         SELECT T.MEMBER_ID
             , MEMBER_NAME
-            , MEMBER_TELL
+            , MEMBER_TEL
             , MEMBER_EMAIL
             , MEMBER_ADDR
             , ADDR_DETAIL
             , MEMBER_GENDER
             , REG_DATE
-            , TEACHER_CLASS
             , TEACHER_NUM
-            , WORK_CODE
+            , WORK_NUM
             , CASE
                 WHEN WORK_NUM = 1 THEN '재직'
                 WHEN WORK_NUM = 2 THEN '퇴직'
