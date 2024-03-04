@@ -19,6 +19,8 @@
 
     </resultMap>
 
+
+
     <!-- 회원가입 -->
     <insert id="join">
         INSERT INTO MEMBER(

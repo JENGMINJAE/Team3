@@ -15,4 +15,7 @@ public interface AdminService {
 
     // 강사 권한 수정
     void updateTeacher(TeacherVO teacherVO);
+
+    // 강사 재작 상태 수정
+    void changeAttendance(TeacherVO teacherVO);
 }

@@ -3,7 +3,7 @@
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="admin">
-    <!-- 관리자 회원 등급 변경 -->
+    <!-- 관리자 강사 등급 변경 -->
     <update id="updateTeacher">
         UPDATE MEMBER
         SET MEMBER_ROLL = #{memberRoll}
@@ -19,6 +19,13 @@
             , #{stuInfo}
         )
     </insert>
+
+    <!-- 근무 상태 변경 재직/퇴직 -->
+    <update id="changeAttendance">
+        UPDATE TEACHER
+        SET WORK_NUM = #{atdName}
+        WHERE MEM
+    </update>
 </mapper>
 
 
