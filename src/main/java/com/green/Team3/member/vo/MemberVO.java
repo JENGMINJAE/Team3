@@ -20,4 +20,5 @@ public class MemberVO {
     private String postCode;
     private String regDate;
     private int memberRoll;
+    private String strRoll;
 }

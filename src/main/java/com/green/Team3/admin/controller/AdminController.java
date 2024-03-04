@@ -1,6 +1,7 @@
 package com.green.Team3.admin.controller;
 
 import com.green.Team3.admin.service.AdminService;
+import com.green.Team3.member.service.MemberService;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
 import jakarta.annotation.Resource;
@@ -17,6 +18,9 @@ public class AdminController {
     @Resource(name = "adminService")
     private AdminService adminService;
 
+    @Resource(name = "memberService")
+    private MemberService memberService;
+
     // 관리자 클릭 시 페이지 이동
     @GetMapping("/notice")
     public String notice(){
@@ -27,9 +31,26 @@ public class AdminController {
     @GetMapping("/goAdminTeacher")
     public String goAdminTeacher(Model model){
         List<TeacherVO> list = adminService.selectTeachers();
+        System.out.println(list);
         model.addAttribute("teacherList", list); // 강사 목록 조회
         return "content/admin/admin_teacher";
     }
+
+    // 회원 관리 페이지 이동
+//    @GetMapping("/goMemberList")
+//    public String memberList(Model model){
+//        List<MemberVO> list = memberService.selectMembers();
+//        model.addAttribute("members", list);
+//        return "content/admin/member_list";
+//    }
+//
+//    // 선택한 회원 상세 정보 보기
+//    @ResponseBody
+//    @PostMapping("/memberDetail")
+//    public MemberVO memberDetail(@RequestBody MemberVO memberVO){
+//        return memberService.selectMember(memberVO);
+//    }
+
     // 강사 권한 수정 (학생 -> 강사)
     @GetMapping("/updateTeacher")
     public String updateTeacher(TeacherVO teacherVO){
@@ -50,5 +71,12 @@ public class AdminController {
         TeacherVO teacherInfo = adminService.detailTeacher(teacherVO);
 
         return teacherInfo;
+    }
+
+    // 근무 상태 변경
+    @PostMapping("/changeAttendance")
+    public String changeAttendance(TeacherVO teacherVO){
+        adminService.changeAttendance(teacherVO);
+        return "redirect:/admin/goAdminTeacher";
     }
 }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/admin_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴때 같이 실행되는 css -->
+    <!-- <link rel="stylesheet" href="/"> -->
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성 -->
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <table>
+                        <colgroup>
+                            <col width="20%">
+                        </colgroup>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-hover text-center">
+                        <colgroup>
+                            <col width="10%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="30%">
+                        </colgroup>
+                        <thead class="table-primary">
+                            <tr>
+                                <td>No.</td>
+                                <td>이름</td>
+                                <td>나이</td>
+                                <td>소속(학생/선생)</td>
+                                <td>수납일</td>
+                            </tr>
+                        </thead>
+                        <tbody th:each="member, state : ${members}">
+                            <tr class="pointer-span" th:onclick="modalDetail([[${member}]])">
+                                <td>[[${#lists.size(members) - state.index}]]</td>
+                                <td>[[${member.memberName}]]</td>
+                                <td>[[${member.memberAge}]]</td>
+                                <td>[[${member.strRoll}]]</td>
+                                <td>[[${member.regDate}]]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴때 같이 실행되는 js -->
+    <script src="/js/content/admin/member_list.js"></script>
+</th:block>
+</html>

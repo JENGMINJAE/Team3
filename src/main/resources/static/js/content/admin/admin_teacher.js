@@ -78,12 +78,15 @@ function teacherInfo(teacherNum){
                 <div class="col-2 text-center">재직상태</div>
                 <div class="col-10">
                     <div class="row">
-                        <div class="col">
-                            <input class="form-check-input" type="radio" name="condition" value="1"> 재직 
-                        </div>
-                        <div class="col">
-                            <input class="form-check-input" type="radio" name="condition" value="2"> 퇴직 
-                        </div>
+                        <form action="/admin/changeAttendance" method="post" id="insert-atd-form">
+                            <input type="hidden" name="teacherNum" th:value="${teacherNum}">
+                            <div class="col">
+                                <input class="form-check-input" type="radio" name="workNum" value="1"> 재직 
+                            </div>
+                            <div class="col">
+                                <input class="form-check-input" type="radio" name="workNum" value="2"> 퇴직 
+                            </div>
+                        </form>
                     </div>
                 </div>
                 
@@ -99,6 +102,7 @@ function teacherInfo(teacherNum){
         `;
 
         make_spot.insertAdjacentHTML("afterbegin", str);
+        document.querySelector('#insert-atd-form').submit;
     })
     //fetch 통신 실패 시 실행 영역
     .catch(err=>{

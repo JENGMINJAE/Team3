@@ -5,6 +5,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("memberService")
 public class MemberServiceImpl implements MemberService{
     @Autowired
@@ -21,6 +23,8 @@ public class MemberServiceImpl implements MemberService{
     public MemberVO login(MemberVO memberVO) {
         return sqlSession.selectOne("member.login", memberVO);
     }
+
+
 
     //아이디 중복 확인
 //    @Override
