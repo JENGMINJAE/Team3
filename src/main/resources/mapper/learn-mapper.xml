@@ -28,6 +28,14 @@
         #{classNum}
         );
     </insert>
+
+    <select id="selectClassByThisTeacher" resultMap="clsMapper.cls">
+        SELECT CLASS_NAME, C.CLASS_NUM
+        FROM CLASS_INFO C
+        INNER JOIN TEACHER T
+        ON C.CLASS_NUM = T.CLASS_NUM
+        WHERE MEMBER_ID = #{memberId}
+    </select>
 </mapper>
 
 
