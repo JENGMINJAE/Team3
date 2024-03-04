@@ -49,10 +49,15 @@
                             </th:block>
                         </tbody>
                     </table>
-                    <!-- 게시글 작성 버튼 -->
+                    <!-- 게시글 작성 버튼 : 관리자일 때 -->
                     <div class="row">
                         <div class="col">
-                            <input type="button" class="btn btn-primary" value="게시글 작성" onclick="goWrite()">   
+                            <!-- <th:block th:each="notice : ${noticeList}"> -->
+                                <!-- <th:block th:if="${notice.memberRoll == 3}"> -->
+                                    <input type="button" class="btn btn-primary" value="게시글 작성" onclick="goWrite()">   
+                                <!-- </th:block> -->
+                            <!-- </th:block> -->
+                            
                         </div>
                     </div>
                 </div>

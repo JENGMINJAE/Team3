@@ -12,24 +12,32 @@
 
     <div class="row">
         <div class="col">
-            <form action="/board/write" method="post"></form>
-            <div class="row">
-                <div class="col">
-                    제목
-                    <input type="text" name="boardTitle">
+            <form action="/board/write" method="post">
+                <div class="row">
+                    <div class="col">
+                        제목
+                        <input type="text" name="boardTitle">
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    내용
-                    <textarea name="boardContent" cols="30" rows="10"></textarea>
+                <div class="row">
+                    <div class="col">
+                        열람 대상
+                        <input type="radio" name="typeNum" value="1">학생
+                        <input type="radio" name="typeNum" value="2">강사
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <input type="submit" value="게시" onclick="Posting()">
+                <div class="row">
+                    <div class="col">
+                        내용
+                        <textarea name="boardContent" cols="30" rows="10"></textarea>
+                    </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" value="게시">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

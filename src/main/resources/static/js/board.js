@@ -6,13 +6,14 @@ function goWrite(){
     //     alert('관리자가 아닙니다. \n 작성 권한이 없습니다.')
     //     location.href = '/board/noticeList';
     // }
-    // 관리자인 경우 작성 페이지로 이동 (memberRoll == 3)
+    // 2. 관리자인 경우 작성 페이지로 이동 (memberRoll == 3)
     location.href = '/board/writeForm';
 }
 
-function posting(){
+// function posting(){
+
     
-}
+// }
 
 // 공지사항 검색
 function boardSearch(){

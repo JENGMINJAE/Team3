@@ -25,5 +25,19 @@ public class BoardServiceImpl implements BoardService {
        sqlSession.insert("board.insertNotice", boardVO);
     }
 
+    //공지사항 상세 조회
+    @Override
+    public BoardVO selectNoticeDetail(int boardNum) {
+        BoardVO result = sqlSession.selectOne("board.selectNoticeDetail", boardNum);
+        return result;
+    }
+
+    //공지사항 조회수 증가
+    @Override
+    public void updateBoardCnt(int boardNum) {
+        sqlSession.update("board.updateBoardCnt", boardNum);
+
+    }
+
 
 }

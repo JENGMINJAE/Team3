@@ -12,6 +12,13 @@ public interface BoardService {
     //공지사항 등록
     void insertNotice(BoardVO boardVO);
 
+    //공지사항 상세 조회
+    BoardVO selectNoticeDetail(int boardNum);
+
+    //공지사항 조회수 증가
+    void updateBoardCnt(int boardNum);
+
+
 
 
 }

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,9 +28,6 @@ public class BoardController {
         // 공지사항 목록 조회
         List<BoardVO> noticeList = boardService.selectNoticeList();
         model.addAttribute("noticeList", noticeList);
-//        for(BoardVO vo : noticeList){
-//            System.out.println(vo);
-//        }
         return "content/common/notice_list";
     }
 
@@ -40,12 +38,27 @@ public class BoardController {
     }
 
     // 공지사항 작성
-    @GetMapping("/write")
+    @PostMapping("/write")
     public String noticeWrite(BoardVO boardVO, HttpSession session){
         MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+
         boardVO.setMemberId(loginInfo.getMemberId());
         boardService.insertNotice(boardVO);
-        return "redirect:/common/noticeList";
+        return "redirect:/board/noticeList";
+    }
+    
+    // 공지사항 상세 조회
+    @GetMapping("/noticeDetail")
+    public String noticeDetail(@RequestParam(name = "boardNum") int boardNum
+                                , Model model){
+        //조회수 증가
+        boardService.updateBoardCnt(boardNum);
+
+        //상세 조회
+        BoardVO vo = boardService.selectNoticeDetail(boardNum);
+        model.addAttribute("board", vo);
+
+        return "content/common/notice_detail";
     }
 
 
