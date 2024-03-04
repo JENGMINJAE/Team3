@@ -10,18 +10,22 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성-->
-    <form action="">
-        과제 만들기
+    <form action="/homework/addHomeworkResult" method="post">
         <div class="row">
             <div class="col">
-                <table class="table">
+                <table class="table" style="text-align: center;">
                     <colgroup>
-                        <col width="30%">
-                        <col width="30%">
+                        <col width="20%">
+                        <col width="40%">
                         <col width="20%">
                         <col width="20%">
                     </colgroup>
                     <thead>
+                        <tr>
+                            <td colspan="4" style="font-weight: bolder; text-align: center;">
+                                <h3>과제 만들기</h3>
+                            </td>
+                        </tr>
                         <tr>
                             <td>
                                 강의 이름
@@ -40,16 +44,20 @@
                     <tbody>
                         <tr>
                             <td>
-                                <select name="1">
-                                    <option value="1">1</option>
-                                    <option value="1">1</option>
-                                    <option value="1">1</option>
-                                    <option value="1">1</option>
+                                <select name="classNum" class="form-select">
+                                    <th:block th:each="class:${classList}">
+                                        <option th:value="${class.classNum}">[[${class.className}]]</option>
+                                    </th:block>
                                 </select>
                             </td>
-                            <td><input type="text" name="2"></td>
-                            <td><input type="date" name="3"></td>
-                            <td><input type="date" name=""></td>
+                            <td><input type="text" name="hwName" class="form-control" style="text-align: center;"></td>
+                            <td><input type="date" name="hwSdate" class="form-control" style="text-align: center;"></td>
+                            <td><input type="date" name="hwEdate" class="form-control" style="text-align: center;"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: center;">
+                                <input class="btn btn-outline-primary" type="submit" value="만들기">
+                            </td>
                         </tr>
                     </tbody>
                 </table>
