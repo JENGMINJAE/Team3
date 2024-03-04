@@ -40,22 +40,112 @@
                                 <td>수납일</td>
                             </tr>
                         </thead>
-                        <tbody th:each="member, state : ${members}">
-                            <tr class="pointer-span" th:onclick="modalDetail([[${member}]])">
-                                <td>[[${#lists.size(members) - state.index}]]</td>
-                                <td>[[${member.memberName}]]</td>
-                                <td>[[${member.memberAge}]]</td>
-                                <td>[[${member.strRoll}]]</td>
-                                <td>[[${member.regDate}]]</td>
+                        <tbody>
+                            <tr class="pointer-span" onclick="modalDetail()">
+                                <td>1</td>
+                                <td>항</td>
+                                <td>20</td>
+                                <td>학생</td>
+                                <td>2024.03.04</td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
         </div>
     </div>
 
-    
+    <!-- Modal -->
+  <div class="modal fade modal-lg" id="member-detail-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">구매 상세 내역</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+                <div class="row" >
+                    <div class="col" id="table-head">
+                        <table class="table align-middle text-center">
+                            <colgroup>
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td class="table-active">이름</td>
+                                    <td id="modal-memberName"></td>
+                                    <td class="table-active">나이</td>
+                                    <td id="modal-memberAge"></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-active">연락처</td>
+                                    <td id="modal-memberTel"></td>
+                                    <td class="table-active">소속</td>
+                                    <td id="modal-memberRoll">
+                                        <select name="memberRoll" id="memberRoll-select">
+                                            <option value="1">학생</option>
+                                            <option value="2">강사</option>
+                                            <option value="3">원장</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table-active">주소</td>
+                                    <td id="modal-memberAddr"></td>
+                                    <td class="table-active">등록일</td>
+                                    <td id="modal-regDate"></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-active">반이름</td>
+                                    <td id="modal-buyPrice"></td>
+                                    <td class="table-active">등록일</td>
+                                    <td id="modal-buyDate"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <table class="table align-middle text-center">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="40%">
+                                <col width="20%">
+                                <col width="30%">
+                            </colgroup>
+                            <thead>
+                                <tr class="table-active">
+                                    <td>No</td>
+                                    <td>구매상품</td>
+                                    <td>수량</td>
+                                    <td>결제금액</td>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-tbody">
+                                <tr id="table-tr-id">
+                                    <td>1</td>
+                                    <td>상품</td>
+                                    <td>수량</td>
+                                    <td>원</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
     
 </th:block>

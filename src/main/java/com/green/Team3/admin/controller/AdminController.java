@@ -37,19 +37,18 @@ public class AdminController {
     }
 
     // 회원 관리 페이지 이동
-//    @GetMapping("/goMemberList")
-//    public String memberList(Model model){
-//        List<MemberVO> list = memberService.selectMembers();
-//        model.addAttribute("members", list);
-//        return "content/admin/member_list";
-//    }
+    @GetMapping("/goMemberList")
+    public String memberList(Model model){
+
+        return "content/admin/member_list";
+    }
 //
 //    // 선택한 회원 상세 정보 보기
-//    @ResponseBody
-//    @PostMapping("/memberDetail")
-//    public MemberVO memberDetail(@RequestBody MemberVO memberVO){
-//        return memberService.selectMember(memberVO);
-//    }
+    @ResponseBody
+    @PostMapping("/memberDetail")
+    public MemberVO memberDetail(@RequestBody MemberVO memberVO){
+        return memberVO;
+    }
 
     // 강사 권한 수정 (학생 -> 강사)
     @GetMapping("/updateTeacher")
