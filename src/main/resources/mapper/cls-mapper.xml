@@ -12,6 +12,7 @@
         <result column="CLASS_EDATE"        property="classEdate"/>
         <result column="CLASS_ENTER"        property="classEnter"/>
         <result column="CLASS_STATUS"       property="classStatus"/>
+        <result column="TEACHER_NUM"        property="teacherNum"/>
     </resultMap>
 
 </mapper>

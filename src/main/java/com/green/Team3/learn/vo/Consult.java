@@ -7,10 +7,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AttendanceVO {
-    private int atdNum;
+public class Consult {
+    private int consultNum;
+    private String consultContent;
+    private String consultDate;
     private int stuNum;
-    private String atdDate;
-    private int atdtNum;
     private int classNum;
 }
