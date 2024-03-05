@@ -3,16 +3,16 @@
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="learnMapper">
-    <resultMap id="attendance" type="com.green.Team3.learn.vo.AttendanceVO">
-        <id column="ATD_NUM" property="atdNum"/>
-        <result column="ATD_NAME" property="atdName"/>
+    <resultMap id="attendanceType" type="com.green.Team3.learn.vo.AttendanceTypeVO">
+        <id column="ATDT_NUM" property="atdtNum"/>
+        <result column="ATDT_NAME" property="atdtName"/>
     </resultMap>
     <!-- 출결 리스트 조회 -->
-    <select id="selectAtd" resultMap="attendance">
-        SELECT  ATD_NUM,
-                ATD_NAME
-        FROM ATTENDANCE
-        ORDER BY ATD_NUM ASC
+    <select id="selectAtd" resultMap="attendanceType">
+        SELECT  ATDT_NUM,
+                ATDT_NAME
+        FROM ATTENDANCE_TYPE
+        ORDER BY ATDT_NUM ASC
     </select>
     <!-- 과제 추가 테이블 -->
     <insert id="homeworkAdd">

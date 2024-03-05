@@ -7,10 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AttendanceVO {
-    private int atdNum;
-    private int stuNum;
-    private String atdDate;
+public class AttendanceTypeVO {
     private int atdtNum;
-    private int classNum;
+    private String atdtName;
 }

@@ -2,7 +2,6 @@ package com.green.Team3.learn.service;
 
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.learn.vo.HomeworkVO;
-import com.green.Team3.learn.vo.LearnVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

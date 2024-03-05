@@ -9,7 +9,6 @@ import lombok.ToString;
 @ToString
 public class HomeworkVO {
     private int hwNum;
-    private String hwStatus;
     private String hwName;
     private String hwSdate;
     private String hwEdate;
