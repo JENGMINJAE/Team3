@@ -8,4 +8,7 @@ import java.util.List;
 public interface HomeworkService {
     List<ClsVO> selectClassByThisTeacher(String memberId);
     void homeworkAdd(HomeworkVO homeworkVO);
+    List<HomeworkVO> selectIngHomework(String memberId);
+    List<HomeworkVO> selectEndHomework(String memberId);
+    void deleteHomework(HomeworkVO vo);
 }

@@ -17,13 +17,39 @@ public class HomeworkController {
 
     @GetMapping("/addHomework")
     private String addHomework(Model model){
-        String memberId = "t";
+        String memberId = "a";
         model.addAttribute("classList",homeworkService.selectClassByThisTeacher(memberId));
         return "/content/teacher/add_homework";
     }
-    @PostMapping("/addHomeworkResult")
-    private String addHomeworkResult(HomeworkVO homeworkVO){
-        homeworkService.homeworkAdd(homeworkVO);
-        return "/";
+    @GetMapping("/homeworkList")
+    private String homeworkList(Model model){
+        String memberId = "a";
+        model.addAttribute("IngHomeworkList",homeworkService.selectIngHomework(memberId));
+        model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(memberId));
+        return "/content/teacher/homework_list";
     }
+    @PostMapping("/addHomeworkResult")
+    private String addHomeworkResult(HomeworkVO homeworkVO,Model model){
+        String memberId = "a";
+        homeworkService.homeworkAdd(homeworkVO);
+        model.addAttribute("homeworkList",homeworkService.selectIngHomework(memberId));
+        model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(memberId));
+        return "/content/teacher/homework_list";
+    }
+
+    @PostMapping("/updateHomework")
+    private String updateHomework(){
+        return "redirect:/homework/homeworkList";
+    }
+
+    @PostMapping("/deleteHomework")
+    private String deleteHomework(HomeworkVO vo){
+        homeworkService.deleteHomework(vo);
+        return "redirect:/homework/homeworkList";
+    }
+
+
+
+
+
 }
