@@ -14,4 +14,5 @@ public class BoardVO {
     private String memberId;
     private int typeNum;
     private int boardCnt;
+    private SearchVO searchVO;
 }
