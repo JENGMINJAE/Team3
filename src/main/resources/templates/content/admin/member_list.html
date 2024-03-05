@@ -27,9 +27,9 @@
                         <colgroup>
                             <col width="10%">
                             <col width="20%">
-                            <col width="20%">
-                            <col width="20%">
-                            <col width="30%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="40%">
                         </colgroup>
                         <thead class="table-primary">
                             <tr>
@@ -41,12 +41,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="pointer-span" onclick="modalDetail()">
-                                <td>1</td>
-                                <td>항</td>
-                                <td>20</td>
-                                <td>학생</td>
-                                <td>2024.03.04</td>
+                            <tr th:each="member, state : ${memberList}" class="pointer-span align-middle">
+                                <td>[[${#lists.size(memberList) - state.index}]]</td>
+                                <td>[[${member.memberName}]]</td>
+                                <td>[[${member.memberAge}]]</td>
+                                <td>[[${member.strRoll}]]
+                                    <select name="memberRoll" class="form-select" aria-label="Default select example">
+                                        <option th:each="roll : ${rollList}" th:selected="${roll.strRoll == 'STR_ROLL'}" th:value="${roll.memberRoll}">[[${list.strRoll}]]</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary" th:onclick="memberDetail([[${member.memberId}]])">인적사항</button>
+                                    <button type="button" class="btn btn-outline-success">수강목록</button>
+                                    <button type="button" class="btn btn-outline-danger">학급관리</button>
+                                </td>
                             </tr>
                         </tbody>
 
@@ -61,7 +69,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">구매 상세 내역</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">회원 상세 정보</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -76,68 +84,57 @@
                                 <col width="25%">
                                 <col width="25%">
                             </colgroup>
-                            <tbody>
+                            <tbody class="tbody-tag">
                                 <tr>
-                                    <td class="table-active">이름</td>
-                                    <td id="modal-memberName"></td>
+                                    <td class="table-active">이름(학생번호)</td>
+                                    <td id="modal-memberName">김자바(1)</td>
                                     <td class="table-active">나이</td>
-                                    <td id="modal-memberAge"></td>
+                                    <td id="modal-memberAge">18</td>
                                 </tr>
                                 <tr>
                                     <td class="table-active">연락처</td>
-                                    <td id="modal-memberTel"></td>
+                                    <td id="modal-memberTel">010-3333-2222</td>
                                     <td class="table-active">소속</td>
                                     <td id="modal-memberRoll">
-                                        <select name="memberRoll" id="memberRoll-select">
-                                            <option value="1">학생</option>
-                                            <option value="2">강사</option>
-                                            <option value="3">원장</option>
-                                        </select>
+                                        <input type="radio" class="form-check-input" name="memberRoll" value="1" id="memberRoll-select"> 학생
+                                        <input type="radio" class="form-check-input" name="memberRoll" value="2"> 강사
+                                        <input type="radio" class="form-check-input" name="memberRoll" value="3"> 관리
+
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="table-active">주소</td>
-                                    <td id="modal-memberAddr"></td>
-                                    <td class="table-active">등록일</td>
-                                    <td id="modal-regDate"></td>
+                                    <td colspan="3" id="modal-memberAddr">울산시 남구 삼산동 654-1 업스퀘어</td>
+
                                 </tr>
                                 <tr>
                                     <td class="table-active">반이름</td>
-                                    <td id="modal-buyPrice"></td>
+                                    
+                                    <td id="modal-buyPrice">
+                                        <select class="form-select" aria-label="Default select example">
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </td>
                                     <td class="table-active">등록일</td>
-                                    <td id="modal-buyDate"></td>
+                                    <td id="modal-buyDate">2024-03-04</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-active">상태</td>
+                                    <td colspan="3" id="modal-buyPrice">
+                                        <input type="radio" name="memberRoll" value="1">재직
+                                        <input type="radio" name="memberRoll" value="2">퇴직
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <table class="table align-middle text-center">
-                            <colgroup>
-                                <col width="10%">
-                                <col width="40%">
-                                <col width="20%">
-                                <col width="30%">
-                            </colgroup>
-                            <thead>
-                                <tr class="table-active">
-                                    <td>No</td>
-                                    <td>구매상품</td>
-                                    <td>수량</td>
-                                    <td>결제금액</td>
-                                </tr>
-                            </thead>
-                            <tbody id="modal-tbody">
-                                <tr id="table-tr-id">
-                                    <td>1</td>
-                                    <td>상품</td>
-                                    <td>수량</td>
-                                    <td>원</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                    <div class="col-10"></div>
+                    <div class="col-2 d-grid">
+                        <input type="button" value="변경" class="btn btn-primary" th:onclick="modalDetail()">
                     </div>
                 </div>
             </div>

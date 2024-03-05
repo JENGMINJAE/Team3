@@ -24,7 +24,16 @@ public class MemberServiceImpl implements MemberService{
         return sqlSession.selectOne("member.login", memberVO);
     }
 
+    // 전체 회원 목록 조회
+    public List<MemberVO> selectMembers(){
+        return sqlSession.selectList("member.selectMembers");
+    }
 
+    // 회원 상세 정보 목록 조회
+    @Override
+    public MemberVO memberDetail(MemberVO memberVO) {
+        return sqlSession.selectOne("member.memberDetail", memberVO);
+    }
 
     //아이디 중복 확인
 //    @Override

@@ -16,6 +16,10 @@ public interface AdminService {
     // 강사 권한 수정
     void updateTeacher(TeacherVO teacherVO);
 
-    // 강사 재작 상태 수정
+    // 강사 재직 상태 수정
     void changeAttendance(TeacherVO teacherVO);
+
+    // MEMBER_ROLL 리스트 조회
+    List<MemberVO> rollList();
+
 }

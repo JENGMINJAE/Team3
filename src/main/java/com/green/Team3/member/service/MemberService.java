@@ -14,5 +14,12 @@ public interface MemberService {
     //아이디 중복 확인
 //    int idCheck(MemberVO memberVO);
 
+    // 회원 전체 목록 조회
+    List<MemberVO> selectMembers();
+
+    // 상세 회원 목록 조회 (관리자용)
+    MemberVO memberDetail(MemberVO memberVO);
+
+
 
 }

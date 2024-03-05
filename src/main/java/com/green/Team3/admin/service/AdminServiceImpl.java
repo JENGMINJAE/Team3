@@ -31,11 +31,15 @@ public class AdminServiceImpl implements AdminService{
         sqlSession.update("admin.updateTeacher", teacherVO);
     }
 
-    // 강사 재작 상태 수정
+    // 강사 재직 상태 수정
     @Override
     public void changeAttendance(TeacherVO teacherVO) {
         sqlSession.update("admin.changeAttendance", teacherVO);
     }
 
+    @Override
+    public List<MemberVO> rollList() {
+        return sqlSession.selectList("member.memberRollList");
+    }
 
 }

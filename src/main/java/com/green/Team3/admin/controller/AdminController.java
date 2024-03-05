@@ -39,15 +39,19 @@ public class AdminController {
     // 회원 관리 페이지 이동
     @GetMapping("/goMemberList")
     public String memberList(Model model){
-
+        // 전체 회원 목록 조회
+        model.addAttribute("memberList", memberService.selectMembers());
+        model.addAttribute("rollList", adminService.rollList());
         return "content/admin/member_list";
     }
-//
-//    // 선택한 회원 상세 정보 보기
+
+//    // 인적 사항 보기
     @ResponseBody
     @PostMapping("/memberDetail")
-    public MemberVO memberDetail(@RequestBody MemberVO memberVO){
-        return memberVO;
+    public void memberDetail(@RequestBody MemberVO memberVO){
+        //MemberVO vo = memberService.memberDetail(memberVO);
+        //System.out.println(vo);
+        //return vo;
     }
 
     // 강사 권한 수정 (학생 -> 강사)
@@ -58,17 +62,21 @@ public class AdminController {
     }
 
     // 학급 생성 페이지 이동
-    @GetMapping("/makeClass")
-    public String makeClass(){
-        return "content/admin/make_class";
+    @GetMapping("/makeClassForm")
+    public String makeClassForm(){
+        return "content/admin/make_class_form";
     }
 
+    // 학급 생성 버튼 클릭 시 실행 메소드
+    @PostMapping("/makeClass")
+    public String makeClass(){
+        return "redirect:/admin/makeClassForm";
+    }
     // 강사 정보 상세 조회
     @ResponseBody
     @PostMapping("/selectTeacher")
     public TeacherVO detailTeacher(@RequestBody TeacherVO teacherVO){
         TeacherVO teacherInfo = adminService.detailTeacher(teacherVO);
-
         return teacherInfo;
     }
 
