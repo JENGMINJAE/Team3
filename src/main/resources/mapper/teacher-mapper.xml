@@ -5,10 +5,8 @@
 <mapper namespace="teacher">
     <resultMap id="teacherInfo" type="com.green.Team3.member.vo.TeacherVO">
         <id column="TEACHER_NUM"        property="teacherNum"/>
-        <result column="WORK_NUM"       property="workNum"/>
+        <result column="TEACHER_WORK"   property="teacherWork"/>
         <result column="MEMBER_ID"      property="memberId"/>
-        <result column="CLASS_NUM"      property="classNum"/>
-        <result column="LEARN_NUM"      property="learnNum"/>
         <association property="memberVO" resultMap="member.memberMap"/>
         <collection property="clsVO"    resultMap="clsVO"/>
     </resultMap>

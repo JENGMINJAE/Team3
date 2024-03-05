@@ -10,5 +10,6 @@ import lombok.ToString;
 public class TestScoreVO {
     private int scoreNum;
     private int score;
+    private int stuNum;
     private int testNum;
 }

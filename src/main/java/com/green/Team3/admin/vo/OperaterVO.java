@@ -7,9 +7,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AdminVO {
+public class OperaterVO {
     private int operNum;
     private int operPay;
     private String isPay;
-    private int stuNum;
+    private int payStuNum;
+    private int payYear;
+    private int payMonth;
 }

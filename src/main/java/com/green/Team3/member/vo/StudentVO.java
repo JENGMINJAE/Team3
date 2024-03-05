@@ -10,7 +10,5 @@ import lombok.ToString;
 public class StudentVO {
     private int stuNum;
     private String memberId;
-    private int scoreNum;
-    private int classNum;
-    private int learnNum;
+    private int stuWork;
 }

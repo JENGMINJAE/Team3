@@ -24,27 +24,27 @@
     <!-- 회원가입 -->
     <insert id="join">
         INSERT INTO MEMBER(
-        MEMBER_ID
-        , MEMBER_PW
-        , MEMBER_NAME
-        , MEMBER_TEL
-        , MEMBER_EMAIL
-        , MEMBER_AGE
-        , MEMBER_ADDR
-        , ADDR_DETAIL
-        , MEMBER_GENDER
-        , POST_CODE
+            MEMBER_ID
+            , MEMBER_PW
+            , MEMBER_NAME
+            , MEMBER_TEL
+            , MEMBER_EMAIL
+            , MEMBER_AGE
+            , MEMBER_ADDR
+            , ADDR_DETAIL
+            , MEMBER_GENDER
+            , POST_CODE
         )VALUES(
-        #{memberId}
-        , #{memberPw}
-        , #{memberName}
-        , #{memberTel}
-        , #{memberEmail}
-        , #{memberAge}
-        , #{memberAddr}
-        , #{addrDetail}
-        , #{memberGender}
-        , #{postCode}
+            #{memberId}
+            , #{memberPw}
+            , #{memberName}
+            , #{memberTel}
+            , #{memberEmail}
+            , #{memberAge}
+            , #{memberAddr}
+            , #{addrDetail}
+            , #{memberGender}
+            , #{postCode}
         )
     </insert>
 

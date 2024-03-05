@@ -12,10 +12,8 @@ import java.util.List;
 @ToString
 public class TeacherVO {
     private int teacherNum;
-    private int workNum;
+    private int teacherWork;
     private String memberId;
-    private int classNum;
-    private int learnNum;
     private MemberVO memberVO;
     private List<ClsVO> clsVO;
 }

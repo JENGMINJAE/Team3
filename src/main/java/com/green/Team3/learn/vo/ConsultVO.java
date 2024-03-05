@@ -4,15 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.lang.invoke.VarHandle;
-
 @Getter
 @Setter
 @ToString
-public class AttendanceVO {
-    private int atdNum;
+public class ConsultVO {
+    private int consultNum;
+    private String consultContent;
     private int stuNum;
-    private String atdDate;
-    private int atdtNum;
+    private String consultDate;
     private int classNum;
+
 }
