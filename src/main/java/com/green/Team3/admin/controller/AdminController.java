@@ -48,10 +48,10 @@ public class AdminController {
 //    // 인적 사항 보기
     @ResponseBody
     @PostMapping("/memberDetail")
-    public void memberDetail(@RequestBody MemberVO memberVO){
-        //MemberVO vo = memberService.memberDetail(memberVO);
-        //System.out.println(vo);
-        //return vo;
+    public MemberVO memberDetail(@RequestBody MemberVO memberVO){
+        MemberVO vo = memberService.memberDetail(memberVO);
+        System.out.println(vo);
+        return vo;
     }
 
     // 강사 권한 수정 (학생 -> 강사)

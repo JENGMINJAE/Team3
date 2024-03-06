@@ -37,6 +37,7 @@ public class AdminServiceImpl implements AdminService{
         sqlSession.update("admin.changeAttendance", teacherVO);
     }
 
+    // memberRoll 전체 목록 조회
     @Override
     public List<MemberVO> rollList() {
         return sqlSession.selectList("member.memberRollList");

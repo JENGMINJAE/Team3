@@ -47,28 +47,22 @@
 
     <!-- 선택한 회원 상세 정보 조회 (관리자용) -->
     <select id="memberDetail" resultMap="memberMap">
-        SELECT MB.MEMBER_ID
+        SELECT MEMBER_ID
             , MEMBER_NAME
             , MEMBER_AGE
             , MEMBER_TEL
             , MEMBER_ROLL
             , MEMBER_ADDR
             , ADDR_DETAIL
-            , LEFT(REG_DATE, 16) REG_DATE
-            , CLASS_NAME
+            , MEMBER_EMAIL
+            , MEMBER_GENDER
             , CASE
                 WHEN MEMBER_ROLL = 1 THEN '학생'
                 WHEN MEMBER_ROLL = 2 THEN '강사'
                 WHEN MEMBER_ROLL = 3 THEN '관리'
             END AS STR_ROLL
-            , STU_NUM
-        FROM MEMBER AS MB INNER JOIN STUDENT AS STU
-        ON MB.MEMBER_ID = STU.MEMBER_ID
-        INNER JOIN OPERATER AS OPER
-        ON PAY_STU_NUM = STU_NUM
-        INNER JOIN CLASS_INFO AS CLS
-        ON OPER.CLASS_NUM = CLS.CLASS_NUM
-        WHERE MB.MEMBER_ID = #{memberId}
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
     </select>
 
 

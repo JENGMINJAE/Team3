@@ -25,11 +25,11 @@
                 <div class="col">
                     <table class="table table-hover text-center">
                         <colgroup>
-                            <col width="10%">
+                            <col width="5%">
+                            <col width="15%">
+                            <col width="15%">
                             <col width="20%">
-                            <col width="15%">
-                            <col width="15%">
-                            <col width="40%">
+                            <col width="45%">
                         </colgroup>
                         <thead class="table-primary">
                             <tr>
@@ -45,10 +45,17 @@
                                 <td>[[${#lists.size(memberList) - state.index}]]</td>
                                 <td>[[${member.memberName}]]</td>
                                 <td>[[${member.memberAge}]]</td>
-                                <td>[[${member.strRoll}]]
-                                    <select name="memberRoll" class="form-select" aria-label="Default select example">
-                                        <option th:each="roll : ${rollList}" th:selected="${roll.strRoll == 'STR_ROLL'}" th:value="${roll.memberRoll}">[[${list.strRoll}]]</option>
-                                    </select>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <select name="memberRoll" class="form-select" aria-label="Default select example">
+                                                <option th:each="roll : ${rollList}" th:selected="${member.strRoll == roll.strRoll}" th:value="${member.memberRoll}">[[${roll.strRoll}]]</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-2 d-grid">
+                                            <input class="btn btn-primary" type="button" value="수정">
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary" th:onclick="memberDetail([[${member.memberId}]])">인적사항</button>
@@ -69,7 +76,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">회원 상세 정보</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">회원 정보</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -85,48 +92,7 @@
                                 <col width="25%">
                             </colgroup>
                             <tbody class="tbody-tag">
-                                <tr>
-                                    <td class="table-active">이름(학생번호)</td>
-                                    <td id="modal-memberName">김자바(1)</td>
-                                    <td class="table-active">나이</td>
-                                    <td id="modal-memberAge">18</td>
-                                </tr>
-                                <tr>
-                                    <td class="table-active">연락처</td>
-                                    <td id="modal-memberTel">010-3333-2222</td>
-                                    <td class="table-active">소속</td>
-                                    <td id="modal-memberRoll">
-                                        <input type="radio" class="form-check-input" name="memberRoll" value="1" id="memberRoll-select"> 학생
-                                        <input type="radio" class="form-check-input" name="memberRoll" value="2"> 강사
-                                        <input type="radio" class="form-check-input" name="memberRoll" value="3"> 관리
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="table-active">주소</td>
-                                    <td colspan="3" id="modal-memberAddr">울산시 남구 삼산동 654-1 업스퀘어</td>
-
-                                </tr>
-                                <tr>
-                                    <td class="table-active">반이름</td>
-                                    
-                                    <td id="modal-buyPrice">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
-                                    </td>
-                                    <td class="table-active">등록일</td>
-                                    <td id="modal-buyDate">2024-03-04</td>
-                                </tr>
-                                <tr>
-                                    <td class="table-active">상태</td>
-                                    <td colspan="3" id="modal-buyPrice">
-                                        <input type="radio" name="memberRoll" value="1">재직
-                                        <input type="radio" name="memberRoll" value="2">퇴직
-                                    </td>
-                                </tr>
+                               
                             </tbody>
                         </table>
                     </div>
