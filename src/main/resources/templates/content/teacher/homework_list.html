@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/teacher_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴 때 같이 실행 되는 css -->
+    <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성-->
+    <div class="row">
+        <div class="col">
+            <table class="table" style="text-align: center; vertical-align: middle;">
+                
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td colspan="6">진행중인 과제</td>
+                        </tr>
+                        <tr>
+                            <td>No</td>
+                            <td>과목명</td>
+                            <td>과제명</td>
+                            <td>시작 일</td>
+                            <td>종료 일</td>
+                            <td>수정/삭제</td>
+                        </tr>
+                    </thead>
+                    <th:block th:each="IngHomework, state: ${IngHomeworkList}">
+                        <tr>
+                            <td>
+                                [[${IngHomeworkList.size - state.index}]]
+                            </td>
+                            <td>
+                                [[${IngHomework.className}]]
+                            </td>
+                            <td>
+                                [[${IngHomework.hwName}]]
+                            </td>
+                            <td>
+                                [[${IngHomework.hwSdate}]]
+                            </td>
+                            <td>
+                                [[${IngHomework.hwEdate}]]
+                            </td>
+                            <td>
+                                <input type="hidden" th:value="${IngHomework.hwNum}">
+                                <input class="btn btn-outline-secondary" type="button" value="수정" onclick="homework_crystal(this)">
+                                <input class="btn btn-outline-danger" type="button" value="삭제" onclick="homework_delete(this)">
+                            </td>
+                        </tr>
+                    </th:block>
+                
+            </table>
+
+            <table class="table" style="text-align: center; vertical-align: middle;">
+                
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="20%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td colspan="6">종료된 과제</td>
+                        </tr>
+                        <tr>
+                            <td>No</td>
+                            <td>과목명</td>
+                            <td>과제명</td>
+                            <td>시작 일</td>
+                            <td>종료 일</td>
+                            <td>수정/삭제</td>
+                        </tr>
+                    </thead>
+                    <th:block th:each="EndHomework, state: ${EndHomeworkList}">
+                        <tr>
+                            <td>
+                                [[${EndHomeworkList.size - state.index}]]
+                            </td>
+                            <td>
+                                [[${EndHomework.className}]]
+                            </td>
+                            <td>
+                                [[${EndHomework.hwName}]]
+                            </td>
+                            <td>
+                                [[${EndHomework.hwSdate}]]
+                            </td>
+                            <td>
+                                [[${EndHomework.hwEdate}]]
+                            </td>
+                            <td>
+                                <input type="hidden" th:value="${EndHomework.hwNum}">
+                                <input class="btn btn-outline-secondary" type="button" value="수정" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="homework_crystal(this)">
+                                <input class="btn btn-outline-danger" type="button" value="삭제" onclick="homework_delete(this)">
+                            </td>
+                        </tr>
+                    </th:block>
+                
+            </table>
+        </div>
+    </div>
+    <form id="C_hwNum" action="/homework/updateHomework" method="post">
+        <input type="hidden" name="hwNum" value="1">
+    </form>
+    <form id="D_hwNum" action="/homework/deleteHomework" method="post">
+        <input type="hidden" name="hwNum" value="1">
+    </form>
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@모달@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">과제 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="buttonSubmit" action="/homework/updateHomework" method="post">
+            
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>
+                            과목명
+                        </td>
+                        <td>
+                            과제명
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ~~~~
+                        </td>
+                        <td>
+                            ~~~~
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            시작 일
+                        </td>
+                        <td>
+                            종료 일
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ~~~
+                        </td>
+                        <td>
+                            ~~~
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-outline-primary" onclick="crystal()">수정</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴 때 같이 실행 되는 js-->
+    <script src="/js/teacher/homework_list.js"></script>
+</th:block>
+</html>
