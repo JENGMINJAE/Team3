@@ -96,3 +96,8 @@ function memberDetail(memberId){
         console.log(err);
     });
 }
+
+
+function updateMemberInfo(){
+    
+}
