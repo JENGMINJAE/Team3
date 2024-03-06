@@ -1,4 +1,4 @@
-// 공지사항 게시글 작성(관리자만)
+// 공지사항 게시글 작성(*관리자만)
 function goWrite(){
     // 1. 관리자가 아닌 경우 공지사항 리스트로 이동
     // const idCheck = document.querySelector('#memberId')
@@ -7,15 +7,14 @@ function goWrite(){
     //     location.href = '/board/noticeList';
     // }
     // 2. 관리자인 경우 작성 페이지로 이동 (memberRoll == 3)
-    location.href = '/board/writeForm';
+    location.href = '/board/noticeWriteForm';
 }
 
-// function posting(){
-
-    
-// }
+// 공지사항 게시글 삭제(*관리자만)
+function goDeleteNotice(boardNum){
+    if(confirm('공지사항을 삭제하시겠습니까?')){
+        location.href=`/board/deleteNotice?boardNum=${boardNum}`;
+    }
+}
 
 // 공지사항 검색
-function boardSearch(){
-    
-}

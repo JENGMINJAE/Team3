@@ -9,23 +9,42 @@
 <body>
     
 <th:block layout:fragment="contentFragment">
+
     <!-- 공지사항 글 상세조회 -->
-    <div class="row">
-        <div class="col">
-            
+    <th:block th:each="noticeDetail : ${notice}">
+        <div class="row">
+            <div class="col">
+                <table class="notice-list-table table table-striped table-hover text-center align-middle">
+                    <colgroup>
+                        <col width="30">
+                        <col width="*">
+                    </colgroup>
+                        <tr>
+                            <td>제목</td>
+                            <td>[[${noticeDetail.boardTitle}]]</td>
+                        </tr>
+                        <tr>
+                            <td>내용</td>
+                            <td>[[${noticeDetail.boardContent}]]</td>
+                        </tr>
+                        <tr>
+                            <td>조회수</td>
+                            <td>[[${noticeDetail.boardCnt}]]</td>
+                        </tr>
+                </table>
+            </div>
         </div>
-    </div>
-
-    <!-- <input type="button" value="뒤로가기" onclick="history.back(-1)">
-    <input type="button" value="뒤로가기" onclick="location.href='/board/list'"> -->
-
-
-
-
-
+        <div>
+            <input type="button" value="삭제" class="btn btn-primary" th:onclick="goDeleteNotice([[${noticeDetail.boardNum}]])">
+        </div>
+        <div>
+            <input type="button" value="뒤로가기" class="btn btn-primary" onclick="location.href='/board/noticeList'">
+        </div>
+    </th:block>
+    
 </th:block>
 
 <th:block layout:fragment="content_js">
-    <!-- <script src="/js/board.js"></script> -->
+    <script src="/js/board.js"></script>
 </th:block>
 </html>
