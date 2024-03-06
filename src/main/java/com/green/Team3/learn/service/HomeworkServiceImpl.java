@@ -37,4 +37,24 @@ public class HomeworkServiceImpl implements HomeworkService{
     public void deleteHomework(HomeworkVO vo) {
         sqlSession.delete("learnMapper.deleteHomework",vo);
     }
+
+    @Override
+    public HomeworkVO selectOneHomework(int hwNum) {
+        return sqlSession.selectOne("learnMapper.selectOneHomework",hwNum);
+    }
+
+    @Override
+    public int selectTeacherNumByClassNum(int classNum) {
+        return sqlSession.selectOne("learnMapper.selectTeacherNumByClassNum",classNum);
+    }
+
+    @Override
+    public List<HomeworkVO> selectClassNumByTeacherNum(int teacherNum) {
+        return sqlSession.selectList("learnMapper.selectClassNumByTeacherNum",teacherNum);
+    }
+
+    @Override
+    public void updateHomework(HomeworkVO vo) {
+        sqlSession.update("learnMapper.updateHomework",vo);
+    }
 }
