@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/teacher_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴 때 같이 실행 되는 css -->
+    <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성-->
+    <div class="row">
+        <div class="col">
+            <h3>학생 상담 내용 작성</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <tr>
+                    <td>본인 수업 반 셀렉트 박스</td>
+                    <td>본인 수업 반 소속 학생 셀렉트 박스</td>
+                    <td><input type="date" name="consultDate" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <textarea name="" id="" class="form-control"  rows="4" placeholder="상담내용"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴 때 같이 실행 되는 js-->
+    <script src="/"></script>
+</th:block>
+</html>
