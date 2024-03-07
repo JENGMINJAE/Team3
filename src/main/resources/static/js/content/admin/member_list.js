@@ -79,7 +79,16 @@ function memberDetail(memberId){
                     </tr>
                     <tr>
                         <td class="table-active">주소</td>
-                        <td colspan="3" id="modal-memberAddr">${data.memberAddr} ${data.addrDetail}</td>
+                        <td><input type="text" class="form-control" id="postCode" name="postCode" readonly></td>
+                        <td colspan="2" id="modal-memberAddr"><input type="text" class="form-control" id="roadAddr" value="${data.memberAddr}" name="memberAddr" readonly>
+                        <input type="button" class="btn btn-primary" value="주소검색" onclick="addrModal()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">상세 주소</td>
+                        <td colspan="3"> 
+                        <input type="text" class="form-control" value="${data.addrDetail}" name="addrDetail">
+                        </td>
                     </tr>
 
                 `;
@@ -97,6 +106,14 @@ function memberDetail(memberId){
     });
 }
 
+function addrModal(){
+    new daum.Postcode({
+        oncomplete: function(data) {
+            document.querySelector('#postCode').value = data.zonecode;
+            document.querySelector('#roadAddr').value = data.roadAddress;
+          }
+        }).open();
+}
 
 function updateMemberInfo(){
     

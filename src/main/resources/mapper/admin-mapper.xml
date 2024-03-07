@@ -10,6 +10,13 @@
         WHERE MEMBER_ID = #{memberId}
     </update>
 
+    <!-- 회원 인적사항 변경 -->
+    <update id="changeMemberData">
+        UPDATE MEMBER
+        SET MEMBER_NAME = #{memberName}
+        WHERE MEMBER_ID = #{memberId}
+    </update>
+
     <!-- 반 생성 -->
     <insert id="makeCls">
         INSERT INTO CLASS_INFO
