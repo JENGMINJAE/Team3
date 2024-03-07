@@ -13,4 +13,5 @@ public class HomeworkVO {
     private String hwSdate;
     private String hwEdate;
     private int classNum;
+    private String className;
 }

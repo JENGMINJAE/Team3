@@ -4,8 +4,16 @@
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="learnMapper">
     <resultMap id="attendanceType" type="com.green.Team3.learn.vo.AttendanceTypeVO">
-        <id column="ATDT_NUM" property="atdtNum"/>
-        <result column="ATDT_NAME" property="atdtName"/>
+        <id     column="ATDT_NUM"   property="atdtNum"/>
+        <result column="ATDT_NAME"  property="atdtName"/>
+    </resultMap>
+    <resultMap id="homework" type="com.green.Team3.learn.vo.HomeworkVO">
+        <id     column="HW_NUM"     property="hwNum"/>
+        <result column="HW_NAME"    property="hwName"/>
+        <result column="HW_SDATE"   property="hwSdate"/>
+        <result column="HW_EDATE"   property="hwEdate"/>
+        <result column="CLASS_NUM"  property="classNum"/>
+        <result column="CLASS_NAME" property="className"/>
     </resultMap>
     <!-- 출결 리스트 조회 -->
     <select id="selectAtd" resultMap="attendanceType">
@@ -29,13 +37,90 @@
         );
     </insert>
 
+    <select id="selectIngHomework" resultMap="homework">
+        SELECT  HW_NUM,
+                HW_NAME,
+                HW_SDATE,
+                HW_EDATE,
+                H.CLASS_NUM,
+                CLASS_NAME
+        FROM HOMEWORK H
+        INNER JOIN CLASS_INFO CI
+        ON H.CLASS_NUM = CI.CLASS_NUM
+        INNER JOIN TEACHER T
+        ON T.TEACHER_NUM = CI.TEACHER_NUM
+        WHERE MEMBER_ID = #{memberId}
+        AND HW_EDATE > NOW()
+        ORDER BY HW_EDATE ASC
+    </select>
+    <select id="selectEndHomework" resultMap="homework">
+        SELECT  HW_NUM,
+                HW_NAME,
+                HW_SDATE,
+                HW_EDATE,
+                H.CLASS_NUM,
+                CLASS_NAME
+        FROM HOMEWORK H
+        INNER JOIN CLASS_INFO CI
+        ON H.CLASS_NUM = CI.CLASS_NUM
+        INNER JOIN TEACHER T
+        ON T.TEACHER_NUM = CI.TEACHER_NUM
+        WHERE MEMBER_ID = #{memberId}
+        AND NOW() > HW_EDATE
+        ORDER BY HW_EDATE ASC
+    </select>
+
     <select id="selectClassByThisTeacher" resultMap="clsMapper.cls">
-        SELECT CLASS_NAME, C.CLASS_NUM
+        SELECT CLASS_NAME, CLASS_NUM
         FROM CLASS_INFO C
         INNER JOIN TEACHER T
-        ON C.CLASS_NUM = T.CLASS_NUM
+        ON C.TEACHER_NUM = T.TEACHER_NUM
         WHERE MEMBER_ID = #{memberId}
     </select>
+
+    <select id="selectOneHomework" resultMap="homework">
+        SELECT
+            C.CLASS_NUM,
+            CLASS_NAME,
+            HW_NAME,
+            HW_NUM,
+            HW_SDATE,
+            HW_EDATE
+        FROM HOMEWORK H
+        INNER JOIN CLASS_INFO C
+        ON C.CLASS_NUM = H.CLASS_NUM
+        WHERE HW_NUM = #{hwNum}
+    </select>
+    <select id="selectTeacherNumByClassNum" resultType="int">
+        SELECT
+            TEACHER_NUM
+        FROM CLASS_INFO
+        WHERE CLASS_NUM = #{classNum}
+    </select>
+    <select id="selectClassNumByTeacherNum" resultMap="homework">
+        SELECT
+        H.CLASS_NUM,CLASS_NAME
+        FROM homework H
+        INNER JOIN class_info CI
+        ON CI.CLASS_NUM = H.CLASS_NUM
+        WHERE TEACHER_NUM = #{teacherNum}
+    </select>
+
+    <update id="updateHomework">
+        UPDATE HOMEWORK SET
+            HW_NAME = #{hwName},
+            HW_SDATE = #{hwSdate},
+            HW_EDATE = #{hwEdate},
+            CLASS_NUM = #{classNum}
+        WHERE HW_NUM = #{hwNum}
+    </update>
+
+    <delete id="deleteHomework">
+        DELETE FROM HOMEWORK
+        WHERE HW_NUM = #{hwNum}
+    </delete>
+
+
 </mapper>
 
 
