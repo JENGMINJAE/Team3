@@ -54,6 +54,7 @@
             , MEMBER_ROLL
             , MEMBER_ADDR
             , ADDR_DETAIL
+            , POST_CODE
             , MEMBER_EMAIL
             , MEMBER_GENDER
             , CASE

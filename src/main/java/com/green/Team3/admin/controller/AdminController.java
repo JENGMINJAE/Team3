@@ -31,27 +31,34 @@ public class AdminController {
     @GetMapping("/goAdminTeacher")
     public String goAdminTeacher(Model model){
         List<TeacherVO> list = adminService.selectTeachers();
-        System.out.println(list);
         model.addAttribute("teacherList", list); // 강사 목록 조회
         return "content/admin/admin_teacher";
     }
 
     // 회원 관리 페이지 이동
     @GetMapping("/goMemberList")
-    public String memberList(Model model){
+    public String memberList(Model model, @RequestParam(name = "memberId", required = false, defaultValue = "")String updateMemberId){
         // 전체 회원 목록 조회
         model.addAttribute("memberList", memberService.selectMembers());
+        // MEMBER_ROLL 목록 조회 (관리, 강사, 회원)
         model.addAttribute("rollList", adminService.rollList());
+        model.addAttribute("updateMemberId", updateMemberId);
         return "content/admin/member_list";
     }
 
-//    // 인적 사항 보기
+    // 인적 사항 보기
     @ResponseBody
-    @PostMapping("/memberDetail")
+    @RequestMapping("/memberDetail")
     public MemberVO memberDetail(@RequestBody MemberVO memberVO){
         MemberVO vo = memberService.memberDetail(memberVO);
-        System.out.println(vo);
         return vo;
+    }
+
+    // 인적 사항 변경 쿼리 실행(변경 버튼 클릭 시)
+    @PostMapping("/changePersonalInfo")
+    public String changePersonalInfo(MemberVO memberVO){
+        adminService.changePersonalInfo(memberVO);
+        return "redirect:/admin/goMemberList?memberId=" + memberVO.getMemberId();
     }
 
     // 강사 권한 수정 (학생 -> 강사)
@@ -72,6 +79,7 @@ public class AdminController {
     public String makeClass(){
         return "redirect:/admin/makeClassForm";
     }
+
     // 강사 정보 상세 조회
     @ResponseBody
     @PostMapping("/selectTeacher")

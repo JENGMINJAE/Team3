@@ -14,4 +14,5 @@ public class OperaterVO {
     private int payStuNum;
     private int payYear;
     private int payMonth;
+    private int classNum;
 }

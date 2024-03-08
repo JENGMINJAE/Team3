@@ -42,8 +42,9 @@
                         </thead>
                         <tbody>
                             <tr th:each="member, state : ${memberList}" class="pointer-span align-middle">
+                                
                                 <td>[[${#lists.size(memberList) - state.index}]]</td>
-                                <td>[[${member.memberName}]]</td>
+                                <td><input type="hidden" name="updateMemberId" th:value="${updateMemberId}">[[${member.memberName}]]</td>
                                 <td>[[${member.memberAge}]]</td>
                                 <td>
                                     <div class="row">
@@ -53,7 +54,7 @@
                                             </select>
                                         </div>
                                         <div class="col-2 d-grid">
-                                            <input class="btn btn-primary" type="button" value="수정">
+                                            <input class="btn btn-primary" type="button" value="수정" th:onclick="changeRoll()">
                                         </div>
                                     </div>
                                 </td>
@@ -80,31 +81,33 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="row">
-            <div class="col">
-                <div class="row" >
-                    <div class="col" id="table-head">
-                        <table class="table align-middle text-center">
-                            <colgroup>
-                                <col width="25%">
-                                <col width="25%">
-                                <col width="25%">
-                                <col width="25%">
-                            </colgroup>
-                            <tbody class="tbody-tag">
-                               
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <form action="/admin/changePersonalInfo" method="post" class="changePersonalInfo">
                 <div class="row">
-                    <div class="col-10"></div>
-                    <div class="col-2 d-grid">
-                        <input type="button" value="변경" class="btn btn-primary" th:onclick="updateMemberInfo()">
+                    <div class="col">
+                        <div class="row" >
+                            <div class="col" id="table-head">
+                                <table class="table align-middle text-center">
+                                    <colgroup>
+                                        <col width="15%">
+                                        <col width="35%">
+                                        <col width="15%">
+                                        <col width="35%">
+                                    </colgroup>
+                                    <tbody class="tbody-tag">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-10"></div>
+                            <div class="col-2 d-grid">
+                                <input type="button" value="변경" class="btn btn-primary" onclick="updateMemberInfo()">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-          </div>
+            </form>
         </div>
       </div>
     </div>

@@ -3,6 +3,16 @@
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="admin">
+    <resultMap id="operater" type="com.green.Team3.admin.vo.OperaterVO">
+        <id column="OPER_NUM"           property="operNum"/>
+        <result column="OPER_PAY"       property="operPay" />
+        <result column="IS_PAY"         property="isPay" />
+        <result column="PAY_STU_NUM"    property="payStuNum" />
+        <result column="PAY_YEAR"       property="payYear" />
+        <result column="PAY_MONTH"      property="payMonth" />
+        <result column="CLASS_NUM"      property="classNum" />
+
+    </resultMap>
     <!-- 관리자 강사 등급 변경 -->
     <update id="updateTeacher">
         UPDATE MEMBER
@@ -14,6 +24,11 @@
     <update id="changeMemberData">
         UPDATE MEMBER
         SET MEMBER_NAME = #{memberName}
+            , MEMBER_TEL = #{memberTel}
+            , MEMBER_EMAIL = #{memberEmail}
+            , POST_CODE = #{postCode}
+            , MEMBER_ADDR = #{memberAddr}
+            , ADDR_DETAIL = #{addrDetail}
         WHERE MEMBER_ID = #{memberId}
     </update>
 

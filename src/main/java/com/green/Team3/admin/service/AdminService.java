@@ -22,4 +22,7 @@ public interface AdminService {
     // MEMBER_ROLL 리스트 조회
     List<MemberVO> rollList();
 
+    // 인적 사항 정보 변경
+    void changePersonalInfo(MemberVO memberVO);
+
 }

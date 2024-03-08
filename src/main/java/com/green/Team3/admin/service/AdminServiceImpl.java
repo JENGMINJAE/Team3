@@ -43,4 +43,10 @@ public class AdminServiceImpl implements AdminService{
         return sqlSession.selectList("member.memberRollList");
     }
 
+    // 인적 사항 정보 변경
+    @Override
+    public void changePersonalInfo(MemberVO memberVO) {
+        sqlSession.update("admin.changeMemberData", memberVO);
+    }
+
 }

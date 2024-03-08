@@ -1,3 +1,11 @@
+const updateMemberId = document.querySelector('input[type="hidden"]').value;
+console.log(updateMemberId);
+
+if(updateMemberId != ""){
+    memberDetail(updateMemberId);
+}
+
+// 클릭한 회원 상세 정보 조회
 function memberDetail(memberId){
     const member_detail_modal = new bootstrap.Modal('#member-detail-modal');
 
@@ -34,7 +42,7 @@ function memberDetail(memberId){
                     <tr>
                         <td class="table-active">이름(ID)</td>
                         <td id="modal-memberName">
-                            <input class="form-control" type="text" name="memberName" value="${data.memberName}(${data.memberId})"> 
+                            <input class="form-control" type="text" name="memberName" value="${data.memberName}"> 
                         </td>
                         <td class="table-active">나이</td>
                         <td id="modal-memberAge">${data.memberAge}</td>
@@ -75,14 +83,17 @@ function memberDetail(memberId){
                         <input class="form-control" type="text" name="memberTel" value="${data.memberTel}"></td>
                         <td class="table-active">메일</td>
                         <td id="modal-memberRoll">
-                        <input class="form-control" type="text" name="memberEmail" value="${data.memberEmail}"></td>
+                        <input class="form-control memberEmail-input" type="text" name="memberEmail" value="${data.memberEmail}"></td>
                     </tr>
                     <tr>
-                        <td class="table-active">주소</td>
-                        <td><input type="text" class="form-control" id="postCode" name="postCode" readonly></td>
-                        <td colspan="2" id="modal-memberAddr"><input type="text" class="form-control" id="roadAddr" value="${data.memberAddr}" name="memberAddr" readonly>
-                        <input type="button" class="btn btn-primary" value="주소검색" onclick="addrModal()">
+                        <td rowspan="2"class="table-active">주소</td>
+                        <td colspan="2"><input type="text" class="form-control" id="postCode" name="postCode" value="${data.postCode}" readonly></td>
+                        <td>
+                            <div class="offset-3 d-grid"><input type="button" class="btn btn-primary" value="주소검색" onclick="addrModal()"></div>
                         </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" id="modal-memberAddr"><input type="text" class="form-control" id="roadAddr" value="${data.memberAddr}" name="memberAddr" readonly></td>
                     </tr>
                     <tr>
                         <td class="table-active">상세 주소</td>
@@ -90,6 +101,7 @@ function memberDetail(memberId){
                         <input type="text" class="form-control" value="${data.addrDetail}" name="addrDetail">
                         </td>
                     </tr>
+                    <input type="hidden" name="memberId" value="${data.memberId}">
 
                 `;
 
@@ -106,6 +118,7 @@ function memberDetail(memberId){
     });
 }
 
+// 주소 변경 시, 주소 입력창 띄우기
 function addrModal(){
     new daum.Postcode({
         oncomplete: function(data) {
@@ -115,6 +128,32 @@ function addrModal(){
         }).open();
 }
 
+// 선택한 회원의 인적 사항 변경 버튼 클릭 시 confirm 실행
 function updateMemberInfo(){
+    const memberName = document.querySelector('input[name="memberName"]').value;
+    const memberTel = document.querySelector('input[name="memberTel"]').value;
+    const memberEmail = document.querySelector('input[name="memberEmail"]').value;
+    const memberAddr = document.querySelector('input[name="memberAddr"]').value;
+    const addrDetail = document.querySelector('input[name="addrDetail"]').value;
+    const postCode = document.querySelector('input[name="postCode"]').value;
+
+    const form_tag = document.querySelector('.changePersonalInfo');
+
+    if(confirm(`
+    이름: ${memberName} 
+    연락처: ${memberTel}
+    메일: ${memberEmail}
+    주소: ${memberAddr}
+          ${addrDetail}
+    우편번호: ${postCode}
+    로 수정하시겠습니까?`
+    )){
+        form_tag.submit();
+    }
     
 }
+
+// function changeRoll(selectedTag){
+//     const roll_value = selectedTag.parentElement.previousElementSibling.
+//     document.querySelector()
+// }
