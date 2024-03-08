@@ -2,12 +2,12 @@ const modal = new bootstrap.Modal("#staticBackdrop");
 const modal_body = document.querySelector(".modal-body");
 
 function homework_crystal(thishc){
-    let is_sure = confirm("수정하시겠습니까?")
-    const hc = thishc.parentElement.firstElementChild.value
+    let is_sure = confirm("수정하시겠습니까?");
+    const hc = thishc.parentElement.firstElementChild.value;
+    const selectName = thishc.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
     if(is_sure){
         const ChwNum = document.querySelector("#C_hwNum");
         ChwNum.querySelector('input').value = hc;
-        
         fetch('/homework/modalChange', { //요청경로
             method: 'POST',
             cache: 'no-cache',
@@ -50,10 +50,14 @@ function homework_crystal(thishc){
                 <td>
                     <select name = "classNum" class="form-select" style="text-align: center;">`;
                 
-                data.classList.forEach(function(e,idx){
-                    str+=`<option value=${e.classNum}> ${e.className} </option>`;
-                });
-
+                    data.classList.forEach(function(e,idx){
+                        str+=`<option value=${e.classNum} `
+                        if(selectName == e.className){
+                            str+=`selected`
+                        }
+                        str += `> ${e.className}</option>`;
+                        
+                    });
                 str+=`
                     </select>
                 </td>

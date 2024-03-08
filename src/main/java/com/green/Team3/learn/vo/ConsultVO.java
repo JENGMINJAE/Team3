@@ -13,5 +13,4 @@ public class ConsultVO {
     private int stuNum;
     private String consultDate;
     private int classNum;
-
 }

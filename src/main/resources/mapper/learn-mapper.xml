@@ -120,6 +120,13 @@
         WHERE HW_NUM = #{hwNum}
     </delete>
 
+    <select id="selectClassNumAndStuNum">
+        SELECT
+            PAY_STU_NUM,
+            CLASS_NUM
+        FROM OPERATOR
+        WHERE CLASS_NUM = #{classNum}
+    </select>
 
 </mapper>
 
