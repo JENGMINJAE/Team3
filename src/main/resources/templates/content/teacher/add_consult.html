@@ -17,19 +17,27 @@
     </div>
     <div class="row">
         <div class="col">
-            <form action="/consult/addConsult">
+            <form action="/consult/addConsult" method="post">
                 <table class="table" style="text-align: center; vertical-align: middle;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="25%">
+                    </colgroup>
                     <tr>
                         <td>소속</td>
                         <td>
-                            <select name="classNum" id="class_select" class="form-select">
+                            <select name="classNum" onchange="change()" class="form-select" id="class_select">
                                 <option th:each="class:${classInfo}" th:value="${class.classNum}">[[${class.className}]]</option>
                             </select>
                         </td>
                         <td>이름</td>
                         <td>
                             <select name="stuNum" id="stu_select" class="form-select">
-
+                                
                             </select>
                         </td>
                         <td>상담일</td>
@@ -37,10 +45,15 @@
                     </tr>
                     <tr>
                         <td colspan="6">
-                            <textarea name="" id="" class="form-control"  rows="4" placeholder="상담내용"></textarea>
+                            <textarea name="consultContent" class="form-control" rows="4" placeholder="상담내용"></textarea>
                         </td>
                     </tr>
                 </table>
+                <div class="row">
+                    <div class="col" style="text-align: right;">
+                        <input type="submit" class="btn btn-warning" value="저장">
+                    </div>
+                </div>
             </form>
         </div>
     </div>

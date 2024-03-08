@@ -15,4 +15,5 @@ public class OperatorVO {
     private int payMonth;
     private String memberId;
     private int classNum;
+    private String memberName;
 }
