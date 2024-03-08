@@ -61,11 +61,14 @@ public class AdminController {
         return "redirect:/admin/goMemberList?memberId=" + memberVO.getMemberId();
     }
 
-    // 강사 권한 수정 (학생 -> 강사)
-    @GetMapping("/updateTeacher")
-    public String updateTeacher(TeacherVO teacherVO){
-        adminService.updateTeacher(teacherVO);
-        return "redirect:/admin/goAdminTeacher?teacherNum= " + teacherVO.getTeacherNum();
+    // 회원 권한 수정 (memberRoll)
+    @ResponseBody
+    @PostMapping("/updateTeacher")
+    public MemberVO updateRoll(@RequestBody MemberVO memberVO){
+
+        adminService.updateRoll(memberVO);
+//        System.out.println(memberVO.getMemberRoll());
+         return memberVO;
     }
 
     // 학급 생성 페이지 이동
@@ -94,4 +97,7 @@ public class AdminController {
         adminService.changeAttendance(teacherVO);
         return "redirect:/admin/goAdminTeacher";
     }
+
+    // 해당 회원의 수강 목록 페이지 이동 (모달)
+
 }

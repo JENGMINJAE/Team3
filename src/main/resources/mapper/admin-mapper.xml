@@ -3,7 +3,7 @@
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="admin">
-    <resultMap id="operater" type="com.green.Team3.admin.vo.OperaterVO">
+    <resultMap id="operater" type="com.green.Team3.admin.vo.OperatorVO">
         <id column="OPER_NUM"           property="operNum"/>
         <result column="OPER_PAY"       property="operPay" />
         <result column="IS_PAY"         property="isPay" />
@@ -13,12 +13,25 @@
         <result column="CLASS_NUM"      property="classNum" />
 
     </resultMap>
-    <!-- 관리자 강사 등급 변경 -->
-    <update id="updateTeacher">
+
+    <!-- 회원 권한 수정 -->
+    <update id="updateRoll">
         UPDATE MEMBER
-        SET MEMBER_ROLL = #{memberRoll}
-        WHERE MEMBER_ID = #{memberId}
+        <if test='memberRoll != 0'>
+            SET MEMBER_ROLL = #{memberRoll}
+            WHERE MEMBER_ID = #{memberId}
+        </if>
     </update>
+
+    <!-- Teacher 테이블 insert -->
+    <insert id="insertTeacher">
+        INSERT INTO TEACHER (
+            MEMBER_ID
+        )
+        VALUES (
+            #{memberId}
+        )
+    </insert>
 
     <!-- 회원 인적사항 변경 -->
     <update id="changeMemberData">
@@ -34,11 +47,18 @@
 
     <!-- 반 생성 -->
     <insert id="makeCls">
-        INSERT INTO CLASS_INFO
-        VALUES (
+        INSERT INTO CLASS_INFO (
+            CLASS_NAME
+            , CLASS_PAYMENT
+            , CLASS_PERSONNEL
+            , CLASS_SDATE
+            , CLASS_EDATE
+        ) VALUES (
             #{className}
             , #{classPayment}
-            , #{stuInfo}
+            , #[classPersonnel}
+            , #{classSdate}
+            , #{classEdate}
         )
     </insert>
 

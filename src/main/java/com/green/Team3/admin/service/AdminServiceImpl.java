@@ -5,6 +5,7 @@ import com.green.Team3.member.vo.TeacherVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,10 +26,15 @@ public class AdminServiceImpl implements AdminService{
         return sqlSession.selectOne("teacher.detailTeacher", teacherVO);
     }
 
-    // 강사 권한 수정
+    // 회원 권한 수정
     @Override
-    public void updateTeacher(TeacherVO teacherVO) {
-        sqlSession.update("admin.updateTeacher", teacherVO);
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRoll(MemberVO memberVO) {
+        sqlSession.update("admin.updateRoll", memberVO);
+        // memberRoll : 2 (강사)일 경우, 강사 테이블 생성
+        if(memberVO.getMemberRoll() == 2) {
+            sqlSession.insert("admin.insertTeacher", memberVO);
+        }
     }
 
     // 강사 재직 상태 수정

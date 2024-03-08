@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class AttendanceVO {
     private int atdNum;
-    private int stuNum;
+    private String memberId;
     private String atdDate;
     private int atdtNum;
     private int classNum;

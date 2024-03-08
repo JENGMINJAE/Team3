@@ -18,10 +18,11 @@ public class MemberVO {
     private String memberEmail;
     private int memberAge;
     private String memberGender;
+    private int memberRoll;
     private String memberAddr;
     private String addrDetail;
     private String postCode;
     private String regDate;
-    private int memberRoll;
     private String strRoll;
+    private RollTypeVO rollTypeVO;
 }

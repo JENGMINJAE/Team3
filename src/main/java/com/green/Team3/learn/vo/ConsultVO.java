@@ -10,8 +10,8 @@ import lombok.ToString;
 public class ConsultVO {
     private int consultNum;
     private String consultContent;
-    private int stuNum;
     private String consultDate;
+    private String memberId;
     private int classNum;
 
 }

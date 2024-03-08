@@ -50,17 +50,17 @@
                                     <div class="row">
                                         <div class="col-10">
                                             <select name="memberRoll" class="form-select" aria-label="Default select example">
-                                                <option th:each="roll : ${rollList}" th:selected="${member.strRoll == roll.strRoll}" th:value="${member.memberRoll}">[[${roll.strRoll}]]</option>
+                                                <option class="roll-tag" th:each="roll : ${rollList}" th:selected="${member.strRoll == roll.strRoll}" th:value="${roll.memberRoll}">[[${roll.strRoll}]]</option>
                                             </select>
                                         </div>
                                         <div class="col-2 d-grid">
-                                            <input class="btn btn-primary" type="button" value="수정" th:onclick="changeRoll()">
+                                            <input class="btn btn-primary" type="button" value="수정" th:onclick="changeRoll(this, [[${member.memberId}]])">
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary" th:onclick="memberDetail([[${member.memberId}]])">인적사항</button>
-                                    <button type="button" class="btn btn-outline-success">수강목록</button>
+                                    <button type="button" class="btn btn-outline-success" onclick="showClasses()">수강목록</button>
                                     <button type="button" class="btn btn-outline-danger">학급관리</button>
                                 </td>
                             </tr>
@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- 인적사항 Modal -->
   <div class="modal fade modal-lg" id="member-detail-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -114,6 +114,50 @@
   </div>
 
 
+  <!-- 수강목록 Modal -->
+  <div class="modal fade modal-lg" id="classes-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">수강 목록</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/admin/changeClassInfo" method="post" class="changePersonalInfo">
+                <div class="row">
+                    <div class="col">
+                        <div class="row" >
+                            <div class="col" id="table-head">
+                                <table class="table align-middle text-center">
+                                    <colgroup>
+                                        <col width="15%">
+                                        <col width="35%">
+                                        <col width="15%">
+                                        <col width="35%">
+                                    </colgroup>
+                                    <tbody class="tbody-tag">
+                                        <tr>
+                                            <td>
+                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-10"></div>
+                            <div class="col-2 d-grid">
+                                <input type="button" value="변경" class="btn btn-primary" onclick="updateclassInfo()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
   
     
 </th:block>
