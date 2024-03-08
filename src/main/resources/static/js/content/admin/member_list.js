@@ -1,5 +1,4 @@
 const updateMemberId = document.querySelector('input[type="hidden"]').value;
-console.log(updateMemberId);
 
 if(updateMemberId != ""){
     memberDetail(updateMemberId);
@@ -153,7 +152,51 @@ function updateMemberInfo(){
     
 }
 
-// function changeRoll(selectedTag){
-//     const roll_value = selectedTag.parentElement.previousElementSibling.
-//     document.querySelector()
-// }
+// 해당 회원의 권한 변경
+function changeRoll(selectedTag, memberId){
+
+    const memberRoll = selectedTag.parentElement.previousElementSibling.children[0].children[0].value;
+    console.log(memberRoll);
+    
+    if(parseInt(memberRoll.value) > 0){
+        if(confirm(`로 변경하시겠습니까?`)){
+            
+            fetch('/admin/updateTeacher', { //요청경로
+                method: 'POST',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                //컨트롤러로 전달할 데이터
+                body: JSON.stringify({
+                // 데이터명 : 데이터값
+                memberId : memberId,
+                memberRoll : memberRoll.value
+                })
+            })
+            .then((response) => {
+                // return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+                return response.json(); //나머지 경우에 사용
+            })
+            //fetch 통신 후 실행 영역
+            .then((data) => {//data -> controller에서 리턴되는 데이터!
+                console.log(data);
+                // location.href="";
+            })
+            //fetch 통신 실패 시 실행 영역
+            .catch(err=>{
+                alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                console.log(err);
+            });
+            
+        };
+    }
+}
+
+// 수강목록 조회
+function showClasses(){
+    const classes_modal = new bootstrap.Modal('#classes-modal');
+
+    classes_modal.show();
+
+}

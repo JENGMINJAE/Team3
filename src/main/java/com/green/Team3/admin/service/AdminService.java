@@ -13,8 +13,8 @@ public interface AdminService {
     // 선생님 상세 목록 조회
     TeacherVO detailTeacher(TeacherVO teacherVO);
 
-    // 강사 권한 수정
-    void updateTeacher(TeacherVO teacherVO);
+    // 회원 권한 수정
+    void updateRoll(MemberVO memberVO);
 
     // 강사 재직 상태 수정
     void changeAttendance(TeacherVO teacherVO);
@@ -24,5 +24,6 @@ public interface AdminService {
 
     // 인적 사항 정보 변경
     void changePersonalInfo(MemberVO memberVO);
+
 
 }

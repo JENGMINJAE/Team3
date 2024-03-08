@@ -10,6 +10,6 @@ import lombok.ToString;
 public class TestScoreVO {
     private int scoreNum;
     private int score;
-    private int stuNum;
+    private String memberId;
     private int testNum;
 }
