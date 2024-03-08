@@ -1,8 +1,11 @@
 package com.green.Team3.cls.vo;
 
+import com.green.Team3.member.vo.MemberVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @ToString
 @Setter
@@ -17,4 +20,5 @@ public class ClsVO {
     private String classEnter;
     private int classStatus;
     private int teacherNum;
+    private List<MemberVO> memberVOList;
 }

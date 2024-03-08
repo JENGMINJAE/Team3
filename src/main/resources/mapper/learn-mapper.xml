@@ -13,7 +13,7 @@
         <result column="HW_SDATE"   property="hwSdate"/>
         <result column="HW_EDATE"   property="hwEdate"/>
         <result column="CLASS_NUM"  property="classNum"/>
-        <result column="CLASS_NAME" property="className"/>
+        <association property="clsVO" resultMap="clsMapper.cls"/>
     </resultMap>
 
     <resultMap id="operator" type="com.green.Team3.admin.vo.OperatorVO">

@@ -3,11 +3,11 @@
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="admin">
-    <resultMap id="operater" type="com.green.Team3.admin.vo.OperatorVO">
-        <id column="OPER_NUM"           property="operNum"/>
+    <resultMap id="operator" type="com.green.Team3.admin.vo.OperatorVO">
+        <id     column="OPER_NUM"           property="operNum"/>
         <result column="OPER_PAY"       property="operPay" />
         <result column="IS_PAY"         property="isPay" />
-        <result column="PAY_STU_NUM"    property="payStuNum" />
+        <result column="MEMBER_ID"    property="memberId" />
         <result column="PAY_YEAR"       property="payYear" />
         <result column="PAY_MONTH"      property="payMonth" />
         <result column="CLASS_NUM"      property="classNum" />
@@ -66,7 +66,7 @@
     <update id="changeAttendance">
         UPDATE TEACHER
         SET WORK_NUM = #{atdName}
-        WHERE MEM
+        WHERE MEMBER_ID = #{memberId}
     </update>
 </mapper>
 

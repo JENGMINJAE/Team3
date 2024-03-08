@@ -13,6 +13,7 @@
         <result column="CLASS_ENTER"        property="classEnter"/>
         <result column="CLASS_STATUS"       property="classStatus"/>
         <result column="TEACHER_NUM"        property="teacherNum"/>
+        <collection property="memberVOList" resultMap="member.memberMap"/>
     </resultMap>
 
 </mapper>
