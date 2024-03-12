@@ -25,4 +25,5 @@ public class MemberVO {
     private String regDate;
     private String strRoll;
     private RollTypeVO rollTypeVO;
+    private List<ClsVO> clsVOList;
 }

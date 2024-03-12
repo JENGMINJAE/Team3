@@ -16,6 +16,26 @@
         <collection property="memberVOList" resultMap="member.memberMap"/>
     </resultMap>
 
+    <!-- 해당 학생의 수강 목록 전체 조회 -->
+    <select id="selectClasses" resultMap="cls">
+        SELECT CLASS_NUM
+            , CLASS_NAME
+            , CLASS_PERSONNEL
+            , CLASS_SDATE
+            , CLASS_EDATE
+            , CLASS_ENTER
+            , CLASS_STATUS
+            , CLS.TEACHER_NUM
+            , MEMBER.MEMBER_NAME
+        FROM CLASS_INFO CLS INNER JOIN TEACHER
+        ON CLS.TEACHER_NUM = TEACHER.TEACHER_NUM
+        INNER JOIN MEMBER
+        ON MEMBER.MEMBER_ID = TEACHER.MEMBER_ID
+        WHERE MEMBER.MEMBER_ID = #{memberId}
+        AND NOW() > CLASS_EDATE
+        ORDER BY CLASS_EDATE DESC
+    </select>
+
 </mapper>
 
 

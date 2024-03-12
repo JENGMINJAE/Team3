@@ -11,8 +11,6 @@ if(updateMemberId != ""){
 function memberDetail(memberId){
     const member_detail_modal = new bootstrap.Modal('#member-detail-modal');
 
-    // member_detail_modal.show();
-
     fetch('/admin/memberDetail', { //요청경로
         method: 'POST',
         cache: 'no-cache',
@@ -155,6 +153,8 @@ function updateMemberInfo(){
     
 }
 
+
+
 // 해당 회원의 권한 변경
 function changeRoll(selectedTag, memberId){
     let str_roll = ''
@@ -224,17 +224,72 @@ function changeRoll(selectedTag, memberId){
             console.log(err);
         });
     }
-
-    
     
 }
 
 
+
+
 // 수강목록 조회
-function showClasses(){
+function showClasses(memberId){
     const classes_modal = new bootstrap.Modal('#classes-modal');
 
-    classes_modal.show();
+
+    fetch('/admin/showClass', { //요청경로
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        },
+        //컨트롤러로 전달할 데이터
+        body: JSON.stringify({
+           // 데이터명 : 데이터값
+        })
+    })
+    .then((response) => {
+        return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+        // return response.json(); //나머지 경우에 사용
+    })
+    //fetch 통신 후 실행 영역
+    .then((data) => {//data -> controller에서 리턴되는 데이터!
+        // 모달 상세 정보 하단
+        const modal_tbody = document.querySelector('.class-tbody-tag');
+        
+        modal_tbody.innerHTML = '';
+        modal_tbody.replaceChildren();
+
+
+        let str = '';
+        str +=  `
+                    <tr>
+                        <td class="table-active">No</td>
+                        <td>1</td>
+                        <td class="table-active">강의명</td>
+                        <td>자바일걸</td>
+                    </tr>
+                    <tr>
+                        <td class="table-active">담당 강사</td>
+                        <td>김강사</td>
+                        <td class="table-active">정원</td>
+                        <td>10/20</td>
+                    <div class="row">`;
+
+
+        modal_tbody.insertAdjacentHTML('afterbegin', str);
+
+        classes_modal.show();
+    })
+    //fetch 통신 실패 시 실행 영역
+    .catch(err=>{
+        alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+        console.log(err);
+    });
+    
+    
+
+
+
+    
 
 }
 

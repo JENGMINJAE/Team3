@@ -101,7 +101,7 @@ public class AdminController {
 
     // 해당 회원의 수강 목록 페이지 이동 (모달)
     @ResponseBody
-    @GetMapping("/showClass")
+    @PostMapping("/showClass")
     public void showClass(){
 
     }
