@@ -8,54 +8,63 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("BoardService")
+@Service("boardService")
 public class BoardServiceImpl implements BoardService {
     @Autowired
     private SqlSessionTemplate sqlSession;
 
-    //다음에 INSERT 할 공지사항 BOARD_NUM 조회
+
+    //다음에 INSERT 할 BOARD_NUM 조회
     @Override
     public int selectNextNoticeCode() {
         return sqlSession.selectOne("board.selectNextNoticeCode");
     }
 
-    //공지사항 목록 조회
+    //게시글 목록 조회
     @Override
     public List<BoardVO> selectNoticeList(SearchVO searchVO) {
         List<BoardVO> list = sqlSession.selectList("board.selectNoticeList", searchVO);
         return list;
     }
 
-    //공지사항 게시글 등록
+    //게시글 등록
     @Override
     public void insertNotice(BoardVO boardVO) {
        sqlSession.insert("board.insertNotice", boardVO);
     }
 
-    //공지사항 상세 조회
+    //게시글 상세 조회
     @Override
     public BoardVO selectNoticeDetail(int boardNum) {
         BoardVO result = sqlSession.selectOne("board.selectNoticeDetail", boardNum);
         return result;
     }
 
-    //공지사항 조회수 증가
+    //게시글 조회수 증가
     @Override
     public void updateBoardCnt(int boardNum) {
         sqlSession.update("board.updateBoardCnt", boardNum);
     }
 
-    //공지사항 게시글 삭제
+    //게시글 삭제
     @Override
     public void deleteNotice(int boardNum) {
         sqlSession.delete("board.deleteNotice", boardNum);
     }
 
-    //공지사항 게시글 수 조회
+    //게시글 수정
     @Override
-    public int selectNoticeCnt() {
-        return sqlSession.selectOne("board.selectNoticeCnt");
+    public void updateBoard(BoardVO boardVO) {
+        sqlSession.update("board.updateBoard", boardVO);
     }
+
+    //게시글 수 조회
+    @Override
+    public int selectNoticeCnt(SearchVO searchVO) {
+        return sqlSession.selectOne("board.selectNoticeCnt", searchVO);
+    }
+
+
 
 
 }

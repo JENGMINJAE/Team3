@@ -9,10 +9,10 @@
 <body>
 
 <th:block layout:fragment="contentFragment">
-    <!-- 공지사항 게시물 작성 폼 -->
+    <!-- 문의사항 게시물 작성 폼 -->
     <div class="row">
         <div class="col">
-            <form action="/board/noticeWrite" method="post">
+            <form action="/board/qnaWrite" method="post">
                 <div class="row">
                     <div class="col">
                         제목
@@ -22,8 +22,8 @@
                 <div class="row">
                     <div class="col">
                         열람 대상
-                        <input type="radio" name="typeNum" value="1">학생
-                        <input type="radio" name="typeNum" value="2">강사
+                        <input type="radio" name="typeNum" value="3">학생
+                        <input type="radio" name="typeNum" value="4">강사
                     </div>
                 </div>
                 <div class="row">

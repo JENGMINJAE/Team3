@@ -10,9 +10,12 @@
     
 <th:block layout:fragment="contentFragment">
 
-    <!-- 공지사항 글 상세조회 -->
+    <!-- 문의사항 게시글 수정 -->
+    <form action="/board/updateNotice" method="post">
         <div class="row">
             <div class="col">
+                <h3>문의사항 게시글 수정</h3>
+                <input type="hidden" name="boardNum" th:value="${qna.boardNum}">
                 <table class="notice-list-table table table-striped table-hover text-center align-middle">
                     <colgroup>
                         <col width="30">
@@ -20,30 +23,24 @@
                     </colgroup>
                         <tr>
                             <td>제목</td>
-                            <td>[[${notice.boardTitle}]]</td>
+                            <td>
+                                <input type="text" name="boardTitle" th:value="${qna.boardTitle}">
+                            </td>
                         </tr>
                         <tr>
                             <td>내용</td>
-                            <td>[[${notice.boardContent}]]</td>
-                        </tr>
-                        <tr>
-                            <td>조회수</td>
-                            <td>[[${notice.boardCnt}]]</td>
+                            <td>
+                                <input type="text" name="boardContent" th:value="${qna.boardContent}">
+                            </td>
                         </tr>
                 </table>
             </div>
         </div>
-        <div class="row">
-            <div class="col d-grid">
-                <input type="button" value="목 록" class="btn btn-primary" onclick="location.href='/board/noticeList'">
-            </div>
-            <div class="col d-grid">
-                <input type="button" value="수 정" class="btn btn-primary" th:onclick="goUpdateNotice([[${notice.boardNum}]])">
-            </div>
-            <div class="col d-grid">
-                <input type="button" value="삭 제" class="btn btn-primary" th:onclick="goDeleteNotice([[${notice.boardNum}]])">
-            </div>
+        <div>
+            <input type="submit" value="수정 완료" class="btn btn-primary">
         </div>
+    </form>
+    
 </th:block>
 
 <th:block layout:fragment="content_js">
