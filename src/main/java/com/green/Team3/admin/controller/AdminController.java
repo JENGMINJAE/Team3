@@ -63,13 +63,14 @@ public class AdminController {
 
     // 회원 권한 수정 (memberRoll)
     @ResponseBody
-    @PostMapping("/updateTeacher")
+    @PostMapping("/updateRoll")
     public MemberVO updateRoll(@RequestBody MemberVO memberVO){
-
+//        System.out.println(memberVO);
         adminService.updateRoll(memberVO);
 //        System.out.println(memberVO.getMemberRoll());
          return memberVO;
     }
+//    ----------------------- 완료 ---------------------------
 
     // 학급 생성 페이지 이동
     @GetMapping("/makeClassForm")
@@ -83,7 +84,7 @@ public class AdminController {
         return "redirect:/admin/makeClassForm";
     }
 
-    // 강사 정보 상세 조회
+    // 강사 정보 상세 조회 (완료)
     @ResponseBody
     @PostMapping("/selectTeacher")
     public TeacherVO detailTeacher(@RequestBody TeacherVO teacherVO){
@@ -99,5 +100,10 @@ public class AdminController {
     }
 
     // 해당 회원의 수강 목록 페이지 이동 (모달)
+    @ResponseBody
+    @GetMapping("/showClass")
+    public void showClass(){
+
+    }
 
 }
