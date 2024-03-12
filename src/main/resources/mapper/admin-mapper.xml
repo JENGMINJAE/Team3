@@ -17,10 +17,8 @@
     <!-- 회원 권한 수정 -->
     <update id="updateRoll">
         UPDATE MEMBER
-        <if test='memberRoll != 0'>
-            SET MEMBER_ROLL = #{memberRoll}
-            WHERE MEMBER_ID = #{memberId}
-        </if>
+        SET MEMBER_ROLL = #{memberRoll}
+        WHERE MEMBER_ID = #{memberId}
     </update>
 
     <!-- Teacher 테이블 insert -->

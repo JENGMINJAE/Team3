@@ -46,7 +46,7 @@ public class AdminServiceImpl implements AdminService{
     // memberRoll 전체 목록 조회
     @Override
     public List<MemberVO> rollList() {
-        return sqlSession.selectList("member.memberRollList");
+        return sqlSession.selectList("member.rollList");
     }
 
     // 인적 사항 정보 변경

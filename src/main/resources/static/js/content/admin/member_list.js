@@ -4,6 +4,9 @@ if(updateMemberId != ""){
     memberDetail(updateMemberId);
 }
 
+
+
+    
 // 클릭한 회원 상세 정보 조회
 function memberDetail(memberId){
     const member_detail_modal = new bootstrap.Modal('#member-detail-modal');
@@ -154,44 +157,78 @@ function updateMemberInfo(){
 
 // 해당 회원의 권한 변경
 function changeRoll(selectedTag, memberId){
-
-    const memberRoll = selectedTag.parentElement.previousElementSibling.children[0].children[0].value;
-    console.log(memberRoll);
-    
-    if(parseInt(memberRoll.value) > 0){
-        if(confirm(`로 변경하시겠습니까?`)){
-            
-            fetch('/admin/updateTeacher', { //요청경로
-                method: 'POST',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                },
-                //컨트롤러로 전달할 데이터
-                body: JSON.stringify({
-                // 데이터명 : 데이터값
-                memberId : memberId,
-                memberRoll : memberRoll.value
-                })
-            })
-            .then((response) => {
-                // return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
-                return response.json(); //나머지 경우에 사용
-            })
-            //fetch 통신 후 실행 영역
-            .then((data) => {//data -> controller에서 리턴되는 데이터!
-                console.log(data);
-                // location.href="";
-            })
-            //fetch 통신 실패 시 실행 영역
-            .catch(err=>{
-                alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-                console.log(err);
-            });
-            
-        };
+    let str_roll = ''
+    if(selectedTag.value == 1){
+        str_roll = '학생';
     }
+    else if(selectedTag.value == 2){
+        str_roll = '강사';
+    }
+    else{
+        str_roll = '관리'
+    }
+
+    if(confirm(`${str_roll}(으)로 변경하시겠습니까?`)){
+        
+        fetch('/admin/updateRoll', { //요청경로
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            //컨트롤러로 전달할 데이터
+            body: JSON.stringify({
+            // 데이터명 : 데이터값
+            memberId : memberId,
+            memberRoll : selectedTag.value
+            })
+        })
+        .then((response) => {
+            // return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+            return response.json(); //나머지 경우에 사용
+        })
+        //fetch 통신 후 실행 영역
+        .then((data) => {//data -> controller에서 리턴되는 데이터!
+
+            selectedTag.innerHTML = '';
+            let str2 = ``;
+            if (data.memberRoll == 1){
+                str2 = `
+                    <option value="1" selected>학생</option>
+                    <option value="2" >강사</option>
+                    <option value="3" >관리</option>
+                `;
+            } 
+            else if(data.memberRoll == 2){
+                str2 = `
+                    <option value="1" >학생</option>
+                    <option value="2" selected>강사</option>
+                    <option value="3" >관리</option>
+                `;
+            }
+            else{
+                str2 =`
+                    <option value="1">학생</option>
+                    <option value="2" >강사</option>
+                    <option value="3" selected >관리</option>
+                `;
+            }
+            
+            selectedTag.insertAdjacentHTML("afterbegin", str2);
+            
+
+        })
+        //fetch 통신 실패 시 실행 영역
+        .catch(err=>{
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
+    }
+
+    
+    
 }
+
 
 // 수강목록 조회
 function showClasses(){
@@ -200,3 +237,8 @@ function showClasses(){
     classes_modal.show();
 
 }
+
+// // 학급정보 조회
+// function showClassInfo(){
+
+// }

@@ -48,20 +48,20 @@
                                 <td>[[${member.memberAge}]]</td>
                                 <td>
                                     <div class="row">
-                                        <div class="col-10">
-                                            <select name="memberRoll" class="form-select" aria-label="Default select example">
-                                                <option class="roll-tag" th:each="roll : ${rollList}" th:selected="${member.strRoll == roll.strRoll}" th:value="${roll.memberRoll}">[[${roll.strRoll}]]</option>
+                                        <div class="col">
+                                            <select name="memberRoll" class="form-select" aria-label="Default select example" th:onchange="changeRoll(this, [[${member.memberId}]])">
+                                                <option class="roll-tag" th:each="roll : ${rollList}" th:selected="${member.strRoll == roll.rollName}" th:value="${roll.memberRoll}" >[[${roll.rollName}]]</option>
                                             </select>
                                         </div>
-                                        <div class="col-2 d-grid">
-                                            <input class="btn btn-primary" type="button" value="수정" th:onclick="changeRoll(this, [[${member.memberId}]])">
-                                        </div>
+                                        <!-- <div class="col-2 d-grid"> -->
+                                            <!-- <input class="btn btn-primary" type="button" value="수정"> -->
+                                        <!-- </div> -->
                                     </div>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary" th:onclick="memberDetail([[${member.memberId}]])">인적사항</button>
                                     <button type="button" class="btn btn-outline-success" onclick="showClasses()">수강목록</button>
-                                    <button type="button" class="btn btn-outline-danger">학급관리</button>
+                                    <!-- <button type="button" class="btn btn-outline-danger">학급관리</button> -->
                                 </td>
                             </tr>
                         </tbody>
@@ -123,7 +123,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/admin/changeClassInfo" method="post" class="changePersonalInfo">
+            <form action="/admin/showClass" method="post" class="changeClassInfo">
                 <div class="row">
                     <div class="col">
                         <div class="row" >
@@ -143,12 +143,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-10"></div>
-                            <div class="col-2 d-grid">
-                                <input type="button" value="변경" class="btn btn-primary" onclick="updateclassInfo()">
                             </div>
                         </div>
                     </div>
