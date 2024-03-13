@@ -1,6 +1,8 @@
 package com.green.Team3.admin.controller;
 
 import com.green.Team3.admin.service.AdminService;
+import com.green.Team3.cls.service.ClsService;
+import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.service.MemberService;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
@@ -20,6 +22,9 @@ public class AdminController {
 
     @Resource(name = "memberService")
     private MemberService memberService;
+
+    @Resource(name = "clsService")
+    private ClsService clsService;
 
     // 관리자 클릭 시 페이지 이동
     @GetMapping("/notice")
@@ -46,7 +51,7 @@ public class AdminController {
         return "content/admin/member_list";
     }
 
-    // 인적 사항 보기
+    // 인적 사항 보기 (모달)
     @ResponseBody
     @RequestMapping("/memberDetail")
     public MemberVO memberDetail(@RequestBody MemberVO memberVO){
@@ -65,12 +70,18 @@ public class AdminController {
     @ResponseBody
     @PostMapping("/updateRoll")
     public MemberVO updateRoll(@RequestBody MemberVO memberVO){
-//        System.out.println(memberVO);
         adminService.updateRoll(memberVO);
-//        System.out.println(memberVO.getMemberRoll());
          return memberVO;
     }
 //    ----------------------- 완료 ---------------------------
+    // 해당 회원의 수강 목록 페이지 이동 (모달)
+    @ResponseBody
+    @PostMapping("/showClass")
+    public List<ClsVO> showClass(@RequestBody MemberVO memberVO){
+        List<ClsVO> vo = clsService.selectClass(memberVO);
+        System.out.println(vo);
+        return vo;
+    }
 
     // 학급 생성 페이지 이동
     @GetMapping("/makeClassForm")
@@ -99,11 +110,5 @@ public class AdminController {
         return "redirect:/admin/goAdminTeacher";
     }
 
-    // 해당 회원의 수강 목록 페이지 이동 (모달)
-    @ResponseBody
-    @PostMapping("/showClass")
-    public void showClass(){
-
-    }
 
 }

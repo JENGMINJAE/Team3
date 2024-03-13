@@ -53,9 +53,6 @@
                                                 <option class="roll-tag" th:each="roll : ${rollList}" th:selected="${member.strRoll == roll.rollName}" th:value="${roll.memberRoll}" >[[${roll.rollName}]]</option>
                                             </select>
                                         </div>
-                                        <!-- <div class="col-2 d-grid"> -->
-                                            <!-- <input class="btn btn-primary" type="button" value="수정"> -->
-                                        <!-- </div> -->
                                     </div>
                                 </td>
                                 <td>
@@ -123,7 +120,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/admin/showClass" method="post" class="changeClassInfo">
+            <!-- <form action="/admin/showClass" method="post" class="changeClassInfo"> -->
                 <div class="row">
                     <div class="col">
                         <div class="row" >
@@ -147,7 +144,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            <!-- </form> -->
         </div>
       </div>
     </div>

@@ -244,6 +244,7 @@ function showClasses(memberId){
         //컨트롤러로 전달할 데이터
         body: JSON.stringify({
            // 데이터명 : 데이터값
+           memberId : memberId
         })
     })
     .then((response) => {
@@ -252,6 +253,7 @@ function showClasses(memberId){
     })
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
+        console.log(data);
         // 모달 상세 정보 하단
         const modal_tbody = document.querySelector('.class-tbody-tag');
         
@@ -263,16 +265,15 @@ function showClasses(memberId){
         str +=  `
                     <tr>
                         <td class="table-active">No</td>
-                        <td>1</td>
                         <td class="table-active">강의명</td>
-                        <td>자바일걸</td>
+                        <td class="table-active">담당 강사</td>
                     </tr>
                     <tr>
-                        <td class="table-active">담당 강사</td>
+                        <td>1</td>
+                        <td>자바일걸</td>                    
                         <td>김강사</td>
-                        <td class="table-active">정원</td>
-                        <td>10/20</td>
-                    <div class="row">`;
+                    </tr>
+                `;
 
 
         modal_tbody.insertAdjacentHTML('afterbegin', str);
@@ -293,7 +294,7 @@ function showClasses(memberId){
 
 }
 
-// // 학급정보 조회
+// 학급정보 조회
 // function showClassInfo(){
 
 // }
