@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/admin_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴때 같이 실행되는 css -->
+    <!-- <link rel="stylesheet" href="/"> -->
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성 -->
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <table>
+                        <colgroup>
+                            <col width="20%">
+                        </colgroup>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table table-hover text-center">
+                        <colgroup>
+                            <col width="5%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="20%">
+                            <col width="45%">
+                        </colgroup>
+                        <thead class="table-primary">
+                            <tr>
+                                <td>No.</td>
+                                <td>이름</td>
+                                <td>나이</td>
+                                <td>소속(학생/선생)</td>
+                                <td>수납일</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="member, state : ${memberList}" class="pointer-span align-middle">
+                                
+                                <td>[[${#lists.size(memberList) - state.index}]]</td>
+                                <td><input type="hidden" name="updateMemberId" th:value="${updateMemberId}">[[${member.memberName}]]</td>
+                                <td>[[${member.memberAge}]]</td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <select name="memberRoll" class="form-select" aria-label="Default select example" th:onchange="changeRoll(this, [[${member.memberId}]])">
+                                                <option class="roll-tag" th:each="roll : ${rollList}" th:selected="${member.strRoll == roll.rollName}" th:value="${roll.memberRoll}" >[[${roll.rollName}]]</option>
+                                            </select>
+                                        </div>
+                                        <!-- <div class="col-2 d-grid"> -->
+                                            <!-- <input class="btn btn-primary" type="button" value="수정"> -->
+                                        <!-- </div> -->
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary" th:onclick="memberDetail([[${member.memberId}]])">인적사항</button>
+                                    <button type="button" class="btn btn-outline-success" onclick="showClasses()">수강목록</button>
+                                    <!-- <button type="button" class="btn btn-outline-danger">학급관리</button> -->
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 인적사항 Modal -->
+  <div class="modal fade modal-lg" id="member-detail-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">회원 정보</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/admin/changePersonalInfo" method="post" class="changePersonalInfo">
+                <div class="row">
+                    <div class="col">
+                        <div class="row" >
+                            <div class="col" id="table-head">
+                                <table class="table align-middle text-center">
+                                    <colgroup>
+                                        <col width="15%">
+                                        <col width="35%">
+                                        <col width="15%">
+                                        <col width="35%">
+                                    </colgroup>
+                                    <tbody class="tbody-tag">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-10"></div>
+                            <div class="col-2 d-grid">
+                                <input type="button" value="변경" class="btn btn-primary" onclick="updateMemberInfo()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 수강목록 Modal -->
+  <div class="modal fade modal-lg" id="classes-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">수강 목록</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/admin/showClass" method="post" class="changeClassInfo">
+                <div class="row">
+                    <div class="col">
+                        <div class="row" >
+                            <div class="col" id="table-head">
+                                <table class="table align-middle text-center">
+                                    <colgroup>
+                                        <col width="15%">
+                                        <col width="35%">
+                                        <col width="15%">
+                                        <col width="35%">
+                                    </colgroup>
+                                    <tbody class="tbody-tag">
+                                        <tr>
+                                            <td>
+                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴때 같이 실행되는 js -->
+    <script src="/js/content/admin/member_list.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</th:block>
+</html>

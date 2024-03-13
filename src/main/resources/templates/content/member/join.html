@@ -1,20 +1,113 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{fragment/personal_layout}" >
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
 
-<th:block layout:fragment="content_css">
-    <!-- html 파일이 열릴 때 같이 실행되는 CSS -->
-    <!-- <link rel="stylesheet" href="/"> -->
-</th:block>
+<div class="container">
+    <div class="title2">
+        <h3>회원가입</h3>
+    </div>
+    <div>
+        <form class="row-g3" action="/member/join" method="post">
+            <!-- 회원가입 부트스트랩 -->
+            <div class="col-12">
+                <label for="" class="form-label">아이디</label>
+                <input type="text" class="form-control" name="memberId">
+            </div>
+            <!-- 아이디 중복 확인 -->
+            <div class="col-4 d-grid">
+                <label for="" class="form-label">&nbsp;</label>
+                <input type="button" value="중복 확인" class="btn btn-primary" onclick="idCheck()">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" neme="memberPw">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">비밀번호 확인</label>
+                <input type="password" class="form-control" name="memberPw">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">이름</label>
+                <input type="text" class="form-control" name="memberName">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">나이</label>
+                <input type="text" class="form-control" name="memberAge">
+            </div>
+            <div class="col-4">
+                <label for="" class="form-label">전화번호</label>
+                <select class="form-select" name="memberTel">
+                    <option value="010" selected>010</option>
+                    <option value="011">011</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <label for="" class="form-label">&nbsp;</label>
+                <input type="text" class="form-control" name="memberTel">
+            </div>
+            <div class="col-4">
+                <label for="" class="form-label">&nbsp;</label>
+                <input type="text" class="form-control" name="memberTel">
+            </div>
+            <div class="col-6">
+                <label for="" class="form-label">EMAIL</label>
+                <input type="text" class="form-control" name="memberEmail">
+            </div>
+            <div class="col-6">
+                <label for="" class="form-label">&nbsp;</label>
+                <select id="" class="form-select" name="memberEmail">
+                    <option value="@naver.com" selected>@naver.com</option>
+                    <option value="@gmail.com">@gmail.com</option>
+                </select>
+            </div>
+            <div class="col-8">
+                <label for="" class="form-label">주소</label>
+                <input type="text" class="form-control" id="postCode" name="postCode" readonly>
+            </div>
+            <!-- 주소 검색 -->
+            <div class="col-4 d-grid">
+                <label for="" class="form-label">&nbsp;</label>
+                <input type="button" value="검색" class="btn btn-primary" onclick="searchAddress()">
+            </div>
+            <div class="col-12">
+                <input type="text" class="form-control" id="roadAddr" name="memberAddr" readonly>
+            </div>
+            <div class="col-12">
+            <input type="text" class="form-control" name="addrDetail">
+            </div>
+            <div class="col-12">
+                <label for="" class="form-label">성별</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="memberGender" value="남" checked>
+                <label class="form-check-label" for="">남</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="memberGender" value="여">
+                <label class="form-check-label" for="">여</label>
+            </div>
+            </div>
+            <!-- 회원가입 실행 -->
+            <div>
+                <button type="submit" class="btn btn-primary" onclick="join()">회원가입</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-<th:block layout:fragment="contentFragment">
-    <!-- html 코드 작성 -->
-    회원가입 페이지입니다 ㅋ
-</th:block>
+    <script src="/js/join.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+    ></script>
 
-<th:block layout:fragment="content_js">
-    <!-- html 파일이 열릴 때 같이 실행되는 JS -->
-    <!-- <script src="/"></script> -->
-</th:block>
+</body>
 </html>
+

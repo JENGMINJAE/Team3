@@ -1,5 +1,6 @@
 package com.green.Team3.learn.vo;
 
+import com.green.Team3.cls.vo.ClsVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,6 +10,9 @@ import lombok.ToString;
 @ToString
 public class HomeworkVO {
     private int hwNum;
-    private String hwStatus;
-    private String isHw;
+    private String hwName;
+    private String hwSdate;
+    private String hwEdate;
+    private int classNum;
+    private ClsVO clsVO;
 }

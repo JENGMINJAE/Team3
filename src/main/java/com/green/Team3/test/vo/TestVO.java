@@ -12,6 +12,8 @@ public class TestVO {
     private int  testNum;
     private String testName;
     private String testDate;
+    private int testMaxScore;
+    private int classNum;
 
 
 }

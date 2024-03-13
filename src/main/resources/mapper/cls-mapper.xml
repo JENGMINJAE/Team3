@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<mapper namespace="clsMapper">
+    <resultMap id="cls" type="com.green.Team3.cls.vo.ClsVO">
+        <id     column="CLASS_NUM"          property="classNum"/>
+        <result column="CLASS_NAME"         property="className"/>
+        <result column="CLASS_PAYMENT"      property="classPayment"/>
+        <result column="CLASS_PERSONNEL"    property="classPersonnel"/>
+        <result column="CLASS_SDATE"        property="classSdate"/>
+        <result column="CLASS_EDATE"        property="classEdate"/>
+        <result column="CLASS_ENTER"        property="classEnter"/>
+        <result column="CLASS_STATUS"       property="classStatus"/>
+        <result column="TEACHER_NUM"        property="teacherNum"/>
+        <collection property="memberVOList" resultMap="member.memberMap"/>
+    </resultMap>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

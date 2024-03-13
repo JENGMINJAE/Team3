@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{fragment/admin_layout}" >
+    layout:decorate="~{fragment/integrated_layout}" >
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴때 같이 실행되는 css -->
@@ -9,12 +9,72 @@
 </th:block>
 
 <th:block layout:fragment="contentFragment">
+    <input type="hidden" value="0" id="teacherNum">
     <!-- html 코드 작성 -->
-    강사 권한 수정
+    <div class="row">
+        <div class="col-5">
+            <div class="row mb-3">
+                <div class="col">
+                    <h5>직원 목록</h5>
+                    [[${teacherList}]]
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col">
+                    <span style="color: red;" class="text-end"> * 총 00명의 직원이 있습니다.</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <table class="table text-center align-middle table-hover">
+                        <colgroup>
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="30%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <td>No</td>
+                                <td>이름</td>
+                                <td>반</td>
+                                <td>근무 현황</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="pointer-span" onclick="teacherInfo(1)">
+                                <td>1</td>
+                                <td>길동</td>
+                                <td>자바</td>
+                                <td>재직</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-7">
+            <div class="row">
+
+                <div class="col">
+                    <h5>선생님 list</h5>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col teacher-list-div">
+                    <!-- <form action=""> -->
+                    
+                    
+                <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴때 같이 실행되는 js -->
-    <!-- <script src="/"></script> -->
+    <script src="/js/content/admin/admin_teacher.js"></script>
 </th:block>
 </html>

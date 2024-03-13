@@ -2,37 +2,122 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
-<mapper namespace="memebr">
+<mapper namespace="member">
+    <resultMap id="memberMap" type="com.green.Team3.member.vo.MemberVO">
+        <id     column="MEMBER_ID"      property="memberId"/>
+        <result column="MEMBER_PW"      property="memberPw"/>
+        <result column="MEMBER_NAME"    property="memberName"/>
+        <result column="MEMBER_TEL"     property="memberTel"/>
+        <result column="MEMBER_EMAIL"   property="memberEmail"/>
+        <result column="MEMBER_AGE"     property="memberAge"/>
+        <result column="MEMBER_GENDER"  property="memberGender"/>
+        <result column="MEMBER_ADDR"    property="memberAddr"/>
+        <result column="ADDR_DETAIL"    property="addrDetail"/>
+        <result column="POST_CODE"      property="postCode"/>
+        <result column="REG_DATE"       property="regDate"/>
+        <result column="MEMBER_ROLL"    property="memberRoll"/>
+        <result column="STR_ROLL"       property="strRoll"/>
+    </resultMap>
+
+    <resultMap id="rollType" type="com.green.Team3.member.vo.RollTypeVO">
+        <id column="MEMBER_ROLL" property="memberRoll"/>
+        <result column="ROLL_NAME" property="rollName"/>
+    </resultMap>
+
+    <!-- 전체 회원 목록 조회 -->
+    <select id="selectMembers" resultMap="memberMap">
+        SELECT MEMBER_ID
+            , MEMBER_NAME
+            , MEMBER_AGE
+            , MEMBER_ROLL
+            , LEFT(REG_DATE, 16) REG_DATE
+            , CASE
+                WHEN MEMBER_ROLL = 1 THEN '학생'
+                WHEN MEMBER_ROLL = 2 THEN '강사'
+                WHEN MEMBER_ROLL = 3 THEN '관리'
+            END AS STR_ROLL
+        FROM MEMBER
+    </select>
+
+    <!-- memberRoll 리스트 보기 -->
+    <select id="rollList" resultMap="rollType">
+        SELECT ROLL_NAME
+            , MEMBER_ROLL
+        FROM ROLL_TYPE
+        ORDER BY MEMBER_ROLL ASC
+    </select>
+
+    <!-- 선택한 회원 상세 정보 조회 (관리자용) -->
+    <select id="memberDetail" resultMap="memberMap">
+        SELECT MEMBER_ID
+            , MEMBER_NAME
+            , MEMBER_AGE
+            , MEMBER_TEL
+            , MEMBER_ROLL
+            , MEMBER_ADDR
+            , ADDR_DETAIL
+            , POST_CODE
+            , MEMBER_EMAIL
+            , MEMBER_GENDER
+            , CASE
+                WHEN MEMBER_ROLL = 1 THEN '학생'
+                WHEN MEMBER_ROLL = 2 THEN '강사'
+                WHEN MEMBER_ROLL = 3 THEN '관리'
+            END AS STR_ROLL
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+
     <!-- 회원가입 -->
     <insert id="join">
         INSERT INTO MEMBER(
-        MEMBER_ID
-        , MEMBER_PW
-        , MEMBER_NAME
-        , MEMBER_TEL
-        , MEMBER_EMAIL
-        , MEMBER_AGE
-        , MEMBER_ADDR
-        , ADDR_DETAIL
-        , MEMBER_GENDER
-        , CLASS_NUM
-        , MEMBER_ROLL
-        , POST_CODE
+            MEMBER_ID
+            , MEMBER_PW
+            , MEMBER_NAME
+            , MEMBER_TEL
+            , MEMBER_EMAIL
+            , MEMBER_AGE
+            , MEMBER_ADDR
+            , ADDR_DETAIL
+            , MEMBER_GENDER
+            , POST_CODE
         )VALUES(
-        #{memberId}
-        , #{memberPw}
-        , #{memberName}
-        , #{memberTel}
-        , #{memberEmail}
-        , #{memberAge}
-        , #{memberAddr}
-        , #{addrDetail}
-        , #{memberGender}
-        , #{classNum}
-        , #{memberRoll}
-        , #{postCode}
+            #{memberId}
+            , #{memberPw}
+            , #{memberName}
+            , #{memberTel}
+            , #{memberEmail}
+            , #{memberAge}
+            , #{memberAddr}
+            , #{addrDetail}
+            , #{memberGender}
+            , #{postCode}
         )
     </insert>
+
+    <!-- 아이디 중복 확인 -->
+<!--    <select id="idCheck" resultType="boolean">-->
+<!--        SELECT COUNT(*)-->
+<!--        FROM MEMBER-->
+<!--        WHERE MEMBER_ID = #{memberId}-->
+<!--    </select>-->
+
+    <!-- 로그인 -->
+    <select id="login" resultMap="memberMap">
+        SELECT MEMBER_ID
+            , MEMBER_NAME
+            , MEMBER_ROLL
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+        AND MEMBER_PW = #{memberPw}
+    </select>
+
+
+
+
+
+
 
 </mapper>
 

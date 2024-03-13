@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<mapper namespace="teacher">
+    <resultMap id="teacherInfo" type="com.green.Team3.member.vo.TeacherVO">
+        <id column="TEACHER_NUM"        property="teacherNum"/>
+        <result column="TEACHER_WORK"   property="teacherWork"/>
+        <result column="MEMBER_ID"      property="memberId"/>
+        <association property="memberVO" resultMap="member.memberMap"/>
+        <collection property="clsVO"    resultMap="clsVO"/>
+    </resultMap>
+
+    <resultMap id="clsVO" type="com.green.Team3.cls.vo.ClsVO">
+        <id column="CLASS_NUM"              property="classNum"/>
+        <result column="CLASS_NAME"         property="className"/>
+        <result column="CLASS_PAYMENT"      property="classPayment"/>
+        <result column="CLASS_PERSONNEL"    property="classPersonnel"/>
+        <result column="CLASS_SDATE"        property="classSdate"/>
+        <result column="CLASS_EDATE"        property="classEdate"/>
+        <result column="CLASS_ENTER"        property="classEnter"/>
+        <result column="CLASS_STATUS"       property="classStatus"/>
+    </resultMap>
+
+
+    <!--  선생님 전체 목록 조회  -->
+    <select id="selectTeachers" resultMap="teacherInfo">
+        SELECT T.MEMBER_ID
+            , REG_DATE
+            , TEACHER_NUM
+            , CLASS_STATUS
+        FROM TEACHER AS T INNER JOIN MEMBER AS M
+        ON T.MEMBER_ID = M.MEMBER_ID
+        INNER JOIN CLASS_INFO AS CLS
+        ON CLS.CLASS_NUM = T.CLASS_NUM
+        ORDER BY MEMBER_NAME DESC
+    </select>
+
+    <!--  선생님 상세 정보 조회  -->
+    <select id="detailTeacher" resultMap="teacherInfo">
+        SELECT T.MEMBER_ID
+            , MEMBER_NAME
+            , MEMBER_TEL
+            , MEMBER_EMAIL
+            , MEMBER_ADDR
+            , ADDR_DETAIL
+            , MEMBER_GENDER
+            , REG_DATE
+            , TEACHER_NUM
+            , WORK_NUM
+            , CASE
+                WHEN WORK_NUM = 1 THEN '재직'
+                WHEN WORK_NUM = 2 THEN '퇴직'
+                ELSE WORK_NUM = 3 THEN '휴가'
+            END AS WORK_STATUS
+        FROM TEACHER AS T INNER JOIN MEMBER AS M
+        ON T.MEMBER_ID = M.MEMBER_ID
+        WHERE TEACHER_NUM = #{teacherNum}
+        ORDER BY MEMBER_NAME DESC
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

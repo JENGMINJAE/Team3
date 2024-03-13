@@ -7,9 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class StudentVO {
-    private int stuNum;
-    private String memberId;
-    private int testNum;
-    private int scoreNum;
+public class RollTypeVO {
+    private int memberRoll;
+    private String rollName;
 }

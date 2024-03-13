@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/integrated_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴 때 같이 실행 되는 css -->
+    <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성-->
+    <div class="row">
+        <div class="col">
+            <h3>학생 상담 내용 작성</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form action="/consult/addConsult" method="post">
+                <table class="table" style="text-align: center; vertical-align: middle;">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="25%">
+                    </colgroup>
+                    <tr>
+                        <td>소속</td>
+                        <td>
+                            <select name="classNum" onchange="change()" class="form-select" id="class_select">
+                                <option th:each="class:${classInfo}" th:value="${class.classNum}">[[${class.className}]]</option>
+                            </select>
+                        </td>
+                        <td>이름</td>
+                        <td>
+                            <select name="stuNum" id="stu_select" class="form-select">
+                                
+                            </select>
+                        </td>
+                        <td>상담일</td>
+                        <td><input type="date" name="consultDate" class="form-control" id="currentDate"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">
+                            <textarea name="consultContent" class="form-control" rows="4" placeholder="상담내용"></textarea>
+                        </td>
+                    </tr>
+                </table>
+                <div class="row">
+                    <div class="col" style="text-align: right;">
+                        <input type="submit" class="btn btn-warning" value="저장">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴 때 같이 실행 되는 js-->
+    <script src="/js/teacher/add_consult.js"></script>
+</th:block>
+</html>
