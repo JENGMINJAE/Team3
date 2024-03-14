@@ -14,4 +14,5 @@ public class ClsController {
     public String testExam(){
         return "/content/teacher/test_exam";
     }
+
 }

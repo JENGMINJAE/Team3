@@ -8,20 +8,8 @@
         <result column="TEACHER_WORK"   property="teacherWork"/>
         <result column="MEMBER_ID"      property="memberId"/>
         <association property="memberVO" resultMap="member.memberMap"/>
-        <collection property="clsVO"    resultMap="clsVO"/>
+        <collection property="clsVOList"    resultMap="clsMapper.cls"/>
     </resultMap>
-
-    <resultMap id="clsVO" type="com.green.Team3.cls.vo.ClsVO">
-        <id column="CLASS_NUM"              property="classNum"/>
-        <result column="CLASS_NAME"         property="className"/>
-        <result column="CLASS_PAYMENT"      property="classPayment"/>
-        <result column="CLASS_PERSONNEL"    property="classPersonnel"/>
-        <result column="CLASS_SDATE"        property="classSdate"/>
-        <result column="CLASS_EDATE"        property="classEdate"/>
-        <result column="CLASS_ENTER"        property="classEnter"/>
-        <result column="CLASS_STATUS"       property="classStatus"/>
-    </resultMap>
-
 
     <!--  선생님 전체 목록 조회  -->
     <select id="selectTeachers" resultMap="teacherInfo">
