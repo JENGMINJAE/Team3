@@ -36,6 +36,25 @@
         WHERE BOARD_NUM = #{boardNum}
     </select>
 
+    <!-- 댓글 삭제 -->
+    <delete id="deleteReply">
+        DELETE FROM BOARD_REPLY
+        WHERE REPLY_NUM = #{replyNum}
+    </delete>
+
+    <!-- 댓글 수정 -->
+    <update id="updateReply">
+        UPDATE BOARD_REPLY
+        SET
+            REPLY_CONTENT = #{replyContent}
+        WHERE REPLY_NUM = #{replyNum}
+    </update>
+
+    <select id="reSelect" resultType="STRING">
+        SELECT REPLY_CONTENT
+        FROM BOARD_REPLY
+        WHERE REPLY_NUM = #{replyNum}
+    </select>
 </mapper>
 
 

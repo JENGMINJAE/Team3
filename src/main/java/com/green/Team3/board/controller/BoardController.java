@@ -98,7 +98,7 @@ public class BoardController {
     @GetMapping("/updateNotice")
     public String update(@RequestParam(name = "boardNum", required=false) int boardNum, Model model){
         model.addAttribute("notice", boardService.selectNoticeDetail(boardNum));
-        return "content/common/update_notice";
+        return "content/common/notice_update";
     }
 
     //공지사항 게시글 수정
@@ -183,7 +183,7 @@ public class BoardController {
     @GetMapping("/updateQna")
     public String updateQna(@RequestParam(name = "boardNum", required=false) int boardNum, Model model){
         model.addAttribute("qna", boardService.selectNoticeDetail(boardNum));
-        return "content/common/update_qna";
+        return "content/common/qna_update";
     }
 
     //문의사항 게시글 수정

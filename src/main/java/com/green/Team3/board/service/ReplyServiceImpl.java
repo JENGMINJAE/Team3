@@ -24,5 +24,22 @@ public class ReplyServiceImpl implements ReplyService{
         return sqlSession.selectList("reply.selectReplyList", boardNum);
     }
 
+    //댓글 삭제
+    @Override
+    public void deleteReply(int replyNum) {
+        sqlSession.delete("reply.deleteReply", replyNum);
+    }
+
+    //댓글 수정
+    @Override
+    public void updateReply(ReplyVO replyVO) {
+        sqlSession.update("reply.updateReply", replyVO);
+    }
+
+    @Override
+    public String reSelect(int replyNum) {
+        return sqlSession.selectOne("reply.reSelect",replyNum);
+    }
+
 
 }

@@ -32,6 +32,8 @@ public interface BoardService {
     //게시글 수 조회
     int selectNoticeCnt(SearchVO searchVO);
 
+    //
+
 
 
 }

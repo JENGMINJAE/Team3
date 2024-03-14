@@ -106,13 +106,27 @@
         </if>
     </select>
 
-    <!-- 게시글 상세 - 이전글/다음글 조회 -->
-<!--    <select id="prevNext" resultMap="boardMap" resultType="Integer">-->
-<!--        SELECT *-->
-<!--        FROM (SELECT BOARD_NUM-->
-<!--                    , LEAD(BOARD_NUM) OVER (ORDER BY BOARD_NUM) AS *prevNum*-->
-<!--                    , LEAD(BOARD_NUM) OVER (ORDER BY BOARD_NUM) AS-->
-<!--    </select>-->
+    <!-- 게시글 상세 - 이전글 / 다음글 조회 -->
+    <!-- LAG : 기준 데이터의 이전 행의 값을 반환 -->
+    <!-- LEAD : 기준 데이터의 다음 행의 값을 반환 -->
+    <!-- SELECT 조회할 컬럼명 LAG(대상 컬럼명) OVER (ORDER BY 대상 컬럼명 정렬기준) AS 별칭 FROM 테이블명
+         SELECT 조회할 컬럼명 LEAD(대상 컬럼명) OVER (ORDER BY 대상 컬럼명 정렬기준) AS 별칭 FROM 테이블명 -->
+    <select id="prevNext" resultMap="boardMap" resultType="Integer">
+        SELECT *
+        FROM (SELECT
+                    <!-- 글 번호 -->
+                    BOARD_NUM
+                    <!-- prevNum : 이전글 / nextNum : 다음글 -->
+                    , LAG(BOARD_NUM, 1, 0) OVER(ORDER BY BOARD_NUM ASC) AS prevNum
+                    , LEAD(BOARD_NUM, 1, 0) OVER(ORDER BY BOARD_NUM ASC) AS nextNum
+                    <!-- 글 제목 -->
+                    , BOARD_TITLE
+                    , LAG(BOARD_TITLE, 1, 0) OVER(ORDER BY BOARD_NUM ASC) AS prevTitle
+                    , LEAD(BOARD_TITLE, 1, 0) OVER(ORDER BY BOARD_NUM ASC) AS nextTitle
+            FROM BOARD
+            ORDER BY BOARD_NUM DESC)
+        WHERE BOARD_NUM = #{boardNum}
+    </select>
 
 </mapper>
 
