@@ -17,6 +17,7 @@
         <result column="REG_DATE"       property="regDate"/>
         <result column="MEMBER_ROLL"    property="memberRoll"/>
         <result column="STR_ROLL"       property="strRoll"/>
+        <collection property="operatorVOList"    resultMap="admin.operator"/>
     </resultMap>
 
     <resultMap id="rollType" type="com.green.Team3.member.vo.RollTypeVO">

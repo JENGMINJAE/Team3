@@ -1,5 +1,6 @@
 package com.green.Team3.member.vo;
 
+import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,5 @@ public class MemberVO {
     private String regDate;
     private String strRoll;
     private RollTypeVO rollTypeVO;
+    private List<OperatorVO> operatorVOList;
 }
