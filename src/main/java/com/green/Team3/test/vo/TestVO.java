@@ -1,8 +1,11 @@
 package com.green.Team3.test.vo;
 
+import com.green.Team3.admin.vo.OperatorVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -15,5 +18,7 @@ public class TestVO {
     private int testMaxScore;
     private int classNum;
 
+
+    private List<OperatorVO> studentListVO;
 
 }
