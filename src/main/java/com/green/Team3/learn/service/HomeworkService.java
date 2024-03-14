@@ -10,6 +10,7 @@ public interface HomeworkService {
     void homeworkAdd(HomeworkVO homeworkVO);
     List<HomeworkVO> selectIngHomework(String memberId);
     List<HomeworkVO> selectEndHomework(String memberId);
+    List<HomeworkVO> selectWillHomework(String memberId);
     void deleteHomework(HomeworkVO vo);
     void updateHomework(HomeworkVO vo);
     HomeworkVO selectOneHomework(int hwNum);

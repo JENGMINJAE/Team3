@@ -55,7 +55,7 @@ function homework_crystal(thishc){
                         if(selectName == e.className){
                             str+=`selected`
                         }
-                        str += `> ${e.className}</option>`;
+                        str += `> ${e.clsVO.className}</option>`;
                         
                     });
                 str+=`
