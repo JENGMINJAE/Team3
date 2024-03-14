@@ -13,9 +13,21 @@
             <div class="col"></div>
         </div>
         <div class="row">
-            <div class="col" style="text-align: center; height: 50px; font-size: 40px;">
-                ~~학원
-            </div>
+            <th:block sec:authorize="isAnonymous()">
+                <div class="col-11" style="text-align: center; height: 50px; font-size: 40px;">
+                    ~~학원
+                </div>
+                <div class="col-1">&nbsp;</div>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()"> 
+                <div class="col-11" style="text-align: center; height: 50px; font-size: 40px;">
+                    ~~학원
+                </div>
+                <div class="col-1">
+                    [[${#authentication.name}]]
+                    <a href="/member/logout">logout</a>
+                </div>               
+            </th:block>
         </div>
         <div class="row" style="height: 150px;">
             <div class="col"></div>
@@ -34,22 +46,33 @@
                 </div>
             </div>
             <div class="col-6">
-                <table>
-                    <form action="/member/login" method="post">
-                        <tr>
-                            <td>아이디</td>
-                            <td><input type="text" name="memberId"></td>
-                        </tr>
-                        <tr>
-                            <td>비밀번호</td>
-                            <td><input type="password" name="memberPw"></td>
-                        </tr>
-                        <tr>
-                            <td><a href="/member/joinForm">회원가입</a></td>
-                            <td><input type="submit" value="로그인"></td>
-                        </tr>
-                    </form>
-                </table>
+                <th:block sec:authorize="isAnonymous()">
+                                            <table>
+                                                <form action="/member/login" method="post">
+                                                    <tr>
+                                                        <td>아이디</td>
+                                                        <td><input type="text" name="memberId"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>비밀번호</td>
+                                                        <td><input type="password" name="memberPw"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><a href="/member/joinForm">회원가입</a></td>
+                                                        <td><input type="submit" value="로그인"></td>
+                                                    </tr>
+                                                </form>
+                                            </table>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_1')">
+                    <a href="/member/stuLogin">학생 전용</a>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_2')">
+                    <a href="/member/teaLogin">매니저 전용</a>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_3')">
+                    <a href="/admin/notice">관리자 전용</a>
+                </th:block>
             </div>
         </div>
     </div>

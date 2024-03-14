@@ -2,15 +2,15 @@
 <html lang="en">
     <th:block th:fragment="headerFragment">
         <div class="row" style="height: 100px;">
-            <div class="col-3">
+            <div class="col-3" onclick="location.href='/member/logoClick'">
                 학원 로고
             </div>
-            <div class="col-6" style="font-size: 40px; font-weight: bolder;">
+            <div class="col-6" style="font-size: 40px; font-weight: bolder;" onclick="location.href='/member/logoClick'">
                 ~~학원
             </div>
             <div class="col-3" style="text-align: right;">
                 회원이름
-                <input type="button" value="로그아웃">
+                <input type="button" value="로그아웃" onclick="location.href='/member/logout'">
             </div>
         </div>
 
