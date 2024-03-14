@@ -5,6 +5,7 @@ import com.green.Team3.member.vo.MemberVO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,7 @@ public class MemberController {
 
     //로그인
     @PostMapping("/login")
-    public String login(MemberVO memberVO, HttpSession session){
+    public String login(MemberVO memberVO, HttpSession session, Model model){
         MemberVO loginInfo = memberService.login(memberVO);
         System.out.println(loginInfo.getMemberRoll());
         //로그인 성공
@@ -49,15 +50,17 @@ public class MemberController {
             session.setAttribute("loginInfo", loginInfo);
             //memberRoll == 1 (학생)
             if (loginInfo.getMemberRoll() == 1){
+                model.addAttribute("memberRoll",loginInfo.getMemberRoll());
                 return "content/student/stu_list";
             }
             //memberRoll == 2 (강사)
             else if (loginInfo.getMemberRoll() == 2) {
-
+                model.addAttribute("memberRoll",loginInfo.getMemberRoll());
                 return "content/teacher/tea_list";
             }
             //memberRoll == 3 (관리자)
             else {
+                model.addAttribute("memberRoll",loginInfo.getMemberRoll());
                 return "content/admin/admin_list";
             }
         }
@@ -73,6 +76,9 @@ public class MemberController {
 //        return "content/member/login_result";
 
     }
-
+    @GetMapping("/logoClick")
+    public String logoClick(){
+        return "";
+    }
 
 }

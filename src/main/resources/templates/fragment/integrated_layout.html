@@ -3,7 +3,7 @@
                 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<title>Shop</title>
+<title>asdasd</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <link rel="stylesheet" href="/css/common.css">
 </head>
@@ -13,11 +13,25 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <th:bolck th:replace="~{fragment/user_header::headerFragment}"></th:bolck>
+                <th:bolck th:replace="~{fragment/integrated_header::headerFragment}"></th:bolck>
             </div>
         </div>
         <div class="row">
-            <div class="col-2"><th:bolck th:replace="~{fragment/student_side_menu::StudentSideMenuFragment}"></th:bolck></div>
+            <th:block th:if="${memberRoll}==1">
+                <div class="col-2">
+                    <th:bolck th:replace="~{fragment/student_side_menu::StudentSideMenuFragment}"></th:bolck>
+                </div>
+            </th:block>
+            <th:block th:if="${memberRoll}==2">
+                <div class="col-2">
+                    <th:bolck th:replace="~{fragment/teacher_side_menu::TeacherSideMenuFragment}"></th:bolck>
+                </div>
+            </th:block>
+            <th:block th:if="${memberRoll}==3">
+                <div class="col-2">
+                    <th:bolck th:replace="~{fragment/admin_side::adminSideFragment}"></th:bolck>
+                </div>
+            </th:block>
             <div class="col-10">
                 <th:block layout:fragment="contentFragment"></th:block>
             </div>
