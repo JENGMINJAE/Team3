@@ -29,7 +29,7 @@ public class SecurityConfig {
                             new AntPathRequestMatcher("/member/joinForm"),
                             new AntPathRequestMatcher("/member/join")
                             ).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/admin")).hasRole("1")
+                                .requestMatchers(new AntPathRequestMatcher("/admin")).hasRole("3")
                                 .requestMatchers(new AntPathRequestMatcher("/teacher")).hasRole("2")
                                 .requestMatchers(new AntPathRequestMatcher("/board")).hasAnyRole("1","2","3")
                                 .requestMatchers(new AntPathRequestMatcher("/reply")).hasAnyRole("1","2","3")
