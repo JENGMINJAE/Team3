@@ -5,6 +5,8 @@ import com.green.Team3.learn.service.ConsultServiceImpl;
 import com.green.Team3.learn.service.HomeworkServiceImpl;
 import com.green.Team3.learn.vo.ConsultVO;
 import jakarta.annotation.Resource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +22,9 @@ public class ConsultController {
     private HomeworkServiceImpl homeworkService;
 
     @GetMapping("/addConsultForm")
-    public String addConsultForm(Model model){
-        String memberId = "a";
-        model.addAttribute("classInfo",homeworkService.selectClassByThisTeacher(memberId));
+    public String addConsultForm(Model model, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("classInfo",homeworkService.selectClassByThisTeacher(user.getUsername()));
         return "/content/teacher/add_consult";
     }
 
