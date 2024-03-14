@@ -11,7 +11,7 @@
         <result column="PAY_YEAR"               property="payYear" />
         <result column="PAY_MONTH"              property="payMonth" />
         <result column="CLASS_NUM"              property="classNum" />
-        <collection property="operatorVOList"    resultMap="admin.operator"/>
+
     </resultMap>
 
     <!-- 회원 권한 수정 -->
