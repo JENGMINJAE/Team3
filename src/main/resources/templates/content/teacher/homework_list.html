@@ -64,6 +64,56 @@
 
             <table class="table" style="text-align: center; vertical-align: middle;">
                 
+                <colgroup>
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td colspan="6">예정된 과제</td>
+                    </tr>
+                    <tr>
+                        <td>No</td>
+                        <td>과목명</td>
+                        <td>과제명</td>
+                        <td>시작 일</td>
+                        <td>종료 일</td>
+                        <td>수정/삭제</td>
+                    </tr>
+                </thead>
+                <th:block th:each="WillHomework, state: ${WillHomeworkList}">
+                    <tr>
+                        <td>
+                            [[${WillHomeworkList.size - state.index}]]
+                        </td>
+                        <td>
+                            [[${WillHomework.clsVO.className}]]
+                        </td>
+                        <td>
+                            [[${WillHomework.hwName}]]
+                        </td>
+                        <td>
+                            [[${WillHomework.hwSdate}]]
+                        </td>
+                        <td>
+                            [[${WillHomework.hwEdate}]]
+                        </td>
+                        <td>
+                            <input type="hidden" th:value="${WillHomework.hwNum}">
+                            <input class="btn btn-outline-secondary" type="button" value="수정" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="homework_crystal(this)">
+                            <input class="btn btn-outline-danger" type="button" value="삭제" onclick="homework_delete(this)">
+                        </td>
+                    </tr>
+                </th:block>
+            
+            </table>
+
+            <table class="table" style="text-align: center; vertical-align: middle;">
+                
                     <colgroup>
                         <col width="10%">
                         <col width="20%">

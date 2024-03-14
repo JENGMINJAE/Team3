@@ -1,5 +1,6 @@
 package com.green.Team3.learn.controller;
 
+import com.green.Team3.learn.service.HomeworkService;
 import com.green.Team3.learn.service.HomeworkServiceImpl;
 import com.green.Team3.learn.vo.HomeworkVO;
 import jakarta.annotation.Resource;
@@ -32,6 +33,7 @@ public class HomeworkController {
         model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
         model.addAttribute("IngHomeworkList",homeworkService.selectIngHomework(user.getUsername()));
         model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(user.getUsername()));
+        model.addAttribute("WillHomeworkList",homeworkService.selectWillHomework(user.getUsername()));
         return "/content/teacher/homework_list";
     }
     @PostMapping("/addHomeworkResult")
@@ -39,8 +41,9 @@ public class HomeworkController {
         User user = (User) authentication.getPrincipal();
         homeworkService.homeworkAdd(homeworkVO);
         model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
-        model.addAttribute("homeworkList",homeworkService.selectIngHomework(user.getUsername()));
+        model.addAttribute("IngHomeworkList",homeworkService.selectIngHomework(user.getUsername()));
         model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(user.getUsername()));
+        model.addAttribute("WillHomeworkList",homeworkService.selectWillHomework(user.getUsername()));
         return "/content/teacher/homework_list";
     }
 

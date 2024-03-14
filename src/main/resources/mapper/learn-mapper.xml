@@ -63,8 +63,27 @@
         ON T.TEACHER_NUM = CI.TEACHER_NUM
         WHERE MEMBER_ID = #{memberId}
         AND HW_EDATE > NOW()
+        AND NOW() > HW_SDATE
         ORDER BY HW_EDATE ASC
     </select>
+
+    <select id="selectWillHomework" resultMap="homework">
+        SELECT  HW_NUM,
+        HW_NAME,
+        HW_SDATE,
+        HW_EDATE,
+        H.CLASS_NUM,
+        CLASS_NAME
+        FROM HOMEWORK H
+        INNER JOIN CLASS_INFO CI
+        ON H.CLASS_NUM = CI.CLASS_NUM
+        INNER JOIN TEACHER T
+        ON T.TEACHER_NUM = CI.TEACHER_NUM
+        WHERE MEMBER_ID = #{memberId}
+        AND HW_SDATE > NOW()
+        ORDER BY HW_EDATE ASC
+    </select>
+
     <select id="selectEndHomework" resultMap="homework">
         SELECT  HW_NUM,
                 HW_NAME,
@@ -132,13 +151,13 @@
         WHERE HW_NUM = #{hwNum}
     </delete>
 
-    <select id="selectClassNumAndStuNum" resultMap="operator">
+    <select id="selectClassNumAndStuNum" resultMap="member.memberMap">
         SELECT
         M.MEMBER_ID,
         MEMBER_NAME,
         CLASS_NUM
-        FROM OPERATOR O
-        INNER JOIN MEMBER M
+        FROM MEMBER M
+        INNER JOIN OPERATOR O
         ON O.MEMBER_ID = M.MEMBER_ID
         WHERE CLASS_NUM = #{class_num};
     </select>
