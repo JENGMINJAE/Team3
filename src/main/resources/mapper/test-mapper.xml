@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
-<mapper namespace="test">
+<mapper namespace="testMapper">
 
 
 
@@ -12,7 +12,7 @@
         <result column="TEST_DATE" property="testDate"/>
         <result column="TEST_MAXSCORE" property="testMaxScore"/>
         <result column="CLASS_NUM" property="classNum"/>
-        <collection property="studentListVO" resultMap="operator"/>
+        <collection property="studentListVO" resultMap="admin.operator"/>
     </resultMap>
 
     <resultMap id="scoreResult" type="com.green.Team3.test.vo.TestScoreVO">
@@ -21,7 +21,8 @@
     <result column="TEST_NUM" property="testNum"/>
     <result column="MEMBER_ID" property="memberId"/>
     <result column="RANKING" property="ranking"/>
-    <association property="memberOneVO" resultMap="memberMap"/>
+    <association property="memberOneVO" resultMap="member.memberMap"/>
+    <association property="testOneVo" resultMap="testResult"/>
     </resultMap>
 
 
@@ -66,72 +67,66 @@
         )VALUES(
         #{testName}
         , #{testDate}
-        , #{testPerfect}
+        , #{testMaxScore}
         , #{classNum}
         )
     </insert>
 
 <!-- /////////////////////////////////////////////////-->
     <!--  학생이름 조회  -->
-    <select id="selectStuName" resultMap="stuResult">
+    <select id="selectStuName" resultMap="member.memberMap">
         SELECT
-        OPER_NUM
-        , OP.MEMBER_ID
-        , ACA.MEMBER_NAME
-        , OP.CLASS_NUM
-        , CLASS_NAME
-        FROM operater OP
-        INNER JOIN ACA_MEMBER ACA
-        ON OP.MEMBER_ID = ACA.MEMBER_ID
-        INNER JOIN class_information CI
-        ON CI.CLASS_NUM = OP.CLASS_NUM
-        WHERE OP.CLASS_NUM = #{classNum}
-        ORDER BY ACA.MEMBER_NAME ASC
+            MEMBER_ID
+            , MEMBER_NAME
+            , OP.CLASS_NUM
+            , CLASS_NAME
+        FROM member MEM
+        INNER JOIN operator OP
+        ON MEM.MEMBER_ID=OP.MEMBER_ID
+        WHERE OP.CLASS_NUM= #{classNum}
+        ORDER BY ACA.MEMBER_NAME ASC;
     </select>
 
     <!--  시험이름 클릭시 학생 시험성적 조회  -->
     <select id="selectTestScore" resultMap="scoreResult">
         SELECT
-        TS.TEST_NUM
-        ,OP.OPER_NUM
-        ,TEST_NAME
-        , SCORE
-        , OP.MEMBER_ID
-        , MEMBER_NAME
-        , TEST_PERFECT
-        , SCORE_NUM
-        , DENSE_RANK()
-        OVER (ORDER BY SCORE DESC) AS RANKING
+            TS.TEST_NUM
+            ,TEST_NAME
+            , SCORE
+            , TS.MEMBER_ID
+            , MEMBER_NAME
+            , TEST_PERFECT
+            , SCORE_NUM
+            , CLASS_NUM
+            , DENSE_RANK()
+            OVER (ORDER BY SCORE DESC) AS RANKING
         FROM test_score TS
         INNER JOIN test TT
         ON TS.TEST_NUM= TT.TEST_NUM
-        INNER JOIN OPERATER OP
-        ON OP.OPER_NUM = TS.OPER_NUM
-        INNER JOIN aca_member ACA
-        ON ACA.MEMBER_ID=OP.MEMBER_ID
+        INNER JOIN member MEM
+        ON MEM.MEMBER_ID=TS.MEMBER_ID
         WHERE TS.TEST_NUM= #{testNum}
+
     </select>
 
     <!--  성적 등록 버튼 틀릭 시 저장 -->
     <insert id="insertStuScore">
         INSERT INTO TEST_SCORE (
-        SCORE
-        , TEST_NUM
-        , OPER_NUM
-        )SELECT
-        #{score}
-        ,#{testNum}
-        ,#{operNum}
+            SCORE
+            , TEST_NUM
+            , MEMBER_ID
+            )SELECT
+            #{score}
+            , #{testNum}
+            , #{memberId}
         FROM DUAL
         WHERE NOT EXISTS(
         SELECT
         TEST_NUM
-        ,OPER_NUM
+        , MEMBER_ID
         FROM test_score
-        WHERE TEST_NUM=#{testNum} AND OPER_NUM=#{operNum}
+        WHERE TEST_NUM=#{testNum} AND MEMBER_ID=#{memberId}
         )
-
-
     </insert>
 
 
@@ -139,7 +134,7 @@
     <!--classNum으로 받는  반 학생들 성적조회  -->
     <select id="totalStuScoreSelect" resultMap="scoreResult">
         SELECT
-        OPER_NUM
+        MEMBER_ID
         , TT.TEST_NUM
         , SCORE
         , TT.CLASS_NUM
@@ -161,44 +156,44 @@
         ORDER BY TEST_NUM ASC
     </select>
 
-    <!-- 학생명 조회  -->
-    <select id="totalStuSelect" resultMap="stuResult">
-        SELECT
-        OPER_NUM
-        , OP.MEMBER_ID
-        , MEMBER_NAME
-        , OP.CLASS_NUM
-        FROM OPERATER OP
-        INNER JOIN aca_member ACA
-        ON OP.MEMBER_ID= ACA.MEMBER_ID
-        WHERE OP.CLASS_NUM = #{classNum}
-        ORDER BY MEMBER_NAME ASC;
-    </select>
+    <!-- 학생명 조회  selectStuName 쓰세요 -->
+<!--    <select id="totalStuSelect" resultMap="stuResult">-->
+<!--        SELECT-->
+<!--        OPER_NUM-->
+<!--        , OP.MEMBER_ID-->
+<!--        , MEMBER_NAME-->
+<!--        , OP.CLASS_NUM-->
+<!--        FROM OPERATER OP-->
+<!--        INNER JOIN aca_member ACA-->
+<!--        ON OP.MEMBER_ID= ACA.MEMBER_ID-->
+<!--        WHERE OP.CLASS_NUM = #{classNum}-->
+<!--        ORDER BY MEMBER_NAME ASC;-->
+<!--    </select>-->
 
     <!--  성적 등록 란에서 학생명, 시험지명 조회만   -->
     <select id="testNumInfo" resultMap="testResult">
         SELECT
-        TT.TEST_NUM
-        , TEST_NAME
-        , OP.MEMBER_ID
-        , ACA.MEMBER_NAME
-        , TT.CLASS_NUM
-        , OP.OPER_NUM
+            TT.TEST_NUM
+            , TEST_NAME
+            , OP.MEMBER_ID
+            , ACA.MEMBER_NAME
+            , TT.CLASS_NUM
+            , OP.OPER_NUM
         FROM test TT
         INNER JOIN OPERATER OP
         ON TT.CLASS_NUM= OP.CLASS_NUM
-        INNER JOIN aca_member ACA
-        ON ACA.MEMBER_ID=OP.MEMBER_ID
+        INNER JOIN member MEM
+        ON MEM.MEMBER_ID=OP.MEMBER_ID
         WHERE TT.TEST_NUM= #{testNum}
-        ORDER BY ACA.MEMBER_NAME ASC;
+        ORDER BY MEM.MEMBER_NAME ASC
     </select>
 
     <!--   클래스넘버 쓸려고..성적입력페이지에서     -->
-    <select id="onlyClassNum" resultMap="classInfoResult">
+    <select id="onlyClassNum" resultMap="clsMapper.cls">
         SELECT
         CLASS_NUM
         , CLASS_NAME
-        FROM class_information
+        FROM CLASS_INFO
         WHERE CLASS_NUM= #{classNum}
     </select>
 
@@ -219,11 +214,11 @@
     <!-- 테스트 검색란  -->
     <select id="searchTestList" resultMap="testResult">
         SELECT
-        TEST_NUM
-        , TEST_NAME
-        , CLASS_NUM
-        , TEST_DATE
-        , TEST_PERFECT
+            TEST_NUM
+            , TEST_NAME
+            , CLASS_NUM
+            , TEST_DATE
+            , TEST_MAXSCORE
         FROM test
         WHERE 1=1
         AND CLASS_NUM= #{classNum}

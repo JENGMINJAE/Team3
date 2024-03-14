@@ -16,6 +16,6 @@ public class TestScoreVO {
     private int testNum;
 
     private MemberVO memberOneVO;
-
+    private TestVO testOneVo;
 
 }

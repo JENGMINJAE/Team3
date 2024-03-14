@@ -2,6 +2,7 @@ package com.green.Team3.test.service;
 
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
+import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.test.vo.SearchTestVO;
 import com.green.Team3.test.vo.TestScoreVO;
 import com.green.Team3.test.vo.TestVO;
@@ -10,25 +11,47 @@ import java.util.List;
 
 public interface TestService {
 
-    // 강사 강의 목록조회
+    // 강사 강의 목록조회 ////
     List<ClsVO> selectTeacherClassList();
 
     // 반별 학생 평가명 점수 조회
     List<TestScoreVO> selectTestList(int classNum);
 
-    // 평가명 추가
+    // 평가명 추가///
     void insertTest(TestVO testVO);
 
-    // 평가명 목록 조회
+    // 평가명 목록 조회////
     List<TestVO> selectTest(int classNum);
 
-    // 성적입력시 학생이름 조회
-    List<OperatorVO> selectStuName(int classNum);
 
-    // class 명만 조회
-    List<ClsVO> onlyClassNum(int classNum);
+    // 시험명 클릭시 학생별 성적 조회////
+    List<TestScoreVO> selectTestScore(int testNum);
 
-    // 테스트 검색란 에서 조회
+    // 테스트 검색란 에서 조회///
     List<TestVO> searchTestList(SearchTestVO searchTestVO);
 
+
+
+
+    // 성적입력시 학생이름 조회 ////
+    List<MemberVO> selectStuName(int classNum);
+
+    // 점수 등록버튼 클릭시 저장////
+    void insertStuScore(TestScoreVO testScoreVO);
+
+    // class 명만 조회//
+    List<ClsVO> onlyClassNum(int classNum);
+
+    // 시험테스트 번호로 테스트명 조회///
+    List<TestVO> testNumInfo(int testNum);
+
+    // 수정 클릭 시 점수 업데이트//
+    void updateScore(TestScoreVO testScoreVO);
+
+
+
+
+    // 시험성적 통계 성적만 조회/////
+    List<TestVO> totalTestSelect(int classNum);
+    List<TestScoreVO> totalStuScoreSelect(int classNum);
 }
