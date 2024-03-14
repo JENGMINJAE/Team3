@@ -1,5 +1,6 @@
 package com.green.Team3.cls.vo;
 
+import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.member.vo.MemberVO;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +21,5 @@ public class ClsVO {
     private String classEnter;
     private int classStatus;
     private int teacherNum;
-    private List<MemberVO> memberVOList;
+    private List<OperatorVO> operatorVOList;
 }

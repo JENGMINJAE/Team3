@@ -4,14 +4,14 @@
 <!-- 해당 파일에 모든 쿼리문을 작성 -->
 <mapper namespace="admin">
     <resultMap id="operator" type="com.green.Team3.admin.vo.OperatorVO">
-        <id     column="OPER_NUM"           property="operNum"/>
-        <result column="OPER_PAY"       property="operPay" />
-        <result column="IS_PAY"         property="isPay" />
-        <result column="MEMBER_ID"    property="memberId" />
-        <result column="PAY_YEAR"       property="payYear" />
-        <result column="PAY_MONTH"      property="payMonth" />
-        <result column="CLASS_NUM"      property="classNum" />
-
+        <id     column="OPER_NUM"               property="operNum"/>
+        <result column="OPER_PAY"               property="operPay" />
+        <result column="IS_PAY"                 property="isPay" />
+        <result column="MEMBER_ID"              property="memberId" />
+        <result column="PAY_YEAR"               property="payYear" />
+        <result column="PAY_MONTH"              property="payMonth" />
+        <result column="CLASS_NUM"              property="classNum" />
+        <collection property="operatorVOList"    resultMap="admin.operator"/>
     </resultMap>
 
     <!-- 회원 권한 수정 -->
