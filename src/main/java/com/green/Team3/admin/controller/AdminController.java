@@ -73,7 +73,6 @@ public class AdminController {
         adminService.updateRoll(memberVO);
          return memberVO;
     }
-//    ----------------------- 완료 ---------------------------
     // 해당 회원의 수강 목록 페이지 이동 (모달)
     @ResponseBody
     @PostMapping("/showClass")
@@ -81,6 +80,7 @@ public class AdminController {
         List<ClsVO> voList = clsService.selectClass(memberVO);
         return voList;
     }
+//    ----------------------- 완료 ---------------------------
 
     // 학급 생성 페이지 이동
     @GetMapping("/makeClassForm")
