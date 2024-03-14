@@ -15,5 +15,5 @@ public class TeacherVO {
     private int teacherWork;
     private String memberId;
     private MemberVO memberVO;
-    private List<ClsVO> clsVOList;
+    private String teacherName;
 }

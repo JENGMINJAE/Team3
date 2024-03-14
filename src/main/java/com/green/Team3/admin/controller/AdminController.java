@@ -78,9 +78,8 @@ public class AdminController {
     @ResponseBody
     @PostMapping("/showClass")
     public List<ClsVO> showClass(@RequestBody MemberVO memberVO){
-        List<ClsVO> vo = clsService.selectClass(memberVO);
-        System.out.println(vo);
-        return vo;
+        List<ClsVO> voList = clsService.selectClass(memberVO);
+        return voList;
     }
 
     // 학급 생성 페이지 이동

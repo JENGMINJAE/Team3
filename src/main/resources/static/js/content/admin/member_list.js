@@ -229,7 +229,6 @@ function changeRoll(selectedTag, memberId){
 
 
 
-
 // 수강목록 조회
 function showClasses(memberId){
     const classes_modal = new bootstrap.Modal('#classes-modal');
@@ -248,8 +247,8 @@ function showClasses(memberId){
         })
     })
     .then((response) => {
-        return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
-        // return response.json(); //나머지 경우에 사용
+        // return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+        return response.json(); //나머지 경우에 사용
     })
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
@@ -267,13 +266,17 @@ function showClasses(memberId){
                         <td class="table-active">No</td>
                         <td class="table-active">강의명</td>
                         <td class="table-active">담당 강사</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>자바일걸</td>                    
-                        <td>김강사</td>
-                    </tr>
-                `;
+                        <td class="table-active">강의 기간</td>
+                    </tr>`;
+
+        data.forEach(function (e, idx) {
+            str += `<tr>
+                        <td>${idx + 1}</td>
+                        <td>${e.className}</td>                    
+                        <td>${e.teacherVO.teacherName}</td>
+                        <td>${e.classSdate} ~ ${e.classEdate}</td>
+                    </tr>`;
+        });
 
 
         modal_tbody.insertAdjacentHTML('afterbegin', str);
@@ -293,8 +296,3 @@ function showClasses(memberId){
     
 
 }
-
-// 학급정보 조회
-// function showClassInfo(){
-
-// }

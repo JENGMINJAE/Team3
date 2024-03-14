@@ -1,5 +1,6 @@
 package com.green.Team3.admin.vo;
 
+import com.green.Team3.member.vo.TeacherVO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

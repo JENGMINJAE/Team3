@@ -7,8 +7,8 @@
         <id column="TEACHER_NUM"        property="teacherNum"/>
         <result column="TEACHER_WORK"   property="teacherWork"/>
         <result column="MEMBER_ID"      property="memberId"/>
+        <result column="TEACHER_NAME"   property="teacherName"/>
         <association property="memberVO" resultMap="member.memberMap"/>
-        <collection property="clsVOList"    resultMap="clsMapper.cls"/>
     </resultMap>
 
     <!--  선생님 전체 목록 조회  -->
