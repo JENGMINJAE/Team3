@@ -20,8 +20,8 @@ public class MemberServiceImpl implements MemberService{
 
     //로그인
     @Override
-    public MemberVO login(MemberVO memberVO) {
-        return sqlSession.selectOne("member.login", memberVO);
+    public MemberVO login(String memberId) {
+        return sqlSession.selectOne("member.login", memberId);
     }
 
     // 전체 회원 목록 조회

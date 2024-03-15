@@ -9,7 +9,7 @@ public interface MemberService {
     void join(MemberVO memberVO);
 
     //로그인
-    MemberVO login(MemberVO memberVO);
+    MemberVO login(String memberId);
 
     //아이디 중복 확인
 //    int idCheck(MemberVO memberVO);

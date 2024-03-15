@@ -1,8 +1,11 @@
 package com.green.Team3.learn.controller;
 
+import com.green.Team3.learn.service.HomeworkService;
 import com.green.Team3.learn.service.HomeworkServiceImpl;
 import com.green.Team3.learn.vo.HomeworkVO;
 import jakarta.annotation.Resource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +22,28 @@ public class HomeworkController {
     private HomeworkServiceImpl homeworkService;
 
     @GetMapping("/addHomework")
-    private String addHomework(Model model){
-        String memberId = "a";
-        model.addAttribute("classList",homeworkService.selectClassByThisTeacher(memberId));
+    private String addHomework(Model model, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
         return "/content/teacher/add_homework";
     }
     @GetMapping("/homeworkList")
-    private String homeworkList(Model model){
-        String memberId = "a";
-        model.addAttribute("classList",homeworkService.selectClassByThisTeacher(memberId));
-        model.addAttribute("IngHomeworkList",homeworkService.selectIngHomework(memberId));
-        model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(memberId));
+    private String homeworkList(Model model, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
+        model.addAttribute("IngHomeworkList",homeworkService.selectIngHomework(user.getUsername()));
+        model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(user.getUsername()));
+        model.addAttribute("WillHomeworkList",homeworkService.selectWillHomework(user.getUsername()));
         return "/content/teacher/homework_list";
     }
     @PostMapping("/addHomeworkResult")
-    private String addHomeworkResult(HomeworkVO homeworkVO,Model model){
-        String memberId = "a";
+    private String addHomeworkResult(HomeworkVO homeworkVO,Model model,Authentication authentication){
+        User user = (User) authentication.getPrincipal();
         homeworkService.homeworkAdd(homeworkVO);
-        model.addAttribute("classList",homeworkService.selectClassByThisTeacher(memberId));
-        model.addAttribute("homeworkList",homeworkService.selectIngHomework(memberId));
-        model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(memberId));
+        model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
+        model.addAttribute("IngHomeworkList",homeworkService.selectIngHomework(user.getUsername()));
+        model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(user.getUsername()));
+        model.addAttribute("WillHomeworkList",homeworkService.selectWillHomework(user.getUsername()));
         return "/content/teacher/homework_list";
     }
 
