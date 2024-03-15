@@ -72,34 +72,33 @@
         )
     </insert>
 
-<!-- /////////////////////////////////////////////////-->
-    <!--  학생이름 조회  -->
+    <!-- /////////////////////////////////////////////////-->
+    <!-- CLASS_NUM 으로 받는  학생이름 조회  -->
     <select id="selectStuName" resultMap="member.memberMap">
         SELECT
-            MEMBER_ID
-            , MEMBER_NAME
-            , OP.CLASS_NUM
-            , CLASS_NAME
+        MEM.MEMBER_ID
+        , MEMBER_NAME
+        , OP.CLASS_NUM
         FROM member MEM
         INNER JOIN operator OP
         ON MEM.MEMBER_ID=OP.MEMBER_ID
         WHERE OP.CLASS_NUM= #{classNum}
-        ORDER BY ACA.MEMBER_NAME ASC;
+        ORDER BY MEM.MEMBER_NAME ASC
     </select>
 
-    <!--  시험이름 클릭시 학생 시험성적 조회  -->
+    <!--  테스트 목록에서 조회. 등록버튼 클릭시 학생 성적 조회  -->
     <select id="selectTestScore" resultMap="scoreResult">
         SELECT
-            TS.TEST_NUM
-            ,TEST_NAME
-            , SCORE
-            , TS.MEMBER_ID
-            , MEMBER_NAME
-            , TEST_PERFECT
-            , SCORE_NUM
-            , CLASS_NUM
-            , DENSE_RANK()
-            OVER (ORDER BY SCORE DESC) AS RANKING
+        TS.TEST_NUM
+        ,TEST_NAME
+        , SCORE
+        , TS.MEMBER_ID
+        , MEMBER_NAME
+        , TEST_MAXSCORE
+        , SCORE_NUM
+        , CLASS_NUM
+        , DENSE_RANK()
+        OVER (ORDER BY SCORE DESC) AS RANKING
         FROM test_score TS
         INNER JOIN test TT
         ON TS.TEST_NUM= TT.TEST_NUM
@@ -112,13 +111,13 @@
     <!--  성적 등록 버튼 틀릭 시 저장 -->
     <insert id="insertStuScore">
         INSERT INTO TEST_SCORE (
-            SCORE
-            , TEST_NUM
-            , MEMBER_ID
-            )SELECT
-            #{score}
-            , #{testNum}
-            , #{memberId}
+        SCORE
+        , TEST_NUM
+        , MEMBER_ID
+        )SELECT
+        #{score}
+        , #{testNum}
+        , #{memberId}
         FROM DUAL
         WHERE NOT EXISTS(
         SELECT
@@ -156,36 +155,33 @@
         ORDER BY TEST_NUM ASC
     </select>
 
-    <!-- 학생명 조회  selectStuName 쓰세요 -->
-<!--    <select id="totalStuSelect" resultMap="stuResult">-->
-<!--        SELECT-->
-<!--        OPER_NUM-->
-<!--        , OP.MEMBER_ID-->
-<!--        , MEMBER_NAME-->
-<!--        , OP.CLASS_NUM-->
-<!--        FROM OPERATER OP-->
-<!--        INNER JOIN aca_member ACA-->
-<!--        ON OP.MEMBER_ID= ACA.MEMBER_ID-->
-<!--        WHERE OP.CLASS_NUM = #{classNum}-->
-<!--        ORDER BY MEMBER_NAME ASC;-->
-<!--    </select>-->
+
 
     <!--  성적 등록 란에서 학생명, 시험지명 조회만   -->
-    <select id="testNumInfo" resultMap="testResult">
+    <select id="memNumInfo" resultMap="member.memberMap">
         SELECT
-            TT.TEST_NUM
-            , TEST_NAME
-            , OP.MEMBER_ID
-            , ACA.MEMBER_NAME
-            , TT.CLASS_NUM
-            , OP.OPER_NUM
-        FROM test TT
-        INNER JOIN OPERATER OP
-        ON TT.CLASS_NUM= OP.CLASS_NUM
-        INNER JOIN member MEM
-        ON MEM.MEMBER_ID=OP.MEMBER_ID
+        MEM.MEMBER_ID
+        , MEMBER_NAME
+        , TT.CLASS_NUM
+        , TT.TEST_NUM
+        , TEST_NAME
+        FROM member MEM
+        INNER JOIN operator OP
+        ON MEM.MEMBER_ID= OP.MEMBER_ID
+        INNER JOIN test TT
+        ON OP.CLASS_NUM= TT.CLASS_NUM
         WHERE TT.TEST_NUM= #{testNum}
         ORDER BY MEM.MEMBER_NAME ASC
+    </select>
+
+    <!--   테스트넘버 쓸려고..성적입력페이지에서     -->
+    <select id="testNumInfo" resultMap="testResult">
+        SELECT
+        TEST_NUM
+        ,TEST_NAME
+        , CLASS_NUM
+        FROM test
+        WHERE test_NUM =#{testNum}
     </select>
 
     <!--   클래스넘버 쓸려고..성적입력페이지에서     -->
@@ -214,11 +210,11 @@
     <!-- 테스트 검색란  -->
     <select id="searchTestList" resultMap="testResult">
         SELECT
-            TEST_NUM
-            , TEST_NAME
-            , CLASS_NUM
-            , TEST_DATE
-            , TEST_MAXSCORE
+        TEST_NUM
+        , TEST_NAME
+        , CLASS_NUM
+        , TEST_DATE
+        , TEST_MAXSCORE
         FROM test
         WHERE 1=1
         AND CLASS_NUM= #{classNum}

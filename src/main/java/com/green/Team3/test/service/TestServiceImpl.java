@@ -76,10 +76,16 @@ public class TestServiceImpl implements TestService{
         return sqlSession.selectList("testMapper.selectTeacherClassList", classNum);
     }
 
-    // 시험테스트 번호로 테스트명 하나 조회
+    // 시험테스트 번호로 반학생 조회
     @Override
-    public List<TestVO> testNumInfo(int testNum) {
-        return  sqlSession.selectList("testMapper.testNumInfo", testNum);
+    public List<MemberVO> memNumInfo(int testNum) {
+        return  sqlSession.selectList("testMapper.memNumInfo", testNum);
+    }
+
+    // 시험테스트 번호로 테스트명 조회
+    @Override
+    public TestVO testNumInfo(int testNum) {
+        return sqlSession.selectOne("testMapper.testNumInfo", testNum);
     }
 
     // 수정 클릭 시 점수 업데이트

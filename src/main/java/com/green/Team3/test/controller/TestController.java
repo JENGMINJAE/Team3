@@ -28,7 +28,7 @@ public class TestController {
     @GetMapping("/testList")
     public String testList(Model model){
 
-    // ------------- 강사가 수업하는 수강명 목록 조회 ---------------
+        // ------------- 강사가 수업하는 수강명 목록 조회 ---------------
         List<ClsVO> classList = testService.selectTeacherClassList();
         System.out.println(classList);
         model.addAttribute("classList", classList);
@@ -46,7 +46,7 @@ public class TestController {
                                SearchTestVO searchTestvo) {
 
 
-    // ----- 반 학생 성적정보 페이지에서 선택할 평가명 조회 ----
+        // ----- teacher_test_List html에서 시험명 목록조회 ----
 
         //반 번호 넘겨서 평가명 추가 버튼 클릭 가능
         List<ClsVO> onlyClassNum = testService.onlyClassNum(classNum);
@@ -106,16 +106,23 @@ public class TestController {
 
     /// ------------------------- 점수 입력 새페이지 이동하기 -------------------
     @GetMapping("/goInputScore")
-    public String goInputScore(@RequestParam(name = "testNum") int testNum, Model model, TestScoreVO testScoreVO) {
+    public String goInputScore(@RequestParam(name = "testNum") int testNum, Model model) {
 
-        List<TestVO> testNumInfo = testService.testNumInfo(testNum);
+        // 넘버로 받는 반학생명 , 테스트명 조회
+        List<MemberVO> memNumInfo = testService.memNumInfo(testNum);
+        model.addAttribute("memNumInfo",memNumInfo);
+        System.out.println(memNumInfo);
+
+
+        // test 넘버를 비동기에 넘기기 위해서
+        TestVO testNumInfo = testService.testNumInfo(testNum);
         model.addAttribute("testNumInfo",testNumInfo);
 
-
+        // 넘버로 받는 랭킹이 포함된 점수 조회
         List<TestScoreVO> classScoresList = testService.selectTestScore(testNum);
         model.addAttribute("classScoresList", classScoresList);
 
-        return "content/item/input_sc";
+        return "content/test/teacher_score";
     }
 
 
@@ -126,7 +133,7 @@ public class TestController {
 
         testService.insertStuScore(testScoreVO);
 
-        return "redirect:/score/goInputScore?testNum="+testScoreVO.getTestNum();
+        return "redirect:/test/goInputScore?testNum="+testScoreVO.getTestNum();
 
 
     }
@@ -147,9 +154,7 @@ public class TestController {
             testService.updateScore(vo);
         }
 
-
-//        return
-        return "redirect:/score/goInputScore?testNum="+ testScoreVO.getTestNum();
+        return "redirect:/test/goInputScore?testNum="+ testScoreVO.getTestNum();
     }
 
 

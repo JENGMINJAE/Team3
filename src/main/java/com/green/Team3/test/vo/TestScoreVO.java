@@ -15,6 +15,7 @@ public class TestScoreVO {
     private String memberId;
     private int testNum;
 
+    private int ranking;
     private MemberVO memberOneVO;
     private TestVO testOneVo;
 

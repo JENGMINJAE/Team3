@@ -99,7 +99,13 @@
         </div>
 </div>
 
+<script>
 
+    function goScore(classNum){
+        location.href='/test/scoreTeacher?classNum='+classNum;
+    };
+
+</script>
 
 
 </th:block>
@@ -107,13 +113,7 @@
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴 때 같이 실행 되는 js-->
     
-    <script>
-
-        function goScore(classNum){
-            location.href='/test/scoreTeacher?classNum='+classNum;
-        };
-
-    </script>
+   
 
 </th:block>
 </html>

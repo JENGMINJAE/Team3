@@ -42,8 +42,12 @@ public interface TestService {
     // class 명만 조회//
     List<ClsVO> onlyClassNum(int classNum);
 
-    // 시험테스트 번호로 테스트명 조회///
-    List<TestVO> testNumInfo(int testNum);
+    // 시험테스트 번호로 학생명 조회///
+    List<MemberVO> memNumInfo(int testNum);
+
+    // 시험테스트 번호로 테스트명 조회
+    TestVO testNumInfo(int testNum);
+
 
     // 수정 클릭 시 점수 업데이트//
     void updateScore(TestScoreVO testScoreVO);

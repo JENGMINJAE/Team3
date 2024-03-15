@@ -87,12 +87,12 @@ function happyBtn(){
     
                 const testName =document.querySelector('#testName').value;
                 const classNum = document.querySelector('#classNum').value;
-                const testPerfect = document. querySelector('#testMaxScore').value;
+                const testMaxScore = document. querySelector('#testMaxScore').value;
                 const testDate= document.querySelector('#testDate').value;
                 
                 
 
-            fetch('/score/insertTest', { //요청경로
+            fetch('/test/insertTest', { //요청경로
                     method: 'POST',
                     cache: 'no-cache',
                     headers: {
@@ -103,7 +103,7 @@ function happyBtn(){
                     // 데이터명 : 데이터값
                     
                     'testName': testName,
-                        'testPerfect': testPerfect,
+                        'testMaxScore': testMaxScore,
                         'testDate': testDate,
                         'classNum' : classNum
 
@@ -284,66 +284,12 @@ function goSelectScore(testNum){
 
 
 
-
-
-
-// //////////////////////////////////////////////// 성적등록 버튼 클릭시 성적 저장////////////////////////////////////////////////////
-
-
-// function addScore(){
-
-
-
-// const stuNum = document.querySelector('#stuNum').value;
-// console.log(stuNum);
-// const score = document.querySelector('#score').value;
-
-// // ------------------- 첫번째 방식 ---------------//
-// fetch('/test/insertStuScore', { //요청경로
-//     method: 'POST',
-//     cache: 'no-cache',
-//     headers: {
-//         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-//     },
-//     //컨트롤러로 전달할 데이터
-//     body: new URLSearchParams({
-//        // 데이터명 : 데이터값
-//        'memberId' : memberId,
-//        'testNum' : testNum,
-//        'score' : score
-//     })
-// })
-// .then((response) => {
-//     if(!response.ok){
-//         alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
-//         return ;
-//     }
-
-//     return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
-//     //return response.json(); //나머지 경우에 사용
-// })
-// //fetch 통신 후 실행 영역
-// .then((data) => {//data -> controller에서 리턴되는 데이터!
-//     alert('점수입력완료!');
-    
-// })
-// //fetch 통신 실패 시 실행 영역
-// .catch(err=>{
-//     alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-//     console.log(err);
-// });
-
-
-
-// }
-
-
 // /////////////////////////////////////ScoreViewVO  성적통계 조회//////////////// 
 
 
 
 function showTatalScore(classNum){
-    location.href='/score/totalScoreShow?classNum='+classNum;
+    location.href='/test/totalScoreShow?classNum='+classNum;
      alert(11111);
 
 

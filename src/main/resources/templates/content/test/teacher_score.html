@@ -20,7 +20,7 @@
                 <div class="col">
                         <div class="row mb-3">
                             <div class="col">
-                           <h4>[[${testNumInfo[0].testName}]] 성적등록</h4>
+                                <h3>[[${testNumInfo.testName}]]</h3>>
                             </div>
                             <div class="col">
                                 <input type="button" value="직접입력">
@@ -39,15 +39,17 @@
             </div>
 
 
-        <form action="/score/insertStuScore" method="post">
-            <input type="hidden" name="testNum" th:value="${testNumInfo[0].testNum}">    
+        <form action="/test/insertStuScore" method="post">
+
+            <input type="hidden" name="testNum" th:value="${testNumInfo.testNum}">
+
             <div class="row">
                 <div class="col">
                         <div class="row mb-3">
                             <div class="col-3">
-                                <select name="operNum" class="form-select form-select-lg mb-3" style="font-size: 20px;">
-                                    <option th:each=" selectStu : ${testNumInfo[0].studentListVO}" th:value="${selectStu.operNum}">[[${selectStu.stuMemberVo.memberName}]]</option>
-                                </select> 
+                                <select name="memberId" class="form-select form-select-lg mb-3" style="font-size: 20px;">
+                                    <option th:each=" selectStu : ${memNumInfo}" th:value="${selectStu.memberId}">[[${selectStu.memberName}]]</option>
+                                </select>
                             </div>
                             <div class="col-3">
                                
@@ -74,7 +76,8 @@
                                         학생 점수 상세사항
                                     </div>
                                     <div class="col" id="changeBtnDiv">
-                                        <input type="button" value="수정" id="updateScorBtn" class="btn btn-secondary" th:onclick="goUpdateScores([[${testNumInfo[0].testNum}]])">
+                                        <input type="button" value="수정" id="updateScorBtn" class="btn btn-secondary" th:onclick="goUpdateScores([[${testNumInfo.testNum}]])">
+
                                     </div>
 
 
@@ -82,8 +85,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <form id="myform" action="/score/updateScore" method="post">
-                                            <input type="hidden" th:value="${classScoresList[0].testNum}" name="testNum">
+                                        <form id="myform" action="/test/updateScore" method="post">
+                                            <input type="hidden" name="testNum" th:value="${testNumInfo.testNum}">
                                             <table class="table  table-striped" style="font-size: 20px; width:700px;">
                                                 <colgroup>
                                                     <col width="25%">
@@ -101,13 +104,13 @@
                                                 <tbody class="upScoreTbody">
                                                     <tr th:each=" classScore : ${classScoresList}">
                                                         <td>
-                                                            [[${classScore.studentOneVo.stuMemberVo.memberName}]]
+                                                            [[${classScore.memberOneVO.memberName}]]
                                                         </td>
                                                         <td class="selectScoreTd">
                                                             [[${classScore.score}]]
                                                         </td>
                                                         <td>
-                                                            [[${classScore.testOneVo.testPerfect}]]
+                                                            [[${classScore.testOneVo.testMaxScore}]]
                                                         </td>
                                                         <td>
                                                             [[${classScore.ranking}]]
@@ -130,6 +133,6 @@
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴때 같이 실행되는 js -->
-    <script src="/js/content/item/input_sc.js"></script>
+    <script src="/js/content/test/teacher_score.js"></script>
 </th:block>
 </html>
