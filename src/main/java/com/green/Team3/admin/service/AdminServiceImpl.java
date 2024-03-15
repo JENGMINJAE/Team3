@@ -1,5 +1,6 @@
 package com.green.Team3.admin.service;
 
+import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -17,14 +18,14 @@ public class AdminServiceImpl implements AdminService{
 
     // 강사 전체 목록 조회 (완료)
     @Override
-    public List<TeacherVO> selectTeachers() {
+    public List<ClsVO> selectTeachers() {
         return sqlSession.selectList("teacher.selectTeachers");
     }
 
     // 강사 상세 정보 조회 (완료)
     @Override
-    public TeacherVO detailTeacher(TeacherVO teacherVO) {
-        return sqlSession.selectOne("teacher.detailTeacher", teacherVO);
+    public ClsVO detailTeacher(int teacherNum) {
+        return sqlSession.selectOne("teacher.detailTeacher", teacherNum);
     }
 
     // 회원 권한 수정 (완료)

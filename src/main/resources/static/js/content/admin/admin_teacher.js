@@ -1,12 +1,12 @@
-const teacherCode = document.querySelector('#teacherNum').value;
+const teacherCode = document.querySelector('#updateTeacherNum').value;
 
 console.log(teacherCode);
 
 if(teacherCode != 0){
-    teacherInfo(teacherCode);
+    teacherInfo(teacherCode, className);
 }
-function teacherInfo(teacherNum){
-    
+function teacherInfo(teacherCode, className){
+
     fetch('/admin/selectTeacher', { //요청경로
         method: 'POST',
         cache: 'no-cache',
@@ -16,7 +16,7 @@ function teacherInfo(teacherNum){
         //컨트롤러로 전달할 데이터
         body: JSON.stringify({
            // 데이터명 : 데이터값
-           teacherNum : teacherNum
+           teacherNum : teacherCode
         })
     })
     .then((response) => {
@@ -24,7 +24,7 @@ function teacherInfo(teacherNum){
     })
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
-        console.log(data)
+        console.log(data);
 
         const make_spot = document.querySelector('.teacher-list-div');
 
@@ -35,13 +35,13 @@ function teacherInfo(teacherNum){
             <div class="row">
                 <div class="col-2 text-center">강사명</div>
                 <div class="col-10 d-grid">
-                    <input class="form-control" type="text">
+                    <input class="form-control" type="text" value="${data.teacherVO.memberName}">
                 </div>
             </div>
             <div class="row align-middle">
                 <div class="col-2 text-center">반</div>
                 <div class="col-10 d-grid">
-                    <input class="form-control" type="text" value="자바반" readonly>
+                    <input class="form-control" type="text" value="${data.className}" readonly>
                 </div>
 
             </div>
@@ -57,7 +57,6 @@ function teacherInfo(teacherNum){
                         <thead>
                             <tr>
                                 <td>No</td>
-                                <td>반이름</td>
                                 <td>인원수</td>
                                 <td>강의 상태</td>
                             </tr>
@@ -65,7 +64,6 @@ function teacherInfo(teacherNum){
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>5</td>
                                 <td>20 / 40</td>
                                 <td>수업 중</td>
                             </tr>
@@ -79,7 +77,7 @@ function teacherInfo(teacherNum){
                 <div class="col-10">
                     <div class="row">
                         <form action="/admin/changeAttendance" method="post" id="insert-atd-form">
-                            <input type="hidden" name="teacherNum" th:value="${teacherNum}">
+                        <input type="hidden" name="teacherNum" th:value="">
                             <div class="col">
                                 <input class="form-check-input" type="radio" name="workNum" value="1"> 재직 
                             </div>

@@ -13,7 +13,8 @@
         <result column="CLASS_ENTER"        property="classEnter"/>
         <result column="CLASS_STATUS"       property="classStatus"/>
         <result column="TEACHER_NUM"        property="teacherNum"/>
-        <association property="teacherVO" resultMap="teacher.teacherInfo"/>
+        <result column="STU_CNT"            property="stuCnt"/>
+        <association property="teacherVO"   resultMap="teacher.teacherInfo"/>
         <collection property="operatorVOList"    resultMap="admin.operator"/>
     </resultMap>
 

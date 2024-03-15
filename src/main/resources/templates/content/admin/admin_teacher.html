@@ -9,19 +9,19 @@
 </th:block>
 
 <th:block layout:fragment="contentFragment">
-    <input type="hidden" value="0" id="teacherNum">
+
     <!-- html 코드 작성 -->
     <div class="row">
         <div class="col-5">
             <div class="row mb-3">
                 <div class="col">
                     <h5>직원 목록</h5>
-                    [[${teacherList}]]
+                    <input type="hidden" th:value="${updateTeacherNum}" id="updateTeacherNum">
                 </div>
             </div>
             <div class="row mb-2">
                 <div class="col">
-                    <span style="color: red;" class="text-end"> * 총 00명의 직원이 있습니다.</span>
+                    <span style="color: red;" class="text-end"> * 총 [[${#lists.size(teacherList)}]]명의 직원이 있습니다.</span>
                 </div>
             </div>
             <div class="row">
@@ -42,11 +42,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="pointer-span" onclick="teacherInfo(1)">
-                                <td>1</td>
-                                <td>길동</td>
-                                <td>자바</td>
-                                <td>재직</td>
+                            <tr th:each="teacher, state : ${teacherList}" class="pointer-span" th:onclick="teacherInfo([[${teacher.teacherNum}]])">
+
+                                <td>[[${#lists.size(teacherList) - state.index}]]</td>
+                                <td>[[${teacher.teacherVO.teacherName}]]</td>
+                                <td>[[${teacher.className}]]</td>
+                                <td>[[${teacher.teacherVO.strWork}]]</td>
                             </tr>
                         </tbody>
                     </table>

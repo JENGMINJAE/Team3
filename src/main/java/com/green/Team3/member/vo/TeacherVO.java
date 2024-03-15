@@ -16,4 +16,5 @@ public class TeacherVO {
     private String memberId;
     private MemberVO memberVO;
     private String teacherName;
+    private String strWork;
 }

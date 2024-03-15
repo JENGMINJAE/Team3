@@ -8,42 +8,56 @@
         <result column="TEACHER_WORK"   property="teacherWork"/>
         <result column="MEMBER_ID"      property="memberId"/>
         <result column="TEACHER_NAME"   property="teacherName"/>
+        <result column="STR_WORK"       property="strWork"/>
         <association property="memberVO" resultMap="member.memberMap"/>
     </resultMap>
 
     <!--  선생님 전체 목록 조회  -->
-    <select id="selectTeachers" resultMap="teacherInfo">
-        SELECT T.MEMBER_ID
+    <select id="selectTeachers" resultMap="clsMapper.cls">
+        SELECT CLASS_NAME
+            , CLS.CLASS_NUM
+            , M.MEMBER_ID
             , REG_DATE
-            , TEACHER_NUM
-            , CLASS_STATUS
-        FROM TEACHER AS T INNER JOIN MEMBER AS M
-        ON T.MEMBER_ID = M.MEMBER_ID
-        INNER JOIN CLASS_INFO AS CLS
-        ON CLS.CLASS_NUM = T.CLASS_NUM
+            , T.TEACHER_NUM
+            , (SELECT MEMBER_NAME
+                FROM member
+                INNER JOIN TEACHER T
+                ON member.MEMBER_ID = T.MEMBER_ID
+                WHERE TEACHER_NUM = cls.TEACHER_NUM) AS TEACHER_NAME
+            , CASE
+                WHEN TEACHER_WORK = 1 THEN '재직'
+                ELSE '퇴직'
+            END AS STR_WORK
+        FROM CLASS_INFO AS CLS INNER JOIN OPERATOR AS O
+        ON CLS.CLASS_NUM = O.CLASS_NUM
+        INNER JOIN MEMBER AS M
+        ON O.MEMBER_ID = M.MEMBER_ID
+        INNER JOIN TEACHER T
+        ON CLS.TEACHER_NUM = T.TEACHER_NUM
         ORDER BY MEMBER_NAME DESC
     </select>
 
     <!--  선생님 상세 정보 조회  -->
-    <select id="detailTeacher" resultMap="teacherInfo">
+    <select id="detailTeacher" resultMap="clsMapper.cls">
         SELECT T.MEMBER_ID
             , MEMBER_NAME
-            , MEMBER_TEL
-            , MEMBER_EMAIL
-            , MEMBER_ADDR
-            , ADDR_DETAIL
-            , MEMBER_GENDER
-            , REG_DATE
-            , TEACHER_NUM
-            , WORK_NUM
+            , T.TEACHER_NUM
+            , CLASS_NAME
+            , (SELECT COUNT(O.MEMBER_ID)
+                FROM operator O
+                INNER JOIN MEMBER
+                ON MEMBER.MEMBER_ID = O.MEMBER_ID
+                WHERE CLASS_NUM = 1) AS STU_CNT
+            , CLASS_PERSONNEL
             , CASE
-                WHEN WORK_NUM = 1 THEN '재직'
-                WHEN WORK_NUM = 2 THEN '퇴직'
-                ELSE WORK_NUM = 3 THEN '휴가'
-            END AS WORK_STATUS
-        FROM TEACHER AS T INNER JOIN MEMBER AS M
+                WHEN CLASS_EDATE &gt;= NOW() THEN '강의 중'
+                ELSE '종료'
+            END AS STR_WORK
+        FROM CLASS_INFO CLS INNER JOIN TEACHER T
+        ON CLS.TEACHER_NUM = T.TEACHER_NUM
+        INNER JOIN MEMBER M
         ON T.MEMBER_ID = M.MEMBER_ID
-        WHERE TEACHER_NUM = #{teacherNum}
+        WHERE T.TEACHER_NUM = #{teacherNum}
         ORDER BY MEMBER_NAME DESC
     </select>
 </mapper>

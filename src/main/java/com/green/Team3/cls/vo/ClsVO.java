@@ -22,6 +22,7 @@ public class ClsVO {
     private String classEnter;
     private int classStatus;
     private int teacherNum;
+    private int stuCnt;
     private TeacherVO teacherVO;
     private List<OperatorVO> operatorVOList;
 }
