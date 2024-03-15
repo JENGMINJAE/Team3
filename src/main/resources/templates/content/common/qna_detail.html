@@ -24,7 +24,11 @@
                         </tr>
                         <tr>
                             <td>내용</td>
-                            <td class="text-start">[[${qna.boardContent}]]</td>
+                            <td class="text-start">
+                                <div style="word-break:break-all">
+                                    [[${qna.boardContent}]]
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td>조회수</td>
@@ -81,9 +85,38 @@
                     </td>
                 </tr>
             </table>
-            
         </th:block>
-        
+    </div>
+
+    <!-- 문의사항 이전글 / 다음글 조회 -->
+    <div class="mb-5">
+        <table class="table table-striped table-hover text-center align-middle">
+            <!-- 이전글 -->
+            <tr th:if="${prevPage != null}">
+                <td>이전글</td>
+                <td>
+                    <a th:href="@{/board/qnaDetail(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
+                        이전글 제목
+                    </a>
+                </td>
+            <tr th:if="${prevPageNotFound}">
+                <td>이전글</td>
+                <td>이전 글이 없습니다.</td>
+            </tr>
+            <!-- 다음글 -->
+            <tr th:if="${nextPage != null}">
+                <td>다음글</td>
+                <td>
+                    <a th:href="@{/board/qnaDetail(boardNum=${nextPage.boardNum})}" th:text="${nextPage.boardTitle}">
+                        다음글 제목
+                    </a>
+                </td>
+            </tr>
+            <tr th:if="${nextPageNotFound}">
+                <td>다음글</td>
+                <td>다음 글이 없습니다.</td>
+            </tr>
+        </table>
     </div>
     
 </th:block>

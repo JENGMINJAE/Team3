@@ -18,6 +18,7 @@ public interface ReplyService {
     //댓글 수정
     void updateReply(ReplyVO replyVO);
 
+    //댓글 수정 시 선택
     String reSelect(int replyNum);
 
 }

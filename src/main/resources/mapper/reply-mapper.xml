@@ -50,6 +50,7 @@
         WHERE REPLY_NUM = #{replyNum}
     </update>
 
+    <!-- 댓글 수정 시 댓글 창 선택 -->
     <select id="reSelect" resultType="STRING">
         SELECT REPLY_CONTENT
         FROM BOARD_REPLY

@@ -35,7 +35,8 @@ public class ReplyServiceImpl implements ReplyService{
     public void updateReply(ReplyVO replyVO) {
         sqlSession.update("reply.updateReply", replyVO);
     }
-
+    
+    //댓글 수정 시 선택
     @Override
     public String reSelect(int replyNum) {
         return sqlSession.selectOne("reply.reSelect",replyNum);

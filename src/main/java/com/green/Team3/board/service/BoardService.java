@@ -14,8 +14,11 @@ public interface BoardService {
     //게시글 목록 조회
     List<BoardVO> selectNoticeList(SearchVO searchVO);
     
-    //게시글 등록
+    //게시글 등록 - 공지사항 (게시글 + 이미지 등록)
     void insertNotice(BoardVO boardVO);
+
+    //게시글 등록 - 문의사항
+    void insertQna(BoardVO boardVO);
 
     //게시글 상세 조회
     BoardVO selectNoticeDetail(int boardNum);
@@ -32,7 +35,11 @@ public interface BoardService {
     //게시글 수 조회
     int selectNoticeCnt(SearchVO searchVO);
 
-    //
+    //게시글 상세 - 이전글 조회
+    BoardVO prevPage(int boardNum);
+
+    //게시글 상세 - 다음글 조회
+    BoardVO nextPage(int boardNum);
 
 
 
