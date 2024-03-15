@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{fragment/admin_layout}" >
+    layout:decorate="~{fragment/integrated_layout}" >
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴때 같이 실행되는 css -->
@@ -53,14 +53,11 @@
                                                 <option class="roll-tag" th:each="roll : ${rollList}" th:selected="${member.strRoll == roll.rollName}" th:value="${roll.memberRoll}" >[[${roll.rollName}]]</option>
                                             </select>
                                         </div>
-                                        <!-- <div class="col-2 d-grid"> -->
-                                            <!-- <input class="btn btn-primary" type="button" value="수정"> -->
-                                        <!-- </div> -->
                                     </div>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary" th:onclick="memberDetail([[${member.memberId}]])">인적사항</button>
-                                    <button type="button" class="btn btn-outline-success" onclick="showClasses()">수강목록</button>
+                                    <button type="button" class="btn btn-outline-success" th:onclick="showClasses([[${member.memberId}]])">수강목록</button>
                                     <!-- <button type="button" class="btn btn-outline-danger">학급관리</button> -->
                                 </td>
                             </tr>
@@ -123,7 +120,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/admin/showClass" method="post" class="changeClassInfo">
+            <!-- <form action="/admin/showClass" method="post" class="changeClassInfo"> -->
                 <div class="row">
                     <div class="col">
                         <div class="row" >
@@ -135,7 +132,7 @@
                                         <col width="15%">
                                         <col width="35%">
                                     </colgroup>
-                                    <tbody class="tbody-tag">
+                                    <tbody class="class-tbody-tag">
                                         <tr>
                                             <td>
                                                 
@@ -147,7 +144,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            <!-- </form> -->
         </div>
       </div>
     </div>

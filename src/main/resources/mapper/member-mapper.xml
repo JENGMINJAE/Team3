@@ -17,6 +17,7 @@
         <result column="REG_DATE"       property="regDate"/>
         <result column="MEMBER_ROLL"    property="memberRoll"/>
         <result column="STR_ROLL"       property="strRoll"/>
+        <collection property="operatorVOList"    resultMap="admin.operator"/>
     </resultMap>
 
     <resultMap id="rollType" type="com.green.Team3.member.vo.RollTypeVO">
@@ -106,11 +107,10 @@
     <!-- 로그인 -->
     <select id="login" resultMap="memberMap">
         SELECT MEMBER_ID
-            , MEMBER_NAME
+            , MEMBER_PW
             , MEMBER_ROLL
         FROM MEMBER
         WHERE MEMBER_ID = #{memberId}
-        AND MEMBER_PW = #{memberPw}
     </select>
 
 

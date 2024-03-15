@@ -34,6 +34,11 @@ public class HomeworkServiceImpl implements HomeworkService{
     }
 
     @Override
+    public List<HomeworkVO> selectWillHomework(String memberId) {
+        return sqlSession.selectList("learnMapper.selectWillHomework",memberId);
+    }
+
+    @Override
     public void deleteHomework(HomeworkVO vo) {
         sqlSession.delete("learnMapper.deleteHomework",vo);
     }

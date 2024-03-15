@@ -13,9 +13,41 @@
         <result column="CLASS_ENTER"        property="classEnter"/>
         <result column="CLASS_STATUS"       property="classStatus"/>
         <result column="TEACHER_NUM"        property="teacherNum"/>
-        <collection property="memberVOList" resultMap="member.memberMap"/>
+        <collection property="operatorVOList"    resultMap="admin.operator"/>
     </resultMap>
 
+    <!-- 해당 학생의 수강 목록 전체 조회 -->
+    <select id="selectClasses" resultMap="cls">
+        SELECT CLS.CLASS_NUM
+            , CLASS_NAME
+            , CLASS_PERSONNEL
+            , CLASS_SDATE
+            , CLASS_EDATE
+            , CLASS_ENTER
+            , CLASS_STATUS
+            , CLS.TEACHER_NUM
+            , MEMBER.MEMBER_NAME
+        FROM CLASS_INFO CLS INNER JOIN TEACHER
+        ON CLS.TEACHER_NUM = TEACHER.TEACHER_NUM
+        INNER JOIN MEMBER
+        ON MEMBER.MEMBER_ID = TEACHER.MEMBER_ID
+        INNER JOIN OPERATOR OPER
+        ON MEMBER.MEMBER_ID = OPER.MEMBER_ID
+        WHERE MEMBER.MEMBER_ID = #{memberId}
+        ORDER BY CLASS_EDATE DESC
+    </select>
+
+
+<!--    <select id="selectClassNumAndStuNum" resultMap="operator">-->
+<!--        SELECT-->
+<!--        M.MEMBER_ID,-->
+<!--        MEMBER_NAME,-->
+<!--        CLASS_NUM-->
+<!--        FROM OPERATOR O-->
+<!--        INNER JOIN MEMBER M-->
+<!--        ON O.MEMBER_ID = M.MEMBER_ID-->
+<!--        WHERE CLASS_NUM = #{class_num};-->
+<!--    </select>-->
 </mapper>
 
 
