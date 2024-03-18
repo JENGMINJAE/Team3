@@ -10,11 +10,20 @@
         <result column="MEMBER_ID"               property="memberId"/>
         <result column="TYPE_NUM"                property="typeNum"/>
         <result column="BOARD_CNT"               property="boardCnt"/>
+        <collection property="imgList"           resultMap="img"/>
     </resultMap>
 
     <resultMap id="boardTypeMap" type="com.green.Team3.board.vo.BoardTypeVO">
         <id column="TYPE_NUM"                    property="typeNum"/>
         <result column="TYPE_NAME"               property="typeName"/>
+    </resultMap>
+
+    <resultMap id="img" type="com.green.Team3.board.vo.ImgVO">
+        <id column="IMG_NUM"                     property="imgNum"/>
+        <result column="ORIGIN_FILE_NAME"        property="originFileName"/>
+        <result column="ATTACHED_FILE_NAME"      property="attachedFileName"/>
+        <result column="IS_MAIN"                 property="isMain"/>
+        <result column="BOARD_NUM"               property="boardNum"/>
     </resultMap>
 
 
@@ -46,7 +55,7 @@
         LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}
     </select>
 
-    <!-- 게시글 작성 -->
+    <!-- 게시글 작성 - 공지사항 -->
     <insert id="insertNotice">
         INSERT INTO BOARD (
             BOARD_TITLE
@@ -58,6 +67,21 @@
             , #{boardContent}
             , #{memberId}
             , #{typeNum}
+        )
+    </insert>
+
+    <!-- 게시글 작성 - 문의사항 -->
+    <insert id="insertQna">
+        INSERT INTO BOARD (
+        BOARD_TITLE
+        , BOARD_CONTENT
+        , MEMBER_ID
+        , TYPE_NUM
+        ) VALUES (
+        #{boardTitle}
+        , #{boardContent}
+        , #{memberId}
+        , #{typeNum}
         )
     </insert>
 
@@ -106,13 +130,65 @@
         </if>
     </select>
 
-    <!-- 게시글 상세 - 이전글/다음글 조회 -->
-<!--    <select id="prevNext" resultMap="boardMap" resultType="Integer">-->
-<!--        SELECT *-->
-<!--        FROM (SELECT BOARD_NUM-->
-<!--                    , LEAD(BOARD_NUM) OVER (ORDER BY BOARD_NUM) AS *prevNum*-->
-<!--                    , LEAD(BOARD_NUM) OVER (ORDER BY BOARD_NUM) AS-->
-<!--    </select>-->
+    <!-- 게시글 상세 - 이전글 / 다음글 조회 -->
+    <!-- LAG : 기준 데이터의 이전 행의 값을 반환 -->
+    <!-- LEAD : 기준 데이터의 다음 행의 값을 반환 -->
+    <!-- SELECT 조회할 컬럼명 LAG(대상 컬럼명) OVER (ORDER BY 대상 컬럼명 정렬기준) AS 별칭 FROM 테이블명
+         SELECT 조회할 컬럼명 LEAD(대상 컬럼명) OVER (ORDER BY 대상 컬럼명 정렬기준) AS 별칭 FROM 테이블명 -->
+    <!--  SELECT *
+            FROM (SELECT
+                         글 번호
+                        BOARD_NUM
+                         prevNum : 이전글 / nextNum : 다음글
+                        , LAG(BOARD_NUM, 1, -1) OVER(ORDER BY BOARD_NUM ASC) AS prevNum
+                        , LEAD(BOARD_NUM, 1, -1) OVER(ORDER BY BOARD_NUM ASC) AS nextNum
+                         글 제목
+                        , BOARD_TITLE
+                        , LAG(BOARD_TITLE, 1, -1) OVER(ORDER BY BOARD_NUM ASC) AS prevTitle
+                        , LEAD(BOARD_TITLE, 1, -1) OVER(ORDER BY BOARD_NUM ASC) AS nextTitle
+                FROM BOARD
+                ORDER BY BOARD_NUM DESC)
+            WHERE BOARD_NUM = #{boardNum}  -->
+
+    <!-- 게시글 상세 - 이전글 조회 -->
+    <select id="prevPage" resultMap="boardMap" resultType="int">
+        SELECT BOARD_NUM
+            , BOARD_TITLE
+        FROM BOARD
+        WHERE ${currentBoardNum} > BOARD_NUM
+        ORDER BY BOARD_NUM DESC
+        LIMIT 1;
+    </select>
+
+    <!-- 게시글 상세 - 다음글 조회 -->
+    <select id="nextPage" resultMap="boardMap" resultType="int">
+        SELECT BOARD_NUM
+                , BOARD_TITLE
+        FROM BOARD
+        WHERE BOARD_NUM > #{currentBoardNum}
+        ORDER BY BOARD_NUM ASC
+        LIMIT 1;
+    </select>
+
+    <!-- 공지사항 게시글 이미지 파일 첨부 -->
+    <insert id="insertImgs">
+        INSERT INTO BOARD_IMAGE (
+            ORIGIN_FILE_NAME
+            , ATTACHED_FILE_NAME
+            , IS_MAIN
+            , BOARD_NUM
+        ) VALUES
+        <foreach collection="imgList" item="img" separator=",">
+            (
+                #{img.originFileName}
+                , #{img.attachedFileName}
+                , #{img.isMain}
+                , #{img.boardNum}
+            )
+        </foreach>
+    </insert>
+
+
 
 </mapper>
 
