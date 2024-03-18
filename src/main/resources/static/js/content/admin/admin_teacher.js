@@ -1,6 +1,6 @@
 const teacherCode = document.querySelector('#updateTeacherNum').value;
 
-console.log(teacherCode);
+// console.log(teacherCode);
 
 if(teacherCode != 0){
     teacherInfo(teacherCode, className);
@@ -35,16 +35,10 @@ function teacherInfo(teacherCode, className){
             <div class="row">
                 <div class="col-2 text-center">강사명</div>
                 <div class="col-10 d-grid">
-                    <input class="form-control" type="text" value="${data.teacherVO.memberName}">
+                    <input class="form-control" type="text" value="${data[0].teacherVO.memberVO.memberName}">
                 </div>
             </div>
-            <div class="row align-middle">
-                <div class="col-2 text-center">반</div>
-                <div class="col-10 d-grid">
-                    <input class="form-control" type="text" value="${data.className}" readonly>
-                </div>
 
-            </div>
             <div class="row mt-2">
                 <div class="col">
                     <table class="table table-primary">
@@ -57,50 +51,67 @@ function teacherInfo(teacherCode, className){
                         <thead>
                             <tr>
                                 <td>No</td>
+                                <td>반 이름</td>
                                 <td>인원수</td>
                                 <td>강의 상태</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>20 / 40</td>
-                                <td>수업 중</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-2 text-center">재직상태</div>
-                <div class="col-10">
-                    <div class="row">
-                        <form action="/admin/changeAttendance" method="post" id="insert-atd-form">
-                        <input type="hidden" name="teacherNum" th:value="">
-                            <div class="col">
-                                <input class="form-check-input" type="radio" name="workNum" value="1"> 재직 
-                            </div>
-                            <div class="col">
-                                <input class="form-check-input" type="radio" name="workNum" value="2"> 퇴직 
-                            </div>
-                        </form>
+                        <tbody>`;
+
+            data.forEach(function(e, idx) {
+                str += ` 
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td class="classNum" name="classNum" value="${e.classNum}" onclick="changeClass(${e.classNum})">${e.className}</td>
+                        <td>${e.classPersonnel - e.stuCnt} / ${e.classPersonnel}</td>
+                        <td>${e.teacherVO.strWork}</td>
+                    </tr>`;
+            });
+            str +=  `</tbody>
+                        </table>
                     </div>
                 </div>
                 
-                
-            </div>
-
-            <div class="row"> 
-                <div class="col-8"></div>
-                <div class="col-4 d-grid"> 
-                    <input type="button" class="btn btn-primary" value="변경">
+                <div class="row">
+                    <div class="col-2 text-center">재직상태</div>
+                    <div class="col-10">
+                        <div class="row">
+                            <form active="admin/changeAttendance" method="post" class="send-div">
+                                <input type="hidden" name="teacherNum" value="${data[0].teacherVO.teacherNum}">
+                                <div class="change-div">`;
+            console.log(data[0].teacherVO.teacherWork);
+            if(data[0].teacherVO.teacherWork == 1){
+                                str += `
+                                    <div class="col">
+                                        <input class="form-check-input" type="radio" name="teacherWork" value="1" checked> 재직 
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-check-input" type="radio" name="teacherWork" value="2"> 퇴직 
+                                    </div>`;
+                                }
+            else{
+                str += `
+                <div class="col">
+                                        <input class="form-check-input" type="radio" name="teacherWork" value="1"> 재직 
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-check-input" type="radio" name="teacherWork" value="2" checked> 퇴직 
+                                    </div>
+                `;
+            }
+                               str += `</form></div>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
-            </div>
-        `;
+
+
+
+            `;
 
         make_spot.insertAdjacentHTML("afterbegin", str);
-        document.querySelector('#insert-atd-form').submit;
+
     })
     //fetch 통신 실패 시 실행 영역
     .catch(err=>{
@@ -111,3 +122,31 @@ function teacherInfo(teacherCode, className){
     
     
 }
+
+function changeClass(classNum){
+    // const classNum = document.querySelector('.classNum').value;
+    if(classNum != 0){
+        location.href=`/admin/goClassInfo?classNum=${classNum}`;
+    }
+    
+}
+
+
+    const radios = document.querySelectorAll('input[name="teacherWork"]');
+
+    radios.forEach(radio => {
+
+        radio.addEventListener('change', function(e){
+            const changeValue = e.target;
+            if(changeValue.checked){
+                document.querySelector('.send-div').submit();
+                alert(111);
+                // const teacherNum = document.querySelector('input[type="hidden"]').value;
+            }
+            
+            
+    
+        });
+    });
+    
+

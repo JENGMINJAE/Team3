@@ -24,8 +24,8 @@ public class AdminServiceImpl implements AdminService{
 
     // 강사 상세 정보 조회 (완료)
     @Override
-    public ClsVO detailTeacher(int teacherNum) {
-        return sqlSession.selectOne("teacher.detailTeacher", teacherNum);
+    public List<ClsVO> detailTeacher(int teacherNum) {
+        return sqlSession.selectList("teacher.detailTeacher", teacherNum);
     }
 
     // 회원 권한 수정 (완료)
@@ -55,6 +55,12 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public void changePersonalInfo(MemberVO memberVO) {
         sqlSession.update("admin.changeMemberData", memberVO);
+    }
+
+    // 반정보 수정
+    @Override
+    public void updateClassInfo(ClsVO clsVO) {
+        sqlSession.update("clsMapper.updateClass", clsVO);
     }
 
 }

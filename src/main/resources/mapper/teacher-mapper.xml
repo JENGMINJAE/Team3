@@ -43,6 +43,8 @@
             , MEMBER_NAME
             , T.TEACHER_NUM
             , CLASS_NAME
+            , CLS.CLASS_NUM
+            , TEACHER_WORK
             , (SELECT COUNT(O.MEMBER_ID)
                 FROM operator O
                 INNER JOIN MEMBER

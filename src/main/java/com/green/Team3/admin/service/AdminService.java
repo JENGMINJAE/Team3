@@ -12,7 +12,7 @@ public interface AdminService {
     List<ClsVO> selectTeachers();
 
     // 선생님 상세 목록 조회
-    ClsVO detailTeacher(int teacherNum);
+    List<ClsVO> detailTeacher(int teacherNum);
 
     // 회원 권한 수정
     void updateRoll(MemberVO memberVO);
@@ -26,5 +26,7 @@ public interface AdminService {
     // 인적 사항 정보 변경
     void changePersonalInfo(MemberVO memberVO);
 
+    // 반정보 수정
+    void updateClassInfo(ClsVO clsVO);
 
 }

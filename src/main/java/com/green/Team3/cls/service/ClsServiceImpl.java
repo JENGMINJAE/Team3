@@ -17,4 +17,9 @@ public class ClsServiceImpl implements ClsService{
     public List<ClsVO> selectClass(MemberVO memberVO) {
         return sqlSession.selectList("clsMapper.selectClasses", memberVO);
     }
+
+    @Override
+    public ClsVO selectClassDetail(int classNum) {
+        return sqlSession.selectOne("clsMapper.classInfo", classNum);
+    }
 }

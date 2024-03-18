@@ -64,7 +64,7 @@
     <update id="changeAttendance">
         UPDATE TEACHER
         SET WORK_NUM = #{atdName}
-        WHERE MEMBER_ID = #{memberId}
+        WHERE TEACHER_NUM = #{teacherNum}
     </update>
 </mapper>
 

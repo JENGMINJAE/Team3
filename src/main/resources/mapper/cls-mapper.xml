@@ -41,7 +41,36 @@
         AND CLASS_EDATE > NOW()
     </select>
 
+    <!-- 선택한 반의 상세 정보 조회하기 -->
+    <select id="classInfo" resultMap="cls">
+        SELECT CLASS_NUM
+            , CLASS_NAME
+            , CLASS_SDATE
+            , CLASS_EDATE
+            , CLASS_ENTER
+            , CLASS_STATUS
+            , CI.TEACHER_NUM
+            , (SELECT MEMBER_NAME
+                FROM MEMBER
+                INNER JOIN TEACHER T
+                ON MEMBER.MEMBER_ID = T.MEMBER_ID
+                WHERE TEACHER_NUM = CI.TEACHER_NUM)	AS TEACHER_NAME
+        FROM CLASS_INFO CI
+        INNER JOIN TEACHER T
+        ON T.TEACHER_NUM = CI.TEACHER_NUM
+        WHERE CI.CLASS_NUM = #{classNum}
+    </select>
 
+    <!-- 반에서 정보 수정 -->
+    <update id="updateClass">
+        UPDATE CLASS_INFO
+        SET CLASS_NAME =#{className}
+            , CLASS_PAYMENT = #{classPayment}
+            , CLASS_PERSONNEL = #{classPersonnel}
+            , CLASS_SDATE = #{classSdate}
+            , CLASS_EDATE = #{classEdate}
+            , TEACHER_NUM = #{teacherNum}
+    </update>
 <!--    <select id="selectClassNumAndStuNum" resultMap="operator">-->
 <!--        SELECT-->
 <!--        M.MEMBER_ID,-->
