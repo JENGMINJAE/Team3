@@ -21,8 +21,18 @@
     <result column="TEST_NUM" property="testNum"/>
     <result column="MEMBER_ID" property="memberId"/>
     <result column="RANKING" property="ranking"/>
+    <result column="SUB_TEST_NUM" property="subTestNum"/>
     <association property="memberOneVO" resultMap="member.memberMap"/>
     <association property="testOneVo" resultMap="testResult"/>
+    <association property="testSubOneVO" resultMap="subResult"/>
+    </resultMap>
+
+    <resultMap id="subResult" type="com.green.Team3.test.vo.TestSubjectVO">
+        <id column="SUB_TEST_NUM"       property="subTestNum" />
+        <result column="SUB_NAME"           property="subName" />
+        <result column="SUB_MAXSCORE"       property="subMaxScore" />
+        <result column="TEST_NUM"           property="testNum" />
+        <association property="testOneVO"      resultMap="testResult"/>
     </resultMap>
 
 
@@ -185,12 +195,13 @@
     </select>
 
     <!--   클래스넘버 쓸려고..성적입력페이지에서     -->
+
     <select id="onlyClassNum" resultMap="clsMapper.cls">
         SELECT
-        CLASS_NUM
+         CLASS_NUM
         , CLASS_NAME
         FROM CLASS_INFO
-        WHERE CLASS_NUM= #{classNum}
+        WHERE CLASS_NUM=#{classNum}
     </select>
 
 
@@ -233,6 +244,99 @@
 
 
 
+<!-- ///////////////////////////////////////////////////////////////// -->
+    <!-- sub 정보가 있으면  sub 입력페이지 이동 -->
+    <select id="subSelect" resultMap="subResult">
+        SELECT
+        SUB_TEST_NUM
+        , TEST_NUM
+        , SUB_NAME
+        FROM test_subject
+        WHERE test_NUM=#{testNum}
+    </select>
+
+    <!--   학생수 계산하기  -->
+    <select id="stuCnt" resultMap="member.memberMap">
+        SELECT
+            MEM.MEMBER_ID,
+            MEMBER_NAME,
+            CLASS_NUM,
+            MEM.MEMBER_ID
+        FROM member MEM
+        INNER JOIN operator OP
+        ON MEM.MEMBER_ID=OP.MEMBER_ID
+        WHERE OP.CLASS_NUM= #{classNum}
+    </select>
+
+
+<!-- 과목있음 선택시 테스트명, 날짜만 저장 -->
+    <insert id="subMainTestInsert">
+        INSERT INTO test (
+        TEST_NAME
+        , TEST_DATE
+        , CLASS_NUM
+        )VALUES(
+        #{testName}
+        , #{testDate}
+        , #{classNum}
+        )
+    </insert>
+
+
+
+    <!--  과목저장  -->
+    <insert id="insertSub">
+        INSERT INTO TEST_SUBJECT(
+        SUB_NAME
+        , SUB_MAXSCORE
+        , TEST_NUM
+        )VALUES(
+        #{subName}
+        ,#{subMaxScore}
+        ,#{testNum}
+        )
+    </insert>
+
+    <!--  과목목록 조회  -->
+
+    <select id="selectSubList" resultMap="subResult">
+        SELECT
+        SUB_TEST_NUM
+        , TEST_NUM
+        , SUB_NAME
+        , SUB_MAXSCORE
+        FROM test_subject
+        WHERE test_NUM=#{testNum}
+    </select>
+
+
+
+    <!--  과목별 저장   -->
+    <!--  성적 등록 버튼 틀릭 시 저장 -->
+    <insert id="insertSubScore">
+        INSERT INTO TEST_SCORE(
+        SCORE
+        , TEST_NUM
+        , MEMBER_ID
+        , SUB_TEST_NUM
+        )VALUES(
+        #{score}
+        , #{testNum}
+        , #{memberId}
+        , #{subTestNum}
+        )
+    </insert>
+
+    <!--   모달 과목저장할때 테스트넘버 쓸려고..    -->
+    <select id="testNumInfo2" resultMap="testResult">
+        SELECT
+        TEST_NUM
+        ,TEST_NAME
+        , CLASS_NUM
+        , TEST_MAXSCORE
+        FROM test
+        WHERE test_NUM =#{testNum}
+    </select>
 
 
 

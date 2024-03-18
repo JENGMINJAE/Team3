@@ -105,3 +105,11 @@ fetch('/test/selectScoreList', { //요청경로
 function goUpdate(){
     document.querySelector("#myform").submit();
 }
+
+
+
+
+function directScore(testNum){
+
+    location.href="/test/directScore?testNum="+ testNum;
+}

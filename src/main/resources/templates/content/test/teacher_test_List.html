@@ -23,19 +23,19 @@
     <div class="col">
         
         <form action="/test/scoreTeacher" method="post">
-            <input type="hidden" id="classNum" name="classNum" th:value="${onlyClassNum[0].classNum}"> 
+            <input type="hidden" id="classNum" name="classNum" th:value="${onlyClassNum.classNum}"> 
     
-                <h2>[[${onlyClassNum[0].className}]] 성적처리</h2>
+                <h2>[[${onlyClassNum.className}]] 성적처리</h2>
             
                 <div class="row">
                 
                 <div class="col-2" style="width: fit-content;" >                                                    
-                    <button type="button" class="scoreBtn btn btn-primary happy" onclick="happyBtn()">
+                    <button type="button" class="scoreBtn btn btn-primary happy" th:onclick="happyBtn([[${onlyClassNum.classNum}]])">
                        시험 설정
                     </button>                     
                 </div>
                 <div class="col" > 
-                    <button class="btn btn-primary text-end" type="button" th:onclick="showTatalScore([[${onlyClassNum[0].classNum}]])"> 
+                    <button class="btn btn-primary text-end" type="button" th:onclick="showTatalScore([[${onlyClassNum.classNum}]])"> 
                         성적 통계확인
                     </button>
                 </div>  
@@ -105,14 +105,24 @@
     
                                     
                                     <tr class="tr-row" th:each="seleOp:${searchTests}">
-                                        <td id="testNum">[[${seleOp.testNum}]]</td>
+                                        <td id="testNum">[[${seleOp.testNum}]]</td>                                        
                                         <td><span>[[${seleOp.testName}]]</span></td>
-                                        <td>[[${seleOp.testMaxScore}]]</td>
+                                        <!-- test 만점 0 이면 과목 총점 출력하기 -->
+                                        <th:block id="tdSub" th:if="${seleOp.testMaxScore ==0}" >
+                                            <td><input type="text" id="subTotal" style="width: 100px;"></td>
+                                        </th:block>
+
+                                        <!-- test 만점 점수 출력 -->
+                                        <th:block th:if="${seleOp.testMaxScore !=0}" >
+                                            <td>[[${seleOp.testMaxScore}]]</td>
+                                        </th:block>
+
                                         <td>[[${seleOp.testDate}]]</td>
                                         <td>
-                                            <input type="button" th:onclick="goInputScore([[${seleOp.testNum}]])" value="등록">
+                                            <input type="button"  th:onclick="|location.href='@{/test/goTestN(testNum=${seleOp.testNum}, classNum=${seleOp.studentListVO[0].classNum})}'|" value="등록">
+                                           
                                             <input type="button"  th:onclick="goSelectScore([[${seleOp.testNum}]])" value="조회">
-                                            <input type="button" value="삭제">
+                                           
                                         </td>
                                     </tr>
                                 </table>
@@ -144,8 +154,8 @@
                                     <div class="row scoreList-div">                                 
                                 
                                         <table class="table-blank text-center align-middle tr-rowTwo" style="width:70%; margin-left:10px; ">
-                                            <col width="15%">
-                                            <col width="35%">
+                                            <col width="20%">
+                                            <col width="30%">
                                             <col width="20%">
                                             <col width="30%">
                                             
@@ -177,7 +187,7 @@
     <!-- Button trigger modal -->
     <!-- Modal -->
     <div class="modal fade" id="testJoin-form" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog-centered modal-dialog modal-lg">
+    <div class="modal-dialog-centered modal-dialog modal-xl">
       <div class="modal-content">
                     <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">시험 Set 만들기</h1>
@@ -197,7 +207,7 @@
     
                                                     <div class="row">
                                                         <div class="col-9">
-                                                            <select class="form-select" size="10" aria-label="Size 3 select example"  id="sel" style="font-size: 20px;" >
+                                                            <select class="form-select chTest" onchange="changeTest()" size="10" aria-label="Size 3 select example"  id="sel" style="font-size: 20px;" >
                                                                 <option >1</option>
                                                                 <option >2</option>
                                                             </select>
@@ -220,48 +230,100 @@
     
     
                                                 <div class="col-4">
+
+
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <input type="radio" name="isSub" id="isSub" value="1" checked >과목없음
+                                                                </div>                     
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col"> 
+                                                                    <input type="radio"  name="isSub" id="isSub" value="2">과목있음
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" >
+                                                                <div class="col" id="divInput">
+                                                                    3333
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    시험명
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <input class="testInfoInput"  type="text"  name="testName" id="testName" style="width: 100%;">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    시험일자
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <input class="testInfoInput"  type="date"  name="testDate" id="testDate" style="width: 100%;">
+                                                                </div>
+                                                            </div>
+                                                            
                                                     <div class="row">
-                                                        <div class="col">
-                                                            시험명
+                                                        <div class="col" id="hiddenPerfect">
+
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    시험만점
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <input class="testInfoInput"  type="text"  name="testMaxScore" id="testMaxScore" style="width: 100%;">
+                                                                </div>
+                                                            </div>
+
                                                         </div>
                                                     </div>
+
                                                     <div class="row">
-                                                        <div class="col">
-                                                            <input class="testInfoInput"  type="text"  name="testName" id="testName" style="width: 100%;">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            시험만점
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input   class="testInfoInput"  type="text"  name="testMaxScore" id="testMaxScore" style="width: 100%;">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            시험일자
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="testInfoInput"  type="date"  name="testDate" id="testDate" style="width: 100%;">
-                                                        </div>
-                                                    </div>
-    
-    
-                                                </div>
-    
-    
-    
-                                                <div class="col-2">
-                                                <div class="row">
                                                         <div class="col testAddBtn">
                                                             <input type="button" value="시험추가">
                                                         </div>
+                                                    </div>
+
+
+                                                    <form action="/test/goInsertSub" method="post">
+                                                        
+                                                        <div class="classGoSub">
+                                                        
+
+
+                                                  
+
+
+                                                        </div>
+
+                                                    </form>
+
+
+
+
+
                                                 </div>
+    
+    
+
+
+
+
+
+    
+                                                <div class="col-2">
+                                                
                                                 <div class="row">
                                                         <div class="col">
                                                             <input type="button" value="시험수정">
@@ -287,7 +349,7 @@
                                 </div>
         
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="updateScorePageTwo()">닫기</button>
+            <button type="button" class="btn btn-secondary" onclick="updateScorePage()">닫기</button>
             <button type="button" class="btn btn-primary" onclick="updateScorePage()">확인</button>
             </div>
         </div>

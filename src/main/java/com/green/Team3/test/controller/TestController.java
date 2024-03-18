@@ -6,13 +6,17 @@ import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.test.service.TestServiceImpl;
 import com.green.Team3.test.vo.SearchTestVO;
 import com.green.Team3.test.vo.TestScoreVO;
+import com.green.Team3.test.vo.TestSubjectVO;
 import com.green.Team3.test.vo.TestVO;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 //http://127.0.0.1:8081/test/testList
 @RequestMapping("/test")
 @Controller
@@ -41,19 +45,18 @@ public class TestController {
 
     @RequestMapping("/scoreTeacher")
     public String scoreTeacher(Model model,
-                               MemberVO memberVO, TestVO testVO,
-                               @RequestParam(name="classNum") int classNum,
-                               SearchTestVO searchTestvo) {
+                               @RequestParam(name ="classNum") int classNum,
+                               SearchTestVO searchTestVO) {
 
 
         // ----- teacher_test_List html에서 시험명 목록조회 ----
 
         //반 번호 넘겨서 평가명 추가 버튼 클릭 가능
-        List<ClsVO> onlyClassNum = testService.onlyClassNum(classNum);
-        model.addAttribute("onlyClassNum",onlyClassNum);
+        ClsVO onlyClassNum =testService.onlyClassNum(classNum);
+        model.addAttribute("onlyClassNum", onlyClassNum);
 
         //반 번호 넘겨서 시험지명 목록 조회
-        List<TestVO> selectTestNames = testService.selectTest(testVO.getClassNum());
+        List<TestVO> selectTestNames = testService.selectTest(classNum);
         model.addAttribute("selectTestNames", selectTestNames);
 
 
@@ -63,7 +66,7 @@ public class TestController {
 
 
         // 검색란
-        List<TestVO> searchTests = testService.searchTestList(searchTestvo);
+        List<TestVO> searchTests = testService.searchTestList(searchTestVO);
         model.addAttribute("searchTests",searchTests);
         System.out.println(searchTests);
 
@@ -179,9 +182,123 @@ public class TestController {
         List<TestScoreVO> scoreSelectList = testService.totalStuScoreSelect(testVO.getClassNum());
         model.addAttribute("scoreSelectList", scoreSelectList);
         System.out.println(scoreSelectList);
-        return "content/item/totalScore";
+        return "content/test/totalScore";
     }
 
+
+//    // 점수 직접 입력하기
+//    @GetMapping("/directScore")
+//    public String directScore(@RequestParam(name = "testNum") int testNum, Model model) {
+////        List<TestVO> testNumInfo = testService.testNumInfo(testNum);
+////        model.addAttribute("testNumInfo",testNumInfo);
+//        return "content/test/teacher_sub_sc";
+//    }
+
+// ///////////////////////////////////////////////////
+
+
+    // 과목없음 과목있음 페이지 다르게 이동
+    @GetMapping("/goTestN")
+    public String goTestN(@RequestParam(name = "testNum") int testNum, @RequestParam(name = "classNum")int classNum
+            , Model model) {
+
+        List<TestSubjectVO> subsList = testService.subSelect(testNum);
+        // System.out.println("#######################" + subsList);
+        model.addAttribute("subsList", subsList);
+
+        List<MemberVO> stuCnt = testService.stuCnt(classNum);
+        model.addAttribute("stuCnt", stuCnt);
+
+        for (TestSubjectVO subs : subsList) {
+            System.out.println("####################" + subs);
+            if (subs.getSubTestNum() != 0) {
+                return "content/test/teacher_sub_sc";
+            }
+        }
+
+        return "redirect:/test/goInputScore?testNum=" + testNum;
+    }
+
+
+// 과목별 시험입력페이지 가서 버튼 클릭시 학생명, 과목명 자동조회
+    @ResponseBody
+    @RequestMapping ("/subSelectStu")
+    public Map<String, Object> subSelectStu(@RequestParam(name ="testNum") int testNum,
+                                            @RequestParam(name = "classNum")int classNum ){
+
+        List<TestSubjectVO> subsList= testService.subSelect(testNum);
+
+        List<MemberVO> stuCnt = testService.stuCnt(classNum);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("subsList",subsList);
+        map.put("stuCnt", stuCnt);
+
+        System.out.println("@@@@@@@@@@@@@@@" +map);
+        return map;
+
+    }
+
+// 모달 과목있을시 메인테스트명, 일자 저장
+    @ResponseBody
+    @PostMapping("/insertSubSc")
+    public void insertSubSc(TestVO testVO) {
+        testService.subMainTestInsert(testVO);
+
+    }
+
+    // 과목저장
+    @ResponseBody
+    @PostMapping("/goInsertSub")
+    public void goInsertSub(TestSubjectVO testSubjectVO){
+
+        testService.insertSub(testSubjectVO);
+
+    }
+
+    //비동기 과목명 목록 조회
+    @ResponseBody
+    @PostMapping("/selectSubTest")
+    public Map<String, Object> selectSubTest(@RequestParam(name = "testNum")int testNum) {
+
+        List<TestSubjectVO> subNames = testService.selectSubList(testNum);
+        System.out.println(subNames);
+
+        List<TestVO> testNum2 = testService.testNumInfo2(testNum);
+
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("subNames",subNames);
+        map2.put("testNum2", testNum2);
+
+
+        return map2;
+
+    }
+
+// 입력한 과목 점수 저장
+
+    @PostMapping("/insertSubNtest")
+    public String insertSubNtest(@RequestParam(name="testNum") List<Integer> testNums,
+                                 @RequestParam(name="score") List<Integer> scores,
+                                 @RequestParam(name ="memberId") List<String> memberIds,
+                                 @RequestParam(name = "subTestNum")List<Integer> subTestNums,
+                                 TestScoreVO testScoreVO){
+
+        for(int j =0; j<scores.size(); j++){
+
+            TestScoreVO ts = new TestScoreVO();
+
+            ts.setTestNum(testNums.get(j));
+            ts.setScore(scores.get(j));
+            ts.setMemberId(memberIds.get(j));
+            ts.setSubTestNum(subTestNums.get(j));
+            testService.insertSubScore(ts);
+
+        }
+
+        return "redirect:/test/goTestN?testNum="+ testScoreVO.getTestNum()+"&classNum="+ testScoreVO.getTestOneVo().getClassNum();
+
+    }
 
 
 

@@ -5,6 +5,7 @@ import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.test.vo.SearchTestVO;
 import com.green.Team3.test.vo.TestScoreVO;
+import com.green.Team3.test.vo.TestSubjectVO;
 import com.green.Team3.test.vo.TestVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,11 +71,13 @@ public class TestServiceImpl implements TestService{
         sqlSession.insert("testMapper.insertStuScore", testScoreVO);
     }
 
+
     // class 명만 조회
     @Override
-    public List<ClsVO> onlyClassNum(int classNum) {
-        return sqlSession.selectList("testMapper.selectTeacherClassList", classNum);
+    public ClsVO onlyClassNum(int classNum) {
+        return sqlSession.selectOne("testMapper.onlyClassNum", classNum);
     }
+
 
     // 시험테스트 번호로 반학생 조회
     @Override
@@ -107,4 +110,50 @@ public class TestServiceImpl implements TestService{
     public List<TestScoreVO> totalStuScoreSelect(int classNum) {
         return sqlSession.selectList("testMapper.totalStuScoreSelect", classNum);
     }
+
+
+
+    // /////////////////////////////
+
+    // 과목조회
+    @Override
+    public List<TestSubjectVO> subSelect(int testNum) {
+        return sqlSession.selectList("testMapper.subSelect",testNum);
+    }
+    // 학생 수 조회
+    @Override
+    public List<MemberVO> stuCnt(int classNum) {
+        return sqlSession.selectList("testMapper.stuCnt",classNum);
+    }
+
+    // 과목 저장
+    @Override
+    public void insertSub(TestSubjectVO testSubjectVO) {
+        sqlSession.insert("testMapper.insertSub", testSubjectVO);
+    }
+
+    // 과목 저장 할때 Test 만점없이
+    @Override
+    public void subMainTestInsert(TestVO testVO) {
+        sqlSession.insert("testMapper.subMainTestInsert", testVO);
+    }
+
+    // 과목 조회 하기
+    @Override
+    public List<TestSubjectVO> selectSubList(int testNum) {
+        return sqlSession.selectList("testMapper.selectSubList", testNum);
+    }
+    // 테스트 만점 조회
+    @Override
+    public List<TestVO> testNumInfo2(int testNum) {
+        return sqlSession.selectList("testMapper.testNumInfo2", testNum);
+    }
+
+    //과목저장
+    @Override
+    public void insertSubScore(TestScoreVO testScoreVO) {
+        sqlSession.insert("testMapper.insertSubScore", testScoreVO);
+    }
+
+
 }

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/integrated_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴 때 같이 실행 되는 css -->
+    <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성-->
+    
+    여기는 성적 직접 입력하는 란입니다.
+
+    <div class="row">
+        <div class="col">
+            <div class="row">
+                <div class="col"> 
+                    학생조회 검색
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div>학생 수 - <input type="text" id="rowStuCnt" th:value="${stuCnt.size}"></div>
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col">
+                            <div>추가과목 수 - <input type="text" id="colSubCnt" th:value="${subsList.size}"></div>
+                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="button" value="입력 생성" id="subBtn" th:onclick="inputDirectSc([[${subsList[0].testNum}]], [[${stuCnt[0].operatorVOList[0].classNum}]])">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col stuCntDiv">
+                           [[${subsList[0].testNum}]]
+                        </div>
+                    </div>
+
+
+                    
+                </div>
+            </div>
+
+            <!-- <form id="subform" action="/test/insertSubNtest" method="post"> -->
+                    <div class="row">
+                        <div class="col" id="directTbody">
+                            <!--  테이블 -->
+                                    
+
+                                
+                                    
+                            
+
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="button" value="성적등록" id="btn insertTestSubBtn" onclick="goInsertSubNtest()">
+                        </div>
+                    </div>
+            <!-- </form>     -->
+
+        </div>
+    </div>
+
+
+
+
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴 때 같이 실행 되는 js-->
+    <script src="/js/content/test/teacher_sub_sc.js"></script>
+</th:block>
+</html>

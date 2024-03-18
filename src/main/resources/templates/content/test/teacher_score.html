@@ -23,7 +23,7 @@
                                 <h3>[[${testNumInfo.testName}]]</h3>>
                             </div>
                             <div class="col">
-                                <input type="button" value="직접입력">
+                                <input type="button" value="직접입력" th:onclick="directScore([[${testNumInfo.testNum}]])">
                             </div>
                         </div>
                         <div class="row" style="font-size:20px ;">
@@ -51,12 +51,12 @@
                                     <option th:each=" selectStu : ${memNumInfo}" th:value="${selectStu.memberId}">[[${selectStu.memberName}]]</option>
                                 </select>
                             </div>
-                            <div class="col-3">
+                            <div class="col-4">
                                
                                 <input type="text" name="score" class="form-control form-control-lg" style="width:300px;"  placeholder="점수를 입력하세요.">
                             </div>
                             
-                            <div class="col-3">
+                            <div class="col-4">
                                 <input type="submit" value="등록" class="btn btn-secondary">
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             <div class="col">
 
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col-7">
                                         학생 점수 상세사항
                                     </div>
                                     <div class="col" id="changeBtnDiv">
