@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 해당 파일에 모든 쿼리문을 작성 -->
+<mapper namespace="calender">
+    <resultMap id="eventCalender" type="com.green.Team3.learn.vo.EventCalenderVO">
+        <id             column="EVENT_NUM"      property="eventNum"/>
+        <result         column="EVENT_NAME"     property="eventName"/>
+        <result         column="EVENT_DATE"     property="eventDate"/>
+        <result         column="EVENT_TYPE_NUM" property="eventTypeNum"/>
+        <association    property="eventTypeVO"  resultMap="eventType"/>
+    </resultMap>
+    <resultMap id="eventType" type="com.green.Team3.learn.vo.EventTypeVO">
+        <id         column="EVENT_TYPE_NUM"     property="eventTypeNum"/>
+        <result     column="EVENT_TYPE_NAME"    property="eventTypeName"/>
+    </resultMap>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

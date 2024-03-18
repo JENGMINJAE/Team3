@@ -41,7 +41,11 @@ public class ConsultController {
         return "/content/teacher/consult_list";
     }
     @GetMapping("/consultList")
-    public String consultList(){
+    public String consultList(Authentication authentication,Model model){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("endConsultList",consultService.selectEndConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        model.addAttribute("willConsultList",consultService.selectWillConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        model.addAttribute("todayConsultList",consultService.selectTodayConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
         return "/content/teacher/consult_list";
     }
 }

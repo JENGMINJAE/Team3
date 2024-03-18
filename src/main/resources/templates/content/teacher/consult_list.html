@@ -10,11 +10,94 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성-->
-    asd 
-</th:block>
+    
+<div class="row">
+    <div class="col-8">
+
+        <div id='calendar-container'>
+            <div id='calendar'></div>
+        </div>
+
+    </div>
+    <div class="col-4">
+
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="4">금일 상담 학생 List</td>
+                </tr>
+                <tr>
+                    <td>No</td>
+                    <td>반</td>
+                    <td>학생 명</td>
+                    <td>상담 예정일</td>
+                </tr>
+            </thead>
+            <tbody> <!-- 반복문 예정 -->
+                <tr th:each="todayconsult, state:${todayConsultList}">
+                    <td>[[${todayConsultList.size-state.index}]]</td>
+                    <td>[[${todayconsult.clsVO.className}]]</td>
+                    <td>[[${todayconsult.memberVO.memberName}]]</td>
+                    <td>[[${todayconsult.consultDate}]]</td>
+                </tr>
+            </tbody>
+        </table>
+    
+    
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="4">상담 예정 학생 List</td>
+                </tr>
+                <tr>
+                    <td>No</td>
+                    <td>반</td>
+                    <td>학생 명</td>
+                    <td>상담 예정일</td>
+                </tr>
+            </thead>
+            <tbody th:each="willconsult, state:${willConsultList}"> <!-- 반복문 예정 -->
+                <tr>
+                    <td>[[${willConsultList.size-state.index}]]</td>
+                    <td>[[${willconsult.clsVO.className}]]</td>
+                    <td>[[${willconsult.memberVO.memberName}]]</td>
+                    <td>[[${willconsult.consultDate}]]</td>
+                </tr>
+            </tbody>
+        </table>
+    
+    
+        <table class="table">
+            <thead>
+                <tr>
+                    <td colspan="4">상담 완료 학생 List</td>
+                </tr>
+                <tr>
+                    <td>No</td>
+                    <td>반</td>
+                    <td>학생 명</td>
+                    <td>상담 일</td>
+                </tr>
+            </thead>
+            <tbody th:each="endconsult, state:${endConsultList}"> <!-- 반복문 예정 -->
+                <tr>
+                    <td>[[${endConsultList.size-state.index}]]</td>
+                    <td>[[${endconsult.clsVO.className}]]</td>
+                    <td>[[${endconsult.memberVO.memberName}]]</td>
+                    <td>[[${endconsult.consultDate}]]</td>
+                </tr>
+            </tbody>
+        </table>
+    </th:block>
+
+
+    </div>
+</div>
+    
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴 때 같이 실행 되는 js-->
-    <script src="/"></script>
+    <script src="/js/teacher/consult_list.js"></script>
 </th:block>
 </html>
