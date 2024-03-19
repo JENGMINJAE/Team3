@@ -63,8 +63,8 @@
     <!-- 근무 상태 변경 재직/퇴직 -->
     <update id="changeAttendance">
         UPDATE TEACHER
-        SET WORK_NUM = #{atdName}
-        WHERE MEMBER_ID = #{memberId}
+        SET TEACHER_WORK = #{teacherWork}
+        WHERE TEACHER_NUM = #{teacherNum}
     </update>
 </mapper>
 

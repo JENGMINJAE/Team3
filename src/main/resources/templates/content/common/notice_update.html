@@ -24,20 +24,24 @@
                         <tr>
                             <td>제목</td>
                             <td>
-                                <input type="text" name="boardTitle" th:value="${notice.boardTitle}">
+                                <input type="text" class="form-control" name="boardTitle" th:value="${notice.boardTitle}">
                             </td>
                         </tr>
                         <tr>
                             <td>내용</td>
                             <td>
-                                <input type="text" name="boardContent" th:value="${notice.boardContent}">
+                                <input type="text" class="form-control" name="boardContent" th:value="${notice.boardContent}">
                             </td>
                         </tr>
                 </table>
             </div>
         </div>
-        <div>
-            <input type="submit" value="수정 완료" class="btn btn-primary">
+        <div class="row mb-5">
+            <div class="col"></div>
+            <div class="col d-grid">
+                <input type="submit" value="수정 완료" class="btn btn-primary">
+            </div>
+            <div class="col"></div>
         </div>
     </form>
     

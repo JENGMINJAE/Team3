@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -63,13 +64,41 @@ public class BoardController {
         return "content/common/notice_write_form";
     }
 
-    // 공지사항 게시글 작성
+//    공지사항 작성 원본
+//    // 공지사항 게시글 작성
+//    @PostMapping("/noticeWrite")
+//    public String noticeWrite(BoardVO boardVO, HttpSession session){
+//        //로그인 정보
+//        MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+//
+//        //공지사항 등록 쿼리
+//        boardVO.setMemberId(loginInfo.getMemberId());
+//        boardService.insertNotice(boardVO);
+//
+//        return "redirect:/board/noticeList";
+//    }
+
+
+
+    // 공지사항 게시글 작성 - 이미지 첨부 기능 추가 중
     @PostMapping("/noticeWrite")
-    public String noticeWrite(BoardVO boardVO, HttpSession session){
+    public String noticeWrite(BoardVO boardVO
+                            , HttpSession session
+                            , @RequestParam(name = "mainImg") MultipartFile mainImg
+                            , @RequestParam(name = "subImgs") MultipartFile[] subImgs){
+        //----------------------- 파일 첨부 기능 -----------------------
+        //메인 이미지 하나 업로드
+
+        //상세 이미지들 업로드
+
+        //----------------------- 로그인 정보 --------------------------
         MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
 
+
+        //공지사항 등록 쿼리
         boardVO.setMemberId(loginInfo.getMemberId());
         boardService.insertNotice(boardVO);
+
         return "redirect:/board/noticeList";
     }
     
@@ -83,6 +112,28 @@ public class BoardController {
         //상세 조회
         BoardVO vo = boardService.selectNoticeDetail(boardNum);
         model.addAttribute("notice", vo);
+
+        //이전글 조회
+        BoardVO prevPage = boardService.prevPage(boardNum);
+        if (prevPage != null){
+            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("prevPage", prevPage);
+        }
+        //이전 글이 없을 때
+        else {
+            model.addAttribute("prevPageNotFound", true);
+        }
+
+        // 다음글 조회
+        BoardVO nextPage = boardService.nextPage(boardNum);
+        if(nextPage != null){
+            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("nextPage", nextPage);
+        }
+        //다음 글이 없을 때
+        else {
+            model.addAttribute("nextPageNotFound", true);
+        }
 
         return "content/common/notice_detail";
     }
@@ -98,7 +149,7 @@ public class BoardController {
     @GetMapping("/updateNotice")
     public String update(@RequestParam(name = "boardNum", required=false) int boardNum, Model model){
         model.addAttribute("notice", boardService.selectNoticeDetail(boardNum));
-        return "content/common/update_notice";
+        return "content/common/notice_update";
     }
 
     //공지사항 게시글 수정
@@ -146,10 +197,11 @@ public class BoardController {
     // 문의사항 게시글 작성
     @PostMapping("/qnaWrite")
     public String qnaWrite(BoardVO boardVO, HttpSession session){
+        //로그인 정보
         MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
-
+        //문의사항 게시글 등록
         boardVO.setMemberId(loginInfo.getMemberId());
-        boardService.insertNotice(boardVO);
+        boardService.insertQna(boardVO);
         return "redirect:/board/qnaList";
     }
 
@@ -169,6 +221,28 @@ public class BoardController {
         List<ReplyVO> replyList = replyService.selectReplyList(boardNum);
         model.addAttribute("replyList", replyList);
 
+        //이전글 조회
+        BoardVO prevPage = boardService.prevPage(boardNum);
+        if (prevPage != null){
+            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("prevPage", prevPage);
+        }
+        //이전 글이 없을 때
+        else {
+            model.addAttribute("prevPageNotFound", true);
+        }
+
+        // 다음글 조회
+        BoardVO nextPage = boardService.nextPage(boardNum);
+        if(nextPage != null){
+            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("nextPage", nextPage);
+        }
+        //다음 글이 없을 때
+        else {
+            model.addAttribute("nextPageNotFound", true);
+        }
+
         return "content/common/qna_detail";
     }
 
@@ -183,7 +257,7 @@ public class BoardController {
     @GetMapping("/updateQna")
     public String updateQna(@RequestParam(name = "boardNum", required=false) int boardNum, Model model){
         model.addAttribute("qna", boardService.selectNoticeDetail(boardNum));
-        return "content/common/update_qna";
+        return "content/common/qna_update";
     }
 
     //문의사항 게시글 수정

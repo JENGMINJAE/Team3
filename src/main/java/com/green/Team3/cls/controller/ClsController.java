@@ -4,6 +4,7 @@ import com.green.Team3.cls.service.ClsServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ClsController {
@@ -14,5 +15,4 @@ public class ClsController {
     public String testExam(){
         return "/content/teacher/test_exam";
     }
-
 }
