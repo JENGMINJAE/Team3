@@ -106,12 +106,12 @@ public class AdminController {
         return "redirect:/admin/makeClassForm";
     }
 
-    // 근무 상태 변경
+    // 근무 상태 변경 (완료)
     @PostMapping("/changeAttendance")
     public String changeAttendance(TeacherVO teacherVO){
         System.out.println(teacherVO);
         adminService.changeAttendance(teacherVO);
-        return "redirect:/admin/goAdminTeacher?teacherNum=" + teacherVO.getTeacherNum();
+        return "redirect:/admin/goAdminTeacher";
     }
 
     // 선택한 반의 상세 정보 조회 페이지 이동
@@ -124,7 +124,7 @@ public class AdminController {
     // 반정보 수정 쿼리 실행
     @PostMapping("/updateClass")
     public String updateClass(ClsVO clsVO){
-        return "redirect:/content/admin/change_class?classNum=" + clsVO.getClassNum();
+        return "redirect:/admin/goClassInfo?classNum=" + clsVO.getClassNum();
     }
 
 }

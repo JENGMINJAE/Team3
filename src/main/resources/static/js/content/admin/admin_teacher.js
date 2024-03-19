@@ -24,7 +24,6 @@ function teacherInfo(teacherCode, className){
     })
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
-        console.log(data);
 
         const make_spot = document.querySelector('.teacher-list-div');
 
@@ -41,14 +40,14 @@ function teacherInfo(teacherCode, className){
 
             <div class="row mt-2">
                 <div class="col">
-                    <table class="table table-primary">
+                    <table class="table align-text text-center">
                         <colgroup>
                             <col width="20%">
-                            <col width="30%">
                             <col width="20%">
                             <col width="30%">
+                            <col width="30%">
                         </colgroup>
-                        <thead>
+                        <thead class="table-primary">
                             <tr>
                                 <td>No</td>
                                 <td>반 이름</td>
@@ -71,40 +70,43 @@ function teacherInfo(teacherCode, className){
                         </table>
                     </div>
                 </div>
-                
+                <form action="/admin/changeAttendance" method="post">
                 <div class="row">
                     <div class="col-2 text-center">재직상태</div>
                     <div class="col-10">
-                        <div class="row">
-                            <form active="admin/changeAttendance" method="post" class="send-div">
+                        <div class="row text-center align-text">
+                            
                                 <input type="hidden" name="teacherNum" value="${data[0].teacherVO.teacherNum}">
-                                <div class="change-div">`;
-            console.log(data[0].teacherVO.teacherWork);
+                                `;
+
             if(data[0].teacherVO.teacherWork == 1){
                                 str += `
-                                    <div class="col">
+                                    <div class="col-4">
                                         <input class="form-check-input" type="radio" name="teacherWork" value="1" checked> 재직 
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <input class="form-check-input" type="radio" name="teacherWork" value="2"> 퇴직 
                                     </div>`;
                                 }
             else{
                 str += `
-                <div class="col">
+                                    <div class="col-4">
                                         <input class="form-check-input" type="radio" name="teacherWork" value="1"> 재직 
                                     </div>
-                                    <div class="col">
+                                    <div class="col-4">
                                         <input class="form-check-input" type="radio" name="teacherWork" value="2" checked> 퇴직 
                                     </div>
                 `;
             }
-                               str += `</form></div>
+                               str += `
+                                <div class="col-2 d-grid">
+                                    <input class="btn btn-primary" type="submit" value="변경">
+                                </div>
+                                <div class="col-2"></div>
                         </div>
                     </div>
-                    
-                    
                 </div>
+            </form>
 
 
 
@@ -124,7 +126,7 @@ function teacherInfo(teacherCode, className){
 }
 
 function changeClass(classNum){
-    // const classNum = document.querySelector('.classNum').value;
+
     if(classNum != 0){
         location.href=`/admin/goClassInfo?classNum=${classNum}`;
     }
@@ -132,21 +134,4 @@ function changeClass(classNum){
 }
 
 
-    const radios = document.querySelectorAll('input[name="teacherWork"]');
-
-    radios.forEach(radio => {
-
-        radio.addEventListener('change', function(e){
-            const changeValue = e.target;
-            if(changeValue.checked){
-                document.querySelector('.send-div').submit();
-                alert(111);
-                // const teacherNum = document.querySelector('input[type="hidden"]').value;
-            }
-            
-            
-    
-        });
-    });
-    
 
