@@ -49,7 +49,7 @@
                 FROM operator O
                 INNER JOIN MEMBER
                 ON MEMBER.MEMBER_ID = O.MEMBER_ID
-                WHERE CLASS_NUM = #{classNum}) AS STU_CNT
+                WHERE CLASS_NUM = CLS.CLASS_NUM) AS STU_CNT
             , CLASS_PERSONNEL
             , CASE
                 WHEN CLASS_EDATE &gt;= NOW() THEN '강의 중'
