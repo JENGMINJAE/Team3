@@ -5,8 +5,8 @@
 <mapper namespace="calender">
     <resultMap id="eventCalender" type="com.green.Team3.learn.vo.EventCalenderVO">
         <id             column="EVENT_NUM"      property="eventNum"/>
-        <result         column="EVENT_NAME"     property="eventName"/>
-        <result         column="EVENT_DATE"     property="eventDate"/>
+        <result         column="TITLE"     property="title"/>
+        <result         column="START"     property="start"/>
         <result         column="EVENT_TYPE_NUM" property="eventTypeNum"/>
         <association    property="eventTypeVO"  resultMap="eventType"/>
     </resultMap>
@@ -14,6 +14,39 @@
         <id         column="EVENT_TYPE_NUM"     property="eventTypeNum"/>
         <result     column="EVENT_TYPE_NAME"    property="eventTypeName"/>
     </resultMap>
+
+    <select id="selectEventTypeForTeacherByConsult" resultMap="eventType">
+        SELECT EVENT_TYPE_NUM,EVENT_TYPE_NAME
+        FROM EVENT_TYPE
+        WHERE EVENT_TYPE_NUM = '8'
+    </select>
+
+    <select id="selectClassNameByClassNum" resultType="String">
+        SELECT CLASS_NAME FROM CLASS_INFO
+        WHERE CLASS_NUM = #{classNum}
+    </select>
+
+    <insert id="insertEventCalender">
+        INSERT INTO event_calender (
+            TITLE,
+            START,
+            EVENT_TYPE_NUM
+        ) VALUES (
+            #{title},
+            #{start},
+            #{eventTypeNum}
+        )
+    </insert>
+
+    <select id="addEventBar" resultMap="eventCalender">
+        SELECT TITLE ,START
+        FROM EVENT_CALENDER EC
+        INNER JOIN EVENT_TYPE ET
+        ON EC.EVENT_TYPE_NUM = ET.EVENT_TYPE_NUM
+    </select>
+
+
+
 </mapper>
 
 

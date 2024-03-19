@@ -1,9 +1,11 @@
 package com.green.Team3.learn.controller;
 
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.learn.service.CalenderServiceImpl;
 import com.green.Team3.learn.service.ConsultServiceImpl;
 import com.green.Team3.learn.service.HomeworkServiceImpl;
 import com.green.Team3.learn.vo.ConsultVO;
+import com.green.Team3.learn.vo.EventTypeVO;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -20,6 +22,8 @@ public class ConsultController {
     private ConsultServiceImpl consultService;
     @Resource(name = "homeworkService")
     private HomeworkServiceImpl homeworkService;
+    @Resource(name = "calenderService")
+    private CalenderServiceImpl calenderService;
 
     @GetMapping("/addConsultForm")
     public String addConsultForm(Model model, Authentication authentication){
@@ -43,9 +47,7 @@ public class ConsultController {
     @GetMapping("/consultList")
     public String consultList(Authentication authentication,Model model){
         User user = (User) authentication.getPrincipal();
-        model.addAttribute("endConsultList",consultService.selectEndConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
-        model.addAttribute("willConsultList",consultService.selectWillConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
-        model.addAttribute("todayConsultList",consultService.selectTodayConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        model.addAttribute("classInfo",homeworkService.selectClassByThisTeacher(user.getUsername()));
         return "/content/teacher/consult_list";
     }
 }

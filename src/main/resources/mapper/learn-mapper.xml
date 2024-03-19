@@ -128,7 +128,7 @@
         WHERE CLASS_NUM = #{classNum}
     </select>
     <select id="selectClassNumByTeacherNum" resultMap="homework">
-        SELECT
+        SELECT DISTINCT
         H.CLASS_NUM,CLASS_NAME
         FROM homework H
         INNER JOIN class_info CI

@@ -21,79 +21,51 @@
     </div>
     <div class="col-4">
 
-
-        <table class="table">
-            <thead>
+        <form id="consultForm" action="/calender/addCalender" method="post">
+            <table class="table">
+                <colgroup>
+                    <col width="50%">
+                    <col width="50%">
+                </colgroup>
                 <tr>
-                    <td colspan="4">금일 상담 학생 List</td>
-                </tr>
-                <tr>
-                    <td>No</td>
-                    <td>반</td>
-                    <td>학생 명</td>
-                    <td>상담 예정일</td>
-                </tr>
-            </thead>
-            <tbody> <!-- 반복문 예정 -->
-                <tr th:each="todayconsult, state:${todayConsultList}">
-                    <td>[[${todayConsultList.size-state.index}]]</td>
-                    <td>[[${todayconsult.clsVO.className}]]</td>
-                    <td>[[${todayconsult.memberVO.memberName}]]</td>
-                    <td>[[${todayconsult.consultDate}]]</td>
-                </tr>
-            </tbody>
-        </table>
-    
-    
-        <table class="table">
-            <thead>
-                <tr>
-                    <td colspan="4">상담 예정 학생 List</td>
+                    <td colspan="2">
+                        <h3>상담 일정 추가하기</h3>
+                    </td>
                 </tr>
                 <tr>
-                    <td>No</td>
-                    <td>반</td>
-                    <td>학생 명</td>
-                    <td>상담 예정일</td>
-                </tr>
-            </thead>
-            <tbody th:each="willconsult, state:${willConsultList}"> <!-- 반복문 예정 -->
-                <tr>
-                    <td>[[${willConsultList.size-state.index}]]</td>
-                    <td>[[${willconsult.clsVO.className}]]</td>
-                    <td>[[${willconsult.memberVO.memberName}]]</td>
-                    <td>[[${willconsult.consultDate}]]</td>
-                </tr>
-            </tbody>
-        </table>
-    
-    
-        <table class="table">
-            <thead>
-                <tr>
-                    <td colspan="4">상담 완료 학생 List</td>
+                    <td>학급</td>
+                    <td>성명</td>
                 </tr>
                 <tr>
-                    <td>No</td>
-                    <td>반</td>
-                    <td>학생 명</td>
-                    <td>상담 일</td>
+                    <td>
+                        <select name="classNum" onchange="change()" class="form-select" id="class_select">
+                            <option th:each="class:${classInfo}" th:value="${class.classNum}">[[${class.className}]]</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="memberId" id="stu_select" class="form-select">
+                                
+                        </select>
+                    </td>
                 </tr>
-            </thead>
-            <tbody th:each="endconsult, state:${endConsultList}"> <!-- 반복문 예정 -->
                 <tr>
-                    <td>[[${endConsultList.size-state.index}]]</td>
-                    <td>[[${endconsult.clsVO.className}]]</td>
-                    <td>[[${endconsult.memberVO.memberName}]]</td>
-                    <td>[[${endconsult.consultDate}]]</td>
+                    <td colspan="2">
+                        <input class="form-control" type="date" name="start">
+                    </td>
                 </tr>
-            </tbody>
-        </table>
-    </th:block>
-
+            </table>
+            <div class="row">
+                <div class="col" style="text-align: right;">
+                    <input class="btn btn-outline-success" type="submit" value="추가">
+                </div>
+            </div>
+        </form>
 
     </div>
 </div>
+</th:block>
+
+
     
 
 <th:block layout:fragment="content_js">

@@ -9,8 +9,8 @@ import lombok.ToString;
 @ToString
 public class EventCalenderVO {
     private int eventNum;
-    private String eventName;
-    private String eventDate;
+    private String title;
+    private String start;
     private int eventTypeNum;
     private EventTypeVO eventTypeVO;
 }

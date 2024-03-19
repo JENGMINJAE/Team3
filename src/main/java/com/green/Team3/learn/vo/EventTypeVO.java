@@ -9,5 +9,5 @@ import lombok.ToString;
 @ToString
 public class EventTypeVO {
     private int eventTypeNum;
-    private int eventTypeName;
+    private String eventTypeName;
 }
