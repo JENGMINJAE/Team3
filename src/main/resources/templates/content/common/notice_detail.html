@@ -8,6 +8,18 @@
 </th:block>
 <body>
     
+
+    <!-- <th:if test="${notice.imgList != null and notice.imgList.size() > 0}">
+        <th:block th:each="img, imgIndex : ${notice.imgList}">
+            <h4 th:text="'첨부파일' + ${imgIndex.index + 1}"></h4>
+            <a th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
+                <img width="100%" th:src="@{'/upload/' + ${img.attachedFileName}}">
+            </a>
+        </th:block>
+    </th:if> -->
+
+
+
 <th:block layout:fragment="contentFragment">
     <!-- 공지사항 글 상세조회 -->
         <div class="row">
@@ -26,18 +38,16 @@
                             <td class="text-start">
                                 <div class="row">
                                     <div class="col">
-                                        <h4>첨부파일1</h4>
-                                        <a th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
-                                            <img width="100%" th:src="@{'/upload/' + ${notice.imgList[0].attachedFileName}}">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <h4>첨부파일2</h4>
-                                        <a th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
-                                            <img width="100%" th:src="@{'/upload/' + ${notice.imgList[0].attachedFileName}}">
-                                        </a>
+                                        <th:block th:if="${notice.imgList != null and notice.imgList.size() > 0}">
+                                            <th:block th:each="img, imgIndex : ${notice.imgList}">
+                                                <th:block th:if="${imgIndex.index lt 2}">
+                                                    <h4 th:text="'첨부파일' + ${imgIndex.index + 1}"></h4>
+                                                    <a th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
+                                                        <img width="100%" th:src="@{'/upload/' + ${img.attachedFileName}}">
+                                                    </a>
+                                                </th:block>
+                                            </th:block>
+                                        </th:block>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -97,9 +107,8 @@
         </table>
     </div>
 
-
-
 </th:block>
+
 
 <th:block layout:fragment="content_js">
     <script src="/js/board.js"></script>

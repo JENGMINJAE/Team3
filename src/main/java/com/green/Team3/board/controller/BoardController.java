@@ -79,13 +79,6 @@ public class BoardController {
 //    }
 
 
-//    public String addConsultForm(Model model, Authentication authentication){
-//        User user = (User) authentication.getPrincipal();
-//        model.addAttribute("classInfo",homeworkService.selectClassByThisTeacher(user.getUsername()));
-//        return "/content/teacher/add_consult";
-//    }
-
-
     // 공지사항 게시글 작성 - 이미지 첨부 기능 추가 중
     @PostMapping("/noticeWrite")
     public String noticeWrite(BoardVO boardVO
@@ -106,11 +99,12 @@ public class BoardController {
 
         //다음에 들어갈 boardNum 조회
         int boardNum = boardService.selectNextNoticeCode();
-        
+
         //------------------------ 공지사항 등록 ------------------------
         boardVO.setBoardNum(boardNum);
 
-        //------------------------ 파일 첨부 등록 ----------------------- 
+
+        //------------------------ 파일 첨부 등록 -----------------------
         mainImgVO.setBoardNum(boardNum);
         for(ImgVO img : imgList){
             img.setBoardNum(boardNum);
@@ -121,7 +115,9 @@ public class BoardController {
         System.out.println(boardVO);
         //쿼리 실행
         boardService.insertNotice(boardVO);
-        
+
+
+
         return "redirect:/board/noticeList";
     }
 

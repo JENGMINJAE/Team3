@@ -85,35 +85,35 @@
         )
     </insert>
 
+    <!-- 게시글 상세 조회 - 공지사항-->
 <!--    <select id="selectNoticeDetail" resultMap="boardMap">-->
 <!--        SELECT B.BOARD_NUM-->
-<!--        , BOARD_TITLE-->
-<!--        , BOARD_CONTENT-->
-<!--        , MEMBER_ID-->
-<!--        , TYPE_NUM-->
-<!--        , BOARD_CNT-->
-<!--        , ATTACHED_FILE_NAME-->
-<!--        , IS_MAIN-->
+<!--            , BOARD_TITLE-->
+<!--            , BOARD_CONTENT-->
+<!--            , MEMBER_ID-->
+<!--            , TYPE_NUM-->
+<!--            , BOARD_CNT-->
+<!--            , ATTACHED_FILE_NAME-->
+<!--            , IS_MAIN-->
 <!--        FROM BOARD B INNER JOIN BOARD_IMAGE I-->
 <!--        ON B.BOARD_NUM = I.BOARD_NUM-->
 <!--        WHERE B.BOARD_NUM = #{boardNum}-->
 <!--    </select>-->
-
-
-    <!-- 게시글 상세 조회 - 공지사항-->
-    <select id="selectNoticeDetail" resultMap="boardMap">
+    <select id="selectNoticeDetail" parameterType="int" resultMap="boardMap">
         SELECT B.BOARD_NUM
-            , BOARD_TITLE
-            , BOARD_CONTENT
-            , MEMBER_ID
-            , TYPE_NUM
-            , BOARD_CNT
-            , ATTACHED_FILE_NAME
-            , IS_MAIN
-        FROM BOARD B INNER JOIN BOARD_IMAGE I
-        ON B.BOARD_NUM = I.BOARD_NUM
+        , BOARD_TITLE
+        , BOARD_CONTENT
+        , B.MEMBER_ID
+        , TYPE_NUM
+        , BOARD_CNT
+        , I.ATTACHED_FILE_NAME
+        , I.IS_MAIN
+        FROM BOARD B
+        LEFT JOIN BOARD_IMAGE I ON B.BOARD_NUM = I.BOARD_NUM
         WHERE B.BOARD_NUM = #{boardNum}
     </select>
+
+
 
     <!-- 게시글 상세 조회 - 문의사항 -->
     <select id="selectQnaDetail" resultMap="boardMap">
