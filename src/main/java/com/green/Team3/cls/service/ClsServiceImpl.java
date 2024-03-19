@@ -15,11 +15,20 @@ public class ClsServiceImpl implements ClsService{
 
     @Override
     public List<ClsVO> selectClass(MemberVO memberVO) {
-        return sqlSession.selectList("clsMapper.selectClasses", memberVO);
+        if(memberVO.getMemberRoll() == 1){
+            return sqlSession.selectList("clsMapper.selectClasses", memberVO);
+        } else {
+            return sqlSession.selectList("admin.teacherClassList", memberVO);
+        }
     }
 
     @Override
     public ClsVO selectClassDetail(int classNum) {
         return sqlSession.selectOne("clsMapper.classInfo", classNum);
+    }
+
+    @Override
+    public List<ClsVO> selectAllClass() {
+        return sqlSession.selectList("clsMapper.selectAllClass");
     }
 }

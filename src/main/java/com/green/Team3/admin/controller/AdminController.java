@@ -92,17 +92,19 @@ public class AdminController {
         List<ClsVO> voList = clsService.selectClass(memberVO);
         return voList;
     }
-//    ----------------------- 완료 ---------------------------
 
-    // 학급 생성 페이지 이동
+    // 학급 생성 페이지 이동 (완료)
     @GetMapping("/makeClassForm")
-    public String makeClassForm(){
+    public String makeClassForm(Model model){
+        model.addAttribute("clsList", clsService.selectAllClass());
+        model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/make_class_form";
     }
 
-    // 학급 생성 버튼 클릭 시 실행 메소드
+    // 학급 생성 버튼 클릭 시 실행 메소드 (완료)
     @PostMapping("/makeClass")
-    public String makeClass(){
+    public String makeClass(ClsVO clsVO){
+        adminService.makeCls(clsVO);
         return "redirect:/admin/makeClassForm";
     }
 
@@ -113,7 +115,7 @@ public class AdminController {
         adminService.changeAttendance(teacherVO);
         return "redirect:/admin/goAdminTeacher";
     }
-
+    //    ----------------------- 완료 ---------------------------
     // 선택한 반의 상세 정보 조회 페이지 이동
     @GetMapping("/goClassInfo")
     public String changeClass(@RequestParam(name = "classNum")int classNum, Model model){

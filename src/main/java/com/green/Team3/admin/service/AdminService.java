@@ -26,7 +26,13 @@ public interface AdminService {
     // 인적 사항 정보 변경
     void changePersonalInfo(MemberVO memberVO);
 
+    // 반 생성
+    void makeCls(ClsVO clsVO);
+
     // 반정보 수정
     void updateClassInfo(ClsVO clsVO);
+
+    // 선생님 이름 조회
+    List<TeacherVO> selectTeacherName();
 
 }

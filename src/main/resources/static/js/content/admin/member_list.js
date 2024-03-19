@@ -230,7 +230,7 @@ function changeRoll(selectedTag, memberId){
 
 
 // 수강목록 조회
-function showClasses(memberId){
+function showClasses(memberId, memberRoll){
     const classes_modal = new bootstrap.Modal('#classes-modal');
 
 
@@ -243,7 +243,8 @@ function showClasses(memberId){
         //컨트롤러로 전달할 데이터
         body: JSON.stringify({
            // 데이터명 : 데이터값
-           memberId : memberId
+           memberId : memberId ,
+           memberRoll : memberRoll
         })
     })
     .then((response) => {

@@ -41,6 +41,26 @@
         AND CLASS_EDATE > NOW()
     </select>
 
+    <!-- 전체 반 목록 조회하기 -->
+    <select id="selectAllClass" resultMap="cls">
+        SELECT CLASS_NUM
+            , CLASS_NAME
+            , CLASS_PAYMENT
+            , CLASS_PERSONNEL
+            , CLASS_SDATE
+            , CLASS_EDATE
+            , CLASS_STATUS
+            , CI.TEACHER_NUM
+            , MEMBER_NAME
+            , M.MEMBER_ID
+        FROM CLASS_INFO CI INNER JOIN TEACHER T
+        ON CI.TEACHER_NUM = T.TEACHER_NUM
+        INNER JOIN MEMBER M
+        ON T.MEMBER_ID = M.MEMBER_ID
+        WHERE CLASS_EDATE &gt;= NOW()
+        ORDER BY CLASS_NUM DESC
+    </select>
+
     <!-- 선택한 반의 상세 정보 조회하기 -->
     <select id="classInfo" resultMap="cls">
         SELECT CLASS_NUM
@@ -71,6 +91,8 @@
             , CLASS_EDATE = #{classEdate}
             , TEACHER_NUM = #{teacherNum}
     </update>
+
+
 <!--    <select id="selectClassNumAndStuNum" resultMap="operator">-->
 <!--        SELECT-->
 <!--        M.MEMBER_ID,-->
