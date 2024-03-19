@@ -51,21 +51,52 @@
             , CLASS_PERSONNEL
             , CLASS_SDATE
             , CLASS_EDATE
+            , TEACHER_NUM
         ) VALUES (
             #{className}
             , #{classPayment}
-            , #[classPersonnel}
+            , #{classPersonnel}
             , #{classSdate}
             , #{classEdate}
+            , #{teacherNum}
         )
     </insert>
 
     <!-- 근무 상태 변경 재직/퇴직 -->
     <update id="changeAttendance">
         UPDATE TEACHER
-        SET WORK_NUM = #{atdName}
-        WHERE MEMBER_ID = #{memberId}
+        SET TEACHER_WORK = #{teacherWork}
+        WHERE TEACHER_NUM = #{teacherNum}
     </update>
+
+    <!-- 선택한 선생의 강의 목록 조회 -->
+    <select id="teacherClassList" resultMap="clsMapper.cls">
+        SELECT
+            CLASS_NUM,
+            CLASS_NAME,
+            CLASS_SDATE,
+            CLASS_EDATE,
+            CLASS_ENTER,
+            CLASS_STATUS,
+            MEMBER_NAME AS TEACHER_NAME,
+            CI.TEACHER_NUM
+        FROM member M INNER JOIN TEACHER T
+        ON M.MEMBER_ID = T.MEMBER_ID
+        INNER JOIN class_info CI
+        ON T.TEACHER_NUM = CI.TEACHER_NUM
+        WHERE M.MEMBER_ID = #{memberId}
+        AND CLASS_EDATE > NOW()
+    </select>
+
+    <!-- 등록된 선생님 이름 목록 조회 -->
+    <select id="selectTeacherName" resultMap="teacher.teacherInfo">
+        SELECT TEACHER_NUM
+            , MEMBER_NAME
+            , M.MEMBER_ID
+        FROM TEACHER T
+        INNER JOIN MEMBER M
+        ON T.MEMBER_ID = M.MEMBER_ID
+    </select>
 </mapper>
 
 
