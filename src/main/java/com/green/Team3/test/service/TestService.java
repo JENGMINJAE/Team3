@@ -13,7 +13,10 @@ import java.util.List;
 public interface TestService {
 
     // 강사 강의 목록조회 ////
-    List<ClsVO> selectTeacherClassList();
+    List<ClsVO> selectTeacherClassList(String memberId);
+
+    // 수업듣는 학생인원 조회
+    List<ClsVO> selectClassStuCnt(String memberId);
 
     // 반별 학생 평가명 점수 조회
     List<TestScoreVO> selectTestList(int classNum);

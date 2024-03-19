@@ -21,8 +21,14 @@ public class TestServiceImpl implements TestService{
 
     // 강사 강의 목록조회 //
     @Override
-    public List<ClsVO> selectTeacherClassList() {
-        return sqlSession.selectList("testMapper.selectTeacherClassList");
+    public List<ClsVO> selectTeacherClassList(String memberId) {
+        return sqlSession.selectList("testMapper.selectTeacherClassList",memberId);
+    }
+
+    // 수업듣는 학생인원 조회
+    @Override
+    public List<ClsVO> selectClassStuCnt(String memberId) {
+        return sqlSession.selectList("testMapper.selectClassStuCnt", memberId);
     }
 
     // 반별 학생들의 평가명 점수 조회

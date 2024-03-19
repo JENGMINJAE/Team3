@@ -40,14 +40,31 @@
     <select id="selectTeacherClassList" resultMap="clsMapper.cls">
         SELECT
         CLASS_NUM
-        , TEACHER_NUM
+        , TE.TEACHER_NUM
         , CLASS_NAME
         , CLASS_PERSONNEL
         , CLASS_SDATE
         , CLASS_EDATE
         , CLASS_ENTER
-        FROM CLASS_INFO
-        WHERE TEACHER_NUM=1
+        , MEMBER_ID
+        FROM CLASS_INFO CI
+        INNER JOIN TEACHER TE
+        ON CI.TEACHER_NUM= TE.TEACHER_NUM
+        WHERE TE.MEMBER_ID= #{memberId}
+    </select>
+
+
+    <select id="selectClassStuCnt" resultMap="clsMapper.cls">
+        SELECT
+            CI.CLASS_NUM
+            , TE.MEMBER_ID
+            , TE.TEACHER_NUM
+        FROM class_info CI
+        INNER JOIN operator OP
+        ON CI.CLASS_NUM=OP.CLASS_NUM
+        INNER JOIN TEACHER TE
+        ON CI.TEACHER_NUM= TE.TEACHER_NUM
+        WHERE TE.MEMBER_ID= #{memberId}
     </select>
 
 

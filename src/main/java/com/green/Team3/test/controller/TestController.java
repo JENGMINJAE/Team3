@@ -9,6 +9,8 @@ import com.green.Team3.test.vo.TestScoreVO;
 import com.green.Team3.test.vo.TestSubjectVO;
 import com.green.Team3.test.vo.TestVO;
 import jakarta.annotation.Resource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +30,20 @@ public class TestController {
 
 
 
-
+    //@RequestParam(name="teacherNum")int teacherNum
     @GetMapping("/testList")
-    public String testList(Model model){
-
+    public String testList(Model model, Authentication authentication){
+        User user=(User) authentication.getPrincipal();
         // ------------- 강사가 수업하는 수강명 목록 조회 ---------------
-        List<ClsVO> classList = testService.selectTeacherClassList();
-        System.out.println(classList);
+        // 로그인한 유저 아이디 user.getUsername()
+        List<ClsVO> classList = testService.selectTeacherClassList(user.getUsername());
+        System.out.println("@@@@@@@@@@@@@@@@@@@!!!!!!!!!!!!!!!!!"+classList);
         model.addAttribute("classList", classList);
+
+        // ----- 수업듣는 학생인원 조회-----
+        List<ClsVO> classStuList = testService.selectClassStuCnt(user.getUsername());
+        System.out.println(classStuList);
+        model.addAttribute("classStuList",classStuList);
 
         return "content/test/teacher_first_sc";
 

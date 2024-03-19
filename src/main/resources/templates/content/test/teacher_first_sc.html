@@ -12,88 +12,97 @@
     <!-- html 코드 작성-->
     <!-- 선생님!!! 여기가 팀파일 -->
     
+    <style>
+     tr, td {border: 2px solid rgba(58, 111, 228, 0.281);}
+     .classTd{--bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136);}
+
+
+    </style>
     
     <div>
 
-        <div class="row">
+        <div class="row" style="width: 1000px;">
             <div class="col">
-                <h4>성적처리 수강반 목록</h4>
-                    <table class="table text-center">
-                        <colgroup>
-                            <col width="10%">
-                            <col width="30%">
-                            <col width="10%">
-                            <col width="30%">               
-                            <col width="20%">
-                        </colgroup>
-                        <tr>
-                            <td>번호</td>
-                            <td>수강명</td>
-                            <td>총인원</td>
-                            <td>수강기간</td>
-                            <td>입력여부</td>
-                        </tr>
+                <div class="row" style="width:800px;">
+                    <div class="col" style="color: white; background-color:rgb(28, 28, 78); border-bottom: 10px solid rgb(23, 141, 156); font-size:25px;">
+                        <strong>성적처리</strong>
+                    </div>
+                </div>
 
-                        <tr th:each= "classInfo : ${classList}">
-                            <td>[[${classInfo.classNum}]]</td>
-                            <td><span class="point-span" th:onclick="goScore([[${classInfo.classNum}]])" >[[${classInfo.className}]]</span></td>
-                            <td>[[${classInfo.classPersonnel}]]</td> 
-                            <td>[[${classInfo.classSdate}]]-[[${classInfo.classEdate}]]</td>
-                            <td>
-                                <input type="radio" th:value="${classInfo.classEnter}" checked>수강중
-                                <input type="radio" >종강
-
-                            </td>
-                        </tr>
-
-                        
-                    </table>
+                <div class="row mt-4">
+                    <div class="col" style="font-size:20px;">
+                        <strong><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 20 20">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                            <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
+                          </svg> 성적처리 수강반 목록</strong>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col">
+                        <table class="table text-center">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="30%">
+                                <col width="15%">
+                                <col width="30%">               
+                                <col width="20%">
+                            </colgroup>
+                            <tr class="classTd">
+                                <td><strong>수강번호</strong></td>
+                                <td><strong>수강명</strong></td>
+                                <td><strong>현인원/정원</strong></td>
+                                <td><strong>수강기간</strong></td>
+                                <td><strong>입력 여부</strong></td>
+                            </tr>
+    
+                            <tr th:each= "classInfo : ${classList}">
+                                <td>[[${classInfo.classNum}]]</td>
+                                <td style="cursor:pointer;"><span class="point-span" th:onclick="goScore([[${classInfo.classNum}]])" >[[${classInfo.className}]]</span></td>
+                                <td>  /[[${classInfo.classPersonnel}]]</td> 
+                                <td>[[${classInfo.classSdate}]]-[[${classInfo.classEdate}]]</td>
+                                <td>
+                                    <input type="radio" th:value="${classInfo.classEnter}" checked>수강중
+                                    <input type="radio" >종강
+    
+                                </td>
+                            </tr>                           
+                        </table>
+                    </div>
+                </div>
+                
+                    
                     
             </div>
         </div>
         
 
-        <div class="row">
-            <div class="col">    
-                <h4>평가입력 현황</h4>
-                <table class="table text-center">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="15%">
-                        <col width="15%">
-                        <col width="15%">
-                        <col width="15%">
-                        <col width="20%">
-                    </colgroup>
-                    <tr>
-                        <td>No</td>
-                        <td>수강명</td>
-                        <td>100 ~ 90점</td>
-                        <td>89 ~ 80점</td>
-                        <td>79 ~ 70점</td>
-                        <td>69 ~ 0점</td>
-                        <td>총인원</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>한국사</td>
-                        <td>2</td>
-                        <td>10</td>
-                        <td>7</td>
-                        <td>1</td>
-                        <td>30</td>
-                    </tr>
+        <div class="row"  style="width: 1000px;">
+            <div class="col">
 
-                    <tr>
-                        <td>2</td>
-                        <td>사회복지와 다양성</td>
-                        <td>2</td>
-                        <td>10</td>
-                        <td>17</td>
-                        <td>1</td>
-                        <td>40</td>
+                <div class="row" style="width: 300px; margin-left: 2px;">
+                    <div class="col" style="background-color:rgb(23, 141, 156); color: white;">
+                        <strong><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-lightbulb" viewBox="0 0 20 20">
+                            <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1"/>
+                          </svg>성적조회 TIP's</strong>
+                    </div>
+                </div>
+                
+                              
+                <table class="table text-center">
+                   
+                    <tr style="text-align: start; font-size: 15px;">
+                        
+                        <td>
+                            - 수강반명을 클릭하면 해당 반의 시험목록이 연결됩니다. <br>
+                            - 수강반의 해당 학생 상세정보는 학급> 학생정보조회를 확인하세요.<br>
+                            - 시험별, 과목별 이의신청 처리결과에 따라 최종성적은 변동될 수 있습니다.
+
+
+                        </td>
+                        
                     </tr>
+                                  
                 </table>
             </div>
         </div>
