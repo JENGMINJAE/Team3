@@ -24,8 +24,26 @@
                         <tr>
                             <td>내용</td>
                             <td class="text-start">
-                                <div style="word-break:break-all">
-                                    [[${notice.boardContent}]]
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>첨부파일1</h4>
+                                        <a th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
+                                            <img width="100%" th:src="@{'/upload/' + ${notice.imgList[0].attachedFileName}}">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4>첨부파일2</h4>
+                                        <a th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
+                                            <img width="100%" th:src="@{'/upload/' + ${notice.imgList[0].attachedFileName}}">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="word-break:break-all">
+                                        [[${notice.boardContent}]]
+                                    </div>
                                 </div>
                             </td>
                         </tr>

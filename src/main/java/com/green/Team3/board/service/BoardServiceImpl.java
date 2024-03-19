@@ -43,10 +43,17 @@ public class BoardServiceImpl implements BoardService {
         sqlSession.insert("board.insertQna", boardVO);
     }
 
-    //게시글 상세 조회
+    //게시글 상세 조회 - 공지사항
     @Override
     public BoardVO selectNoticeDetail(int boardNum) {
         BoardVO result = sqlSession.selectOne("board.selectNoticeDetail", boardNum);
+        return result;
+    }
+
+    //게시글 상세 조회 - 문의사항
+    @Override
+    public BoardVO selectQnaDetail(int boardNum) {
+        BoardVO result = sqlSession.selectOne("board.selectQnaDetail", boardNum);
         return result;
     }
 

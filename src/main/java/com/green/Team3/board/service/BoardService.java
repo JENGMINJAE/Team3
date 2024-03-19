@@ -23,6 +23,9 @@ public interface BoardService {
     //게시글 상세 조회
     BoardVO selectNoticeDetail(int boardNum);
 
+    //게시글 상세 조회
+    BoardVO selectQnaDetail(int boardNum);
+
     //게시글 조회수 증가
     void updateBoardCnt(int boardNum);
 
