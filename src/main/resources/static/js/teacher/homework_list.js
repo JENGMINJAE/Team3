@@ -84,7 +84,7 @@ function homework_crystal(thishc){
         </table>
         <input type="hidden" name="hwNum" value="${data.homeworkVO.hwNum}">`;
             modal_body.insertAdjacentHTML('afterbegin',str)
-
+            modal.show();
         })
         //fetch 통신 실패 시 실행 영역
         .catch(err=>{
@@ -94,7 +94,6 @@ function homework_crystal(thishc){
         
         
     }
-    modal.show();
 }
 
 function homework_delete(thishd){

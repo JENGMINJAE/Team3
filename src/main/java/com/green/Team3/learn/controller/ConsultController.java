@@ -39,15 +39,24 @@ public class ConsultController {
         return list;
     }
 
-    @PostMapping("/addConsult")
-    public String addConsult(ConsultVO consultVO){
-        consultService.insertConsult(consultVO);
-        return "/content/teacher/consult_list";
-    }
-    @GetMapping("/consultList")
-    public String consultList(Authentication authentication,Model model){
+//    @PostMapping("/addConsult")
+//    public String addConsult(ConsultVO consultVO){
+//        consultService.insertConsult(consultVO);
+//        return "/content/teacher/consult_list";
+//    }
+    @GetMapping("/consultAddCalender")
+    public String consultAddCalender(Authentication authentication,Model model){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("classInfo",homeworkService.selectClassByThisTeacher(user.getUsername()));
+        return "/content/teacher/consult_add_calender";
+    }
+
+    @GetMapping("/consultList")
+    public String consultList(Authentication authentication, Model model){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("endConsultList",consultService.selectEndConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        model.addAttribute("willConsultList",consultService.selectWillConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        model.addAttribute("todayConsultList",consultService.selectTodayConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
         return "/content/teacher/consult_list";
     }
 }

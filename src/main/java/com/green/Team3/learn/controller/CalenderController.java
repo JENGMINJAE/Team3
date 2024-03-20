@@ -3,6 +3,7 @@ package com.green.Team3.learn.controller;
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.learn.service.CalenderServiceImpl;
 import com.green.Team3.learn.service.ConsultServiceImpl;
+import com.green.Team3.learn.vo.ConsultVO;
 import com.green.Team3.learn.vo.EventCalenderVO;
 import com.green.Team3.learn.vo.EventTypeVO;
 import jakarta.annotation.Resource;
@@ -43,7 +44,12 @@ public class CalenderController {
         calenderVO.setTitle(title);
         System.out.println(calenderVO);
         calenderService.insertEventCalender(calenderVO);
-        return "redirect:/consult/consultList";
+        ConsultVO vo = new ConsultVO();
+        vo.setClassNum(classNum);
+        vo.setMemberId(memberId);
+        vo.setConsultDate(start);
+        consultService.insertConsult(vo);
+        return "redirect:/consult/consultAddCalender";
     }
 
     @ResponseBody

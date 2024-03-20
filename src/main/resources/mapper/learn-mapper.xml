@@ -165,13 +165,11 @@
         INSERT INTO CONSULT (
             CLASS_NUM,
             MEMBER_ID,
-            CONSULT_DATE,
-            CONSULT_CONTENT
+            CONSULT_DATE
         ) VALUES (
             #{classNum},
             #{memberId},
-            #{consultDate},
-            #{consultContent}
+            #{consultDate}
         )
     </insert>
 
@@ -203,7 +201,7 @@
         ON m.MEMBER_ID = c.MEMBER_ID
         WHERE ci.TEACHER_NUM = #{teacherNum}
         AND consult_DATE > substring(NOW(),1,10)
-        ORDER BY CONSULT_DATE DESC
+        ORDER BY CONSULT_DATE ASC
     </select>
     <select id="selectTodayConsultList" resultMap="consult">
         SELECT CONSULT_NUM,
