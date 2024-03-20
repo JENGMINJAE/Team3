@@ -18,7 +18,7 @@ public class AdminServiceImpl implements AdminService{
 
     // 강사 전체 목록 조회 (완료)
     @Override
-    public List<ClsVO> selectTeachers() {
+    public List<TeacherVO> selectTeachers() {
         return sqlSession.selectList("teacher.selectTeachers");
     }
 
@@ -69,11 +69,15 @@ public class AdminServiceImpl implements AdminService{
         sqlSession.update("clsMapper.updateClass", clsVO);
     }
 
-
     // 강사 목록 조회
     @Override
     public List<TeacherVO> selectTeacherName() {
         return sqlSession.selectList("admin.selectTeacherName");
+    }
+
+    @Override
+    public int updateClass(ClsVO clsVO) {
+        return sqlSession.update("admin.updateClass", clsVO);
     }
 
 }

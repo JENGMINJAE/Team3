@@ -28,16 +28,16 @@
                 <div class="col">
                     <table class="table text-center align-middle table-hover">
                         <colgroup>
+                            <col width="15%">
                             <col width="20%">
-                            <col width="20%">
-                            <col width="20%">
-                            <col width="30%">
+                            <col width="40%">
+                            <col width="25%">
                         </colgroup>
                         <thead>
                             <tr>
                                 <td>No</td>
                                 <td>이름</td>
-                                <td>반</td>
+                                <td>근무시작일</td>
                                 <td>근무 현황</td>
                             </tr>
                         </thead>
@@ -45,9 +45,9 @@
                             <tr th:each="teacher, state : ${teacherList}" class="pointer-span" th:onclick="teacherInfo([[${teacher.teacherNum}]])">
 
                                 <td>[[${#lists.size(teacherList) - state.index}]]</td>
-                                <td>[[${teacher.teacherVO.teacherName}]]</td>
-                                <td>[[${teacher.className}]]</td>
-                                <td>[[${teacher.teacherVO.strWork}]]</td>
+                                <td>[[${teacher.memberVO.memberName}]]</td>
+                                <td>[[${teacher.memberVO.regDate}]]</td>
+                                <td>[[${teacher.strWork}]]</td>
                             </tr>
                         </tbody>
                     </table>

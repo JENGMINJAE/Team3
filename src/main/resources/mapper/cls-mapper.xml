@@ -92,16 +92,6 @@
         WHERE CI.CLASS_NUM = #{classNum}
     </select>
 
-    <!-- 반에서 정보 수정 -->
-    <update id="updateClass">
-        UPDATE CLASS_INFO
-        SET CLASS_NAME =#{className}
-            , CLASS_PAYMENT = #{classPayment}
-            , CLASS_PERSONNEL = #{classPersonnel}
-            , CLASS_SDATE = #{classSdate}
-            , CLASS_EDATE = #{classEdate}
-            , TEACHER_NUM = #{teacherNum}
-    </update>
 
 
 <!--    <select id="selectClassNumAndStuNum" resultMap="operator">-->
