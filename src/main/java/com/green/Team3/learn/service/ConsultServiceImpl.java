@@ -22,4 +22,24 @@ public class ConsultServiceImpl implements ConsultService{
     public void insertConsult(ConsultVO vo) {
         sqlSession.insert("learnMapper.insertConsult",vo);
     }
+
+    @Override
+    public List<ConsultVO> selectEndConsultList(int teacherNum) {
+        return sqlSession.selectList("learnMapper.selectEndConsultList",teacherNum);
+    }
+
+    @Override
+    public List<ConsultVO> selectWillConsultList(int teacherNum) {
+        return sqlSession.selectList("learnMapper.selectWillConsultList",teacherNum);
+    }
+
+    @Override
+    public List<ConsultVO> selectTodayConsultList(int teacherNum) {
+        return sqlSession.selectList("learnMapper.selectTodayConsultList",teacherNum);
+    }
+
+    @Override
+    public int selectTeacherNumOfMemberId(String memberId) {
+        return sqlSession.selectOne("learnMapper.selectTeacherNumOfMemberId",memberId);
+    }
 }
