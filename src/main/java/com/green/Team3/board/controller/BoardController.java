@@ -79,11 +79,10 @@ public class BoardController {
 //    }
 
 
-    // 공지사항 게시글 작성 - 이미지 첨부 기능 추가 중
+    // 공지사항 게시글 작성 - 이미지 첨부 기능 추가 중 ㅠㅠ
     @PostMapping("/noticeWrite")
     public String noticeWrite(BoardVO boardVO
                             , Authentication authentication
-                            , @RequestParam(name = "mainImg") MultipartFile mainImg
                             , @RequestParam(name = "subImgs") MultipartFile[] subImgs){
 
         //------------------- 사용자 로그인 정보 받아오기 --------------------
@@ -91,10 +90,7 @@ public class BoardController {
         boardVO.setMemberId(user.getUsername());
 
         //----------------------- 파일 첨부 기능 -----------------------
-        //메인 이미지 업로드
-        ImgVO mainImgVO = UploadUtil.uploadFile(mainImg);
-
-        //상세 이미지들 업로드
+        //첨부 이미지들 업로드
         List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
 
         //다음에 들어갈 boardNum 조회
@@ -103,26 +99,15 @@ public class BoardController {
         //------------------------ 공지사항 등록 ------------------------
         boardVO.setBoardNum(boardNum);
 
-
         //------------------------ 파일 첨부 등록 -----------------------
-        mainImgVO.setBoardNum(boardNum);
-        for(ImgVO img : imgList){
-            img.setBoardNum(boardNum);
-        }
-        imgList.add(mainImgVO);
         boardVO.setImgList(imgList);
 
         System.out.println(boardVO);
         //쿼리 실행
         boardService.insertNotice(boardVO);
 
-
-
         return "redirect:/board/noticeList";
     }
-
-
-
 
 
     // 공지사항 상세 조회
@@ -162,10 +147,18 @@ public class BoardController {
         return "content/common/notice_detail";
     }
 
-    // 공지사항 게시글 삭제
+//    @GetMapping("/deleteNotice")
+//    public String deleteNotice(@RequestParam(name = "boardNum") int boardNum){
+//        boardService.deleteNotice(boardNum);
+//        return "redirect:/board/noticeList";
+//    }
+
+
+    // 공지사항 게시글 삭제 ************************ 첨부파일이 있을 떄 / 없을 때
     @GetMapping("/deleteNotice")
-    public String deleteNotice(@RequestParam(name = "boardNum") int boardNum){
-        boardService.deleteNotice(boardNum);
+    public String deleteNotice(BoardVO boardVO){
+
+        boardService.deleteNotice(boardVO);
         return "redirect:/board/noticeList";
     }
 
@@ -273,7 +266,7 @@ public class BoardController {
     // 문의사항 게시글 삭제
     @GetMapping("/deleteQna")
     public String deleteQna(@RequestParam(name = "boardNum") int boardNum){
-        boardService.deleteNotice(boardNum);
+        boardService.deleteQna(boardNum);
         return "redirect:/board/qnaList";
     }
 

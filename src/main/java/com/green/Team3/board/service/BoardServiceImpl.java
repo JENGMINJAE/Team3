@@ -1,6 +1,7 @@
 package com.green.Team3.board.service;
 
 import com.green.Team3.board.vo.BoardVO;
+import com.green.Team3.board.vo.ImgVO;
 import com.green.Team3.board.vo.SearchVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService {
     @Autowired
     private SqlSessionTemplate sqlSession;
-
 
     //다음에 INSERT 할 BOARD_NUM 조회
     @Override
@@ -28,13 +28,15 @@ public class BoardServiceImpl implements BoardService {
         return list;
     }
 
-    //게시글 등록 - 공지사항
+    //게시글 등록 - 공지사항(게시글 + 첨부파일)
     //트랜젝션
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void insertNotice(BoardVO boardVO) {
-       sqlSession.insert("board.insertNotice", boardVO);
-       sqlSession.insert("board.insertImgs", boardVO);
+        sqlSession.insert("board.insertNotice", boardVO);
+        if(!boardVO.getImgList().isEmpty()){
+            sqlSession.insert("board.insertImgs", boardVO);
+        };
     }
 
     //게시글 등록 - 문의사항
@@ -63,10 +65,41 @@ public class BoardServiceImpl implements BoardService {
         sqlSession.update("board.updateBoardCnt", boardNum);
     }
 
-    //게시글 삭제
+
+
+    //게시글 삭제 - 공지사항 (게시글 + 이미지 삭제)
+    //트랜젝션
     @Override
-    public void deleteNotice(int boardNum) {
-        sqlSession.delete("board.deleteNotice", boardNum);
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteNotice(BoardVO boardVO) {
+        int imgCnt = sqlSession.selectOne("board.hasImg", boardVO);
+        if(imgCnt > 0){
+            sqlSession.delete("board.deleteImg", boardVO);
+        }
+        sqlSession.delete("board.deleteNotice", boardVO);
+    }
+
+//    @Override
+//    public void deleteImg(int boardNum) {
+//        sqlSession.delete("board.deleteImg", boardNum);
+//    }
+//
+//    @Override
+//    public void deleteNotice(int boardNum) {
+//        sqlSession.delete("board.deleteNotice", boardNum);
+//    }
+
+//    @Override
+//    public boolean hasImg(int boardNum) {
+//
+//        return ;
+//    }
+
+
+    //게시글 삭제 - 문의사항
+    @Override
+    public void deleteQna(int boardNum) {
+        
     }
 
     //게시글 수정

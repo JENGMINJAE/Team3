@@ -29,8 +29,20 @@ public interface BoardService {
     //게시글 조회수 증가
     void updateBoardCnt(int boardNum);
 
-    //게시글 삭제
-    void deleteNotice(int boardNum);
+
+    //공지사항 이미지 삭제 ***********
+//    void deleteImg(int boardNum);
+
+    //게시글 삭제 - 공지사항 (게시글 + 이미지 삭제) - 트랜젝션 쓸 지 안쓸지 모르겠다;
+    void deleteNotice(BoardVO boardVO);
+
+    //이미지 첨부파일 있는지 여부 확인 ***********
+//    boolean hasImg(int boardNum);
+
+
+
+    //게시글 삭제 - 문의사항
+    void deleteQna(int boardNum);
 
     //게시글 수정
     void updateBoard(BoardVO boardVO);
