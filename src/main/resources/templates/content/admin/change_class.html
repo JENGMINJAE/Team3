@@ -10,12 +10,97 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성 -->
-    만들어진 반 정보 변경 페이지
-    [[${clsInfo}]]
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered text-center align-middle">
+                <colgroup>
+                    <col width="20%">
+                    <col width="30%">
+                    <col width="20%">
+                    <col width="30%">
+                </colgroup>
+                <tr>
+                    <td>반 이름</td>
+                    <td class="select-className">
+                        <input type="text" name="className" th:value="${clsInfo.className}">
+                    </td>
+                    <td>현원/정원</td>
+                    <td class="select-personnel">[[${clsInfo.stuCnt}]]/[[${clsInfo.classPersonnel}]]</td>
+                </tr>
+                <tr>
+                    <td>담당 강사</td>
+                    <td class="select-teacherName">
+                        [[${clsInfo.teacherVO.teacherName}]]
+                    </td>
+                    <td>강의 기간</td>
+                    <td class="select-date">[[${clsInfo.classSdate}]] ~ [[${clsInfo.classEdate}]]</td>
+                </tr>
+                <tr>
+                    <td>상태</td>
+                    <td class="select-strEnter">[[${clsInfo.strEnter}]]</td>
+                    <td>수강료</td>
+                    <td class="select-classPayment">[[${clsInfo.classPayment}]]</td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col">
+                    <input type="button" value="수정" th:onclick="goChange()">
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
+
+<form action="/admin/updateClass" method="post">
+    <table class="table table-bordered text-center align-middle">
+        <colgroup>
+            <col width="20%">
+            <col width="30%">
+            <col width="20%">
+            <col width="30%">
+        </colgroup>
+        <tr>
+            <td>반 이름</td>
+            <td class="select-className">
+                <input type="text" name="className" value="${className}">
+            </td>
+            <td>현원/정원</td>
+            <td class="select-personnel">
+                <input type="number" name="classPersonnel" value="${personnel}" max="20" min="0">
+            </td>
+        </tr>
+        <tr>
+            <td>담당 강사</td>
+            <select name="teacherNum">
+                <option th:each="teacher : ${teachers}" th:value="${teacher.teacherNum}">[[${teacher.memberVO.memberName}]]</option>
+            </select>
+            <td>강의 기간</td>
+            <td class="select-date">
+                <div class="row">
+                    <div class="col">시작일</div>
+                    <div class="col">
+                        <input type="date" name="classSdate">
+                    </div>
+                    <div class="col">종료일</div>
+                    <div class="col">
+                        <input type="date" name="classEdate">
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>상태</td>
+            <td class="select-strEnter">[[${clsInfo.strEnter}]]</td>
+            <td>수강료</td>
+            <td class="select-classPayment">
+                <input type="number" name="classPayment" value="${payment}">
+            </td>
+        </tr>
+    </table>
+</form>
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴때 같이 실행되는 js -->
-    <!-- <script src="/"></script> -->
+    <script src="/js/content/admin/change_class.js"></script>
 </th:block>
 </html>

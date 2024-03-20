@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.PipedReader;
 import java.util.List;
 
 @ToString
@@ -23,6 +24,7 @@ public class ClsVO {
     private int classStatus;
     private int teacherNum;
     private int stuCnt;
+    private String strEnter;
     private TeacherVO teacherVO;
     private List<OperatorVO> operatorVOList;
 }

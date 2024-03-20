@@ -121,6 +121,7 @@ public class AdminController {
     @GetMapping("/goClassInfo")
     public String changeClass(@RequestParam(name = "classNum")int classNum, Model model){
         model.addAttribute("clsInfo", clsService.selectClassDetail(classNum));
+        model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/change_class";
     }
 
