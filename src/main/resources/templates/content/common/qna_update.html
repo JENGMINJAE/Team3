@@ -11,12 +11,12 @@
 <th:block layout:fragment="contentFragment">
 
     <!-- 문의사항 게시글 수정 -->
-    <form action="/board/updateNotice" method="post">
+    <form action="/board/updateQna" method="post">
         <div class="row">
             <div class="col">
                 <h3>문의사항 게시글 수정</h3>
                 <input type="hidden" name="boardNum" th:value="${qna.boardNum}">
-                <table class="notice-list-table table table-striped table-hover text-center align-middle">
+                <table class="table table-striped table-hover text-center align-middle">
                     <colgroup>
                         <col width="30">
                         <col width="*">
@@ -24,20 +24,24 @@
                         <tr>
                             <td>제목</td>
                             <td>
-                                <input type="text" name="boardTitle" th:value="${qna.boardTitle}">
+                                <input type="text" class="form-control" name="boardTitle" th:value="${qna.boardTitle}">
                             </td>
                         </tr>
                         <tr>
                             <td>내용</td>
                             <td>
-                                <input type="text" name="boardContent" th:value="${qna.boardContent}">
+                                <input type="text" class="form-control" name="boardContent" th:value="${qna.boardContent}">
                             </td>
                         </tr>
                 </table>
             </div>
         </div>
-        <div>
-            <input type="submit" value="수정 완료" class="btn btn-primary">
+        <div class="row mb-5">
+            <div class="col"></div>
+            <div class="col d-grid">
+                <input type="submit" value="수정 완료" class="btn btn-primary">
+            </div>
+            <div class="col"></div>
         </div>
     </form>
     

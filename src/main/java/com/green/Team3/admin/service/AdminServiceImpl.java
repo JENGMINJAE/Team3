@@ -1,5 +1,6 @@
 package com.green.Team3.admin.service;
 
+import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -17,14 +18,14 @@ public class AdminServiceImpl implements AdminService{
 
     // 강사 전체 목록 조회 (완료)
     @Override
-    public List<TeacherVO> selectTeachers() {
+    public List<ClsVO> selectTeachers() {
         return sqlSession.selectList("teacher.selectTeachers");
     }
 
     // 강사 상세 정보 조회 (완료)
     @Override
-    public TeacherVO detailTeacher(TeacherVO teacherVO) {
-        return sqlSession.selectOne("teacher.detailTeacher", teacherVO);
+    public List<ClsVO> detailTeacher(int teacherNum) {
+        return sqlSession.selectList("teacher.detailTeacher", teacherNum);
     }
 
     // 회원 권한 수정 (완료)
@@ -38,7 +39,7 @@ public class AdminServiceImpl implements AdminService{
         }
     }
 
-    // 강사 재직 상태 수정 (구현 중)
+    // 강사 재직 상태 수정 (완료)
     @Override
     public void changeAttendance(TeacherVO teacherVO) {
         sqlSession.update("admin.changeAttendance", teacherVO);
@@ -54,6 +55,25 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public void changePersonalInfo(MemberVO memberVO) {
         sqlSession.update("admin.changeMemberData", memberVO);
+    }
+
+    // 반 생성
+    @Override
+    public void makeCls(ClsVO clsVO) {
+        sqlSession.insert("admin.makeCls", clsVO);
+    }
+
+    // 반정보 수정
+    @Override
+    public void updateClassInfo(ClsVO clsVO) {
+        sqlSession.update("clsMapper.updateClass", clsVO);
+    }
+
+
+    // 강사 목록 조회
+    @Override
+    public List<TeacherVO> selectTeacherName() {
+        return sqlSession.selectList("admin.selectTeacherName");
     }
 
 }

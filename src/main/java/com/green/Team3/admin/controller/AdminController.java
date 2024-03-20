@@ -34,10 +34,22 @@ public class AdminController {
 
     // 강사 관리 페이지 이동
     @GetMapping("/goAdminTeacher")
-    public String goAdminTeacher(Model model){
-        List<TeacherVO> list = adminService.selectTeachers();
+    public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum){
+        List<ClsVO> list = adminService.selectTeachers();
+//        System.out.println(list);
         model.addAttribute("teacherList", list); // 강사 목록 조회
+        model.addAttribute("updateTeacherNum", teacherNum);
         return "content/admin/admin_teacher";
+    }
+
+    // 강사 정보 상세 조회 (작업 중)
+    @ResponseBody
+    @PostMapping("/selectTeacher")
+    public List<ClsVO> detailTeacher(@RequestBody ClsVO clsVO){
+//        System.out.println(clsVO);
+        List<ClsVO> list = adminService.detailTeacher(clsVO.getTeacherNum());
+//        System.out.println(list);
+        return list;
     }
 
     // 회원 관리 페이지 이동
@@ -73,42 +85,49 @@ public class AdminController {
         adminService.updateRoll(memberVO);
          return memberVO;
     }
-//    ----------------------- 완료 ---------------------------
     // 해당 회원의 수강 목록 페이지 이동 (모달)
     @ResponseBody
     @PostMapping("/showClass")
     public List<ClsVO> showClass(@RequestBody MemberVO memberVO){
-        List<ClsVO> vo = clsService.selectClass(memberVO);
-        System.out.println(vo);
-        return vo;
+        List<ClsVO> voList = clsService.selectClass(memberVO);
+        return voList;
     }
 
-    // 학급 생성 페이지 이동
+    // 학급 생성 페이지 이동 (완료)
     @GetMapping("/makeClassForm")
-    public String makeClassForm(){
+    public String makeClassForm(Model model){
+        model.addAttribute("clsList", clsService.selectAllClass());
+        model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/make_class_form";
     }
 
-    // 학급 생성 버튼 클릭 시 실행 메소드
+    // 학급 생성 버튼 클릭 시 실행 메소드 (완료)
     @PostMapping("/makeClass")
-    public String makeClass(){
+    public String makeClass(ClsVO clsVO){
+        adminService.makeCls(clsVO);
         return "redirect:/admin/makeClassForm";
     }
 
-    // 강사 정보 상세 조회 (완료)
-    @ResponseBody
-    @PostMapping("/selectTeacher")
-    public TeacherVO detailTeacher(@RequestBody TeacherVO teacherVO){
-        TeacherVO teacherInfo = adminService.detailTeacher(teacherVO);
-        return teacherInfo;
-    }
-
-    // 근무 상태 변경
+    // 근무 상태 변경 (완료)
     @PostMapping("/changeAttendance")
     public String changeAttendance(TeacherVO teacherVO){
+        System.out.println(teacherVO);
         adminService.changeAttendance(teacherVO);
         return "redirect:/admin/goAdminTeacher";
     }
+    //    ----------------------- 완료 ---------------------------
 
+    // 선택한 반의 상세 정보 조회 페이지 이동
+    @GetMapping("/goClassInfo")
+    public String changeClass(@RequestParam(name = "classNum")int classNum, Model model){
+        model.addAttribute("clsInfo", clsService.selectClassDetail(classNum));
+        return "content/admin/change_class";
+    }
+
+    // 반정보 수정 쿼리 실행
+    @PostMapping("/updateClass")
+    public String updateClass(ClsVO clsVO){
+        return "redirect:/admin/goClassInfo?classNum=" + clsVO.getClassNum();
+    }
 
 }

@@ -5,6 +5,7 @@ import com.green.Team3.board.vo.SearchVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,10 +28,19 @@ public class BoardServiceImpl implements BoardService {
         return list;
     }
 
-    //게시글 등록
+    //게시글 등록 - 공지사항
+    //트랜젝션
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void insertNotice(BoardVO boardVO) {
        sqlSession.insert("board.insertNotice", boardVO);
+       sqlSession.insert("board.insertImgs", boardVO);
+    }
+
+    //게시글 등록 - 문의사항
+    @Override
+    public void insertQna(BoardVO boardVO) {
+        sqlSession.insert("board.insertQna", boardVO);
     }
 
     //게시글 상세 조회
@@ -64,7 +74,17 @@ public class BoardServiceImpl implements BoardService {
         return sqlSession.selectOne("board.selectNoticeCnt", searchVO);
     }
 
+    //게시글 상세 - 이전글 조회
+    @Override
+    public BoardVO prevPage(int boardNum) {
+        return sqlSession.selectOne("board.prevPage", boardNum);
+    }
 
+    //게시글 상세 - 다음글 조회
+    @Override
+    public BoardVO nextPage(int boardNum) {
+        return sqlSession.selectOne("board.nextPage", boardNum);
+    }
 
 
 }
