@@ -32,7 +32,7 @@ function change(){
         let str = ``;
         stu_select.innerHTML = ``;
         for(let i of data){
-            str+= `<option value="${i.payStuNum}">${i.memberName}</option>`
+            str+= `<option value="${i.memberId}">${i.memberName}</option>`
         }
         stu_select.insertAdjacentHTML("afterbegin",str)
         
