@@ -37,13 +37,12 @@ public class CalenderController {
         EventTypeVO eventTypeVO = calenderService.selectEventTypeForTeacherByConsult();
         EventCalenderVO calenderVO = new EventCalenderVO();
         String title = memberId;
-        title = calenderService.selectClassNameByClassNum(classNum) + "-" + title + "-" +eventTypeVO.getEventTypeName();
+        title = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(classNum) + "-" + title;
         calenderVO.setEventTypeNum(eventTypeVO.getEventTypeNum());
         calenderVO.setStart(start);
         calenderVO.setTitle(title);
         System.out.println(calenderVO);
         calenderService.insertEventCalender(calenderVO);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         return "redirect:/consult/consultList";
     }
 

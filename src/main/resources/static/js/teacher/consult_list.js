@@ -1,4 +1,5 @@
 
+
   // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 const class_select = document.querySelector("#class_select");
 
@@ -44,6 +45,7 @@ function change(){
 }
 change();
 addEventBar();
+
 function addEventBar(){
   fetch('/calender/addEventBar', { //요청경로
     method: 'POST',
@@ -74,13 +76,18 @@ function addEventBar(){
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new Calendar(calendarEl, {
-    headerToolbar: {
+      eventDidMount : function(info) {
+        var eventObj = info.event;
+        tippy(info.el, {
+          content:  eventObj.title,//이벤트 디스크립션을 툴팁으로 가져옵니다. 
+      });
+      },
+      headerToolbar: {
       left : 'prev',
       center: 'title',
       right: 'next today'
     },
     events: list
-
   });
 
   calendar.render();
