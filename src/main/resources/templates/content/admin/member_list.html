@@ -24,7 +24,23 @@
 
             <div class="row mb-3">
                 <div class="col">
-                    검색
+                    <form action="/admin/goMemberList" method="post">
+                        <div class="row">
+                            <div class="col-2 d-grid">
+                                <select name="searchType">
+                                    <option value="1" th:selected="${searchVO.searchType == NULL or searchVO.searchType == '1'}">학생</option>
+                                    <option value="2" th:selected="${searchVO.searchType == '2'}">강사</option>
+                                    <option value="3" th:selected="${searchVO.searchType == '3'}">관리</option>
+                                </select>
+                            </div>
+                            <!-- <div class="col-3 d-grid">
+                                <input type="text" name="searchValue" th:value="${searchVO.searchValue}">
+                            </div> -->
+                            <div class="col-1">
+                                <input class="btn btn-outline-primary" type="submit" value="검색">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 

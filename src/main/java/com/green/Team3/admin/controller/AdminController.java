@@ -1,8 +1,10 @@
 package com.green.Team3.admin.controller;
 
 import com.green.Team3.admin.service.AdminService;
+import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.service.ClsService;
 import com.green.Team3.cls.vo.ClsVO;
+import com.green.Team3.learn.service.ConsultService;
 import com.green.Team3.member.service.MemberService;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
@@ -25,6 +27,9 @@ public class AdminController {
 
     @Resource(name = "clsService")
     private ClsService clsService;
+
+    @Resource(name = "consultService")
+    private ConsultService consultService;
 
     // 관리자 클릭 시 페이지 이동
     @GetMapping("/notice")
@@ -53,13 +58,16 @@ public class AdminController {
     }
 
     // 회원 관리 페이지 이동
-    @GetMapping("/goMemberList")
-    public String memberList(Model model, @RequestParam(name = "memberId", required = false, defaultValue = "")String updateMemberId){
+    @RequestMapping("/goMemberList")
+    public String memberList(Model model, SearchVO searchVO,
+                             @RequestParam(name = "memberId", required = false, defaultValue = "")String updateMemberId){
         // 전체 회원 목록 조회
         model.addAttribute("memberList", memberService.selectMembers());
         // MEMBER_ROLL 목록 조회 (관리, 강사, 회원)
         model.addAttribute("rollList", adminService.rollList());
         model.addAttribute("updateMemberId", updateMemberId);
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println(searchVO.getSearchType());
         return "content/admin/member_list";
     }
 
@@ -121,6 +129,7 @@ public class AdminController {
     public String changeClass(@RequestParam(name = "classNum")int classNum, Model model){
         model.addAttribute("clsInfo", clsService.selectClassDetail(classNum));
         model.addAttribute("teachers", adminService.selectTeacherName());
+        model.addAttribute("students", consultService.selectClassNumAndStuNum(classNum));
         return "content/admin/change_class";
     }
 
@@ -133,5 +142,12 @@ public class AdminController {
 
     //    ----------------------- 완료 ---------------------------
 
+    // 인적 사항 페이지 이동
+    @GetMapping("goStuInfo")
+    public String goStuInfo(MemberVO memberVO, Model model){
+        model.addAttribute("detail", memberService.memberDetail(memberVO));
+        System.out.println(memberService.memberDetail(memberVO));
+        return "content/admin/show_stu_info";
+    }
 
 }

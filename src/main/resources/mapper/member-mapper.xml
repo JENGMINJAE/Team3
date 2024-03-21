@@ -38,6 +38,10 @@
                 WHEN MEMBER_ROLL = 3 THEN '관리'
             END AS STR_ROLL
         FROM MEMBER
+        <if test='searchType != null and !searchType.equals("")'>
+            WHERE MEMBER_ROLL = #{searchType}
+        </if>
+        ORDER BY MEMBER_NAME
     </select>
 
     <!-- memberRoll 리스트 보기 -->
