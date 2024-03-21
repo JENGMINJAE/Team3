@@ -35,8 +35,8 @@ public class AdminController {
     // 강사 관리 페이지 이동
     @GetMapping("/goAdminTeacher")
     public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum){
-        List<ClsVO> list = adminService.selectTeachers();
-//        System.out.println(list);
+        List<TeacherVO> list = adminService.selectTeachers();
+        System.out.println(list);
         model.addAttribute("teacherList", list); // 강사 목록 조회
         model.addAttribute("updateTeacherNum", teacherNum);
         return "content/admin/admin_teacher";
@@ -115,19 +115,23 @@ public class AdminController {
         adminService.changeAttendance(teacherVO);
         return "redirect:/admin/goAdminTeacher";
     }
-    //    ----------------------- 완료 ---------------------------
 
     // 선택한 반의 상세 정보 조회 페이지 이동
     @GetMapping("/goClassInfo")
     public String changeClass(@RequestParam(name = "classNum")int classNum, Model model){
         model.addAttribute("clsInfo", clsService.selectClassDetail(classNum));
+        model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/change_class";
     }
 
     // 반정보 수정 쿼리 실행
     @PostMapping("/updateClass")
     public String updateClass(ClsVO clsVO){
-        return "redirect:/admin/goClassInfo?classNum=" + clsVO.getClassNum();
+       adminService.updateClass(clsVO);
+       return "redirect:/admin/goClassInfo?classNum=" + clsVO.getClassNum();
     }
+
+    //    ----------------------- 완료 ---------------------------
+
 
 }
