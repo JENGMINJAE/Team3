@@ -39,6 +39,7 @@
                         <td>[[${todayconsult.memberVO.memberName}]]</td>
                         <td>[[${todayconsult.consultDate}]]</td>
                         <td>
+                            <input type="hidden" th:value="${todayconsult.consultNum}">
                             <button class="btn btn-outline-secondary" type="button" onclick="crystal_consult(this)">수정</button>
                             <button class="btn btn-outline-danger" type="button" onclick="delete_consult(this)">삭제</button>
                         </td>
@@ -74,6 +75,7 @@
                         <td>[[${willconsult.memberVO.memberName}]]</td>
                         <td>[[${willconsult.consultDate}]]</td>
                         <td>
+                            <input type="hidden" th:value="${willconsult.consultNum}">
                             <button class="btn btn-outline-secondary" type="button" onclick="crystal_consult(this)">수정</button>
                             <button class="btn btn-outline-danger" type="button" onclick="delete_consult(this)">삭제</button>
                         </td>
@@ -109,6 +111,7 @@
                         <td>[[${endconsult.memberVO.memberName}]]</td>
                         <td>[[${endconsult.consultDate}]]</td>
                         <td>
+                            <input type="hidden" th:value="${endconsult.consultNum}">
                             <button class="btn btn-outline-secondary" type="button" onclick="crystal_consult(this)">수정</button>
                             <button class="btn btn-outline-danger" type="button" onclick="delete_consult(this)">삭제</button>
                         </td>
@@ -118,15 +121,80 @@
         </div>
     </div>
     <form id="C_csNum" action="/homework/updateHomework" method="post">
-        <input type="hidden" name="hwNum" value="1">
+        <input type="hidden" name="csNum" value="1">
     </form>
     <form id="D_csNum" action="/homework/deleteHomework" method="post">
-        <input type="hidden" name="hwNum" value="1">
+        <input type="hidden" name="csNum" value="1">
     </form>
+
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@모달@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">상담 일정 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="buttonSubmit" action="/consult/updateConsult" method="post">
+            
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>
+                            학급
+                        </td>
+                        <td>
+                            이름
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ~~~~
+                        </td>
+                        <td>
+                            ~~~~
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            시작 일
+                        </td>
+                        <td>
+                            종료 일
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ~~~
+                        </td>
+                        <td>
+                            ~~~
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-outline-primary" onclick="crystal()">수정</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
 </th:block>
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴 때 같이 실행 되는 js-->
-    <script src="/"></script>
+    <script src="/js/teacher/consult_list.js"></script>
 </th:block>
 </html>

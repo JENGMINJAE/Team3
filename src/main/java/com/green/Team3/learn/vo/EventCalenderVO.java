@@ -11,6 +11,8 @@ public class EventCalenderVO {
     private int eventNum;
     private String title;
     private String start;
+    private String end;
     private int eventTypeNum;
+    private String memberId;
     private EventTypeVO eventTypeVO;
 }

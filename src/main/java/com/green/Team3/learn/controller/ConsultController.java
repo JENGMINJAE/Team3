@@ -6,6 +6,7 @@ import com.green.Team3.learn.service.ConsultServiceImpl;
 import com.green.Team3.learn.service.HomeworkServiceImpl;
 import com.green.Team3.learn.vo.ConsultVO;
 import com.green.Team3.learn.vo.EventTypeVO;
+import com.green.Team3.learn.vo.HomeworkVO;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/consult")
@@ -59,4 +62,36 @@ public class ConsultController {
         model.addAttribute("todayConsultList",consultService.selectTodayConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
         return "/content/teacher/consult_list";
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+    @ResponseBody
+    @PostMapping("/modalChange")
+    private Map<String,Object> modalChange(@RequestParam(name = "consultNum")int consultNum){
+        ConsultVO consultVO = new ConsultVO();
+        consultVO = consultService.selectOneConsult(consultNum);
+        int classNum = consultVO.getClassNum();
+        int teacherNum = homeworkService.selectTeacherNumByClassNum(classNum);
+        List<ConsultVO> classList = consultService.selectClassNumByTeacherNumConsult(teacherNum);
+        Map<String, Object> map = new HashMap<>();
+        map.put("consultVO",consultVO);
+        map.put("classList",classList);
+        return map;
+    }
+
+    @PostMapping("/updateConsult")
+    private String updateConsult(ConsultVO consultVO){
+        consultService.updateConsult(consultVO);
+//        memberId,상담날짜,소속
+        return "redirect:/consult/consultList";
+    }
+
+
+
+
+
+
+
+
+
+
 }

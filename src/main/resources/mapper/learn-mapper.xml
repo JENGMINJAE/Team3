@@ -224,6 +224,35 @@
         FROM TEACHER
         WHERE MEMBER_ID = #{memberId}
     </select>
+<!--////////////////////////////////////////////////////////////////////////////////////////-->
+    <select id="selectOneConsult" resultMap="consult">
+        SELECT
+        C.CLASS_NUM,
+        CLASS_NAME,
+        CONSULT_NUM,
+        CONSULT_DATE
+        FROM CONSULT CS
+        INNER JOIN CLASS_INFO C
+        ON C.CLASS_NUM = CS.CLASS_NUM
+        WHERE CONSULT_NUM = #{consultNum}
+    </select>
+    <select id="selectClassNumByTeacherNumConsult" resultMap="consult">
+        SELECT DISTINCT
+        c.CLASS_NUM,CLASS_NAME
+        FROM consult c
+        INNER JOIN class_info CI
+        ON CI.CLASS_NUM = c.CLASS_NUM
+        WHERE TEACHER_NUM = #{teacherNum}
+    </select>
+    <update id="updateConsult">
+        UPDATE consult SET
+        MEMBER_ID = #{memberId},
+        CONSULT_DATE = #{consultDate},
+        CLASS_NUM = #{classNum}
+        WHERE CONSULT_NUM = #{consultNum}
+    </update>
+
+
 </mapper>
 
 

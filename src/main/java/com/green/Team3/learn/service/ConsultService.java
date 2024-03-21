@@ -13,5 +13,8 @@ public interface ConsultService {
     List<ConsultVO> selectWillConsultList(int teacherNum);
     List<ConsultVO> selectTodayConsultList(int teacherNum);
     int selectTeacherNumOfMemberId(String memberId);
+    ConsultVO selectOneConsult(int consultNum);
+    List<ConsultVO> selectClassNumByTeacherNumConsult(int teacherNum);
+    void updateConsult(ConsultVO consultVO);
 
 }
