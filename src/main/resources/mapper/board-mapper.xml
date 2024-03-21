@@ -104,21 +104,6 @@
     </insert>
 
     <!-- 게시글 상세 조회 - 공지사항-->
-<!--    <select id="selectNoticeDetail" resultMap="boardMap">-->
-<!--        SELECT B.BOARD_NUM-->
-<!--            , BOARD_TITLE-->
-<!--            , BOARD_CONTENT-->
-<!--            , MEMBER_ID-->
-<!--            , TYPE_NUM-->
-<!--            , BOARD_CNT-->
-<!--            , ATTACHED_FILE_NAME-->
-<!--            , IS_MAIN-->
-<!--        FROM BOARD B INNER JOIN BOARD_IMAGE I-->
-<!--        ON B.BOARD_NUM = I.BOARD_NUM-->
-<!--        WHERE B.BOARD_NUM = #{boardNum}-->
-<!--    </select>-->
-
-    <!-- 게시글 상세 조회 - 공지사항-->
     <select id="selectNoticeDetail" parameterType="int" resultMap="boardMap">
         SELECT B.BOARD_NUM
         , BOARD_TITLE
@@ -154,8 +139,7 @@
         WHERE BOARD_NUM = #{boardNum}
     </update>
 
-<!-- 공지사항 첨부파일 먼저 삭제 *********************** -->
-
+<!-- 공지사항 삭제 (첨부파일 먼저 삭제) -->
     <!-- 이미지 삭제 - 공지사항 -->
     <delete id="deleteImg">
         DELETE FROM BOARD_IMAGE
@@ -168,16 +152,12 @@
         WHERE BOARD_NUM = #{boardNum}
     </delete>
 
-    <!-- 공지사항 게시글 사진 여부 -->
+    <!-- 공지사항 게시글 첨부파일 유무 여부 -->
     <select id="hasImg" resultType="int" parameterType="int">
         SELECT COUNT(IMG_NUM)
         FROM BOARD_IMAGE
         WHERE BOARD_NUM = #{boardNum}
     </select>
-
-
-
-<!-- ************************************************* -->
 
     <!-- 게시글 삭제 - 문의사항 -->
     <delete id="deleteQna">

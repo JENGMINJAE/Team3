@@ -65,8 +65,6 @@ public class BoardServiceImpl implements BoardService {
         sqlSession.update("board.updateBoardCnt", boardNum);
     }
 
-
-
     //게시글 삭제 - 공지사항 (게시글 + 이미지 삭제)
     //트랜젝션
     @Override
@@ -78,23 +76,6 @@ public class BoardServiceImpl implements BoardService {
         }
         sqlSession.delete("board.deleteNotice", boardVO);
     }
-
-//    @Override
-//    public void deleteImg(int boardNum) {
-//        sqlSession.delete("board.deleteImg", boardNum);
-//    }
-//
-//    @Override
-//    public void deleteNotice(int boardNum) {
-//        sqlSession.delete("board.deleteNotice", boardNum);
-//    }
-
-//    @Override
-//    public boolean hasImg(int boardNum) {
-//
-//        return ;
-//    }
-
 
     //게시글 삭제 - 문의사항
     @Override
