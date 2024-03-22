@@ -109,6 +109,25 @@
             , TEACHER_NUM = #{teacherNum}
         WHERE CLASS_NUM = #{classNum}
     </update>
+
+    <!-- 결제 성공 시 INSERT 문 -->
+    <insert id="successPayment">
+        INSERT INTO operator(
+            OPER_PAY
+            , IS_PAY
+            , PAY_YEAR
+            , PAY_MONTH
+            , MEMBER_ID
+            , CLASS_NUM
+        ) VALUES (
+            #{operPay}
+            , 'Y'
+            , (SELECT REPLACE(FORMAT(YEAR(CURDATE()), 0), ',', ''))
+            , (SELECT MONTH(CURDATE()))
+            , #{memberId}
+            , #{classNum}
+        )
+    </insert>
 </mapper>
 
 

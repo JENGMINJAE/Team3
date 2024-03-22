@@ -5,21 +5,16 @@
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴때 같이 실행되는 css -->
-    <link rel="stylesheet" href="/">
+    <!-- <link rel="stylesheet" href="/"> -->
 </th:block>
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성 -->
-    <div class="row">
-        <div class="col">
-            <h3>학생 인적 사항 페이지</h3>
-            [[${detail}]]
-        </div>
-    </div>
+    결제 완료 시 뜰 화면
 </th:block>
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴때 같이 실행되는 js -->
-    <!-- <script src="/"></script> -->
+    <script src="/js/content/admin/payment_system.js"></script>
 </th:block>
 </html>

@@ -1,10 +1,13 @@
 package com.green.Team3.admin.service;
 
+import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public interface AdminService {
 
@@ -37,6 +40,12 @@ public interface AdminService {
 
     // 반에서 정보 수정
     int updateClass(ClsVO clsVO);
+
+    // 결제 요청 시
+    List<ClsVO> requestPayInfo(String memberId);
+
+    // 결제 성공 시 insert
+    void successPayment(OperatorVO operatorVO);
 
 
 }

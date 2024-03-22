@@ -28,4 +28,6 @@ public class MemberVO {
     private String strRoll;
     private RollTypeVO rollTypeVO;
     private List<OperatorVO> operatorVOList;
+
+    private SearchVO searchVO;
 }

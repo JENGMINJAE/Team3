@@ -14,6 +14,7 @@
         <div class="row">
             <div class="col">
                 <input type="hidden" name="classNum" th:value="${clsInfo.classNum}">
+                <input type="hidden" class="updateMemberId-tag" name="updateMemberId" th:value="${updateMemberId}">
                 <table class="table table-bordered text-center align-middle mb-3">
                     <colgroup>
                         <col width="20%">
@@ -65,12 +66,12 @@
                     </tr>
                 </table>
                 <div class="row mb-3">
-                    <div class="col-2 d-grid">
+                    <div class="offset-9 col-2 d-grid">
                         <input class="btn btn-outline-primary" type="submit" value="수정">
                     </div>
-                    <div class="col-2 d-grid">
-                        <input class="btn btn-outline-success" type="button" value="학생 추가">
-                    </div>
+                    <!-- <div class="col-2 d-grid">
+                        <input class="btn btn-outline-success" type="button" th:onclick="goInsertStu()" value="학생 추가">
+                    </div> -->
                 </div>
                 <th:block th:if="${!#lists.isEmpty(students)}">
                     <div class="row" >
@@ -79,18 +80,21 @@
                             <div class="row mt-3">
                                 <div class="col-2"></div>
                                 <div class="col-4">
-                                    <table class="table">
+                                    <table class="table align-middle text-center">
                                         <colgroup>
                                             <col width="100%">
                                         </colgroup>
                                         <thead class="table-primary">
                                             <tr>
-                                                <td>이름</td>
+                                                <td colspan="2">이름</td>
                                             </tr>
                                         </thead>
-                                        <tbody class="table-hover">
-                                            <tr th:each="stu : ${students}">
-                                                <td th:onclick="seeStuInfo([[${stu.memberId}]])">[[${stu.memberName}]]</td>
+                                        <tbody>
+                                            <tr th:each="stu : ${students}" class="table-hover">
+                                                <td>[[${stu.memberName}]]</td>
+                                                <td>
+                                                    <input class="btn btn-outline-success" type="button" th:onclick="detailMember([[${stu.memberId}]])" value="수정">
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -101,55 +105,60 @@
                     </div>
                 </th:block>
                 <th:block th:unless="${!#lists.isEmpty(students)}">
-                    <h4>현재 [[${clsInfo.className}]]에서 수강 중인 학생이 없습니다.</h4>
+                    <h4 class="offset-2">현재 [[${clsInfo.className}]]에서 수강 중인 학생이 없습니다.</h4>
                 </th:block>
             </div>
         </div>
     </form>
 <div class="row">
-</th:block>
 
-    <!-- 인적사항 Modal -->
-    <div class="modal fade modal-lg" id="member-detail-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">회원 정보</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/admin/changePersonalInfo" method="post" class="changePersonalInfo">
-                    <div class="row">
-                        <div class="col">
-                            <div class="row" >
-                                <div class="col" id="table-head">
-                                    <table class="table align-middle text-center">
-                                        <colgroup>
-                                            <col width="15%">
-                                            <col width="35%">
-                                            <col width="15%">
-                                            <col width="35%">
-                                        </colgroup>
-                                        <tbody class="tbody-tag">
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
+<!-- 인적사항 Modal -->
+<div class="modal fade modal-lg" id="detail-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">회원 정보</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/admin/editPersonInfo" method="post" class="changePersonalInfo">
+                <input type="hidden" name="classNum" th:value="${clsInfo.classNum}">
+                <div class="row">
+                    <div class="col">
+                        <div class="row" >
+                            <div class="col" id="table-head">
+                                <table class="table align-middle text-center">
+                                    <colgroup>
+                                        <col width="15%">
+                                        <col width="35%">
+                                        <col width="15%">
+                                        <col width="35%">
+                                    </colgroup>
+                                    <tbody class="tbody-tag">
+                                        
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="row">
-                                <div class="col-10"></div>
-                                <div class="col-2 d-grid">
-                                    <input type="button" value="변경" class="btn btn-primary" onclick="updateMemberInfo()">
-                                </div>
-                            </div>
-    
                         </div>
+                        <div class="row">
+                            <div class="col-10"></div>
+                            <div class="col-2 d-grid">
+                                <input type="button" value="변경" class="btn btn-primary" onclick="updateMemberInfo()">
+                            </div>
+                        </div>
+
                     </div>
-                </form>
-            </div>
-          </div>
+                </div>
+            </form>
         </div>
       </div>
+    </div>
+  </div>
+
+
+</th:block>
+
+    
     
 
 <th:block layout:fragment="content_js">

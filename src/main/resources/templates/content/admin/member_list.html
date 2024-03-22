@@ -28,7 +28,8 @@
                         <div class="row">
                             <div class="col-2 d-grid">
                                 <select name="searchType">
-                                    <option value="1" th:selected="${searchVO.searchType == NULL or searchVO.searchType == '1'}">학생</option>
+                                    <option value="" th:selected="${searchVO.searchType == NULL}">선택</option>
+                                    <option value="1" th:selected="${searchVO.searchType == '1'}">학생</option>
                                     <option value="2" th:selected="${searchVO.searchType == '2'}">강사</option>
                                     <option value="3" th:selected="${searchVO.searchType == '3'}">관리</option>
                                 </select>
@@ -79,6 +80,7 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <input type="hidden" name="memberId" th:value="${member.memberId}">
                                     <button type="button" class="btn btn-outline-primary" th:onclick="memberDetail([[${member.memberId}]])">인적사항</button>
                                     <button type="button" class="btn btn-outline-success" th:onclick="showClasses([[${member.memberId}]], [[${member.memberRoll}]])">수강목록</button>
                                 </td>
@@ -92,6 +94,7 @@
             <div class="row mt-2">
                 <div class="col">
                     페이지
+                    
                 </div>
             </div>
 

@@ -1,4 +1,6 @@
+// export.updateMemberInfo =updateMemberInfo;
 const updateMemberId = document.querySelector('input[type="hidden"]').value;
+const memberId_tag = document.querySelector('input[name="memberId"]').value;
 
 if(updateMemberId != ""){
     memberDetail(updateMemberId);
@@ -267,16 +269,26 @@ function showClasses(memberId, memberRoll){
                         <td class="table-active">No</td>
                         <td class="table-active">강의명</td>
                         <td class="table-active">담당 강사</td>
-                        <td class="table-active">강의 기간</td>
-                    </tr>`;
+                        <td class="table-active">강의 기간</td>`;
+        if(memberRoll == 1){
+            str += `<td class="table-active">결제</td>`;
+        }
+        
+                   str += `</tr>`;
 
         data.forEach(function (e, idx) {
             str += `<tr>
                         <td>${idx + 1}</td>
                         <td>${e.className}</td>                    
                         <td>${e.teacherVO.teacherName}</td>
-                        <td>${e.classSdate} ~ ${e.classEdate}</td>
-                    </tr>`;
+                        <td>${e.classSdate} ~ ${e.classEdate}</td>`;
+            if(memberRoll == 1){
+                str += `<td>
+                <input type="hidden" name="memberId" value="${e.teacherVO.memberVO.memberId}">
+                            <input type="button" class="btn btn-primary" value="바로 결제" onclick="requestPay(this)">
+                        </td>`;
+            }            
+            str += `</tr>`;
         });
 
 
@@ -294,6 +306,63 @@ function showClasses(memberId, memberRoll){
 
 
 
+    
+
+}
+
+
+function requestPay(selectedTag){
+    // console.log(selectedTag.previousElementSibling);
+
+    fetch('/admin/goPayment', { //요청경로
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        },
+        //컨트롤러로 전달할 데이터
+        body: JSON.stringify({
+           // 데이터명 : 데이터값
+           memberId : selectedTag.previousElementSibling.value
+
+        })
+    })
+    .then((response) => {
+        return response.json(); //나머지 경우에 사용
+    })
+    //fetch 통신 후 실행 영역
+    .then((data) => {//data -> controller에서 리턴되는 데이터!
+        // console.log(data);
+        IMP.init('imp48362627');
+        IMP.request_pay({
+        pg : 'kakaopay',
+        pay_method : "card",
+        merchant_uid : 'merchant_' + new Date().getTime(),
+        name : `${data.className}`, // className
+        amount : `${data.operatorVOList.operPay}`, // operPay
+        buyer_email : 'hog215@naver.com', // memberEmail
+        buyer_name : `${data.teacherVO.memberVO.memberName}`, // memberName
+        buyer_tel : `${data.teacherVO.memberVO.memberTel}`, // memberTel
+        buyer_addr : `${data.teacherVO.memberVO.memberAddr + data.teacherVO.memberVO.addrDetail}`, // memberAddr, addrDetail
+        buyer_postcode : `${data.teacherVO.memberVO.postCode}` // postCode
+
+        }, function (rsp){ // callback
+            console.log(rsp);
+            if(rsp.success){
+                const msg = '결제가 완료되었습니다.';
+                alert(msg);
+                location.href = "결제 완료 후 이동할 페이지 url"
+
+            } else {
+
+            }
+        });
+    })
+    //fetch 통신 실패 시 실행 영역
+    .catch(err=>{
+        alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+        console.log(err);
+    });
     
 
 }

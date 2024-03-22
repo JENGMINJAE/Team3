@@ -38,8 +38,8 @@
                 WHEN MEMBER_ROLL = 3 THEN '관리'
             END AS STR_ROLL
         FROM MEMBER
-        <if test='searchType != null and !searchType.equals("")'>
-            WHERE MEMBER_ROLL = #{searchType}
+        <if test="searchType != null and !searchType.equals('')">
+            WHERE MEMBER_ROLL = ${searchType}
         </if>
         ORDER BY MEMBER_NAME
     </select>
@@ -100,7 +100,6 @@
             , #{postCode}
         )
     </insert>
-
     <!-- 아이디 중복 확인 -->
 <!--    <select id="idCheck" resultType="boolean">-->
 <!--        SELECT COUNT(*)-->
@@ -117,11 +116,25 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
 
-
-
-
-
-
+    <!-- 카드 결제 신청 시, 결제창에 띄울 정보 검색 -->
+    <select id="requestPayInfo" resultMap="clsMapper.cls">
+        SELECT M.MEMBER_ID
+        , MEMBER_NAME
+        , MEMBER_EMAIL
+        , MEMBER_TEL
+        , MEMBER_ADDR
+        , ADDR_DETAIL
+        , POST_CODE
+        , CLASS_NAME
+        , CI.CLASS_NUM
+        , OPER_NUM
+        , OPER_PAY
+        FROM class_info CI LEFT JOIN operator O
+        ON CI.CLASS_NUM = O.CLASS_NUM
+        INNER JOIN member M
+        ON M.MEMBER_ID = O.MEMBER_ID
+        WHERE M.MEMBER_ID = #{memberId}
+    </select>
 
 </mapper>
 

@@ -1,5 +1,6 @@
 package com.green.Team3.admin.service;
 
+import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService{
@@ -78,6 +80,18 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public int updateClass(ClsVO clsVO) {
         return sqlSession.update("admin.updateClass", clsVO);
+    }
+
+    // 결제 요청 시
+    @Override
+    public List<ClsVO> requestPayInfo(String memberId) {
+        return sqlSession.selectList("member.requestPayInfo", memberId);
+    }
+
+    // 결제 승인 시
+    @Override
+    public void successPayment(OperatorVO operatorVO) {
+        sqlSession.insert("admin.successPayment", operatorVO);
     }
 
 }
