@@ -30,4 +30,9 @@ public class CalenderServiceImpl implements CalenderService{
     public List<EventCalenderVO> addEventBar() {
         return sqlSession.selectList("calender.addEventBar");
     }
+
+    @Override
+    public void deleteCalender(String title) {
+        sqlSession.delete("calender.deleteCalender",title);
+    }
 }

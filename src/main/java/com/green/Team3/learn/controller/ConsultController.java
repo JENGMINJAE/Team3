@@ -81,7 +81,7 @@ public class ConsultController {
     @PostMapping("/updateConsult")
     private String updateConsult(ConsultVO consultVO){
         consultService.updateConsult(consultVO);
-//        memberId,상담날짜,소속
+//        memberId,consultDate,classNum
         return "redirect:/consult/consultList";
     }
 

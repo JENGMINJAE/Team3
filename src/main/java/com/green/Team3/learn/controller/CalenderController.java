@@ -42,7 +42,7 @@ public class CalenderController {
         EventTypeVO eventTypeVO = calenderService.selectEventTypeForTeacherByConsult();
         EventCalenderVO calenderVO = new EventCalenderVO();
         String title = memberId;
-        title = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(classNum) + "-" + title;
+        title = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(classNum) + "-" + title + "-" + start;
         calenderVO.setMemberId(memberId);
         calenderVO.setEventTypeNum(eventTypeVO.getEventTypeNum());
         calenderVO.setStart(start);

@@ -47,13 +47,10 @@
         INNER JOIN EVENT_TYPE ET
         ON EC.EVENT_TYPE_NUM = ET.EVENT_TYPE_NUM
     </select>
-    <update id="updateCalender">
-        UPDATE EVENT_CALENDER SET
-        TITLE = #{title},
-        START = #{start}
-        WHERE MEMBER_ID = #{memberId}
-        AND
-    </update>
+    <delete id="deleteCalender">
+        DELETE FROM EVENT_CALENDER
+        WHERE TITLE = #{title}
+    </delete>
 
 
 
