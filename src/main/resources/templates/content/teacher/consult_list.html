@@ -10,63 +10,188 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성-->
-    
-<div class="row">
-    <div class="col-8">
-
-        <div id='calendar-container'>
-            <div id='calendar'></div>
-        </div>
-
-    </div>
-    <div class="col-4">
-
-        <form id="consultForm" action="/calender/addCalender" method="post">
-            <table class="table">
+    <div class="row">
+        <div class="col">
+            <table class="table" style="text-align: center; vertical-align: middle;">
                 <colgroup>
-                    <col width="50%">
-                    <col width="50%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="30%">
+                        <col width="20%">
                 </colgroup>
-                <tr>
-                    <td colspan="2">
-                        <h3>상담 일정 추가하기</h3>
-                    </td>
-                </tr>
-                <tr>
-                    <td>학급</td>
-                    <td>성명</td>
-                </tr>
-                <tr>
-                    <td>
-                        <select name="classNum" onchange="change()" class="form-select" id="class_select">
-                            <option th:each="class:${classInfo}" th:value="${class.classNum}">[[${class.className}]]</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="memberId" id="stu_select" class="form-select">
-                                
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input class="form-control" type="date" name="start">
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <td colspan="5">금일 상담 학생 List</td>
+                    </tr>
+                    <tr>
+                        <td>No</td>
+                        <td>반</td>
+                        <td>학생 명</td>
+                        <td>상담 예정일</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody> <!-- 반복문 예정 -->
+                    <tr th:each="todayconsult, state:${todayConsultList}">
+                        <td>[[${todayConsultList.size-state.index}]]</td>
+                        <td>[[${todayconsult.clsVO.className}]]</td>
+                        <td>[[${todayconsult.memberVO.memberName}]]</td>
+                        <td>[[${todayconsult.consultDate}]]</td>
+                        <td>
+                            <input type="hidden" th:value="${todayconsult.consultNum}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="crystal_consult(this)">수정</button>
+                            <button class="btn btn-outline-danger" type="button" onclick="delete_consult(this)">삭제</button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
-            <div class="row">
-                <div class="col" style="text-align: right;">
-                    <input class="btn btn-outline-success" type="submit" value="추가">
-                </div>
+        
+        
+            <table class="table" style="text-align: center; vertical-align: middle;">
+                <colgroup>
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="30%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td colspan="5">상담 예정 학생 List</td>
+                    </tr>
+                    <tr>
+                        <td>No</td>
+                        <td>반</td>
+                        <td>학생 명</td>
+                        <td>상담 예정일</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody th:each="willconsult, state:${willConsultList}"> <!-- 반복문 예정 -->
+                    <tr>
+                        <td>[[${willConsultList.size-state.index}]]</td>
+                        <td>[[${willconsult.clsVO.className}]]</td>
+                        <td>[[${willconsult.memberVO.memberName}]]</td>
+                        <td>[[${willconsult.consultDate}]]</td>
+                        <td>
+                            <input type="hidden" th:value="${willconsult.consultNum}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="crystal_consult(this)">수정</button>
+                            <button class="btn btn-outline-danger" type="button" onclick="delete_consult(this)">삭제</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        
+        
+            <table class="table" style="text-align: center; vertical-align: middle;">
+                <colgroup>
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="30%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td colspan="5">상담 완료 학생 List</td>
+                    </tr>
+                    <tr>
+                        <td>No</td>
+                        <td>반</td>
+                        <td>학생 명</td>
+                        <td>상담 일</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody th:each="endconsult, state:${endConsultList}"> <!-- 반복문 예정 -->
+                    <tr>
+                        <td>[[${endConsultList.size-state.index}]]</td>
+                        <td>[[${endconsult.clsVO.className}]]</td>
+                        <td>[[${endconsult.memberVO.memberName}]]</td>
+                        <td>[[${endconsult.consultDate}]]</td>
+                        <td>
+                            <input type="hidden" th:value="${endconsult.consultNum}">
+                            <button class="btn btn-outline-secondary" type="button" onclick="crystal_consult(this)">수정</button>
+                            <button class="btn btn-outline-danger" type="button" onclick="delete_consult(this)">삭제</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <form id="C_csNum" action="/homework/updateHomework" method="post">
+        <input type="hidden" name="csNum" value="1">
+    </form>
+    <form id="D_csNum" action="/homework/deleteHomework" method="post">
+        <input type="hidden" name="csNum" value="1">
+    </form>
+
+
+<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@모달@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">상담 일정 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="buttonSubmit" action="/consult/updateConsult" method="post">
+            
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>
+                            학급
+                        </td>
+                        <td>
+                            이름
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ~~~~
+                        </td>
+                        <td>
+                            ~~~~
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            시작 일
+                        </td>
+                        <td>
+                            종료 일
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ~~~
+                        </td>
+                        <td>
+                            ~~~
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-outline-primary" onclick="crystal()">수정</button>
             </div>
         </form>
-
+      </div>
     </div>
-</div>
+  </div>
+
+
+
+
+
+
+
 </th:block>
-
-
-    
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴 때 같이 실행 되는 js-->

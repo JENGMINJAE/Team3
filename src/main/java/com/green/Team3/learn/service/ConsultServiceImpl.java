@@ -42,4 +42,19 @@ public class ConsultServiceImpl implements ConsultService{
     public int selectTeacherNumOfMemberId(String memberId) {
         return sqlSession.selectOne("learnMapper.selectTeacherNumOfMemberId",memberId);
     }
+
+    @Override
+    public ConsultVO selectOneConsult(int consultNum) {
+        return sqlSession.selectOne("learnMapper.selectOneConsult",consultNum);
+    }
+
+    @Override
+    public List<ConsultVO> selectClassNumByTeacherNumConsult(int teacherNum) {
+        return sqlSession.selectList("learnMapper.selectClassNumByTeacherNumConsult",teacherNum);
+    }
+
+    @Override
+    public void updateConsult(ConsultVO consultVO) {
+        sqlSession.update("learnMapper.updateConsult",consultVO);
+    }
 }

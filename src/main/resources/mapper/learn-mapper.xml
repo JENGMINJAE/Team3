@@ -165,13 +165,11 @@
         INSERT INTO CONSULT (
             CLASS_NUM,
             MEMBER_ID,
-            CONSULT_DATE,
-            CONSULT_CONTENT
+            CONSULT_DATE
         ) VALUES (
             #{classNum},
             #{memberId},
-            #{consultDate},
-            #{consultContent}
+            #{consultDate}
         )
     </insert>
 
@@ -203,7 +201,7 @@
         ON m.MEMBER_ID = c.MEMBER_ID
         WHERE ci.TEACHER_NUM = #{teacherNum}
         AND consult_DATE > substring(NOW(),1,10)
-        ORDER BY CONSULT_DATE DESC
+        ORDER BY CONSULT_DATE ASC
     </select>
     <select id="selectTodayConsultList" resultMap="consult">
         SELECT CONSULT_NUM,
@@ -226,6 +224,35 @@
         FROM TEACHER
         WHERE MEMBER_ID = #{memberId}
     </select>
+<!--////////////////////////////////////////////////////////////////////////////////////////-->
+    <select id="selectOneConsult" resultMap="consult">
+        SELECT
+        C.CLASS_NUM,
+        CLASS_NAME,
+        CONSULT_NUM,
+        CONSULT_DATE
+        FROM CONSULT CS
+        INNER JOIN CLASS_INFO C
+        ON C.CLASS_NUM = CS.CLASS_NUM
+        WHERE CONSULT_NUM = #{consultNum}
+    </select>
+    <select id="selectClassNumByTeacherNumConsult" resultMap="consult">
+        SELECT DISTINCT
+        c.CLASS_NUM,CLASS_NAME
+        FROM consult c
+        INNER JOIN class_info CI
+        ON CI.CLASS_NUM = c.CLASS_NUM
+        WHERE TEACHER_NUM = #{teacherNum}
+    </select>
+    <update id="updateConsult">
+        UPDATE consult SET
+        MEMBER_ID = #{memberId},
+        CONSULT_DATE = #{consultDate},
+        CLASS_NUM = #{classNum}
+        WHERE CONSULT_NUM = #{consultNum}
+    </update>
+
+
 </mapper>
 
 

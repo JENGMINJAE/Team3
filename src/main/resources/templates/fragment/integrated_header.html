@@ -16,7 +16,7 @@
                                 </colgroup>
                                 <tr>
                                     <td colspan="3">
-                                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><span style="font-weight: bolder;">그린 학원 로그인</span></button> 
+                                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#LoginStaticBackdrop"><span style="font-weight: bolder;">그린 학원 로그인</span></button> 
                                     </td>
                                 </tr>
                                 <tr style="font-size: 0.8rem;">
@@ -38,7 +38,7 @@
                 <!-- 모달 -->
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="LoginStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -50,6 +50,9 @@
                     <table class="table" style="border: white;">
                         <tr>
                             <td>
+                                <div class="col-12" th:if="${errorMsg != 'success'}" style="text-align: right; color:red; font-size:0.9rem;">
+                                    [[${errorMsg}]]
+                                </div>
                                 <div class="col-12 form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput" placeholder="ID" name="memberId">
                                     <label for="floatingInput">ID</label>
@@ -74,24 +77,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </th:block>
 
             <th:block sec:authorize="isAuthenticated()"> 

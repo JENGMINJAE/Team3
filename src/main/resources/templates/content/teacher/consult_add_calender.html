@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/integrated_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴 때 같이 실행 되는 css -->
+    <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성-->
+    
+<div class="row">
+    <div class="col-8">
+
+        <div id='calendar-container'>
+            <div id='calendar'></div>
+        </div>
+
+    </div>
+    <div class="col-4">
+
+        <form id="consultForm" action="/calender/addCalender" method="post">
+            <table class="table">
+                <colgroup>
+                    <col width="50%">
+                    <col width="50%">
+                </colgroup>
+                <tr>
+                    <td colspan="2">
+                        <h3>상담 일정 추가하기</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td>학급</td>
+                    <td>성명</td>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="classNum" onchange="change()" class="form-select" id="class_select">
+                            <option th:each="class:${classInfo}" th:value="${class.classNum}">[[${class.className}]]</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="memberId" id="stu_select" class="form-select">
+                                
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input class="form-control" type="date" name="start">
+                    </td>
+                </tr>
+            </table>
+            <div class="row">
+                <div class="col" style="text-align: right;">
+                    <input class="btn btn-outline-success" type="submit" value="추가">
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+</th:block>
+
+
+    
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴 때 같이 실행 되는 js-->
+    <script src="/js/teacher/consult_add_calender.js"></script>
+</th:block>
+</html>
