@@ -352,9 +352,9 @@ function requestPay(selectedTag){
                 const msg = '결제가 완료되었습니다.';
                 alert(msg);
                 location.href = "/admin/successPayment"
-
             } else {
-                
+                const msg = '결제에 실패했습니다.';
+                alert(msg);
             }
         });
     })
