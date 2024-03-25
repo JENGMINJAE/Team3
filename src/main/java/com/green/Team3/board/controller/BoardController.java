@@ -154,10 +154,9 @@ public class BoardController {
 //    }
 
 
-    // 공지사항 게시글 삭제 ************************ 첨부파일이 있을 떄 / 없을 때
+    // 공지사항 게시글 삭제(첨부 파일 있을 때 / 없을 때 모두 가능)
     @GetMapping("/deleteNotice")
     public String deleteNotice(BoardVO boardVO){
-
         boardService.deleteNotice(boardVO);
         return "redirect:/board/noticeList";
     }
@@ -205,7 +204,7 @@ public class BoardController {
         return "content/common/qna_list";
     }
 
-    // 공지사항 작성 페이지로 이동
+    // 문의사항 작성 페이지로 이동
     @GetMapping("/qnaWriteForm")
     public String qnaWriteForm(){
         return "content/common/qna_write_form";
@@ -213,11 +212,11 @@ public class BoardController {
 
     // 문의사항 게시글 작성
     @PostMapping("/qnaWrite")
-    public String qnaWrite(BoardVO boardVO, HttpSession session){
+    public String qnaWrite(BoardVO boardVO, Authentication authentication){
         //로그인 정보
-        MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+        User user = (User) authentication.getPrincipal();
+        boardVO.setMemberId(user.getUsername());
         //문의사항 게시글 등록
-        boardVO.setMemberId(loginInfo.getMemberId());
         boardService.insertQna(boardVO);
         return "redirect:/board/qnaList";
     }

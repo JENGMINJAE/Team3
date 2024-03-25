@@ -52,6 +52,11 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
+    <th:block sec:authorize="isAnonymous()">
+        <th:block th:if="${errorMsg != 'success'}">
+            <script src="/js/header.js"></script>             
+        </th:block>
+    </th:block>
     <th:block layout:fragment="content_js">
         
     </th:block>

@@ -1,5 +1,6 @@
 package com.green.Team3.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+    @Autowired
+    private LoginFailHandler loginFailHandler;
+    @Autowired
+    private LoginSuccessHandler loginSuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder getEncoder(){
@@ -43,8 +48,10 @@ public class SecurityConfig {
                                     .usernameParameter("memberId")
                                     .passwordParameter("memberPw")
                                     .loginProcessingUrl("/member/login")
-                                    .defaultSuccessUrl("/")
-                                    .failureUrl("/");
+//                                    .defaultSuccessUrl("/")
+                                    .failureUrl("/")
+                                    .successHandler(loginSuccessHandler)
+                                    .failureHandler(loginFailHandler);
                         }
                 ).logout(
                         logout -> {
