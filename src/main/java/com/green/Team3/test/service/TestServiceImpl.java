@@ -25,11 +25,11 @@ public class TestServiceImpl implements TestService{
         return sqlSession.selectList("testMapper.selectTeacherClassList",memberId);
     }
 
-    // 수업듣는 학생인원 조회
-    @Override
-    public List<ClsVO> selectClassStuCnt(String memberId) {
-        return sqlSession.selectList("testMapper.selectClassStuCnt", memberId);
-    }
+//    // 수업듣는 학생인원 조회
+//    @Override
+//    public List<ClsVO> selectClassStuCnt(String memberId) {
+//        return sqlSession.selectList("testMapper.selectClassStuCnt", memberId);
+//    }
 
     // 반별 학생들의 평가명 점수 조회
     @Override
@@ -159,6 +159,77 @@ public class TestServiceImpl implements TestService{
     @Override
     public void insertSubScore(TestScoreVO testScoreVO) {
         sqlSession.insert("testMapper.insertSubScore", testScoreVO);
+    }
+
+
+
+
+    // /////////////////////////
+
+    // 과목 1개 상세정보  조회
+    @Override
+    public TestSubjectVO selectSubOne(int subTestNum) {
+        return sqlSession.selectOne("testMapper.selectSubOne", subTestNum);
+    }
+
+
+    // /////////////////////////////////////////////////////
+
+    // 메인테스트 full 상세정보 수정
+    @Override
+    public void updateTestDetail(TestVO testVO) {
+        sqlSession.update("testMapper.updateTestDetail",testVO);
+    }
+
+    // 메인테스트 만점제외 수정
+    @Override
+    public void updateTestDeTwo(TestVO testVO) {
+        sqlSession.update("testMapper.updateTestDeTwo",testVO);
+    }
+
+    // 과목 상세정보 수정
+    @Override
+    public void updateSubDetail(TestSubjectVO testSubjectVO) {
+        sqlSession.update("testMapper.updateSubDetail",testSubjectVO);
+    }
+
+    // ////////////////////////학생이 로그인했을때 성적 확인 ///////////////////////////
+    // 서치 학생정보조회
+    @Override
+    public MemberVO selectStuTest() {
+        return sqlSession.selectOne("testMapper.selectStuTest");
+    }
+    // 서치 학생 수강별 시험목록조회
+    @Override
+    public List<TestVO> selectStuCLTest(String memberId) {
+        return sqlSession.selectList("testMapper.selectStuCLTest", memberId);
+    }
+    // 서치 학생 시험지별 목록조회
+    @Override
+    public List<TestVO> selectStuTestDetail(String memberId) {
+        return sqlSession.selectList("testMapper.selectStuTestDetail", memberId);
+    }
+    // 서치 학생 과목별 목록조회
+    @Override
+    public List<TestSubjectVO> selectStuSub(String memberId) {
+        return sqlSession.selectList("testMapper.selectStuSub", memberId);
+    }
+    // 서치 학생 전체 성적이수표 조회
+    @Override
+    public List<OperatorVO> totalSelectTest(String memberId) {
+        return sqlSession.selectList("testMapper.totalSelectTest", memberId);
+    }
+
+    //############ 조회버튼 클릭시 성적 상세페이지 이동하여 조회 ########
+    // 학생 과목 없을시  my 성적페이지 이동 & 조회
+    @Override
+    public List<TestScoreVO> mainTestMyScore(TestScoreVO testScoreVO) {
+        return sqlSession.selectList("testMapper.mainTestMyScore", testScoreVO);
+    }
+    // 학생 과목 있을시   my 성적페이지 이동 & 조회
+    @Override
+    public List<TestScoreVO> subTestMyScore(TestScoreVO testScoreVO) {
+        return sqlSession.selectList("testMapper.subTestMyScore", testScoreVO);
     }
 
 

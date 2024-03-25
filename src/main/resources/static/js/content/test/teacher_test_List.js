@@ -20,8 +20,8 @@ function happyBtn(classNum){
     const testAddBtn = document.querySelector('.testAddBtn');        
     testAddBtn.innerHTML=''; 
 
-            let str= ` <input type="button" value="시험추가" id="btn insertTestNameBtn " onclick="insertScore()">`        
-
+            let str= ` <input type="button" class="btn btn-secondary btn-sm" value="시험등록" id="btn insertTestNameBtn " onclick="insertScore()"
+                        style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">`       
                         testAddBtn.insertAdjacentHTML('afterbegin',str);
 
 
@@ -47,15 +47,25 @@ radios.forEach(function(rad,i){
 
                     // 시험명, 날짜만 저장하는 시험추가 버튼 생성
                     testAddBtn.innerHTML=``;        
-                     let sth= `
-                                <input type="button" value="시험추" id="btn insertTestNameBtn " onclick="insertSubSc()">` 
+                     let sth= `<div class="row" style="margin-top: 5px;">
+                                    <div class="col-2">
+                                         <input type="button"  class="btn btn-secondary btn-sm" value="시험등록" id="btn insertTestNameBtn " onclick="insertSubSc()"
+                                         style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="button" class="btn btn-secondary btn-sm" value="시험삭제"
+                                        style="margin-left: 5px;--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
+                                    </div>
+                                </div>`
+
+                               
                                 testAddBtn.insertAdjacentHTML('afterbegin',sth);
      
                 // 과목 입력 생성 
                  classGoSub.innerHTML=``;
-                 let stj=` <div class="row">
+                 let stj=` <div class="row mt-3">
                  <div class="col" style="font-size:15px; color: red; font-weight: 15px;">
-                     * 시험추가 한 후, 과목을 추가해주세요.
+                        * 좌측 시험종류를 선택한 후, 과목을 입력해주세요.
                  </div>
              </div>
 
@@ -64,21 +74,21 @@ radios.forEach(function(rad,i){
                      
                     <div class="row">
 
-                        <div class="col-6">
+                        <div class="col-5">
 
                              <div class="row">
-                                 <div class="col">
-                                 <label for="selSub">과목종류</label>
-                                     <select class="form-select" size="3" aria-label="Size 3 select example"  id="selSub" style="font-size: 20px;" >
-                                         <option></option>
-                                         <option></option>
-                                     </select>
+                                 <div class="col-11">
+                                        <label for="selSub"> <strong>과목종류</strong></label>
+                                            <select class="form-select" size="3" aria-label="Size 3 select example"  id="selSub"  style="font-size: 15px;" >
+                                                <option></option>
+                                                <option></option>
+                                            </select>
                                  </div>
                              </div>
-                             <div class="row">  
+                             <div class="row mt-1">  
                                  <div class="col">
-                                     <label for="subTotalMax">총만점</label>
-                                     <input type="text" id="subTotalMax" style="width: 100px;">
+                                     <label for="subTotalMax"><strong>총만점</strong></label>
+                                     <input class="form-control" type="text" id="subTotalMax" style="width: 100px; border:none;">
                                  </div>       
                              </div> 
 
@@ -90,27 +100,28 @@ radios.forEach(function(rad,i){
                      
                         <div class="col-6">
                         <div class="row">
-                            <div class="col">
-                                <input type="text" name="testNum" id="testNumForSub">
+                            <div class="col" id="subMainTitleDiv">
+                                <input class="form-control" type="hidden" name="testNum" id="testNumForSub">
                             </div>
                         </div>
                             
                                 <div class="row">
                                     <div class="col">
-                                        <label for="subName">과목명</label>
-                                        <input type="text" name="subName" id="subName" >
+                                        <label for="subName"><strong>과목명</strong></label>
+                                        <input class="form-control" type="text" name="subName" id="subName" >
                                     </div>
                                 </div>    
                                 <div class="row">
                                     <div class="col">
-                                        <label for="subMaxScore">과목만점</label>
-                                        <input type="text" name="subMaxScore" id="subMaxScore">
+                                        <label for="subMaxScore"><strong>과목만점</strong></label>
+                                        <input class="form-control" type="text" name="subMaxScore" id="subMaxScore">
                                     </div>       
                                 </div>
-                                <div class="row">
+                                <div class="row mt-1">
                                     <div class="col" id="addSubBtn">
                             
-                                        <input type="button" id="subNameAdd" value="과목추가" onclick="goInsertSub()">
+                                        <input type="button"  class="btn btn-secondary btn-sm" id="subNameAdd" value="과목추가" onclick="goInsertSub()"
+                                        style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
                                     </div>       
                                 </div>
                             
@@ -131,13 +142,12 @@ radios.forEach(function(rad,i){
         else if(current.value == 1){
                     hiddenPerfect.innerHTML=``;
                     let stt = `<div class="row">
-                                    <div class="col">
-                                        시험만점   
-                                    </div>
-                                </div>
+                                    <div class="col" style="font-size: 18px;">
+                                        <strong>시험만점</strong>
+                                     </div>
                                 <div class="row">
                                     <div class="col">
-                                        <input   class="testInfoInput"  type="text"  name="testMaxScore" id="testMaxScore" style="width: 100%;">
+                                        <input class="testInfoInput form-control"  type="text"  name="testMaxScore" id="testMaxScore" style="width: 70%;">
                                     </div>
                                 </div>`
                     
@@ -147,7 +157,8 @@ radios.forEach(function(rad,i){
         
                 let str= `
                         
-                            <input type="button" value="시험추가" id="btn insertTestNameBtn " onclick="insertScore()">`        
+                            <input type="button"  class="btn btn-secondary btn-sm" value="시험등록" id="btn insertTestNameBtn " onclick="insertScore()"
+                            style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">`        
         
                             testAddBtn.insertAdjacentHTML('afterbegin',str);
                     
@@ -387,6 +398,8 @@ function chooseSub(){
         console.log('44444'+data.testNum2[0].testMaxScore);
 
         if(data.testNum2[0].testMaxScore ==0){
+         
+
                  const selSub = document.querySelector('#selSub');
                     selSub.innerHTML=``; 
                     let std=``;
@@ -411,7 +424,8 @@ function chooseSub(){
             const addSubBtn = document.querySelector('#addSubBtn');
             addSubBtn.innerHTML=``;
             let stt=``;
-            stt=` <input type="button" id="subNameAdd" value="과목추가" onclick="goInsertSub()">`;  
+            stt=` <input type="button" class="btn btn-secondary btn-sm" id="subNameAdd" value="과목추가" onclick="goInsertSub()"
+            style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">`;  
         
             addSubBtn.insertAdjacentHTML('afterbegin',stt);
         } 
@@ -439,7 +453,8 @@ function chooseSub(){
                 const addSubBtn = document.querySelector('#addSubBtn');
                 addSubBtn.innerHTML=``;
                 let stt=``;
-                stt=`<input type="button" id="subBtnAdd" value="과목">`;  
+                stt=`<input type="button" class="btn btn-secondary btn-sm" id="subBtnAdd" value="과목추가"
+                style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">`;  
 
                 addSubBtn.insertAdjacentHTML('afterbegin',stt);
 
@@ -476,7 +491,7 @@ function checkSubSum(subSum){
 
 
 
-// ############################## 과목 저장######################################
+// ############################## 모달내 과목 저장######################################
 
 
 function goInsertSub(){
@@ -584,16 +599,25 @@ function InfoTestInput(){
 
 
 
-// -//////////////////////////////////////////////// 조회 클릭시 학생성적 조회////////////////////////////////////////////////////
+// -//////////////////////////////////////////////// 조회 클릭시 시험상세정보 조회////////////////////////////////////////////////////
 
 
 
 
-function goSelectScore(testNum){
+function goSelectScore(testNum, tag){
 
     
-    
-   
+    console.log(tag); 
+    let trTag = tag.parentNode.parentNode;
+    let trtags= document.querySelectorAll('.tr-row');
+    for(let tr of trtags){
+        tr.style.color="black";
+    }
+ 
+   console.log(trTag); 
+
+   trTag.style.color = "hotpink";
+
 
     // ------------------- 첫번째 방식 ---------------//
     fetch('/test/selectScoreList', { //요청경로
@@ -621,44 +645,148 @@ function goSelectScore(testNum){
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
        
-       
+       console.log(data.subDetailList);
         
       
-        if(data.length == 0){
-            alert('성적이 비워져있습니다.');
+        // if(data.length == 0){
+        //     alert('성적이 비워져있습니다.');
            
-         }
+        //  }
        
 
-        const trRowTwo = document.querySelector('.tr-rowTwo');
+        const trRowTwo = document.querySelector('.rowthree');
         trRowTwo.innerHTML='';
         let str=``;
-        str+= `<col width="20%">
-               <col width="30%">
-               <col width="20%">
-               <col width="30%">
-                    <tr>
-                        <th>학생번호</th>
-                        <th>학생명</th>
-                        <th>점수</th>
-                        <th>시험명</th>                   
+        str+= `<div class="row>
+                <div class="col-10 scoreList-div">                                                                         
+                    <table class="table-blank text-center align-middle tr-rowTwo" style="width:83%; margin-left:10px; ">
+                    <colgroup>
+                            <col width="10%">
+                            <col width="30%">
+                            <col width="20%">
+                            <col width="20%">
+                            <col width="20%">
+                    </colgroup>
+                        <tr style="font-size: 16px;">
+                        <td><strong>시험번호</strong></td>
+                        <td><strong>시험명</strong></td>
+                        <td><strong>시험만점</strong></td>
+                        <td><strong>시험일자</strong></td>  
+                        <td><strong>시험관리</strong></td>                
                     </tr>`                                           
 
 
-        data.forEach(function(scoreStu, idx){
-            str+=`<tr>
-                    <td>${scoreStu.memberId}</td>
-                    <td>${scoreStu.memberOneVO.memberName}</span></td>
-                    <td>${scoreStu.score}</td>
-                    <td>${scoreStu.testOneVo.testName}</td>
-                <tr>`;     
-             });
+        data.testSelectList.forEach(function(scoreStu, idx){
+            str+=`<tr style="font-size: 15px;">
+                    <td>${scoreStu.testNum}</td>
+                    <td>${scoreStu.testName}</td>`;
+                    
+                    
+                        if(scoreStu.testMaxScore ==0){
+                            alert(data.subDetailList.length);
 
+                            // 총점계산하여 넣기
+                            let subSum =0;
+                            const subCount = data.subDetailList.length;
+
+                            for(let i =0; i <subCount; i++){
+                                subSum+=parseInt(data.subDetailList[i].subMaxScore);
+                                console.log(subSum);
+                            }
+                           
+                            str+=`<td id="subTotalD"> ${subSum}</td>`   
+                                                        
+                           
+                        }
+
+                        else if(scoreStu.testMaxScore !=0){
+
+                            str+=`<td>${scoreStu.testMaxScore}</td>`;
+                        }
+                        
+                        str+=`<td>${scoreStu.testDate}</td>
+                            <td>
+                                    <input type="button" class="btn btn-secondary btn-sm listBtn"  value="수정" onclick="mainTestChange(${scoreStu.testNum},this)">                               
+                                    <button type="button" class="btn btn-secondary btn-sm listBtn" style="margin-left: 2px;">삭제</button>
+                                                                
+                            </td>
+                    <tr>` 
+                
+                    if(scoreStu.testMaxScore !=0){
+
+                        str+=    `</table>                                                                                      
+                        </div>                                                                                                                    
+                   </div>
+                   <div class="row mt-1">
+                       <div class="col-8">
+                           <table class="table-blank text-center align-middle tr-rowTwo" style="width:70%; margin-left:10px; ">
+                               <col width="20%">
+                               <col width="25%">
+                               <col width="20%">
+                               <col width="20%">                                               
+                               
+                               <tr style="font-size: 16px;" >
+                                   <td><strong>과목번호</strong></td>                                    
+                                   <td><strong>과목</strong></td>
+                                   <td><strong>과목만점</strong></td>
+                                   <td><strong>과목관리</strong></td>                                                                                                 
+                               </tr>
+                               
+                               <tr style="font-size: 16px;" >
+                                   <td colspan="4">--------------</td>  
+                               </tr>
+                           </table>
+                       </div>    
+                   </div>`; 
+
+                    }
+                
+                   if(scoreStu.testMaxScore ==0){
+
+                                str+=    `</table>                                                                                      
+                                </div>                                                                                                                    
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-8">
+                                <table class="table-blank text-center align-middle tr-rowTwo" style="width:70%; margin-left:10px; ">
+                                    <col width="20%">
+                                    <col width="25%">
+                                    <col width="20%">
+                                    <col width="20%">                                               
+                                    
+                                    <tr style="font-size: 16px;" id="subHead">
+                                        <td><strong>과목번호</strong></td>                                    
+                                        <td><strong>과목</strong></td>
+                                        <td><strong>과목만점</strong></td>
+                                        <td><strong>과목관리</strong></td>                                                                                                 
+                                    </tr>`
+
+                                data.subDetailList.forEach(function(subDetail){ 
+                                        str+=   `<tr style="font-size: 16px;" id="subTr" >
+                                                    <td id="subtestNum1">${subDetail.subTestNum}</td>
+                                                    <td>${subDetail.subName}</td>  
+                                                    <td>${subDetail.subMaxScore}</td>  
+                                                    <td id="subBtnStd">
+                                                            <input type="button" class="btn btn-secondary btn-sm listBtn" id="updateSubBtn" value="수정" onclick="selUpdateSub(${subDetail.subTestNum},this)">                             
+                                                            <input type="button" class="btn btn-secondary btn-sm listBtn" style="margin-left: 2px;" value="삭제">
+                                                        </td>  
+                                                </tr>`
+                                            }); 
+                                    
+                                str+= `</table>
+                                        </div>    
+                                    </div>`; 
+
+
+                    }
+                
+                });                           
 
              trRowTwo.insertAdjacentHTML('afterbegin',str);
              str = '';
             
-                                 
+
+                                
         
 
     })
@@ -669,6 +797,196 @@ function goSelectScore(testNum){
     });
 
 
+}
+
+// ################################### 메인 테스트 수정 클릭시 시험 1개 조회 ##########################
+
+function mainTestChange(testNum, testBtn){
+
+
+    const  testDateInput =  testBtn.parentElement.previousElementSibling;
+    const  testMaxInput  = testBtn.parentElement.previousElementSibling.previousElementSibling;
+    const  testNameInput  = testBtn.parentElement.previousElementSibling.previousElementSibling.previousElementSibling;
+
+
+   //console.log(testMaxInput.childNodes[0].nodeValue);
+   //   let testMaxTag =testMaxInput.childNodes[0].nodeValue;                   
+  
+    if(testBtn.value=='수정'){
+
+
+
+
+
+
+
+
+
+                                    // ------------------- 첫번째 방식 ---------------//
+                            fetch('/test/selUpdateMainTest', { //요청경로
+                                method: 'POST',
+                                cache: 'no-cache',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                },
+                                //컨트롤러로 전달할 데이터
+                                body: new URLSearchParams({
+                                // 데이터명 : 데이터값
+                                'testNum' :testNum
+                                })
+                            })
+                            .then((response) => {
+                                if(!response.ok){
+                                    alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                                    return ;
+                                }
+
+                                //return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+                                return response.json(); //나머지 경우에 사용
+                            })
+                            //fetch 통신 후 실행 영역
+                            .then((data) => {//data -> controller에서 리턴되는 데이터!
+                                
+                                console.log(data);
+
+                            
+
+                                    testNameInput.innerHTML=`<input type="text" id="newTestName"   name="testName"       value="${data.testName}" style="width:200px;">`;                                    
+                                    
+                                    if(data.testMaxScore !=0){
+                                        testMaxInput.innerHTML=`<input type="text"  id="newTestMaxScore" name="testMaxScore" value=${data.testMaxScore} style="width:100px;">`;
+                                    }                                                                    
+
+                                    testDateInput.innerHTML=`<input type="text"  id="newTestDate" value=${data.testDate} name="testDate" style="width:100px;">`;
+    
+                                    testBtn.value='저장';  
+                            
+                                    
+
+
+                            })
+                            //fetch 통신 실패 시 실행 영역
+                            .catch(err=>{
+                                alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                                console.log(err);
+                            });
+
+
+    }
+   
+   
+   
+    else if(testBtn.value=='저장'){
+
+
+         // ------------------- 첫번째 방식 ---------------//
+         fetch('/test/selUpdateMainTest', { //요청경로
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            //컨트롤러로 전달할 데이터
+            body: new URLSearchParams({
+            // 데이터명 : 데이터값
+            'testNum' :testNum
+            })
+        })
+        .then((response) => {
+            if(!response.ok){
+                alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                return ;
+            }
+
+            //return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+            return response.json(); //나머지 경우에 사용
+        })
+        //fetch 통신 후 실행 영역
+        .then((data) => {//data -> controller에서 리턴되는 데이터!
+            
+            console.log(data);
+
+        
+            if(data.testMaxScore !=0){
+
+                goUpTestFull(testNum, testBtn);
+            }
+
+            else if(data.testMaxScore ==0){
+
+                goUpTestTwo(testNum, testBtn);
+            }                            
+                
+               
+
+
+        })
+        //fetch 통신 실패 시 실행 영역
+        .catch(err=>{
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
+
+    }
+}
+
+
+
+
+function goUpTestFull(testNum, testBtn){
+
+
+        const newTestName  =  document.querySelector('#newTestName').value;
+        const newTestMaxScore = document.querySelector('#newTestMaxScore').value;
+        const newTestDate = document.querySelector('#newTestDate').value;
+
+
+        document.querySelector('#noTestMaxScore')
+
+       console.log(newTestMaxScore);
+        
+
+      alert('시험목록이 새로고침됩니다. \n 변경된 정보를 확인하세요.');
+
+
+
+        // ------------------- 첫번째 방식 ---------------//
+        fetch('/test/updateMainTest', { //요청경로
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            //컨트롤러로 전달할 데이터
+            body: new URLSearchParams({
+            // 데이터명 : 데이터값
+            'testNum' : testNum,
+            'testName' :newTestName,            
+            'testMaxScore' : newTestMaxScore,            
+            'testDate': newTestDate
+
+            })
+        })
+        .then((response) => {
+            if(!response.ok){
+                alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                return ;
+            }
+
+            return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+            //return response.json(); //나머지 경우에 사용
+        })
+        //fetch 통신 후 실행 영역
+        .then((data) => {//data -> controller에서 리턴되는 데이터!
+            
+            showNewMain(testNum, testBtn);
+            
+        })
+        //fetch 통신 실패 시 실행 영역
+        .catch(err=>{
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
 
 }
 
@@ -677,6 +995,327 @@ function goSelectScore(testNum){
 
 
 
+function goUpTestTwo(testNum, testBtn){
+
+
+    const newTestName  =  document.querySelector('#newTestName').value;
+    
+    const newTestDate = document.querySelector('#newTestDate').value;
+
+
+    
+
+  alert('시험목록이 새로고침됩니다. \n 변경된 정보를 확인하세요.');
+
+
+    // ------------------- 첫번째 방식 ---------------//
+    fetch('/test/updateMainTwo', { //요청경로
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        },
+        //컨트롤러로 전달할 데이터
+        body: new URLSearchParams({
+        // 데이터명 : 데이터값
+        'testNum' : testNum,
+        'testName' :newTestName,                              
+        'testDate': newTestDate
+
+        })
+    })
+    .then((response) => {
+        if(!response.ok){
+            alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+            return ;
+        }
+
+        return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+        //return response.json(); //나머지 경우에 사용
+    })
+    //fetch 통신 후 실행 영역
+    .then((data) => {//data -> controller에서 리턴되는 데이터!
+        
+        showNewMain(testNum, testBtn);
+        
+    })
+    //fetch 통신 실패 시 실행 영역
+    .catch(err=>{
+        alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+        console.log(err);
+    });
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ########################### 업데이트 후 보이는 메인테스트 정보 조회 #########################################
+
+
+function showNewMain(testNum, testBtn){
+    
+    const  testDateInput =  testBtn.parentElement.previousElementSibling;
+    const  testMaxInput  = testBtn.parentElement.previousElementSibling.previousElementSibling;
+    const  testNameInput  = testBtn.parentElement.previousElementSibling.previousElementSibling.previousElementSibling;
+    
+            // ------------------- 첫번째 방식 ---------------//
+        fetch('/test/selUpdateMainTest', { //요청경로
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            //컨트롤러로 전달할 데이터
+            body: new URLSearchParams({
+            // 데이터명 : 데이터값
+            'testNum' : testNum
+            })
+        })
+        .then((response) => {
+            if(!response.ok){
+                alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                return ;
+            }
+
+            //return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+            return response.json(); //나머지 경우에 사용
+        })
+        //fetch 통신 후 실행 영역
+        .then((data) => {//data -> controller에서 리턴되는 데이터!
+            console.log(data);
+
+
+            testNameInput.innerHTML=`<td>${data.testName}</td>`;
+                                    
+                                    
+            if(data.testMaxScore !=0){
+                testMaxInput.innerHTML=`<td>${data.testMaxScore}</td>`;
+            }                                    
+            
+
+            testDateInput.innerHTML=`<td>${data.testDate}</td>`;
+
+            testBtn.value='수정';
+            
+            
+            setTimeout(function(){
+                location.reload();
+                },1000);
+                
+
+        })
+        //fetch 통신 실패 시 실행 영역
+        .catch(err=>{
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+// ##################### 수정 클릭시  과목 1개 조회 #########################
+
+function selUpdateSub(subTestNum,suBtn){
+
+
+
+
+      
+       const  subMaxInput =  suBtn.parentElement.previousElementSibling;
+       const  subNameInput  = suBtn.parentElement.previousElementSibling.previousElementSibling;
+
+    if(suBtn.value=='수정'){
+                            // ------------------- 첫번째 방식 ---------------//
+                            fetch('/test/selUpdateSubTest', { //요청경로
+                                method: 'POST',
+                                cache: 'no-cache',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                                },
+                                //컨트롤러로 전달할 데이터
+                                body: new URLSearchParams({
+                                // 데이터명 : 데이터값
+                                'subTestNum':subTestNum
+                                })
+                            })
+                            .then((response) => {
+                                if(!response.ok){
+                                    alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                                    return ;
+                                }
+
+                                //return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+                                return response.json(); //나머지 경우에 사용
+                            })
+                            //fetch 통신 후 실행 영역
+                            .then((data) => {//data -> controller에서 리턴되는 데이터!
+                                console.log(data);
+
+
+                                if(suBtn.value=='수정'){
+
+
+                                subNameInput.innerHTML=`<input type="text" id="newSubName"   name="subName"       value=${data.subName} style="width:100px;">`;
+                                subMaxInput.innerHTML=`<input type="text"  id="newSubMaxScore" name="subMaxScore" value=${data.subMaxScore} style="width:100px;">`;
+                            
+
+                                suBtn.value='저장';  
+                        
+                                }
+
+                            
+                                
+
+                            })
+                            //fetch 통신 실패 시 실행 영역
+                            .catch(err=>{
+                                alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                                console.log(err);
+                            });
+}
+
+
+
+        else if(suBtn.value=='저장'){
+
+
+                const newSubName  =  document.querySelector('#newSubName').value;
+                const newSubMaxScore = document.querySelector('#newSubMaxScore').value;
+
+                // ------------------- 첫번째 방식 ---------------//
+                fetch('/test/updateSubTest', { //요청경로
+                    method: 'POST',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    //컨트롤러로 전달할 데이터
+                    body: new URLSearchParams({
+                    // 데이터명 : 데이터값
+                    'subTestNum' : subTestNum,
+                    'subName' :newSubName,
+                    'subMaxScore' : newSubMaxScore
+
+                    })
+                })
+                .then((response) => {
+                    if(!response.ok){
+                        alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                        return ;
+                    }
+
+                    return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+                    //return response.json(); //나머지 경우에 사용
+                })
+                //fetch 통신 후 실행 영역
+                .then((data) => {//data -> controller에서 리턴되는 데이터!
+                    
+                    showNewSub(subTestNum, suBtn);
+                    
+                })
+                //fetch 통신 실패 시 실행 영역
+                .catch(err=>{
+                    alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                    console.log(err);
+                });
+
+
+
+        }
+
+};
+
+
+function showNewSub(subTestNum, suBtn){
+
+    alert(subTestNum);
+
+
+    const  subMaxInput =  suBtn.parentElement.previousElementSibling;
+    const  subNameInput  = suBtn.parentElement.previousElementSibling.previousElementSibling;
+
+            // ------------------- 첫번째 방식 ---------------//
+        fetch('/test/selUpdateSubTest', { //요청경로
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            //컨트롤러로 전달할 데이터
+            body: new URLSearchParams({
+            // 데이터명 : 데이터값
+            'subTestNum' : subTestNum
+            })
+        })
+        .then((response) => {
+            if(!response.ok){
+                alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                return ;
+            }
+
+            //return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+            return response.json(); //나머지 경우에 사용
+        })
+        //fetch 통신 후 실행 영역
+        .then((data) => {//data -> controller에서 리턴되는 데이터!
+            console.log(data);
+
+
+            subNameInput.innerHTML=`<td>${data.subName}</td>`;
+            subMaxInput.innerHTML=`<td>${data.subMaxScore}</td>`;
+
+            suBtn.value='수정'; 
+
+        })
+        //fetch 통신 실패 시 실행 영역
+        .catch(err=>{
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
+
+
+
+
+}
 
 
 

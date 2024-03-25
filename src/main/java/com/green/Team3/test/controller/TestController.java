@@ -41,9 +41,9 @@ public class TestController {
         model.addAttribute("classList", classList);
 
         // ----- 수업듣는 학생인원 조회-----
-        List<ClsVO> classStuList = testService.selectClassStuCnt(user.getUsername());
-        System.out.println(classStuList);
-        model.addAttribute("classStuList",classStuList);
+//        List<ClsVO> classStuList = testService.selectClassStuCnt(user.getUsername());
+//        System.out.println(classStuList);
+//        model.addAttribute("classStuList",classStuList);
 
         return "content/test/teacher_first_sc";
 
@@ -104,11 +104,24 @@ public class TestController {
     // 비동기 시험명 클릭시 학생별 성적 조회
     @ResponseBody
     @PostMapping("/selectScoreList")
-    public List<TestScoreVO> selectScoreList(TestScoreVO testScoreVO, Model model) {
+    public Map<String, Object> selectScoreList(TestScoreVO testScoreVO, Model model, TestVO testVO) {
         // 시험명 클릭시 학생별 성적 조회
-        List<TestScoreVO> scoreSelectList = testService.selectTestScore(testScoreVO.getTestNum());
-        model.addAttribute("scoreSelectList", scoreSelectList);
-        return scoreSelectList;
+        //List<TestScoreVO> scoreSelectList = testService.selectTestScore(testScoreVO.getTestNum());
+        //model.addAttribute("scoreSelectList", scoreSelectList);
+
+        List<TestVO> testSelectList = testService.testNumInfo2(testVO.getTestNum());
+        model.addAttribute("testSelectList", testSelectList);
+
+        List<TestSubjectVO> subDetailList = testService.selectSubList(testScoreVO.getTestNum());
+
+        Map<String, Object> map3 = new HashMap<>();
+        map3.put("testSelectList",testSelectList);
+        map3.put("subDetailList", subDetailList);
+
+        System.out.println("@@@@@@@@@@@@@@@" +map3);
+
+
+        return map3;
     }
 
 
@@ -172,26 +185,26 @@ public class TestController {
 
     // 성적 통계 표 조회하는 페이지 이동하기
 
-    @GetMapping("/totalScoreShow")
-    public String totalScoreShow(TestScoreVO testScoreVO, TestVO testVO, @RequestParam(name="classNum") int classNum, Model model) {
-
-        //   반 학생명 조회
-
-        List<MemberVO> selectStuNames = testService.selectStuName(classNum);
-        model.addAttribute("selectStuNames", selectStuNames);
-        System.out.println(selectStuNames);
-
-        // Test 명 조회
-        List<TestVO> testNames = testService.totalTestSelect(testVO.getClassNum());
-        model.addAttribute("testNames", testNames);
-        System.out.println(testNames);
-
-        //  점수 조회
-        List<TestScoreVO> scoreSelectList = testService.totalStuScoreSelect(testVO.getClassNum());
-        model.addAttribute("scoreSelectList", scoreSelectList);
-        System.out.println(scoreSelectList);
-        return "content/test/totalScore";
-    }
+//    @GetMapping("/totalScoreShow")
+//    public String totalScoreShow(TestScoreVO testScoreVO, TestVO testVO, @RequestParam(name="classNum") int classNum, Model model) {
+//
+//        //   반 학생명 조회
+//
+//        List<MemberVO> selectStuNames = testService.selectStuName(classNum);
+//        model.addAttribute("selectStuNames", selectStuNames);
+//        System.out.println(selectStuNames);
+//
+//        // Test 명 조회
+//        List<TestVO> testNames = testService.totalTestSelect(testVO.getClassNum());
+//        model.addAttribute("testNames", testNames);
+//        System.out.println(testNames);
+//
+//        //  점수 조회
+//        List<TestScoreVO> scoreSelectList = testService.totalStuScoreSelect(testVO.getClassNum());
+//        model.addAttribute("scoreSelectList", scoreSelectList);
+//        System.out.println(scoreSelectList);
+//        return "content/test/totalScore";
+//    }
 
 
 //    // 점수 직접 입력하기
@@ -288,7 +301,7 @@ public class TestController {
     @PostMapping("/insertSubNtest")
     public String insertSubNtest(@RequestParam(name="testNum") List<Integer> testNums,
                                  @RequestParam(name="score") List<Integer> scores,
-                                 @RequestParam(name ="memberId") List<String> memberIds,
+                                  @RequestParam(name ="memberId") List<String> memberIds,
                                  @RequestParam(name = "subTestNum")List<Integer> subTestNums,
                                  TestScoreVO testScoreVO){
 
@@ -307,6 +320,161 @@ public class TestController {
         return "redirect:/test/goTestN?testNum="+ testScoreVO.getTestNum()+"&classNum="+ testScoreVO.getTestOneVo().getClassNum();
 
     }
+
+
+    // ///////////////////////////   시험정보 업데이트  하기//////////////////////////////////////////////
+
+    // 메인테스트 1개 상세정보 조회
+
+    @ResponseBody
+    @PostMapping("/selUpdateMainTest")
+    public TestVO selUpdateMainTest(@RequestParam(name = "testNum") int testNum){
+
+        TestVO mainDetailOne= testService.testNumInfo(testNum);
+        System.out.println(mainDetailOne);
+
+        return mainDetailOne;
+    }
+
+
+    // 메인테스트 full 상세정보 수정
+    @ResponseBody
+    @PostMapping("/updateMainTest")
+    public void updateMainTest(TestVO testVO){
+        testService.updateTestDetail(testVO);
+
+    }
+
+
+    // 메인테스트 만점제외하고 상세정보 수정
+    @ResponseBody
+    @PostMapping("/updateMainTwo")
+    public void updateMainTwo(TestVO testVO){
+        testService.updateTestDeTwo(testVO);
+
+    }
+
+
+    // 과목상세정보 1개 조회
+    @ResponseBody
+    @PostMapping("/selUpdateSubTest")
+    public TestSubjectVO selUpdateSubTest(@RequestParam(name = "subTestNum")int subTestNum){
+
+      TestSubjectVO subDetailOne= testService.selectSubOne(subTestNum);
+        System.out.println("22222"+subDetailOne);
+
+     return subDetailOne;
+    }
+
+    // 과목 상세정보 수정
+    @ResponseBody
+    @PostMapping("/updateSubTest")
+    public void updateSubTest(TestSubjectVO testSubjectVO){
+        testService.updateSubDetail(testSubjectVO);
+
+    }
+
+
+
+
+
+    //
+    // /////////////////////////학생이 로그인 했을때 성적확인하기 ///////////////////////////////////////
+
+    @GetMapping("/stuTestFirst")
+    public String stuTestFirst(Model model){
+
+        MemberVO stuInfoService = testService.selectStuTest();
+        model.addAttribute("stuInfoService",stuInfoService);
+        System.out.println(stuInfoService);
+
+
+//        List<OperatorVO> stuCLTest =scoreService.selectStuCLTest();
+//        model.addAttribute("stuCLTest",stuCLTest);
+//        System.out.println(stuCLTest);
+        return "content/member/student_test_search";
+    }
+
+    // 학생이 수강별 조회
+    @ResponseBody
+    @PostMapping("/classListSearch")
+    public List<TestVO> classListSearch(@RequestParam(name = "memberId")String memberId){
+
+        List<TestVO> stuCLTest =testService.selectStuCLTest(memberId);
+        return stuCLTest;
+    }
+
+    // 학생이 시험별 조회
+    @ResponseBody
+    @PostMapping("/testListSearch")
+    public List<TestVO> testListSearch(@RequestParam(name = "memberId")String memberId) {
+
+        List<TestVO> stuTest = testService.selectStuTestDetail(memberId);
+        return stuTest;
+    }
+
+    // 학생이 과목별 조회
+    @ResponseBody
+    @PostMapping("/subListSearch")
+    public List<TestSubjectVO> subListSearch(@RequestParam(name = "memberId")String memberId){
+
+        List<TestSubjectVO> stuSubTest =testService.selectStuSub(memberId);
+        return stuSubTest;
+    }
+
+    // 학생이 전체이수표 조회
+    @ResponseBody
+    @PostMapping("/totalListSearch")
+    public List<OperatorVO> totalListSearch(@RequestParam(name = "memberId")String memberId){
+
+        List<OperatorVO> totalStuTest =testService.totalSelectTest(memberId);
+        return totalStuTest;
+    }
+
+
+
+    // ///////////////////////////////////////////////////
+
+    // 학생이 본인 성적 상세성적 조회
+    @GetMapping("/goMyScore")
+    public String goMyScore(TestScoreVO testScoreVO, @RequestParam(name = "memberId") String memberId,
+                            @RequestParam(name = "testNum") int testNum
+            , Model model){
+
+
+        List<TestScoreVO> mainMyScore= testService.mainTestMyScore(testScoreVO);
+        model.addAttribute("mainMyScore",mainMyScore);
+
+        List<TestScoreVO> subMyScores= testService.subTestMyScore(testScoreVO);
+        model.addAttribute("subMyScores",subMyScores);
+
+        for(TestScoreVO mySub : subMyScores){
+            if(mySub.getSubTestNum()!=0){
+
+                return "content/member/student_subject_check";
+            }
+        }
+
+
+        return "content/member/student_test_check";
+    }
+
+
+    // 학생이 본인 성적 모든성적 조회 프린트
+
+    @GetMapping("totalStuPrint")
+    public String totalStuPrint(){
+        return "content/member/student_total_test";
+    }
+
+
+
+
+
+
+
+
+
 
 
 

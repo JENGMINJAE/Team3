@@ -23,7 +23,7 @@
 
         <div class="row" style="width: 1000px;">
             <div class="col">
-                <div class="row" style="width:800px;">
+                <div class="row" style="width:1000px;">
                     <div class="col" style="color: white; background-color:rgb(28, 28, 78); border-bottom: 10px solid rgb(23, 141, 156); font-size:25px;">
                         <strong>성적처리</strong>
                     </div>
@@ -42,8 +42,8 @@
                     <div class="col">
                         <table class="table text-center">
                             <colgroup>
-                                <col width="5%">
-                                <col width="30%">
+                                <col width="10%">
+                                <col width="25%">
                                 <col width="15%">
                                 <col width="30%">               
                                 <col width="20%">
@@ -53,19 +53,15 @@
                                 <td><strong>수강명</strong></td>
                                 <td><strong>현인원/정원</strong></td>
                                 <td><strong>수강기간</strong></td>
-                                <td><strong>입력 여부</strong></td>
+                                <td><strong>수강 상태</strong></td>
                             </tr>
     
                             <tr th:each= "classInfo : ${classList}">
                                 <td>[[${classInfo.classNum}]]</td>
                                 <td style="cursor:pointer;"><span class="point-span" th:onclick="goScore([[${classInfo.classNum}]])" >[[${classInfo.className}]]</span></td>
-                                <td>  /[[${classInfo.classPersonnel}]]</td> 
+                                <td> [[${classInfo.stuCnt}]] /[[${classInfo.classPersonnel}]]</td> 
                                 <td>[[${classInfo.classSdate}]]-[[${classInfo.classEdate}]]</td>
-                                <td>
-                                    <input type="radio" th:value="${classInfo.classEnter}" checked>수강중
-                                    <input type="radio" >종강
-    
-                                </td>
+                                <td>[[${classInfo.teacherVO.strWork}]]</td>                                                               
                             </tr>                           
                         </table>
                     </div>

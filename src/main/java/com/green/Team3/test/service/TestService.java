@@ -15,8 +15,8 @@ public interface TestService {
     // 강사 강의 목록조회 ////
     List<ClsVO> selectTeacherClassList(String memberId);
 
-    // 수업듣는 학생인원 조회
-    List<ClsVO> selectClassStuCnt(String memberId);
+//    // 수업듣는 학생인원 조회
+//    List<ClsVO> selectClassStuCnt(String memberId);
 
     // 반별 학생 평가명 점수 조회
     List<TestScoreVO> selectTestList(int classNum);
@@ -88,7 +88,40 @@ public interface TestService {
     //과목저장
     void insertSubScore(TestScoreVO testScoreVO);
 
+// /////////////////////////////////////////////////////////
+
+    // 과목 1개 조회
+    TestSubjectVO selectSubOne(int subTestNum);
 
 
+
+    // 메인테스트full 상세정보 수정
+    void updateTestDetail(TestVO testVO);
+    // 메인테스트 만점 제외하고 수정
+    void  updateTestDeTwo(TestVO testVO);
+
+
+    // 과목 상세정보 수정
+    void updateSubDetail(TestSubjectVO testSubjectVO);
+
+    // ////////////////////////학생이 로그인했을때 성적 확인 ///////////////////////////
+
+    // ####### 성적 조회 서비스 기능들 #######
+    // 학생정보조회
+    MemberVO selectStuTest();
+    // 학생 수강별 시험목록조회
+    List<TestVO> selectStuCLTest(String memberId);
+    // 학생 시험지별 목록조회
+    List<TestVO> selectStuTestDetail(String memberId);
+    // 학생 과목별 목록조회
+    List<TestSubjectVO> selectStuSub(String memberId);
+    //학생 전체 성적이수표 조회
+    List<OperatorVO> totalSelectTest(String memberId);
+
+    //############ 조회버튼 클릭시 성적 상세페이지 이동하여 조회 ########
+    // 학생 과목 없을시   my 성적페이지 이동 & 조회
+    List<TestScoreVO> mainTestMyScore(TestScoreVO testScoreVO);
+    // 학생 과목 있을시   my 성적페이지 이동 & 조회
+    List<TestScoreVO> subTestMyScore(TestScoreVO testScoreVO);
 
 }
