@@ -18,7 +18,7 @@ public class AdminServiceImpl implements AdminService{
 
     // 강사 전체 목록 조회 (완료)
     @Override
-    public List<ClsVO> selectTeachers() {
+    public List<TeacherVO> selectTeachers() {
         return sqlSession.selectList("teacher.selectTeachers");
     }
 
@@ -39,7 +39,7 @@ public class AdminServiceImpl implements AdminService{
         }
     }
 
-    // 강사 재직 상태 수정 (구현 중)
+    // 강사 재직 상태 수정 (완료)
     @Override
     public void changeAttendance(TeacherVO teacherVO) {
         sqlSession.update("admin.changeAttendance", teacherVO);
@@ -57,10 +57,27 @@ public class AdminServiceImpl implements AdminService{
         sqlSession.update("admin.changeMemberData", memberVO);
     }
 
+    // 반 생성
+    @Override
+    public void makeCls(ClsVO clsVO) {
+        sqlSession.insert("admin.makeCls", clsVO);
+    }
+
     // 반정보 수정
     @Override
     public void updateClassInfo(ClsVO clsVO) {
         sqlSession.update("clsMapper.updateClass", clsVO);
+    }
+
+    // 강사 목록 조회
+    @Override
+    public List<TeacherVO> selectTeacherName() {
+        return sqlSession.selectList("admin.selectTeacherName");
+    }
+
+    @Override
+    public int updateClass(ClsVO clsVO) {
+        return sqlSession.update("admin.updateClass", clsVO);
     }
 
 }

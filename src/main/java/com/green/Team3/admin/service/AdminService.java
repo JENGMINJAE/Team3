@@ -9,7 +9,7 @@ import java.util.List;
 public interface AdminService {
 
     // 선생님 전체 목록 조회
-    List<ClsVO> selectTeachers();
+    List<TeacherVO> selectTeachers();
 
     // 선생님 상세 목록 조회
     List<ClsVO> detailTeacher(int teacherNum);
@@ -26,7 +26,17 @@ public interface AdminService {
     // 인적 사항 정보 변경
     void changePersonalInfo(MemberVO memberVO);
 
+    // 반 생성
+    void makeCls(ClsVO clsVO);
+
     // 반정보 수정
     void updateClassInfo(ClsVO clsVO);
+
+    // 선생님 이름 조회
+    List<TeacherVO> selectTeacherName();
+
+    // 반에서 정보 수정
+    int updateClass(ClsVO clsVO);
+
 
 }

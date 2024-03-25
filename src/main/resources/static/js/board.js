@@ -20,13 +20,101 @@ function goUpdateNotice(boardNum){
     
 }
 
-
 // 공지사항 게시글 삭제(*관리자만)
 function goDeleteNotice(boardNum){
     if(confirm('공지사항을 삭제하시겠습니까?')){
         location.href=`/board/deleteNotice?boardNum=${boardNum}`;
     }
 }
+
+//공지사항 게시글 작성 시 필수입력 안내창
+// function noticeReg(){
+//     //제목 빈칸 시
+//     const boardTitle = document.querySelector('#boardTitle');
+//     if(boardTitle.value == ''){
+//         alert('공지사항 제목을 입력하세요.');
+//         return false;
+//     }
+
+//     //열람대상 빈칸 시
+//     const typeNum = document.querySelector('input[name="typeNum"]:checked');
+//     if (!typeNum) {
+//         alert('공지사항 열람대상을 선택하세요.');
+//         return false;
+//     }
+
+//     //내용 빈칸 시
+//     const boardContent = document.querySelector('#boardContent');
+//     if(boardContent.value == ''){
+//         alert('공지사항 내용을 입력하세요.');
+//         return false;
+//     }
+
+//     //유효성 검사 모두 만족 시 true
+//     const post = document.querySelector('form');
+//     if (noticeReg()) {
+//         post.submit();
+//     }
+//     return true;
+// }
+
+
+// 공지사항 게시글 작성 시 필수입력 안내창
+function noticeReg() {
+    // 제목 빈칸 시
+    const boardTitle = document.querySelector('#boardTitle');
+    if (boardTitle.value == '') {
+        alert('공지사항 제목을 입력하세요.');
+        return false;
+    }
+
+    // 열람대상 빈칸 시
+    const typeNum = document.querySelector('input[name="typeNum"]:checked');
+    if (!typeNum) {
+        alert('공지사항 열람대상을 선택하세요.');
+        return false;
+    }
+
+    // 내용 빈칸 시
+    const boardContent = document.querySelector('#boardContent');
+    if (boardContent.value == '') {
+        alert('공지사항 내용을 입력하세요.');
+        return false;
+    }
+
+    // 유효성 검사 모두 만족 시 true
+    return true;
+}
+
+// 게시글 등록 버튼 클릭 시 유효성 검사 후 제출
+function submitNotice() {
+    if (noticeReg()) {
+        const post = document.querySelector('form');
+        post.submit();
+    }
+}
+
+//첨부파일 이미지 아이콘 숨기기(첨부파일이 없을 때)
+window.onload = function() {
+    // 이미지 아이콘이 있는지 확인
+    var imgListElement = document.querySelector('[data-imgList]');
+    if (imgListElement) {
+        var imgList = imgListElement.getAttribute('data-imgList');
+        // 이미지 아이콘이 있는 경우의 처리
+        console.log('이미지 아이콘이 있습니다.');
+    } else {
+        // 이미지 아이콘이 없는 경우의 처리
+        console.log('이미지 아이콘이 없습니다.');
+        // 이미지 아이콘이 없을 때의 동작 추가
+        var imgElement = document.querySelector('img'); // 이미지 요소 선택
+        if (imgElement) {
+            imgElement.style.display = 'none'; // 이미지 숨기기
+        }
+    }
+}
+
+
+
 
 
 //////////////////////////////////////[문의사항 관련]////////////////////////////////////////
@@ -50,6 +138,43 @@ function goDeleteQna(boardNum){
         location.href=`/board/deleteQna?boardNum=${boardNum}`;
     }
 }
+
+//문의사항 게시글 작성 시 필수입력 안내창
+function qnaReg() {
+    // 제목 빈칸 시
+    const boardTitle = document.querySelector('#boardTitle');
+    if (boardTitle.value == '') {
+        alert('공지사항 제목을 입력하세요.');
+        return false;
+    }
+
+    // 열람대상 빈칸 시
+    const typeNum = document.querySelector('input[name="typeNum"]:checked');
+    if (!typeNum) {
+        alert('공지사항 열람대상을 선택하세요.');
+        return false;
+    }
+
+    // 내용 빈칸 시
+    const boardContent = document.querySelector('#boardContent');
+    if (boardContent.value == '') {
+        alert('공지사항 내용을 입력하세요.');
+        return false;
+    }
+
+    // 유효성 검사 모두 만족 시 true
+    return true;
+}
+
+// 게시글 등록 버튼 클릭 시 유효성 검사 후 제출
+function submitQna() {
+    if (qnaReg()) {
+        const post = document.querySelector('form');
+        post.submit();
+    }
+}
+
+
 
 //문의사항 댓글 삭제
 function goDeleteReply(replyNum, boardNum){
@@ -113,7 +238,6 @@ function goUpdateReply(selectedTd ,boardNum, replyNum, replyContent){
     // if (!newReplyContent) {
     //     return; // 사용자가 입력을 취소하거나 아무것도 입력하지 않은 경우
     // }
-    
     
 }
 

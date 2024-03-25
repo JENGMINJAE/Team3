@@ -35,8 +35,8 @@ public class AdminController {
     // 강사 관리 페이지 이동
     @GetMapping("/goAdminTeacher")
     public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum){
-        List<ClsVO> list = adminService.selectTeachers();
-//        System.out.println(list);
+        List<TeacherVO> list = adminService.selectTeachers();
+        System.out.println(list);
         model.addAttribute("teacherList", list); // 강사 목록 조회
         model.addAttribute("updateTeacherNum", teacherNum);
         return "content/admin/admin_teacher";
@@ -92,17 +92,19 @@ public class AdminController {
         List<ClsVO> voList = clsService.selectClass(memberVO);
         return voList;
     }
-//    ----------------------- 완료 ---------------------------
 
-    // 학급 생성 페이지 이동
+    // 학급 생성 페이지 이동 (완료)
     @GetMapping("/makeClassForm")
-    public String makeClassForm(){
+    public String makeClassForm(Model model){
+        model.addAttribute("clsList", clsService.selectAllClass());
+        model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/make_class_form";
     }
 
-    // 학급 생성 버튼 클릭 시 실행 메소드
+    // 학급 생성 버튼 클릭 시 실행 메소드 (완료)
     @PostMapping("/makeClass")
-    public String makeClass(){
+    public String makeClass(ClsVO clsVO){
+        adminService.makeCls(clsVO);
         return "redirect:/admin/makeClassForm";
     }
 
@@ -118,13 +120,18 @@ public class AdminController {
     @GetMapping("/goClassInfo")
     public String changeClass(@RequestParam(name = "classNum")int classNum, Model model){
         model.addAttribute("clsInfo", clsService.selectClassDetail(classNum));
+        model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/change_class";
     }
 
     // 반정보 수정 쿼리 실행
     @PostMapping("/updateClass")
     public String updateClass(ClsVO clsVO){
-        return "redirect:/admin/goClassInfo?classNum=" + clsVO.getClassNum();
+       adminService.updateClass(clsVO);
+       return "redirect:/admin/goClassInfo?classNum=" + clsVO.getClassNum();
     }
+
+    //    ----------------------- 완료 ---------------------------
+
 
 }

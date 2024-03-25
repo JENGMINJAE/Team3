@@ -15,17 +15,16 @@
         <result column="CLASS_NUM"  property="classNum"/>
         <association property="clsVO" resultMap="clsMapper.cls"/>
     </resultMap>
-
-    <resultMap id="operator" type="com.green.Team3.admin.vo.OperatorVO">
-        <id column="OPER_NUM"           property="operNum"/>
-        <result column="OPER_PAY"       property="operPay" />
-        <result column="IS_PAY"         property="isPay" />
-        <result column="MEMBER_ID"      property="memberId" />
-        <result column="PAY_YEAR"       property="payYear" />
-        <result column="PAY_MONTH"      property="payMonth" />
-        <result column="CLASS_NUM"      property="classNum" />
-        <result column="MEMBER_NAME"    property="memberName"/>
+    <resultMap id="consult" type="com.green.Team3.learn.vo.ConsultVO">
+        <id column="CONSULT_NUM" property="consultNum"/>
+        <result column="CONSULT_CONTENT" property="consultContent"/>
+        <result column="CONSULT_DATE" property="consultDate"/>
+        <result column="MEMBER_ID" property="memberId"/>
+        <result column="CLASS_NUM" property="classNum"/>
+        <association property="clsVO" resultMap="clsMapper.cls"/>
+        <association property="memberVO" resultMap="member.memberMap"/>
     </resultMap>
+
 
     <!-- 출결 리스트 조회 -->
     <select id="selectAtd" resultMap="attendanceType">
@@ -129,7 +128,7 @@
         WHERE CLASS_NUM = #{classNum}
     </select>
     <select id="selectClassNumByTeacherNum" resultMap="homework">
-        SELECT
+        SELECT DISTINCT
         H.CLASS_NUM,CLASS_NAME
         FROM homework H
         INNER JOIN class_info CI
@@ -159,37 +158,101 @@
         FROM MEMBER M
         INNER JOIN OPERATOR O
         ON O.MEMBER_ID = M.MEMBER_ID
-        WHERE CLASS_NUM = #{class_num};
+        WHERE CLASS_NUM = #{class_num}
     </select>
 
     <insert id="insertConsult">
         INSERT INTO CONSULT (
             CLASS_NUM,
             MEMBER_ID,
-            CONSULT_DATE,
-            CONSULT_CONTENT
+            CONSULT_DATE
         ) VALUES (
             #{classNum},
             #{memberId},
-            #{consultDate},
-            #{consultContent}
+            #{consultDate}
         )
     </insert>
 
-<!--    <select id="selectConsultList" resultMap="consult">-->
-<!--        SELECT  CONSULT_NUM,-->
-<!--                CONSULT_DATE,-->
-<!--                MEMBER_NAME,-->
-<!--                CLASS_NAME,-->
-<!--                CONSULT_CONTENT-->
-<!--        FROM consult c-->
-<!--            INNER JOIN class_info ci-->
-<!--        ON ci.CLASS_NUM = c.CLASS_NUM-->
-<!--            INNER JOIN member m-->
-<!--        ON m.MEMBER_ID = s.MEMBER_ID-->
-<!--            WHERE TEACHER_NUM = #{teacherNum}-->
+    <select id="selectEndConsultList" resultMap="consult">
+        SELECT CONSULT_NUM,
+        CONSULT_DATE,
+        MEMBER_NAME,
+        CLASS_NAME,
+        CONSULT_CONTENT
+        FROM consult c
+        INNER JOIN class_info ci
+        ON ci.CLASS_NUM = c.CLASS_NUM
+        INNER JOIN member m
+        ON m.MEMBER_ID = c.MEMBER_ID
+        WHERE ci.TEACHER_NUM = #{teacherNum}
+        AND substring(NOW(),1,10) > consult_DATE
+        ORDER BY CONSULT_DATE DESC
+    </select>
+    <select id="selectWillConsultList" resultMap="consult">
+        SELECT CONSULT_NUM,
+        CONSULT_DATE,
+        MEMBER_NAME,
+        CLASS_NAME,
+        CONSULT_CONTENT
+        FROM consult c
+        INNER JOIN class_info ci
+        ON ci.CLASS_NUM = c.CLASS_NUM
+        INNER JOIN member m
+        ON m.MEMBER_ID = c.MEMBER_ID
+        WHERE ci.TEACHER_NUM = #{teacherNum}
+        AND consult_DATE > substring(NOW(),1,10)
+        ORDER BY CONSULT_DATE ASC
+    </select>
+    <select id="selectTodayConsultList" resultMap="consult">
+        SELECT CONSULT_NUM,
+        CONSULT_DATE,
+        MEMBER_NAME,
+        CLASS_NAME,
+        CONSULT_CONTENT
+        FROM consult c
+        INNER JOIN class_info ci
+        ON ci.CLASS_NUM = c.CLASS_NUM
+        INNER JOIN member m
+        ON m.MEMBER_ID = c.MEMBER_ID
+        WHERE ci.TEACHER_NUM = #{teacherNum}
+        AND consult_DATE = substring(NOW(),1,10)
+        ORDER BY CONSULT_DATE DESC
+    </select>
 
-<!--    </select>-->
+    <select id="selectTeacherNumOfMemberId" resultType="int">
+        SELECT TEACHER_NUM
+        FROM TEACHER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+<!--////////////////////////////////////////////////////////////////////////////////////////-->
+    <select id="selectOneConsult" resultMap="consult">
+        SELECT
+        C.CLASS_NUM,
+        CLASS_NAME,
+        CONSULT_NUM,
+        CONSULT_DATE
+        FROM CONSULT CS
+        INNER JOIN CLASS_INFO C
+        ON C.CLASS_NUM = CS.CLASS_NUM
+        WHERE CONSULT_NUM = #{consultNum}
+    </select>
+    <select id="selectClassNumByTeacherNumConsult" resultMap="consult">
+        SELECT DISTINCT
+        c.CLASS_NUM,CLASS_NAME
+        FROM consult c
+        INNER JOIN class_info CI
+        ON CI.CLASS_NUM = c.CLASS_NUM
+        WHERE TEACHER_NUM = #{teacherNum}
+    </select>
+    <update id="updateConsult">
+        UPDATE consult SET
+        MEMBER_ID = #{memberId},
+        CONSULT_DATE = #{consultDate},
+        CLASS_NUM = #{classNum}
+        WHERE CONSULT_NUM = #{consultNum}
+    </update>
+
+
 </mapper>
 
 

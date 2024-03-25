@@ -56,7 +56,7 @@
     </select>
 
     <!-- 게시글 작성 - 공지사항 -->
-    <insert id="insertNotice">
+    <insert id="insertNotice" parameterType="com.green.Team3.board.vo.BoardVO">
         INSERT INTO BOARD (
             BOARD_TITLE
             , BOARD_CONTENT
@@ -68,6 +68,24 @@
             , #{memberId}
             , #{typeNum}
         )
+    </insert>
+
+    <!-- 공지사항 게시글 이미지 파일 첨부 -->
+    <insert id="insertImgs" parameterType="com.green.Team3.board.vo.BoardVO">
+        INSERT INTO BOARD_IMAGE (
+        ORIGIN_FILE_NAME
+        , ATTACHED_FILE_NAME
+        , IS_MAIN
+        , BOARD_NUM
+        ) VALUES
+        <foreach collection="imgList" item="img" separator=",">
+            (
+            #{img.originFileName}
+            , #{img.attachedFileName}
+            , #{img.isMain}
+            , (SELECT LAST_INSERT_ID())
+            )
+        </foreach>
     </insert>
 
     <!-- 게시글 작성 - 문의사항 -->
@@ -85,14 +103,30 @@
         )
     </insert>
 
-    <!-- 게시글 상세 조회 -->
-    <select id="selectNoticeDetail" resultMap="boardMap">
+    <!-- 게시글 상세 조회 - 공지사항-->
+    <select id="selectNoticeDetail" parameterType="int" resultMap="boardMap">
+        SELECT B.BOARD_NUM
+        , BOARD_TITLE
+        , BOARD_CONTENT
+        , MEMBER_ID
+        , TYPE_NUM
+        , BOARD_CNT
+        , I.ATTACHED_FILE_NAME
+        , I.IS_MAIN
+        FROM BOARD B
+        LEFT JOIN BOARD_IMAGE I
+        ON B.BOARD_NUM = I.BOARD_NUM
+        WHERE B.BOARD_NUM = #{boardNum}
+    </select>
+
+    <!-- 게시글 상세 조회 - 문의사항 -->
+    <select id="selectQnaDetail" resultMap="boardMap">
         SELECT BOARD_NUM
-            , BOARD_TITLE
-            , BOARD_CONTENT
-            , MEMBER_ID
-            , TYPE_NUM
-            , BOARD_CNT
+        , BOARD_TITLE
+        , BOARD_CONTENT
+        , MEMBER_ID
+        , TYPE_NUM
+        , BOARD_CNT
         FROM BOARD
         WHERE BOARD_NUM = #{boardNum}
     </select>
@@ -105,8 +139,28 @@
         WHERE BOARD_NUM = #{boardNum}
     </update>
 
-    <!-- 게시글 삭제 -->
+<!-- 공지사항 삭제 (첨부파일 먼저 삭제) -->
+    <!-- 이미지 삭제 - 공지사항 -->
+    <delete id="deleteImg">
+        DELETE FROM BOARD_IMAGE
+        WHERE BOARD_NUM = #{boardNum}
+    </delete>
+
+    <!-- 게시글 삭제 - 공지사항 -->
     <delete id="deleteNotice">
+        DELETE FROM BOARD
+        WHERE BOARD_NUM = #{boardNum}
+    </delete>
+
+    <!-- 공지사항 게시글 첨부파일 유무 여부 -->
+    <select id="hasImg" resultType="int" parameterType="int">
+        SELECT COUNT(IMG_NUM)
+        FROM BOARD_IMAGE
+        WHERE BOARD_NUM = #{boardNum}
+    </select>
+
+    <!-- 게시글 삭제 - 문의사항 -->
+    <delete id="deleteQna">
         DELETE FROM BOARD
         WHERE BOARD_NUM = #{boardNum}
     </delete>
@@ -130,26 +184,6 @@
         </if>
     </select>
 
-    <!-- 게시글 상세 - 이전글 / 다음글 조회 -->
-    <!-- LAG : 기준 데이터의 이전 행의 값을 반환 -->
-    <!-- LEAD : 기준 데이터의 다음 행의 값을 반환 -->
-    <!-- SELECT 조회할 컬럼명 LAG(대상 컬럼명) OVER (ORDER BY 대상 컬럼명 정렬기준) AS 별칭 FROM 테이블명
-         SELECT 조회할 컬럼명 LEAD(대상 컬럼명) OVER (ORDER BY 대상 컬럼명 정렬기준) AS 별칭 FROM 테이블명 -->
-    <!--  SELECT *
-            FROM (SELECT
-                         글 번호
-                        BOARD_NUM
-                         prevNum : 이전글 / nextNum : 다음글
-                        , LAG(BOARD_NUM, 1, -1) OVER(ORDER BY BOARD_NUM ASC) AS prevNum
-                        , LEAD(BOARD_NUM, 1, -1) OVER(ORDER BY BOARD_NUM ASC) AS nextNum
-                         글 제목
-                        , BOARD_TITLE
-                        , LAG(BOARD_TITLE, 1, -1) OVER(ORDER BY BOARD_NUM ASC) AS prevTitle
-                        , LEAD(BOARD_TITLE, 1, -1) OVER(ORDER BY BOARD_NUM ASC) AS nextTitle
-                FROM BOARD
-                ORDER BY BOARD_NUM DESC)
-            WHERE BOARD_NUM = #{boardNum}  -->
-
     <!-- 게시글 상세 - 이전글 조회 -->
     <select id="prevPage" resultMap="boardMap" resultType="int">
         SELECT BOARD_NUM
@@ -170,23 +204,7 @@
         LIMIT 1;
     </select>
 
-    <!-- 공지사항 게시글 이미지 파일 첨부 -->
-    <insert id="insertImgs">
-        INSERT INTO BOARD_IMAGE (
-            ORIGIN_FILE_NAME
-            , ATTACHED_FILE_NAME
-            , IS_MAIN
-            , BOARD_NUM
-        ) VALUES
-        <foreach collection="imgList" item="img" separator=",">
-            (
-                #{img.originFileName}
-                , #{img.attachedFileName}
-                , #{img.isMain}
-                , #{img.boardNum}
-            )
-        </foreach>
-    </insert>
+
 
 
 

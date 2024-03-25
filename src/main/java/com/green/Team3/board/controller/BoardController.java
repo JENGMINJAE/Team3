@@ -3,14 +3,14 @@ package com.green.Team3.board.controller;
 import com.green.Team3.board.service.BoardService;
 import com.green.Team3.board.service.BoardServiceImpl;
 import com.green.Team3.board.service.ReplyServiceImpl;
-import com.green.Team3.board.vo.BoardVO;
-import com.green.Team3.board.vo.PageVO;
-import com.green.Team3.board.vo.ReplyVO;
-import com.green.Team3.board.vo.SearchVO;
+import com.green.Team3.board.utill.UploadUtil;
+import com.green.Team3.board.vo.*;
 import com.green.Team3.member.vo.MemberVO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -79,29 +79,37 @@ public class BoardController {
 //    }
 
 
-
-    // 공지사항 게시글 작성 - 이미지 첨부 기능 추가 중
+    // 공지사항 게시글 작성 - 이미지 첨부 기능 추가 중 ㅠㅠ
     @PostMapping("/noticeWrite")
     public String noticeWrite(BoardVO boardVO
-                            , HttpSession session
-                            , @RequestParam(name = "mainImg") MultipartFile mainImg
+                            , Authentication authentication
                             , @RequestParam(name = "subImgs") MultipartFile[] subImgs){
+
+        //------------------- 사용자 로그인 정보 받아오기 --------------------
+        User user = (User) authentication.getPrincipal();
+        boardVO.setMemberId(user.getUsername());
+
         //----------------------- 파일 첨부 기능 -----------------------
-        //메인 이미지 하나 업로드
+        //첨부 이미지들 업로드
+        List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
 
-        //상세 이미지들 업로드
+        //다음에 들어갈 boardNum 조회
+        int boardNum = boardService.selectNextNoticeCode();
 
-        //----------------------- 로그인 정보 --------------------------
-        MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+        //------------------------ 공지사항 등록 ------------------------
+        boardVO.setBoardNum(boardNum);
 
+        //------------------------ 파일 첨부 등록 -----------------------
+        boardVO.setImgList(imgList);
 
-        //공지사항 등록 쿼리
-        boardVO.setMemberId(loginInfo.getMemberId());
+        System.out.println(boardVO);
+        //쿼리 실행
         boardService.insertNotice(boardVO);
 
         return "redirect:/board/noticeList";
     }
-    
+
+
     // 공지사항 상세 조회
     @GetMapping("/noticeDetail")
     public String noticeDetail(@RequestParam(name = "boardNum") int boardNum
@@ -111,6 +119,7 @@ public class BoardController {
 
         //상세 조회
         BoardVO vo = boardService.selectNoticeDetail(boardNum);
+        System.out.println(vo);
         model.addAttribute("notice", vo);
 
         //이전글 조회
@@ -138,10 +147,17 @@ public class BoardController {
         return "content/common/notice_detail";
     }
 
-    // 공지사항 게시글 삭제
+//    @GetMapping("/deleteNotice")
+//    public String deleteNotice(@RequestParam(name = "boardNum") int boardNum){
+//        boardService.deleteNotice(boardNum);
+//        return "redirect:/board/noticeList";
+//    }
+
+
+    // 공지사항 게시글 삭제(첨부 파일 있을 때 / 없을 때 모두 가능)
     @GetMapping("/deleteNotice")
-    public String deleteNotice(@RequestParam(name = "boardNum") int boardNum){
-        boardService.deleteNotice(boardNum);
+    public String deleteNotice(BoardVO boardVO){
+        boardService.deleteNotice(boardVO);
         return "redirect:/board/noticeList";
     }
 
@@ -188,7 +204,7 @@ public class BoardController {
         return "content/common/qna_list";
     }
 
-    // 공지사항 작성 페이지로 이동
+    // 문의사항 작성 페이지로 이동
     @GetMapping("/qnaWriteForm")
     public String qnaWriteForm(){
         return "content/common/qna_write_form";
@@ -196,11 +212,11 @@ public class BoardController {
 
     // 문의사항 게시글 작성
     @PostMapping("/qnaWrite")
-    public String qnaWrite(BoardVO boardVO, HttpSession session){
+    public String qnaWrite(BoardVO boardVO, Authentication authentication){
         //로그인 정보
-        MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
+        User user = (User) authentication.getPrincipal();
+        boardVO.setMemberId(user.getUsername());
         //문의사항 게시글 등록
-        boardVO.setMemberId(loginInfo.getMemberId());
         boardService.insertQna(boardVO);
         return "redirect:/board/qnaList";
     }
@@ -214,7 +230,7 @@ public class BoardController {
         System.out.println(boardNum);
 
         //상세 조회
-        BoardVO vo = boardService.selectNoticeDetail(boardNum);
+        BoardVO vo = boardService.selectQnaDetail(boardNum);
         model.addAttribute("qna", vo);
 
         //댓글 조회
@@ -249,7 +265,7 @@ public class BoardController {
     // 문의사항 게시글 삭제
     @GetMapping("/deleteQna")
     public String deleteQna(@RequestParam(name = "boardNum") int boardNum){
-        boardService.deleteNotice(boardNum);
+        boardService.deleteQna(boardNum);
         return "redirect:/board/qnaList";
     }
 

@@ -64,7 +64,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary" th:onclick="memberDetail([[${member.memberId}]])">인적사항</button>
-                                    <button type="button" class="btn btn-outline-success" th:onclick="showClasses([[${member.memberId}]])">수강목록</button>
+                                    <button type="button" class="btn btn-outline-success" th:onclick="showClasses([[${member.memberId}]], [[${member.memberRoll}]])">수강목록</button>
                                 </td>
                             </tr>
                         </tbody>

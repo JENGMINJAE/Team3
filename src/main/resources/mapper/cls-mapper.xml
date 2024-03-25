@@ -14,6 +14,7 @@
         <result column="CLASS_STATUS"       property="classStatus"/>
         <result column="TEACHER_NUM"        property="teacherNum"/>
         <result column="STU_CNT"            property="stuCnt"/>
+        <result column="STR_ENTER"          property="strEnter"/>
         <association property="teacherVO"   resultMap="teacher.teacherInfo"/>
         <collection property="operatorVOList"    resultMap="admin.operator"/>
     </resultMap>
@@ -41,36 +42,58 @@
         AND CLASS_EDATE > NOW()
     </select>
 
+    <!-- 전체 반 목록 조회하기 -->
+    <select id="selectAllClass" resultMap="cls">
+        SELECT CLASS_NUM
+            , CLASS_NAME
+            , CLASS_PAYMENT
+            , CLASS_PERSONNEL
+            , CLASS_SDATE
+            , CLASS_EDATE
+            , CLASS_STATUS
+            , CI.TEACHER_NUM
+            , MEMBER_NAME
+            , M.MEMBER_ID
+        FROM CLASS_INFO CI INNER JOIN TEACHER T
+        ON CI.TEACHER_NUM = T.TEACHER_NUM
+        INNER JOIN MEMBER M
+        ON T.MEMBER_ID = M.MEMBER_ID
+        WHERE CLASS_EDATE &gt;= NOW()
+        ORDER BY CLASS_NUM DESC
+    </select>
+
     <!-- 선택한 반의 상세 정보 조회하기 -->
     <select id="classInfo" resultMap="cls">
-        SELECT CLASS_NUM
+        SELECT CI.CLASS_NUM
             , CLASS_NAME
             , CLASS_SDATE
             , CLASS_EDATE
             , CLASS_ENTER
+            , CLASS_PAYMENT
+            , CASE
+                WHEN CLASS_ENTER = 'N' THEN '종강'
+                ELSE '강의'
+                END AS STR_ENTER
             , CLASS_STATUS
             , CI.TEACHER_NUM
+            , CLASS_PERSONNEL
+            , CLASS_PAYMENT
+            , (SELECT COUNT(OPERATOR.MEMBER_ID)
+                FROM operator
+                INNER JOIN MEMBER
+                ON MEMBER.MEMBER_ID = OPERATOR.MEMBER_ID
+                WHERE CLASS_NUM = CI.CLASS_NUM) AS STU_CNT
             , (SELECT MEMBER_NAME
                 FROM MEMBER
                 INNER JOIN TEACHER T
                 ON MEMBER.MEMBER_ID = T.MEMBER_ID
                 WHERE TEACHER_NUM = CI.TEACHER_NUM)	AS TEACHER_NAME
         FROM CLASS_INFO CI
-        INNER JOIN TEACHER T
-        ON T.TEACHER_NUM = CI.TEACHER_NUM
         WHERE CI.CLASS_NUM = #{classNum}
     </select>
 
-    <!-- 반에서 정보 수정 -->
-    <update id="updateClass">
-        UPDATE CLASS_INFO
-        SET CLASS_NAME =#{className}
-            , CLASS_PAYMENT = #{classPayment}
-            , CLASS_PERSONNEL = #{classPersonnel}
-            , CLASS_SDATE = #{classSdate}
-            , CLASS_EDATE = #{classEdate}
-            , TEACHER_NUM = #{teacherNum}
-    </update>
+
+
 <!--    <select id="selectClassNumAndStuNum" resultMap="operator">-->
 <!--        SELECT-->
 <!--        M.MEMBER_ID,-->

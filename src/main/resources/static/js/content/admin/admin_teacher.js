@@ -40,7 +40,7 @@ function teacherInfo(teacherCode, className){
 
             <div class="row mt-2">
                 <div class="col">
-                    <table class="table align-text text-center">
+                    <table class="table align-middle text-center">
                         <colgroup>
                             <col width="20%">
                             <col width="20%">
@@ -74,7 +74,7 @@ function teacherInfo(teacherCode, className){
                 <div class="row">
                     <div class="col-2 text-center">재직상태</div>
                     <div class="col-10">
-                        <div class="row text-center align-text">
+                        <div class="row text-center align-middle">
                             
                                 <input type="hidden" name="teacherNum" value="${data[0].teacherVO.teacherNum}">
                                 `;
