@@ -351,10 +351,10 @@ function requestPay(selectedTag){
             if(rsp.success){
                 const msg = '결제가 완료되었습니다.';
                 alert(msg);
-                location.href = "결제 완료 후 이동할 페이지 url"
+                location.href = "/admin/successPayment"
 
             } else {
-
+                
             }
         });
     })
