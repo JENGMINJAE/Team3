@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/integrated_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴 때 같이 실행 되는 css -->
+    <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드 작성-->
+    <div class="row">
+        <div class="col-8">
+            <table class="table" style="text-align: center; vertical-align: middle;">
+                <colgroup>
+                    <col width="10%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="20%">
+                    <col width="20%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td colspan="5">상담 완료 학생 List</td>
+                    </tr>
+                    <tr>
+                        <td>No</td>
+                        <td>소속</td>
+                        <td>학생 명</td>
+                        <td>상담 일</td>
+                        <td>내용</td>
+                    </tr>
+                </thead>
+                <tbody th:each="consult, state:${consultList}"> <!-- 반복문 예정 -->
+                    <tr>
+                        <td>[[${consultList.size-state.index}]]</td>
+                        <td>[[${consult.clsVO.className}]]</td>
+                        <td>[[${consult.memberVO.memberName}]]</td>
+                        <td>[[${consult.consultDate}]]</td>
+                        <td>
+                            <input type="hidden" th:value="${consult.consultNum}">
+                            <button class="btn btn-outline-secondary" type="button" th:onclick="look(this,[[${consult.consultContent}]])">보기</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tr th:if="${consultList.size == 0}">
+                    <td colspan="5">상담이 완료된 학생이 없습니다.</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-4 here">
+            
+        </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴 때 같이 실행 되는 js-->
+    <script src="/js/teacher/content_complete.js"></script>
+</th:block>
+</html>

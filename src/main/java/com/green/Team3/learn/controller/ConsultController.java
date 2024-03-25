@@ -5,6 +5,7 @@ import com.green.Team3.learn.service.CalenderServiceImpl;
 import com.green.Team3.learn.service.ConsultServiceImpl;
 import com.green.Team3.learn.service.HomeworkServiceImpl;
 import com.green.Team3.learn.vo.ConsultVO;
+import com.green.Team3.learn.vo.EventCalenderVO;
 import com.green.Team3.learn.vo.EventTypeVO;
 import com.green.Team3.learn.vo.HomeworkVO;
 import jakarta.annotation.Resource;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Name;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,11 +44,26 @@ public class ConsultController {
         return list;
     }
 
-//    @PostMapping("/addConsult")
-//    public String addConsult(ConsultVO consultVO){
-//        consultService.insertConsult(consultVO);
-//        return "/content/teacher/consult_list";
-//    }
+    @GetMapping("/addConsultContentForm")
+    public String addConsult(@RequestParam(name = "consultNum")int consultNum,Model model){
+        model.addAttribute("consultVO",consultService.selectOneConsult(consultNum));
+        return "/content/teacher/add_consult_content";
+    }
+
+    @PostMapping("/addConsultContent")
+    public String addConsultContent(ConsultVO consultVO,Model model,Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        consultService.addConsultContent(consultVO);
+        model.addAttribute("consultList",consultService.contentComplete(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        return "/content/teacher/content_complete";
+    }
+    @GetMapping("/contentComplete")
+    public String contentComplete(Model model,Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("consultList",consultService.contentComplete(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        return "/content/teacher/content_complete";
+    }
+
     @GetMapping("/consultAddCalender")
     public String consultAddCalender(Authentication authentication,Model model){
         User user = (User) authentication.getPrincipal();
@@ -79,19 +96,25 @@ public class ConsultController {
     }
 
     @PostMapping("/updateConsult")
-    private String updateConsult(ConsultVO consultVO){
+    private String updateConsult(@RequestParam(name = "beforeTitle")String beforeTitle,ConsultVO consultVO){
         consultService.updateConsult(consultVO);
-//        memberId,consultDate,classNum
+        calenderService.deleteCalender(beforeTitle);
+        EventCalenderVO eVO = new EventCalenderVO();
+        EventTypeVO eventTypeVO = calenderService.selectEventTypeForTeacherByConsult();
+        eVO.setStart(consultVO.getConsultDate());
+        eVO.setMemberId(consultVO.getMemberId());
+        String tt = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(consultVO.getClassNum()) + "-" + consultVO.getMemberId() + "-" + consultVO.getConsultDate();
+        eVO.setTitle(tt);
+        eVO.setEventTypeNum(eventTypeVO.getEventTypeNum());
+        calenderService.insertEventCalender(eVO);
         return "redirect:/consult/consultList";
     }
 
-
-
-
-
-
-
-
-
-
+    @PostMapping("/deleteConsult")
+    private String deleteConsult(@RequestParam(name = "consultNum")int consultNum,
+                                 @RequestParam(name = "title")String title){
+        consultService.deleteConsult(consultNum);
+        calenderService.deleteCalender(title);
+        return "redirect:/consult/consultList";
+    }
 }
