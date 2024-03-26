@@ -17,41 +17,37 @@
     </div>
     <div class="row">
         <div class="col">
-            <form action="/consult/addConsult" method="post">
+            <form action="/consult/addConsultContent" method="post">
+                <input type="hidden" name="consultNum" th:value="${consultVO.consultNum}">
                 <table class="table" style="text-align: center; vertical-align: middle;">
                     <colgroup>
-                        <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="25%">
+                        <col width="30%">
+                        <col width="30%">
+                        <col width="40%">
                     </colgroup>
-                    <tr>
-                        <td>소속</td>
-                        <td>
-                            <select name="classNum" onchange="change()" class="form-select" id="class_select">
-                                <option th:each="class:${classInfo}" th:value="${class.classNum}">[[${class.className}]]</option>
-                            </select>
-                        </td>
-                        <td>이름</td>
-                        <td>
-                            <select name="memberId" id="stu_select" class="form-select">
-                                
-                            </select>
-                        </td>
-                        <td>상담일</td>
-                        <td><input type="date" name="consultDate" class="form-control" id="currentDate"></td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <td>소속</td>
+                            <td>이름</td>
+                            <td>상담일</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[[${consultVO.clsVO.className}]]</td>
+                            <td>[[${consultVO.memberVO.memberName}]]</td>
+                            <td>[[${consultVO.consultDate}]]</td>
+                        </tr>
+                    </tbody>
                     <tr>    
-                        <td colspan="6">
+                        <td colspan="3">
                             <textarea name="consultContent" class="form-control" rows="4" placeholder="상담내용"></textarea>
                         </td>
                     </tr>
                 </table>
                 <div class="row">
                     <div class="col" style="text-align: right;">
-                        <input type="submit" class="btn btn-warning" value="저장">
+                        <input type="submit" class="btn btn-success" value="저장">
                     </div>
                 </div>
             </form>
