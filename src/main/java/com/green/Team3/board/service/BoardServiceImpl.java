@@ -12,6 +12,8 @@ import java.util.List;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
+
+
     @Autowired
     private SqlSessionTemplate sqlSession;
 
@@ -77,16 +79,29 @@ public class BoardServiceImpl implements BoardService {
         sqlSession.delete("board.deleteNotice", boardVO);
     }
 
+    //게시글 첨부파일 유무 확인 ******************
+    @Override
+    public boolean hasImg(int boardNum) {
+
+        return false;
+    }
+
     //게시글 삭제 - 문의사항
     @Override
     public void deleteQna(int boardNum) {
-        
+        sqlSession.delete("board.deleteQna", boardNum);
     }
 
-    //게시글 수정
+    //문의사항 게시글 수정
     @Override
     public void updateBoard(BoardVO boardVO) {
         sqlSession.update("board.updateBoard", boardVO);
+    }
+
+    //공지사항 게시글 수정 - 첨부파일 수정까지 ************************************(구현중)
+    @Override
+    public void updateImgFile(BoardVO boardVO, int imgNum) {
+        sqlSession.update("board.updateImgFile", boardVO);
     }
 
     //게시글 수 조회

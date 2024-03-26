@@ -139,14 +139,14 @@
         WHERE BOARD_NUM = #{boardNum}
     </update>
 
-<!-- 공지사항 삭제 (첨부파일 먼저 삭제) -->
-    <!-- 이미지 삭제 - 공지사항 -->
+    <!-- 공지사항 삭제 (첨부파일 먼저 삭제) -->
+    <!-- 1. 이미지 삭제 - 공지사항 -->
     <delete id="deleteImg">
         DELETE FROM BOARD_IMAGE
         WHERE BOARD_NUM = #{boardNum}
     </delete>
 
-    <!-- 게시글 삭제 - 공지사항 -->
+    <!-- 2. 게시글 삭제 - 공지사항 -->
     <delete id="deleteNotice">
         DELETE FROM BOARD
         WHERE BOARD_NUM = #{boardNum}
@@ -173,6 +173,22 @@
             , BOARD_CONTENT = #{boardContent}
         WHERE BOARD_NUM = #{boardNum}
     </update>
+
+    <!-- 공지사항 수정 ************************************(구현중) -->
+    <update id="updateImgFile">
+        UPDATE BOARD B
+        JOIN BOARD_IMAGE BI ON B.BOARD_NUM = BI.BOARD_NUM
+        SET
+            B.BOARD_TITLE = #{boardTitle}
+            , B.BOARD_CONTENT = #{boardContent}
+            , BI.ORIGIN_FILE_NAME = #{originFileName}
+            , BI.ATTACHED_FILE_NAME = #{attachedFileName}
+        WHERE B.BOARD_NUM = #{boardNum} AND BI.IMG_NUM = #{imgNum};
+    </update>
+
+
+
+
 
     <!-- 게시글 갯수 조회 -->
     <!--  *****공지/문의 분리해서 조회해야함  -->

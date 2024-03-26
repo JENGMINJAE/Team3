@@ -2,6 +2,7 @@ package com.green.Team3.board.service;
 
 
 import com.green.Team3.board.vo.BoardVO;
+import com.green.Team3.board.vo.ImgVO;
 import com.green.Team3.board.vo.SearchVO;
 
 import java.util.List;
@@ -29,21 +30,21 @@ public interface BoardService {
     //게시글 조회수 증가
     void updateBoardCnt(int boardNum);
 
-    //공지사항 이미지 삭제 ***********
-//    void deleteImg(int boardNum);
 
     //게시글 삭제 - 공지사항 (게시글 + 이미지 삭제) - 트랜젝션
     void deleteNotice(BoardVO boardVO);
 
-    //이미지 첨부파일 있는지 여부 확인 ***********
-//    boolean hasImg(int boardNum);
-
+    //이미지 첨부파일 있는지 여부 확인
+    boolean hasImg(int boardNum);
 
     //게시글 삭제 - 문의사항
     void deleteQna(int boardNum);
 
-    //게시글 수정
+    //게시글 수정 - 문의사항
     void updateBoard(BoardVO boardVO);
+
+    //게시글 수정 - 공지사항(첨부파일 수정) ************************************(구현중)
+    void updateImgFile(BoardVO boardVO, int imgNum);
 
     //게시글 수 조회
     int selectNoticeCnt(SearchVO searchVO);

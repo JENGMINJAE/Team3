@@ -94,27 +94,6 @@ function submitNotice() {
     }
 }
 
-//첨부파일 이미지 아이콘 숨기기(첨부파일이 없을 때)
-window.onload = function() {
-    // 이미지 아이콘이 있는지 확인
-    var imgListElement = document.querySelector('[data-imgList]');
-    if (imgListElement) {
-        var imgList = imgListElement.getAttribute('data-imgList');
-        // 이미지 아이콘이 있는 경우의 처리
-        console.log('이미지 아이콘이 있습니다.');
-    } else {
-        // 이미지 아이콘이 없는 경우의 처리
-        console.log('이미지 아이콘이 없습니다.');
-        // 이미지 아이콘이 없을 때의 동작 추가
-        var imgElement = document.querySelector('img'); // 이미지 요소 선택
-        if (imgElement) {
-            imgElement.style.display = 'none'; // 이미지 숨기기
-        }
-    }
-}
-
-
-
 
 
 //////////////////////////////////////[문의사항 관련]////////////////////////////////////////
@@ -174,6 +153,19 @@ function submitQna() {
     }
 }
 
+
+//문의사항 댓글 유효성 검사
+function goReplyReg(){
+    // 댓글 내용 빈칸 시
+    const replyContent = document.querySelector('#replyContent');
+    if (replyContent.value == '') {
+        alert('댓글 내용을 입력하세요.');
+        return false;
+    }
+
+    // 유효성 검사 모두 만족 시 true
+    return true;
+}
 
 
 //문의사항 댓글 삭제

@@ -79,7 +79,7 @@ public class BoardController {
 //    }
 
 
-    // 공지사항 게시글 작성 - 이미지 첨부 기능 추가 중 ㅠㅠ
+    // 공지사항 게시글 작성 + 이미지 첨부 기능
     @PostMapping("/noticeWrite")
     public String noticeWrite(BoardVO boardVO
                             , Authentication authentication
@@ -122,6 +122,10 @@ public class BoardController {
         System.out.println(vo);
         model.addAttribute("notice", vo);
 
+        //첨부 파일이 있는지 여부 확인 **************************
+
+
+
         //이전글 조회
         BoardVO prevPage = boardService.prevPage(boardNum);
         if (prevPage != null){
@@ -147,12 +151,6 @@ public class BoardController {
         return "content/common/notice_detail";
     }
 
-//    @GetMapping("/deleteNotice")
-//    public String deleteNotice(@RequestParam(name = "boardNum") int boardNum){
-//        boardService.deleteNotice(boardNum);
-//        return "redirect:/board/noticeList";
-//    }
-
 
     // 공지사항 게시글 삭제(첨부 파일 있을 때 / 없을 때 모두 가능)
     @GetMapping("/deleteNotice")
@@ -168,12 +166,33 @@ public class BoardController {
         return "content/common/notice_update";
     }
 
-    //공지사항 게시글 수정
+    //공지사항 게시글 수정 - 원본
+//    @PostMapping("/updateNotice")
+//    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
+//        boardVO.setBoardNum(boardNum);
+//        boardService.updateBoard(boardVO);
+//        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
+//    }
+
+    // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 *******************************
     @PostMapping("/updateNotice")
-    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
-        boardVO.setBoardNum(boardNum); // boardNum 설정
-        boardService.updateBoard(boardVO);
-        return "redirect:/board/noticeDetail?boardNum=" + boardNum; // boardNum 추가
+    public String update(BoardVO boardVO, int imgNum, @RequestParam("boardNum") int boardNum,
+                         @RequestParam(name = "subImgs", required = false) MultipartFile[] subImgs){
+        //글번호 세팅
+        boardVO.setBoardNum(boardNum);
+
+        // 새로운 첨부파일이 있는 경우
+        if (subImgs != null && subImgs.length > 0) {
+            // 새로운 첨부 파일 업로드
+            List<ImgVO> newImgList = UploadUtil.multiUploadFile(subImgs);
+            // 기존 첨부파일 삭제 + 새로운 첨부 파일 추가
+            boardVO.setImgList(newImgList);
+        }
+
+        //업데이트 쿼리 실행
+        boardService.updateImgFile(boardVO, imgNum);
+
+        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
     }
 
 

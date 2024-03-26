@@ -9,7 +9,6 @@
 <body>
     
 <th:block layout:fragment="contentFragment">
-
     <!-- 공지사항 게시글 수정 -->
     <form action="/board/updateNotice" method="post">
         <div class="row">
@@ -31,6 +30,15 @@
                             <td>내용</td>
                             <td>
                                 <textarea name="boardContent" cols="30" rows="10" class="form-control">[[${notice.boardContent}]]</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>첨부파일</td>
+                            <td class="text-start">
+                                <div>
+                                    <!-- 수정할 첨부파일 -->
+                                    수정할 첨부파일 조회해야함(미구현)
+                                </div>
                             </td>
                         </tr>
                 </table>
