@@ -16,5 +16,7 @@ public interface ConsultService {
     ConsultVO selectOneConsult(int consultNum);
     List<ConsultVO> selectClassNumByTeacherNumConsult(int teacherNum);
     void updateConsult(ConsultVO consultVO);
-
+    void deleteConsult(int consultNum);
+    void addConsultContent(ConsultVO consultVO);
+    List<ConsultVO> contentComplete(int teacherNum);
 }

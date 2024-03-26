@@ -14,11 +14,11 @@
         <div class="col">
             <table class="table" style="text-align: center; vertical-align: middle;">
                 <colgroup>
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="20%">
-                        <col width="30%">
-                        <col width="20%">
+                    <col width="10%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="25%">
+                    <col width="25%">
                 </colgroup>
                 <thead>
                     <tr>
@@ -42,9 +42,13 @@
                             <input type="hidden" th:value="${todayconsult.consultNum}">
                             <button class="btn btn-outline-secondary" type="button" onclick="crystal_consult(this)">수정</button>
                             <button class="btn btn-outline-danger" type="button" onclick="delete_consult(this)">삭제</button>
+                            <button class="btn btn-outline-success" type="button" onclick="save_consultContent(this)">작성</button>
                         </td>
                     </tr>
                 </tbody>
+                <tr th:if="${todayConsultList.size == 0}">
+                    <td colspan="5">금일 상담이 예정된 학생이 없습니다.</td>
+                </tr>
             </table>
         
         
@@ -53,8 +57,8 @@
                     <col width="10%">
                     <col width="20%">
                     <col width="20%">
-                    <col width="30%">
-                    <col width="20%">
+                    <col width="25%">
+                    <col width="25%">
                 </colgroup>
                 <thead>
                     <tr>
@@ -81,6 +85,9 @@
                         </td>
                     </tr>
                 </tbody>
+                <tr th:if="${willConsultList.size == 0}">
+                    <td colspan="5">상담이 예정된 학생이 없습니다.</td>
+                </tr>
             </table>
         
         
@@ -89,12 +96,12 @@
                     <col width="10%">
                     <col width="20%">
                     <col width="20%">
-                    <col width="30%">
-                    <col width="20%">
+                    <col width="25%">
+                    <col width="25%">
                 </colgroup>
                 <thead>
                     <tr>
-                        <td colspan="5">상담 완료 학생 List</td>
+                        <td colspan="5">상담 내용 미작성 학생 List</td>
                     </tr>
                     <tr>
                         <td>No</td>
@@ -114,81 +121,47 @@
                             <input type="hidden" th:value="${endconsult.consultNum}">
                             <button class="btn btn-outline-secondary" type="button" onclick="crystal_consult(this)">수정</button>
                             <button class="btn btn-outline-danger" type="button" onclick="delete_consult(this)">삭제</button>
+                            <button class="btn btn-outline-success" type="button" onclick="save_consultContent(this)">작성</button>
                         </td>
                     </tr>
                 </tbody>
+                <tr th:if="${endConsultList.size == 0}">
+                    <td colspan="5">상담 내용이 미작성된 학생이 없습니다.</td>
+                </tr>
             </table>
         </div>
     </div>
-    <form id="C_csNum" action="/homework/updateHomework" method="post">
-        <input type="hidden" name="csNum" value="1">
+    <form id="C_csNum" action="/consult/updateConsult" method="post">
+        <input type="hidden" name="consultNum" value="1">
     </form>
-    <form id="D_csNum" action="/homework/deleteHomework" method="post">
-        <input type="hidden" name="csNum" value="1">
+    <form id="D_csNum" action="/consult/deleteConsult" method="post">
+        <input type="hidden" name="consultNum" id="csn" value="1">
+        <input type="hidden" name="title" id="cst" value="aaa">
     </form>
 
 
 <!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@모달@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">상담 일정 수정</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">상담 일정 수정</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="buttonSubmit" action="/consult/updateConsult" method="post">
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="crystal()">수정</button>
+                </div>
+            </form>
         </div>
-        <form id="buttonSubmit" action="/consult/updateConsult" method="post">
-            
-            <div class="modal-body">
-                <table>
-                    <tr>
-                        <td>
-                            학급
-                        </td>
-                        <td>
-                            이름
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            ~~~~
-                        </td>
-                        <td>
-                            ~~~~
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            시작 일
-                        </td>
-                        <td>
-                            종료 일
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            ~~~
-                        </td>
-                        <td>
-                            ~~~
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-outline-primary" onclick="crystal()">수정</button>
-            </div>
-        </form>
-      </div>
     </div>
-  </div>
-
-
-
-
-
+</div>
 
 
 </th:block>

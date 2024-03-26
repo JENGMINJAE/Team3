@@ -57,4 +57,20 @@ public class ConsultServiceImpl implements ConsultService{
     public void updateConsult(ConsultVO consultVO) {
         sqlSession.update("learnMapper.updateConsult",consultVO);
     }
+
+    @Override
+    public void deleteConsult(int consultNum) {
+        sqlSession.delete("learnMapper.deleteConsult",consultNum);
+    }
+
+    @Override
+    public void addConsultContent(ConsultVO consultVO) {
+        sqlSession.update("learnMapper.addConsultContent",consultVO);
+    }
+
+    @Override
+    public List<ConsultVO> contentComplete(int teacherNum) {
+        return sqlSession.selectList("learnMapper.contentComplete",teacherNum);
+    }
+
 }

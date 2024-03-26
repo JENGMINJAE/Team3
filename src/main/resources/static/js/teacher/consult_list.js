@@ -1,10 +1,19 @@
 const modal = new bootstrap.Modal("#staticBackdrop");
 const modal_body = document.querySelector(".modal-body");
 
+
 function crystal_consult(thishc){
     let is_sure = confirm("수정하시겠습니까?");
     const cc = thishc.parentElement.firstElementChild.value;
     const selectName = thishc.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+    const stuName = thishc.parentElement.previousElementSibling.previousElementSibling.textContent;
+    const cstDate = thishc.parentElement.previousElementSibling.textContent;
+    let title = '상담-';
+    title += selectName;
+    title += '-';
+    title += stuName;
+    title += '-';
+    title += cstDate;
     if(is_sure){
         const CcsNum = document.querySelector("#C_csNum");
         CcsNum.querySelector('input').value = cc;
@@ -77,10 +86,11 @@ function crystal_consult(thishc){
                 </td>
             </tr>
         </table>
-        <input type="hidden" name="consultNum" value="${data.consultVO.consultNum}">`;
+        <input type="hidden" name="consultNum" value="${data.consultVO.consultNum}">
+        <input type="hidden" name="beforeTitle" value="`;str+=title; str+=`">`;
             modal_body.insertAdjacentHTML('afterbegin',str)
             modal.show();
-            change();
+            change(stuName);
         })
         //fetch 통신 실패 시 실행 영역
         .catch(err=>{
@@ -92,7 +102,7 @@ function crystal_consult(thishc){
     }
 }
 
-function change(){
+function change(stuName){
     const class_select = document.querySelector("#class_select");
     const class_num = class_select.options[class_select.selectedIndex].value;
     fetch('/consult/changeStuOption', { //요청경로
@@ -122,7 +132,11 @@ function change(){
         str1 = ``;
         stu_select.innerHTML = ``;
         for(let i of data1){
-            str1+= `<option value="${i.memberId}">${i.memberName}</option>`
+            str1+= `<option value="${i.memberId}"`;
+                if(stuName == i.memberName){
+                    str1+=`selected`
+                }
+            str1+=`>${i.memberName}</option>`
         }
         stu_select.insertAdjacentHTML("afterbegin",str1)
     })
@@ -134,16 +148,50 @@ function change(){
 
 }
 
-function delete_consult(thishd){
+function delete_consult(thisdc){
     let is_sure = confirm("삭제하시겠습니까?")
-    const hd = thishd.parentElement.firstElementChild.value
+    const selectName = thisdc.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+    const stuName = thisdc.parentElement.previousElementSibling.previousElementSibling.textContent;
+    const cstDate = thisdc.parentElement.previousElementSibling.textContent;
+    let title = '상담-';
+    title += selectName;
+    title += '-';
+    title += stuName;
+    title += '-';
+    title += cstDate;
+    const dc = thisdc.parentElement.firstElementChild.value
     if(is_sure){
-        const DhwNum = document.querySelector("#D_hwNum");
-        DhwNum.querySelector('input').value = hd;
-        DhwNum.submit();
+        const DcsNum = document.querySelector("#D_csNum");
+        DcsNum.querySelector('#csn').value = dc;
+        DcsNum.querySelector('#cst').value = title;
+        DcsNum.submit();
     }
 }
 
 function crystal(){
-    document.querySelector("#buttonSubmit").submit()
+    document.querySelector("#buttonSubmit").submit();
 }
+
+function save_consultContent(thisConsultContent){
+    const selectName = thisConsultContent.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.textContent;
+    const stuName = thisConsultContent.parentElement.previousElementSibling.previousElementSibling.textContent;
+    if(confirm(selectName+" "+stuName+"의 상담내용을 작성하시겠습니까?")){
+        const ccNum = thisConsultContent.parentElement.firstElementChild.value;
+        location.href='/consult/addConsultContentForm?consultNum='+ccNum;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

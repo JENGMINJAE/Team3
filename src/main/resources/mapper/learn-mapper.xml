@@ -186,6 +186,7 @@
         ON m.MEMBER_ID = c.MEMBER_ID
         WHERE ci.TEACHER_NUM = #{teacherNum}
         AND substring(NOW(),1,10) > consult_DATE
+        AND CONSULT_CONTENT IS NULL
         ORDER BY CONSULT_DATE DESC
     </select>
     <select id="selectWillConsultList" resultMap="consult">
@@ -230,10 +231,13 @@
         C.CLASS_NUM,
         CLASS_NAME,
         CONSULT_NUM,
-        CONSULT_DATE
+        CONSULT_DATE,
+        MEMBER_NAME
         FROM CONSULT CS
         INNER JOIN CLASS_INFO C
         ON C.CLASS_NUM = CS.CLASS_NUM
+        INNER JOIN MEMBER M
+        ON M.MEMBER_ID = CS.MEMBER_ID
         WHERE CONSULT_NUM = #{consultNum}
     </select>
     <select id="selectClassNumByTeacherNumConsult" resultMap="consult">
@@ -251,6 +255,32 @@
         CLASS_NUM = #{classNum}
         WHERE CONSULT_NUM = #{consultNum}
     </update>
+    <delete id="deleteConsult">
+        DELETE FROM CONSULT
+        WHERE CONSULT_NUM = #{consultNum}
+    </delete>
+    <update id="addConsultContent">
+        UPDATE CONSULT SET
+        CONSULT_CONTENT = #{consultContent}
+        WHERE CONSULT_NUM = #{consultNum}
+    </update>
+
+    <select id="contentComplete" resultMap="consult">
+        SELECT CONSULT_NUM,
+        CONSULT_DATE,
+        MEMBER_NAME,
+        CLASS_NAME,
+        CONSULT_CONTENT
+        FROM consult c
+        INNER JOIN class_info ci
+        ON ci.CLASS_NUM = c.CLASS_NUM
+        INNER JOIN member m
+        ON m.MEMBER_ID = c.MEMBER_ID
+        WHERE ci.TEACHER_NUM = #{teacherNum}
+        AND CONSULT_CONTENT IS NOT NULL
+        ORDER BY CONSULT_DATE DESC
+    </select>
+
 
 
 </mapper>
