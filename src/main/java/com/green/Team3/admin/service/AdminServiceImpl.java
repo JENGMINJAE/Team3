@@ -84,14 +84,25 @@ public class AdminServiceImpl implements AdminService{
 
     // 결제 요청 시
     @Override
-    public List<ClsVO> requestPayInfo(String memberId) {
-        return sqlSession.selectList("member.requestPayInfo", memberId);
+    public List<ClsVO> requestPayInfo(OperatorVO operatorVO) {
+        return sqlSession.selectList("member.requestPayInfo", operatorVO);
+    }
+
+    @Override
+    public List<ClsVO> regClasses() {
+        return sqlSession.selectList("admin.regClasses");
+    }
+
+    // 수강 신청 시
+    @Override
+    public void insertOperator(OperatorVO operatorVO) {
+        sqlSession.insert("admin.insertOperator", operatorVO);
     }
 
     // 결제 승인 시
     @Override
     public void successPayment(OperatorVO operatorVO) {
-        sqlSession.insert("admin.successPayment", operatorVO);
+        sqlSession.update("admin.successPayment", operatorVO);
     }
 
 }

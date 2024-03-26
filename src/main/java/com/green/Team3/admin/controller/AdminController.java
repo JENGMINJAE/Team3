@@ -1,6 +1,7 @@
 package com.green.Team3.admin.controller;
 
 import com.green.Team3.admin.service.AdminService;
+import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.service.ClsService;
 import com.green.Team3.cls.vo.ClsVO;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -85,6 +87,7 @@ public class AdminController {
         return "redirect:/admin/goMemberList?memberId=" + memberVO.getMemberId();
     }
 
+    // 회원 정보 수정
     @PostMapping("/editPersonInfo")
     public String editPersonInfo(MemberVO memberVO, Model model, @RequestParam(name = "classNum")int classNum){
         adminService.changePersonalInfo(memberVO);
@@ -161,19 +164,24 @@ public class AdminController {
         return memberService.selectStudents();
     }
 
+    // 수강 신청 페이지 이동
+    @ResponseBody
+    @PostMapping("/goRegClass")
+    public List<ClsVO> goRegClass(){
+        return adminService.regClasses();
+    }
     // 결제 시스템 페이지 이동 (진행 중)
     @ResponseBody
-    @PostMapping("/goPayment")
-    public List<ClsVO> goPayment(@RequestBody MemberVO memberVO){
-
-        System.out.println(memberVO.getMemberId());
-//        adminService.requestPayInfo(memberId);
-        return adminService.requestPayInfo(memberVO.getMemberId());
+    @RequestMapping("/goPayment")
+    public List<ClsVO> goPayment(@RequestBody OperatorVO operatorVO){
+        System.out.println(operatorVO);
+        return adminService.requestPayInfo(operatorVO);
     }
 
     // 결제 성공 시 이동할 페이지
     @GetMapping("/successPayment")
-    public String successPayment(){
+    public String successPayment(OperatorVO operatorVO){
+        adminService.successPayment(operatorVO);
         return "content/admin/payment_system";
     }
 }

@@ -42,9 +42,15 @@ public interface AdminService {
     int updateClass(ClsVO clsVO);
 
     // 결제 요청 시
-    List<ClsVO> requestPayInfo(String memberId);
+    List<ClsVO> requestPayInfo(OperatorVO operatorVO);
 
-    // 결제 성공 시 insert
+    // 수강 신청 모달 열 때
+    List<ClsVO> regClasses();
+
+    // 수강 신청 시 insert 문
+    void insertOperator(OperatorVO operatorVO);
+
+    // 결제 성공 시 update
     void successPayment(OperatorVO operatorVO);
 
 

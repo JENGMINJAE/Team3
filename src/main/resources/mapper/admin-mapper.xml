@@ -13,7 +13,6 @@
         <result column="CLASS_NUM"              property="classNum" />
 
     </resultMap>
-
     <!-- 회원 권한 수정 -->
     <update id="updateRoll">
         UPDATE MEMBER
@@ -110,24 +109,63 @@
         WHERE CLASS_NUM = #{classNum}
     </update>
 
-    <!-- 결제 성공 시 INSERT 문 -->
-    <insert id="successPayment">
+    <!-- 수강 신청 시 INSERT 문 -->
+    <insert id="insertOperator">
         INSERT INTO operator(
             OPER_PAY
-            , IS_PAY
             , PAY_YEAR
             , PAY_MONTH
             , MEMBER_ID
             , CLASS_NUM
         ) VALUES (
-            #{operPay}
-            , 'Y'
+            #{classPayment}
             , (SELECT REPLACE(FORMAT(YEAR(CURDATE()), 0), ',', ''))
             , (SELECT MONTH(CURDATE()))
             , #{memberId}
             , #{classNum}
         )
     </insert>
+
+    <!-- 결제 성공 시 update문 -->
+    <update id="successPayment">
+        UPDATE OPERATOR
+        SET PAY_YEAR = (SELECT REPLACE(FORMAT(YEAR(CURDATE()), 0), ',', ''))
+            , PAY_MONTH = (SELECT MONTH(CURDATE()))
+            , IS_PAY = 'Y'
+        WHERE OPER_NUM = #{operNum}
+    </update>
+
+    <!-- 수강 신청을 위한 전체 반 목록 조회 -->
+    <select id="regClasses" resultMap="clsMapper.cls">
+        SELECT CI.CLASS_NUM
+            , CLASS_NAME
+            , CLASS_SDATE
+            , CLASS_EDATE
+            , CLASS_ENTER
+            , CLASS_PAYMENT
+            , CLASS_STATUS
+            , CI.TEACHER_NUM
+            , CLASS_PERSONNEL
+            , CLASS_PAYMENT
+            , CLASS_ENTER
+            , (SELECT COUNT(OPERATOR.MEMBER_ID)
+                FROM operator
+                INNER JOIN MEMBER
+                ON MEMBER.MEMBER_ID = OPERATOR.MEMBER_ID
+                WHERE CLASS_NUM = CI.CLASS_NUM) AS STU_CNT
+            , (SELECT MEMBER_NAME
+                FROM MEMBER
+                INNER JOIN TEACHER T
+                ON MEMBER.MEMBER_ID = T.MEMBER_ID
+                WHERE TEACHER_NUM = CI.TEACHER_NUM) AS TEACHER_NAME
+        FROM class_info CI
+        WHERE CLASS_PERSONNEL - (SELECT COUNT(OPERATOR.MEMBER_ID)
+                                FROM operator
+                                INNER JOIN MEMBER
+                                ON MEMBER.MEMBER_ID = OPERATOR.MEMBER_ID
+                                WHERE CLASS_NUM = CI.CLASS_NUM) > 0
+        AND CLASS_EDATE > NOW()
+    </select>
 </mapper>
 
 
