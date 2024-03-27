@@ -272,7 +272,6 @@ function showClasses(memberId, memberRoll){
                         <td class="table-active">강의명</td>
                         <td class="table-active">담당 강사</td>
                         <td class="table-active">강의 기간</td>
-                        <td class="table-active">결제</td>
                     </tr>`;
 
         data.forEach(function (e, idx) {
@@ -286,13 +285,6 @@ function showClasses(memberId, memberRoll){
                 <input type="hidden" name="classNum" value="${e.classNum}">
                             <input type="hidden" name="memberId" value="${e.teacherVO.memberVO.memberId}">`;
 
-                if(e.operatorVOList[0].isPay == 'N'){
-                    str +=  `<input type="button" class="btn btn-primary" value="바로 결제" onclick="requestPay(this)">
-                            </td>`;
-                }
-                else{
-                    str +=  `결제 완료 </td>`;
-                }
             } else {
                 str += `  </td>`;
             }           

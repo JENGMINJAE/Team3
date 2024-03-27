@@ -47,11 +47,13 @@ public interface AdminService {
     // 수강 신청 모달 열 때
     List<ClsVO> regClasses(OperatorVO operatorVO);
 
-    // 수강 신청 시 insert 문
-//    void insertOperator(OperatorVO operatorVO);
+    // 결제 신청 시
+    void insertOperator(OperatorVO operatorVO);
 
     // 결제 성공 시 update
     void successPayment(OperatorVO operatorVO);
 
+    // OPER_NUM 조회
+    int selectOperNum();
 
 }

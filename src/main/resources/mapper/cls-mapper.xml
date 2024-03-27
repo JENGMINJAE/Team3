@@ -103,6 +103,13 @@
         WHERE CI.CLASS_NUM = #{classNum}
     </select>
 
+    <!-- classEnter 수정 -->
+    <update id="updateClassEnter">
+        UPDATE CLASS_INFO SET
+        CLASS_ENTER = "Y"
+        WHERE NOW() > CLASS_SDATE
+        AND CLASS_EDATE > NOW()
+    </update>
 
 
 <!--    <select id="selectClassNumAndStuNum" resultMap="operator">-->

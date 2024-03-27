@@ -44,7 +44,7 @@
             , CASE
                 WHEN CLASS_EDATE &gt;= NOW() THEN '강의 중'
                 ELSE '종료'
-            END AS STR_WORK
+                END AS STR_ENTER
         FROM CLASS_INFO CLS INNER JOIN TEACHER T
         ON CLS.TEACHER_NUM = T.TEACHER_NUM
         INNER JOIN MEMBER M

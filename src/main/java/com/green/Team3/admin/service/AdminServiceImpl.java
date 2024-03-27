@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -85,13 +86,14 @@ public class AdminServiceImpl implements AdminService{
     // 결제 요청 시
     @Override
     public List<ClsVO> requestPayInfo(OperatorVO operatorVO) {
+        sqlSession.insert("admin.insertOperator", operatorVO);
         return sqlSession.selectList("member.requestPayInfo", operatorVO);
     }
 
+    // 수강 신청 페이지 이동
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public List<ClsVO> regClasses(OperatorVO operatorVO) {
-        sqlSession.insert("admin.insertOperator", operatorVO);
+//        sqlSession.insert("admin.insertOperator", operatorVO);
         List<ClsVO> list = sqlSession.selectList("admin.regClasses");
         if(list != null){
             return list;
@@ -99,16 +101,23 @@ public class AdminServiceImpl implements AdminService{
         return null;
     }
 
-    // 수강 신청 시
-//    @Override
-//    public void insertOperator(OperatorVO operatorVO) {
-//        sqlSession.insert("admin.insertOperator", operatorVO);
-//    }
+//     수강 신청 시
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void insertOperator(OperatorVO operatorVO) {
+        sqlSession.insert("admin.insertOperator", operatorVO);
+    }
 
     // 결제 승인 시
     @Override
     public void successPayment(OperatorVO operatorVO) {
         sqlSession.update("admin.successPayment", operatorVO);
+    }
+
+    // OPER_NUM 조회
+    @Override
+    public int selectOperNum() {
+        return  sqlSession.selectOne("admin.selectOperNum");
     }
 
 }

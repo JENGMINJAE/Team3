@@ -170,13 +170,14 @@ public class AdminController {
     public List<ClsVO> goRegClass(OperatorVO operatorVO){
         return adminService.regClasses(operatorVO);
     }
-    // 수강 신청 버튼 클릭 시
-//    @GetMapping("/insertOperator")
-//    public String insertOperator(OperatorVO operatorVO){
-//        adminService.insertOperator(operatorVO);
-//        System.out.println(operatorVO);
-//        return "redirect:/admin/goPayment";
-//    }
+//     수강 신청 버튼 클릭 시
+    @GetMapping("/insertOperator")
+    public String insertOperator(OperatorVO operatorVO){
+        operatorVO.setOperNum(adminService.selectOperNum());
+        adminService.insertOperator(operatorVO);
+        System.out.println(operatorVO);
+        return "redirect:/admin/goPayment";
+    }
 
     // 결제 시스템 페이지 이동 (카카오페이 실행)
     @ResponseBody
