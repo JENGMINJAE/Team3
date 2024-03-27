@@ -51,7 +51,7 @@ function look(thisDetail,content){
                     str+=`">
                     <input type="hidden" id="content" value="`;
                     str+= content;
-                    str+=`
+                    str+=`">
                     </td>
                 </tr>
                 <tr>
@@ -103,6 +103,24 @@ function crystalContentOk(){
 }
 
 function crstalCancle(){
-    // const goBack =
-    
+    const goBack = document.querySelector("#content").value;
+    const selected_td = document.querySelector("#cctd");
+    selected_td.innerHTML="";
+    let str =``;
+    str+=goBack;
+    selected_td.insertAdjacentHTML("afterbegin",str);
+    const CCB = document.getElementById('CCB');
+    const CCHB = document.getElementById('CCHB');
+    const CCCB = document.getElementById('CCCB');
+    const CDB = document.getElementById('CDB');
+    if(CCB.style.display == 'none') {
+	    CCB.style.display = 'inline-block';
+	    CDB.style.display = 'inline-block';
+	}
+    if(CCHB.style.display !== 'none') {
+	    CCHB.style.display = 'none';
+	    CCCB.style.display = 'none';
+	}
 }
+
+
