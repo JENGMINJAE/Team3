@@ -167,15 +167,29 @@ public class AdminController {
     // 수강 신청 페이지 이동
     @ResponseBody
     @PostMapping("/goRegClass")
-    public List<ClsVO> goRegClass(){
-        return adminService.regClasses();
+    public List<ClsVO> goRegClass(OperatorVO operatorVO){
+        return adminService.regClasses(operatorVO);
     }
-    // 결제 시스템 페이지 이동 (진행 중)
+    // 수강 신청 버튼 클릭 시
+//    @GetMapping("/insertOperator")
+//    public String insertOperator(OperatorVO operatorVO){
+//        adminService.insertOperator(operatorVO);
+//        System.out.println(operatorVO);
+//        return "redirect:/admin/goPayment";
+//    }
+
+    // 결제 시스템 페이지 이동 (카카오페이 실행)
     @ResponseBody
     @RequestMapping("/goPayment")
     public List<ClsVO> goPayment(@RequestBody OperatorVO operatorVO){
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println(operatorVO);
-        return adminService.requestPayInfo(operatorVO);
+        List<ClsVO> list = null;
+
+        if (operatorVO != null){
+            list = adminService.requestPayInfo(operatorVO);
+        }
+        return list;
     }
 
     // 결제 성공 시 이동할 페이지

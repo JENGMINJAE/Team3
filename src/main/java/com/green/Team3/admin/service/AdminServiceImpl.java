@@ -89,15 +89,21 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public List<ClsVO> regClasses() {
-        return sqlSession.selectList("admin.regClasses");
+    @Transactional(rollbackFor = Exception.class)
+    public List<ClsVO> regClasses(OperatorVO operatorVO) {
+        sqlSession.insert("admin.insertOperator", operatorVO);
+        List<ClsVO> list = sqlSession.selectList("admin.regClasses");
+        if(list != null){
+            return list;
+        }
+        return null;
     }
 
     // 수강 신청 시
-    @Override
-    public void insertOperator(OperatorVO operatorVO) {
-        sqlSession.insert("admin.insertOperator", operatorVO);
-    }
+//    @Override
+//    public void insertOperator(OperatorVO operatorVO) {
+//        sqlSession.insert("admin.insertOperator", operatorVO);
+//    }
 
     // 결제 승인 시
     @Override

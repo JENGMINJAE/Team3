@@ -45,10 +45,10 @@ public interface AdminService {
     List<ClsVO> requestPayInfo(OperatorVO operatorVO);
 
     // 수강 신청 모달 열 때
-    List<ClsVO> regClasses();
+    List<ClsVO> regClasses(OperatorVO operatorVO);
 
     // 수강 신청 시 insert 문
-    void insertOperator(OperatorVO operatorVO);
+//    void insertOperator(OperatorVO operatorVO);
 
     // 결제 성공 시 update
     void successPayment(OperatorVO operatorVO);
