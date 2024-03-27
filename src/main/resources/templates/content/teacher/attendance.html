@@ -10,26 +10,33 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성-->
-    <table>
-        <tr>
-            <td th:each="atd, state : ${atds}">
-                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio1" th:id="${'aaa_' + state.index}" autocomplete="off" th:value="${atd.atdtNum}">
-                <label class="aaa btn btn-outline-secondary" th:for="${'aaa_' + state.index}">[[${atd.atdtName}]]</label>
-            </td>
-        </tr>
-        <tr>
-            <td th:each="atd, state : ${atds}">
-                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio2" th:id="${'bbb_' + state.index}" autocomplete="off" th:value="${atd.atdtNum}">
-                <label class="aaa btn btn-outline-secondary" th:for="${'bbb_' + state.index}">[[${atd.atdtName}]]</label>
-            </td>
-        </tr>
-        <tr>
-            <td th:each="atd, state : ${atds}">
-                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio3" th:id="${'ccc_' + state.index}" autocomplete="off" th:value="${atd.atdtNum}">
-                <label class="aaa btn btn-outline-secondary" th:for="${'ccc_' + state.index}">[[${atd.atdtName}]]</label>
-            </td>
-        </tr>
-    </table>
+    <form action="">
+        <div class="row">
+            <div class="col-4" id="today">
+                <input type="date" class="form-control" id="currentDate" readonly>
+            </div>
+            <div class="col-4">
+                <select name="classNum" id="class_select" onchange="change()" class="form-select">
+                    <th:block th:each="class:${classList}">
+                        <option th:value="${class.classNum}">[[${class.className}]]</option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="col-4" style="text-align: center; border: 1px solid green;">
+                출석 현황
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <table id="stu_select" class="table" style="text-align: center; vertical-align: middle;">
+                    
+                </table>
+            </div>
+            <div class="col-4" style="text-align: center; border-collapse: collapse; border: 1px solid green;">
+                출석을 저장하지 않았습니다.
+            </div>
+        </div>
+    </form>
 </th:block>
 
 <th:block layout:fragment="content_js">

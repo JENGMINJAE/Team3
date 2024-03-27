@@ -30,4 +30,9 @@ public class MemberVO {
     private List<OperatorVO> operatorVOList;
 
     private SearchVO searchVO;
+    private int check;//출석
+    private int absent;//결석
+    private int tardy;//지각
+    private int early;//조퇴
+    private int supple;//보강
 }
