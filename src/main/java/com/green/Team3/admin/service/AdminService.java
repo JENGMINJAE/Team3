@@ -4,10 +4,9 @@ import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 public interface AdminService {
 
@@ -51,7 +50,7 @@ public interface AdminService {
     void insertOperator(OperatorVO operatorVO);
 
     // 결제 성공 시 update
-    void successPayment(OperatorVO operatorVO);
+    ClsVO successPayment(@RequestParam(name = "operNum")int operNum);
 
     // OPER_NUM 조회
     int selectOperNum();

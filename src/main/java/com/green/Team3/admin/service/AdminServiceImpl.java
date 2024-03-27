@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService{
@@ -93,7 +92,6 @@ public class AdminServiceImpl implements AdminService{
     // 수강 신청 페이지 이동
     @Override
     public List<ClsVO> regClasses(OperatorVO operatorVO) {
-//        sqlSession.insert("admin.insertOperator", operatorVO);
         List<ClsVO> list = sqlSession.selectList("admin.regClasses");
         if(list != null){
             return list;
@@ -110,8 +108,14 @@ public class AdminServiceImpl implements AdminService{
 
     // 결제 승인 시
     @Override
-    public void successPayment(OperatorVO operatorVO) {
-        sqlSession.update("admin.successPayment", operatorVO);
+    @Transactional(rollbackFor = Exception.class)
+    public ClsVO successPayment(@RequestParam(name = "operNum")int operNum) {
+        sqlSession.update("admin.successPayment", operNum);
+        ClsVO vo = null;
+        if (operNum != 0) {
+            vo = sqlSession.selectOne("admin.findNames", operNum);
+        }
+        return vo;
     }
 
     // OPER_NUM 조회

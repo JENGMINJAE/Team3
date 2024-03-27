@@ -396,7 +396,7 @@ function insertClass(memberId){
         let str = '';
         
         str += `<input type="hidden" name="memberId" id="memberId" value="${selectMemberId}">`
-        data.forEach(function (e, idx){
+        data.forEach(function (e){
             let pay = e.classPayment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             str +=  `
                 <tr>
@@ -464,7 +464,7 @@ function regClass(selectedTag, classNum){
                 if(rsp.success){
                     const msg = '결제가 완료되었습니다.';
                     alert(msg);
-                    location.href = "/admin/successPayment"
+                    location.href = `/admin/successPayment?operNum=${data[0].operatorVOList[0].operNum}`;
                 } else {
                     const msg = '결제에 실패했습니다.';
                     msg += '에러내용: ' + rsp.error_msg;

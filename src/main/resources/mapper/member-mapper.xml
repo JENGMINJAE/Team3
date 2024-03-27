@@ -131,6 +131,7 @@
             , CLASS_NAME
             , CLASS_PAYMENT
             , CI.CLASS_NUM
+            , OPER_NUM
         FROM class_info CI LEFT JOIN operator O
         ON CI.CLASS_NUM = O.CLASS_NUM
         INNER JOIN member M

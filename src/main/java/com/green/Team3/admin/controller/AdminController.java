@@ -171,32 +171,38 @@ public class AdminController {
         return adminService.regClasses(operatorVO);
     }
 //     수강 신청 버튼 클릭 시
-    @GetMapping("/insertOperator")
-    public String insertOperator(OperatorVO operatorVO){
-        operatorVO.setOperNum(adminService.selectOperNum());
-        adminService.insertOperator(operatorVO);
-        System.out.println(operatorVO);
-        return "redirect:/admin/goPayment";
-    }
+//    @GetMapping("/insertOperator")
+//    public String insertOperator(OperatorVO operatorVO){
+//        operatorVO.setOperNum(adminService.selectOperNum());
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@숫자는요");
+//        System.out.println(operatorVO.getOperNum());
+////        adminService.insertOperator(operatorVO);
+////        System.out.println(operatorVO);
+//        return "redirect:/admin/goPayment";
+//    }
 
     // 결제 시스템 페이지 이동 (카카오페이 실행)
     @ResponseBody
     @RequestMapping("/goPayment")
     public List<ClsVO> goPayment(@RequestBody OperatorVO operatorVO){
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(operatorVO);
-        List<ClsVO> list = null;
-
-        if (operatorVO != null){
-            list = adminService.requestPayInfo(operatorVO);
+        operatorVO.setOperNum(adminService.selectOperNum());
+        List<ClsVO> list = adminService.requestPayInfo(operatorVO);
+        if(list != null){
+            System.out.println(list);
+            return list;
+        } else {
+            System.out.println("정보가 없음");
+            return null;
         }
-        return list;
     }
 
     // 결제 성공 시 이동할 페이지
     @GetMapping("/successPayment")
-    public String successPayment(OperatorVO operatorVO){
-        adminService.successPayment(operatorVO);
+    public String successPayment(@RequestParam(name = "operNum")int operNum, Model model){
+        System.out.println("이동~~~~~~~~~~~~~~~~~");
+        ClsVO vo = adminService.successPayment(operNum);
+        model.addAttribute("info", vo);
+        System.out.println(vo);
         return "content/admin/payment_system";
     }
 }
