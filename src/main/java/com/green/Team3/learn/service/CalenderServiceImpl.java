@@ -35,4 +35,9 @@ public class CalenderServiceImpl implements CalenderService{
     public void deleteCalender(String title) {
         sqlSession.delete("calender.deleteCalender",title);
     }
+
+    @Override
+    public void autoDeleteCalender() {
+        sqlSession.delete("calender.autoDeleteCalender");
+    }
 }

@@ -51,7 +51,11 @@
         DELETE FROM EVENT_CALENDER
         WHERE TITLE = #{title}
     </delete>
-
+    <delete id="autoDeleteCalender">
+        DELETE FROM event_calender
+        WHERE DATE_SUB(NOW(), INTERVAL 3 YEAR) >= START
+        AND IF(END IS NULL, 1 = 1, DATE_SUB(NOW(), INTERVAL 3 YEAR) >= END)
+    </delete>
 
 
 </mapper>
