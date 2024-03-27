@@ -10,26 +10,25 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성-->
-    <table>
-        <tr>
-            <td th:each="atd, state : ${atds}">
-                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio1" th:id="${'aaa_' + state.index}" autocomplete="off" th:value="${atd.atdtNum}">
-                <label class="aaa btn btn-outline-secondary" th:for="${'aaa_' + state.index}">[[${atd.atdtName}]]</label>
-            </td>
-        </tr>
-        <tr>
-            <td th:each="atd, state : ${atds}">
-                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio2" th:id="${'bbb_' + state.index}" autocomplete="off" th:value="${atd.atdtNum}">
-                <label class="aaa btn btn-outline-secondary" th:for="${'bbb_' + state.index}">[[${atd.atdtName}]]</label>
-            </td>
-        </tr>
-        <tr>
-            <td th:each="atd, state : ${atds}">
-                <input type="radio" onclick="btnControl(this)" class="btn-check" th:name="atdRadio3" th:id="${'ccc_' + state.index}" autocomplete="off" th:value="${atd.atdtNum}">
-                <label class="aaa btn btn-outline-secondary" th:for="${'ccc_' + state.index}">[[${atd.atdtName}]]</label>
-            </td>
-        </tr>
-    </table>
+    <form action="">
+        <div class="row">
+            <div class="col" id="today">
+                <input type="date" name="" id="">
+                <select name="classNum" id="class_select" onchange="change()">
+                    <th:block th:each="class:${classList}">
+                        <option th:value="${class.classNum}">[[${class.className}]]</option>
+                    </th:block>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table id="stu_select">
+                    
+                </table>
+            </div>
+        </div>
+    </form>
 </th:block>
 
 <th:block layout:fragment="content_js">
