@@ -30,6 +30,7 @@ public class ConsultController {
     @Resource(name = "calenderService")
     private CalenderServiceImpl calenderService;
 
+    // 선생 아이디로 반 조회 후 상담추가 페이지로
     @GetMapping("/addConsultForm")
     public String addConsultForm(Model model, Authentication authentication){
         User user = (User) authentication.getPrincipal();
@@ -37,6 +38,7 @@ public class ConsultController {
         return "/content/teacher/add_consult";
     }
 
+    //셀렉트에 반을 바꾸면 학생명단이 바뀜
     @ResponseBody
     @PostMapping("/changeStuOption")
     public List<OperatorVO> changeStuOption(@RequestParam(name = "classNum")int classNum){
@@ -44,12 +46,14 @@ public class ConsultController {
         return list;
     }
 
+    //상담내용 추가하는 곳으로 이동
     @GetMapping("/addConsultContentForm")
     public String addConsult(@RequestParam(name = "consultNum")int consultNum,Model model){
         model.addAttribute("consultVO",consultService.selectOneConsult(consultNum));
         return "/content/teacher/add_consult_content";
     }
 
+    //추가가 완료된 곳으로 이동할 때 수정이 완료된후 이동
     @PostMapping("/addConsultContent")
     public String addConsultContent(ConsultVO consultVO,Model model,Authentication authentication){
         User user = (User) authentication.getPrincipal();
@@ -57,6 +61,8 @@ public class ConsultController {
         model.addAttribute("consultList",consultService.contentComplete(consultService.selectTeacherNumOfMemberId(user.getUsername())));
         return "/content/teacher/content_complete";
     }
+
+    //추가가 완료된 곳으로 이동할 때 그냥 이동
     @GetMapping("/contentComplete")
     public String contentComplete(Model model,Authentication authentication){
         User user = (User) authentication.getPrincipal();
@@ -64,6 +70,7 @@ public class ConsultController {
         return "/content/teacher/content_complete";
     }
 
+    //캘린더 추가화면으로 이동
     @GetMapping("/consultAddCalender")
     public String consultAddCalender(Authentication authentication,Model model){
         User user = (User) authentication.getPrincipal();
@@ -71,6 +78,7 @@ public class ConsultController {
         return "/content/teacher/consult_add_calender";
     }
 
+    //내용이 작성안된 상담 목록
     @GetMapping("/consultList")
     public String consultList(Authentication authentication, Model model){
         User user = (User) authentication.getPrincipal();
@@ -81,6 +89,7 @@ public class ConsultController {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////
+    //모달안의 학생을 바꿈.
     @ResponseBody
     @PostMapping("/modalChange")
     private Map<String,Object> modalChange(@RequestParam(name = "consultNum")int consultNum){

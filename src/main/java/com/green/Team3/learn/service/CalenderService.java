@@ -11,4 +11,5 @@ public interface CalenderService {
     String selectClassNameByClassNum(int classNum);
     List<EventCalenderVO> addEventBar();
     void deleteCalender(String title);
+    void autoDeleteCalender();
 }

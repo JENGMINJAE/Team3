@@ -73,4 +73,10 @@ public class ConsultServiceImpl implements ConsultService{
         return sqlSession.selectList("learnMapper.contentComplete",teacherNum);
     }
 
+    @Override
+    public void autoDeleteConsult() {
+        sqlSession.delete("learnMapper.autoDeleteConsult");
+    }
+
+
 }

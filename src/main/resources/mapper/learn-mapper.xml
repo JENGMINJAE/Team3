@@ -280,9 +280,10 @@
         AND CONSULT_CONTENT IS NOT NULL
         ORDER BY CONSULT_DATE DESC
     </select>
-
-
-
+    <delete id="autoDeleteConsult">
+        DELETE FROM consult
+        WHERE DATE_SUB(NOW(), INTERVAL 3 YEAR) >= CONSULT_DATE
+    </delete>
 </mapper>
 
 
