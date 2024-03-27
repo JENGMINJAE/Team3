@@ -1,5 +1,6 @@
 package com.green.Team3;
 
+import com.green.Team3.admin.service.AdminService;
 import com.green.Team3.learn.service.CalenderServiceImpl;
 import com.green.Team3.learn.service.ConsultServiceImpl;
 import jakarta.annotation.Resource;
@@ -14,11 +15,15 @@ public class IndexController {
     private ConsultServiceImpl consultService;
     @Resource(name = "calenderService")
     private CalenderServiceImpl calenderService;
+
+    @Resource(name = "adminService")
+    private AdminService adminService;
     @GetMapping("/")
     public String firstPage(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg, Model model) {
         model.addAttribute("errorMsg",errorMsg);
         consultService.autoDeleteConsult();
         calenderService.autoDeleteCalender();
+        adminService.updateClassEnter();
         return "content/member/firstPage";
     }
 }

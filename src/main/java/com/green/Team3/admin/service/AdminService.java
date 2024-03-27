@@ -56,4 +56,6 @@ public interface AdminService {
     // OPER_NUM 조회
     int selectOperNum();
 
+    // updateClassEnter
+    void updateClassEnter();
 }

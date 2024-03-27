@@ -120,4 +120,10 @@ public class AdminServiceImpl implements AdminService{
         return  sqlSession.selectOne("admin.selectOperNum");
     }
 
+
+    @Override
+    public void updateClassEnter() {
+        sqlSession.update("clsMapper.updateClassEnter");
+    }
+
 }
