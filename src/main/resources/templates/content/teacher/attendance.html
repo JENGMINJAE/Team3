@@ -12,20 +12,28 @@
     <!-- html 코드 작성-->
     <form action="">
         <div class="row">
-            <div class="col" id="today">
-                <input type="date" name="" id="">
-                <select name="classNum" id="class_select" onchange="change()">
+            <div class="col-4" id="today">
+                <input type="date" class="form-control" id="currentDate" readonly>
+            </div>
+            <div class="col-4">
+                <select name="classNum" id="class_select" onchange="change()" class="form-select">
                     <th:block th:each="class:${classList}">
                         <option th:value="${class.classNum}">[[${class.className}]]</option>
                     </th:block>
                 </select>
             </div>
+            <div class="col-4" style="text-align: center; border: 1px solid green;">
+                출석 현황
+            </div>
         </div>
         <div class="row">
-            <div class="col">
-                <table id="stu_select">
+            <div class="col-8">
+                <table id="stu_select" class="table" style="text-align: center; vertical-align: middle;">
                     
                 </table>
+            </div>
+            <div class="col-4" style="text-align: center; border-collapse: collapse; border: 1px solid green;">
+                출석을 저장하지 않았습니다.
             </div>
         </div>
     </form>

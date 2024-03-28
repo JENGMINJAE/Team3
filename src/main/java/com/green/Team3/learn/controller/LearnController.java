@@ -6,6 +6,7 @@ import com.green.Team3.learn.service.HomeworkServiceImpl;
 import com.green.Team3.learn.service.LearnServiceImpl;
 import com.green.Team3.learn.vo.AttendanceTypeVO;
 import com.green.Team3.learn.vo.AttendanceVO;
+import com.green.Team3.learn.vo.InsertAtdListVO;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,5 +49,14 @@ public class LearnController {
         map.put("atdList",atdList);
         map.put("studentList",studentList);
         return map;
+    }
+
+    @ResponseBody
+    @PostMapping("/insertAttendance")
+    public void insertAttendance(@RequestBody ArrayList<AttendanceVO> atdList){
+        InsertAtdListVO vo = new InsertAtdListVO();
+        vo.setAtdList(atdList);
+        learnService.insertAttendance(vo);
+
     }
 }
