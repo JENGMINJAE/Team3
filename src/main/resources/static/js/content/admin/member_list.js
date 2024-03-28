@@ -15,7 +15,6 @@ if(updateMemberId != ""){
     
 // 클릭한 회원 상세 정보 조회
 function memberDetail(memberId){
-    alert(111);
     const member_detail_modal = new bootstrap.Modal('#member-detail-modal');
 
     fetch('/admin/memberDetail', { //요청경로

@@ -188,7 +188,6 @@ public class AdminController {
         operatorVO.setOperNum(adminService.selectOperNum());
         List<ClsVO> list = adminService.requestPayInfo(operatorVO);
         if(list != null){
-            System.out.println(list);
             return list;
         } else {
             System.out.println("정보가 없음");
@@ -199,7 +198,6 @@ public class AdminController {
     // 결제 성공 시 이동할 페이지
     @GetMapping("/successPayment")
     public String successPayment(@RequestParam(name = "operNum")int operNum, Model model){
-        System.out.println("이동~~~~~~~~~~~~~~~~~");
         ClsVO vo = adminService.successPayment(operNum);
         model.addAttribute("info", vo);
         System.out.println(vo);
