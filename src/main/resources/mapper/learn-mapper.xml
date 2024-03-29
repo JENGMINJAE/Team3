@@ -24,6 +24,13 @@
         <association property="clsVO" resultMap="clsMapper.cls"/>
         <association property="memberVO" resultMap="member.memberMap"/>
     </resultMap>
+    <resultMap id="attendance" type="com.green.Team3.learn.vo.AttendanceVO">
+        <id     column="ATD_NUM" property="atdNum"/>
+        <result column="MEMBER_ID" property="memberId"/>
+        <result column="ATD_DATE" property="atdDate"/>
+        <result column="ATDT_NUM" property="atdtNum"/>
+        <result column="CLASS_NUM" property="classNum"/>
+    </resultMap>
 
 
     <!-- 출결 리스트 조회 -->
@@ -300,6 +307,24 @@
         )
         </foreach>
     </insert>
+    <select id="fullAttendance" resultMap="member.memberMap">
+        SELECT MEMBER_NAME
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 1 AND member_id = m.member_id) 'check'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 2 AND member_id = m.member_id) 'absent'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 3 AND member_id = m.member_id) 'tardy'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 4 AND member_id = m.member_id) 'early'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 5 AND member_id = m.member_id) 'supple'
+        from member m
+        INNER JOIN operator o
+        ON m.member_id = o.MEMBER_ID
+        WHERE class_num = #{classNum}
+    </select>
+    <select id="nowCheckAttendance" resultType="String">
+        SELECT IF((SELECT COUNT(ATD_NUM) FROM attendance
+        WHERE atd_date = substring(NOW(),1,10)
+        AND class_num = #{classNum}
+        GROUP BY atd_date),'true','false')
+    </select>
 </mapper>
 
 

@@ -9,13 +9,9 @@ const memberId_tag = document.querySelector('input[name="memberId"]').value;
 if(updateMemberId != ""){
     memberDetail(updateMemberId);
 }
-
-
-
     
 // 클릭한 회원 상세 정보 조회
 function memberDetail(memberId){
-    alert(111);
     const member_detail_modal = new bootstrap.Modal('#member-detail-modal');
 
     fetch('/admin/memberDetail', { //요청경로
@@ -159,8 +155,6 @@ function updateMemberInfo(){
     
 }
 
-
-
 // 해당 회원의 권한 변경
 function changeRoll(selectedTag, memberId){
     let str_roll = ''
@@ -233,8 +227,6 @@ function changeRoll(selectedTag, memberId){
     
 }
 
-
-
 // 수강목록 조회
 function showClasses(memberId, memberRoll){
     const classes_modal = new bootstrap.Modal('#classes-modal');
@@ -305,6 +297,7 @@ function showClasses(memberId, memberRoll){
 
 }
 
+// 결제 요청 페이지 이동
 function requestPay(selectedTag){
     // console.log(selectedTag.previousElementSibling.previousElementSibling);
     if(confirm(`결제하시겠습니까?`)){
@@ -392,18 +385,20 @@ function insertClass(memberId){
         modal_tbodyy.innerHTML = '';
         modal_tbodyy.replaceChildren();
 
-        console.log(data);
+        // console.log(data);
         let str = '';
         
-        str += `<input type="hidden" name="memberId" id="memberId" value="${selectMemberId}">`
+        str += `<input type="hidden" name="memberId" id="memberId" value="${selectMemberId}">
+                `;
         data.forEach(function (e){
             let pay = e.classPayment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             str +=  `
                 <tr>
                     <td>
-                        <input type="checkbox" name="select">
+                        <input type="checkbox" name="classNum" value="${e.classNum}">
                     </td>
-                    <td>${e.className} 반</td>
+                    <td>${e.className} 반
+                    </td>
                     <td>${e.teacherVO.teacherName}</td>
                     <td>${e.classSdate}~${e.classEdate}</td>
                     <td>${pay} 원</td>
@@ -445,7 +440,7 @@ function regClass(selectedTag, classNum){
         })
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
-            console.log(data)
+            // console.log(data)
             IMP.request_pay({
                 pg : 'kakaopay',
                 pay_method : "card",
@@ -480,4 +475,95 @@ function regClass(selectedTag, classNum){
     
 
     }
+}
+
+// 선택한 여러 반 수강 신청
+function reqSomePay(){
+    const checks = document.querySelectorAll('input[type="checkbox"]:checked');
+    const memberId = document.querySelector('#memberId').value;
+    
+    if(checks == 0){
+        alert('수강신청할 반을 선택하세요');
+        return ;
+    }
+    const chkArr = [];
+    for(const chk of checks){
+        a = {
+            classNum : chk.value,
+            'memberId' : memberId,
+        }
+        chkArr.push(a);
+    }
+    // console.log(chkArr);
+    
+    
+        if(confirm(`결제하시겠습니까?`)){
+            fetch('/admin/goPayments', { //요청경로
+                method: 'POST',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                //컨트롤러로 전달할 데이터
+                body: JSON.stringify(chkArr)
+            })
+            .then((response) => {
+                return response.json(); //나머지 경우에 사용
+            })
+            //fetch 통신 후 실행 영역
+            .then((data) => {//data -> controller에서 리턴되는 데이터!
+                console.log(data);
+                data.forEach(function(e,idx){
+                    IMP.request_pay({
+                        pg : 'kakaopay',
+                        pay_method : "card",
+                        merchant_uid : 'merchant_' + new Date().getTime(),
+                        name : `${e.className}`, // className
+                        amount : `${e.classPayment}`, // operPay
+                        buyer_email : '', // memberEmail
+                        buyer_name : `${e.teacherVO.memberVO.memberName}`, // memberName
+                        buyer_tel : `${e.teacherVO.memberVO.memberTel}`,
+                        buyer_addr : `${e.teacherVO.memberVO.memberAddr + e.teacherVO.memberVO.addrDetail}`,
+                        buyer_postcode : `${e.teacherVO.memberVO.postCode}`
+        
+        
+                    }, function (rsp){ // callback
+                        console.log(rsp);
+                        if(rsp.success){
+                            const msg = '결제가 완료되었습니다.';
+                            alert(msg);
+                            let operNumList = []; // operNum 값을 담을 배열
+
+                            for (const e of e.operatorVOList) {
+                                operNumList.push(e.operNum); // 각 operNum 값을 배열에 추가
+                            }
+                            
+                            // 배열의 값을 콤마(,)로 구분하여 쿼리 문자열에 추가
+                            let queryString = `operNumList=${operNumList.join(',')}`;
+                            
+                            // 만들어진 쿼리 문자열을 URL에 추가하여 페이지를 이동
+                            location.href = `/admin/successPayment?${queryString}`;
+                            // location.href = `/admin/successPayment?operNumList=${e.operatorVOList[0].operNum},operNumlist=${e.operatorVOList[1].operNum}`;
+                            console.log(operNumList);
+                        } else {
+                            const msg = '결제에 실패했습니다.';
+                            msg += '에러내용: ' + rsp.error_msg;
+                            alert(msg);
+                        }
+                    });
+                })
+                
+            })
+            //fetch 통신 실패 시 실행 영역
+            .catch(err=>{
+                alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                console.log(err);
+            });
+        
+    
+        }
+    
+
+
+    
 }

@@ -17,6 +17,11 @@
         <result column="REG_DATE"       property="regDate"/>
         <result column="MEMBER_ROLL"    property="memberRoll"/>
         <result column="STR_ROLL"       property="strRoll"/>
+        <result column="check"          property="check"/>
+        <result column="absent"         property="absent"/>
+        <result column="tardy"          property="tardy"/>
+        <result column="early"          property="early"/>
+        <result column="supple"         property="supple"/>
         <collection property="operatorVOList"    resultMap="admin.operator"/>
     </resultMap>
 

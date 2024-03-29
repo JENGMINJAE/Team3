@@ -10,14 +10,12 @@ import com.green.Team3.member.service.MemberService;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
 import jakarta.annotation.Resource;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -170,16 +168,6 @@ public class AdminController {
     public List<ClsVO> goRegClass(OperatorVO operatorVO){
         return adminService.regClasses(operatorVO);
     }
-//     수강 신청 버튼 클릭 시
-//    @GetMapping("/insertOperator")
-//    public String insertOperator(OperatorVO operatorVO){
-//        operatorVO.setOperNum(adminService.selectOperNum());
-//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@숫자는요");
-//        System.out.println(operatorVO.getOperNum());
-////        adminService.insertOperator(operatorVO);
-////        System.out.println(operatorVO);
-//        return "redirect:/admin/goPayment";
-//    }
 
     // 결제 시스템 페이지 이동 (카카오페이 실행)
     @ResponseBody
@@ -188,21 +176,41 @@ public class AdminController {
         operatorVO.setOperNum(adminService.selectOperNum());
         List<ClsVO> list = adminService.requestPayInfo(operatorVO);
         if(list != null){
-            System.out.println(list);
             return list;
         } else {
             System.out.println("정보가 없음");
             return null;
         }
     }
+    // 여러개
+    @ResponseBody
+    @RequestMapping("/goPayments")
+    public List<ClsVO> goPayments(@RequestBody List<OperatorVO> operatorVOList){
+        List<ClsVO> list = new ArrayList<>();
+        for(int i = 0; i < operatorVOList.size(); i++){
+            OperatorVO operatorVO = new OperatorVO();
+            operatorVO.setOperNum(adminService.selectOperNum());
+            operatorVO.setClassNum(operatorVOList.get(i).getClassNum());
+            operatorVO.setMemberId(operatorVOList.get(i).getMemberId());
+            list = adminService.requestPayInfo(operatorVO);
+        }
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println(list);
+        return list;
+    }
 
     // 결제 성공 시 이동할 페이지
     @GetMapping("/successPayment")
-    public String successPayment(@RequestParam(name = "operNum")int operNum, Model model){
-        System.out.println("이동~~~~~~~~~~~~~~~~~");
-        ClsVO vo = adminService.successPayment(operNum);
-        model.addAttribute("info", vo);
-        System.out.println(vo);
+    public String successPayment(@RequestParam(name = "operNumList") List<Integer> operNum, Model model){
+        List<ClsVO> list = new ArrayList<>();
+        System.out.println(operNum);
+        for(int e : operNum){
+            ClsVO vo = adminService.successPayment(e);
+            System.out.println(e);
+            list.add(vo);
+        }
+        model.addAttribute("info", list);
+        System.out.println(list);
         return "content/admin/payment_system";
     }
 }

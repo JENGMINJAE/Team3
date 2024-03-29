@@ -32,6 +32,7 @@ function btnControl(rBtn){
 const class_select = document.querySelector("#class_select");
 document.querySelector('#currentDate').value = new Date().toISOString().substring(0, 10);
 const currentDate = document.querySelector('#currentDate').value;
+const showAttendanceList = document.querySelector("#showAttendanceList");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function change(){
@@ -61,8 +62,8 @@ function change(){
     .then((data) => {//data -> controller에서 리턴되는 데이터!
         const stu_select = document.querySelector('#stu_select');
         let str = ``;
+        let str2 = ``;
         stu_select.innerHTML = ``;
-
         data.studentList.map(function(student, index_1){
             str+=`
                 <tr>
@@ -82,13 +83,38 @@ function change(){
             str+=`</tr>
                     `
         });
-        str+=`<tr>
-                    <td colspan="6" style="text-align: center;">
-                        <input type="button" id="insertAttendance" class="btn btn-success" value="저장">
-                    </td>
-                </tr>
-                `;
+        if(!data.nowCheckAttendance){
+            str+=`<tr>
+                <td colspan="6" style="text-align: center;">
+                    <input type="button" id="insertAttendance" class="btn btn-success" value="저장">
+                </td>
+            </tr>
+            `;
+        }
+        else{
+            str+=`<tr>
+                <td colspan="6" style="text-align: center;">
+                    오늘은 이미 저장을 하셨습니다.
+                    <input type="hidden" id="insertAttendance" class="btn btn-success" value="저장">
+                </td>
+            </tr>
+            `;
+        }
+        
         stu_select.insertAdjacentHTML("afterbegin", str);
+        data.fullAttendanceList.map(function(atd,index_3){
+            str2 +=`<tr>
+            <td>${data.fullAttendanceList.length - index_3}</td>
+            <td>${atd.memberName}</td>
+            <td>${atd.check}</td>
+            <td>${atd.absent}</td>
+            <td>${atd.tardy}</td>
+            <td>${atd.early}</td>
+            <td>${atd.supple}</td>
+            </tr>`;
+        });
+        showAttendanceList.innerHTML="";
+        showAttendanceList.insertAdjacentHTML("afterbegin",str2)
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         let selectedRadioData = [];
         document.querySelectorAll('.btn-check').forEach(function(radio) {
@@ -113,7 +139,7 @@ function change(){
                     // 새로 추가
                     selectedRadioData.push(selectedInfo);
                 }
-                console.log(selectedRadioData); // 선택된 라디오 버튼의 정보를 배열로 출력하거나 원하는 처리를 수행할 수 있습니다.
+                
             });
         });
 
@@ -131,12 +157,13 @@ function change(){
                 if (!response.ok) {
                     throw new Error('데이터 전송 실패');
                 }
-                console.log('선택된 라디오 버튼 정보가 컨트롤러로 전달되었습니다.');
+                location.reload(true);
             })
             .catch((error) => {
                 console.error('데이터 전송 에러:', error);
             });
         });
+
 
 
 
@@ -154,7 +181,6 @@ function change(){
     });
 }
 change();
-
 
 
 
