@@ -483,20 +483,20 @@ function reqSomePay(){
     const checks = document.querySelectorAll('input[type="checkbox"]:checked');
     const memberId = document.querySelector('#memberId').value;
     
-    if(checks == 0){
-        alert('수강신청할 반을 선택하세요');
-        return ;
-    }
     const chkArr = [];
     for(const chk of checks){
-        a = {
-            classNum : chk.value,
-            'memberId' : memberId,
+        console.log(chk.checked);
+        if(chk.checked == true){
+            a = {
+                classNum : chk.value,
+                'memberId' : memberId,
+            }
+            chkArr.push(a);
+
         }
-        chkArr.push(a);
     }
     
-    
+    if(chkArr != ""){
         if(confirm(`결제하시겠습니까?`)){
             fetch('/admin/goPayments', { //요청경로
                 method: 'POST',
@@ -513,11 +513,12 @@ function reqSomePay(){
             //fetch 통신 후 실행 영역
             .then((data) => {//data -> controller에서 리턴되는 데이터!
                 console.log(data);
+
                 let classCnt = 0;
                 let totalPay = 0;
                 let operArray = [];
                 let operNumArr = [];
-                
+
                 data.forEach(function(e, idx){
                     totalPay += e.classPayment;
                     classCnt = idx;
@@ -564,9 +565,7 @@ function reqSomePay(){
                         })
                         //fetch 통신 후 실행 영역
                         .then((data) => {//data -> controller에서 리턴되는 데이터!
-                            console.log(data);
                             location.href=`/admin/successPayments?operNumList=${operNumArr}`;
-                            alert('결제 성공');
                         })
                         //fetch 통신 실패 시 실행 영역
                         .catch(err=>{
@@ -591,6 +590,9 @@ function reqSomePay(){
         
     
         }
+    }else {
+        alert('수강신청할 반을 선택하세요.');
+    }
     
 
 
