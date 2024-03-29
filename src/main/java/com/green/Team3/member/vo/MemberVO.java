@@ -1,6 +1,7 @@
 package com.green.Team3.member.vo;
 
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.vo.ClsVO;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,4 +28,11 @@ public class MemberVO {
     private String strRoll;
     private RollTypeVO rollTypeVO;
     private List<OperatorVO> operatorVOList;
+
+    private SearchVO searchVO;
+    private int check;//출석
+    private int absent;//결석
+    private int tardy;//지각
+    private int early;//조퇴
+    private int supple;//보강
 }

@@ -34,6 +34,7 @@
                 ON MEMBER.MEMBER_ID = T.MEMBER_ID
                 WHERE TEACHER_NUM = CI.TEACHER_NUM)	AS TEACHER_NAME
             , MEMBER_NAME
+            , M.MEMBER_ID
         FROM MEMBER M INNER JOIN OPERATOR O
         ON M.MEMBER_ID = O.MEMBER_ID
         INNER JOIN CLASS_INFO CI
@@ -54,6 +55,16 @@
             , CI.TEACHER_NUM
             , MEMBER_NAME
             , M.MEMBER_ID
+            , (SELECT COUNT(OPERATOR.MEMBER_ID)
+                FROM operator
+                INNER JOIN MEMBER
+                ON MEMBER.MEMBER_ID = OPERATOR.MEMBER_ID
+                WHERE CLASS_NUM = CI.CLASS_NUM) AS STU_CNT
+            , (SELECT MEMBER_NAME
+                FROM MEMBER
+                INNER JOIN TEACHER T
+                ON MEMBER.MEMBER_ID = T.MEMBER_ID
+                WHERE TEACHER_NUM = CI.TEACHER_NUM)	AS TEACHER_NAME
         FROM CLASS_INFO CI INNER JOIN TEACHER T
         ON CI.TEACHER_NUM = T.TEACHER_NUM
         INNER JOIN MEMBER M
@@ -92,6 +103,13 @@
         WHERE CI.CLASS_NUM = #{classNum}
     </select>
 
+    <!-- classEnter 수정 -->
+    <update id="updateClassEnter">
+        UPDATE CLASS_INFO SET
+        CLASS_ENTER = "Y"
+        WHERE NOW() > CLASS_SDATE
+        AND CLASS_EDATE > NOW()
+    </update>
 
 
 <!--    <select id="selectClassNumAndStuNum" resultMap="operator">-->

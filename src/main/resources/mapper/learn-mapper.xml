@@ -280,9 +280,26 @@
         AND CONSULT_CONTENT IS NOT NULL
         ORDER BY CONSULT_DATE DESC
     </select>
-
-
-
+    <delete id="autoDeleteConsult">
+        DELETE FROM consult
+        WHERE DATE_SUB(NOW(), INTERVAL 3 YEAR) >= CONSULT_DATE
+    </delete>
+    <insert id="insertAttendance">
+        INSERT INTO ATTENDANCE (
+            MEMBER_ID,
+            ATD_DATE,
+            ATDT_NUM,
+            CLASS_NUM
+        ) VALUES
+        <foreach collection="atdList" item="attendanceVO" separator=",">
+        (
+            #{attendanceVO.memberId},
+            #{attendanceVO.atdDate},
+            #{attendanceVO.atdtNum},
+            #{attendanceVO.classNum}
+        )
+        </foreach>
+    </insert>
 </mapper>
 
 

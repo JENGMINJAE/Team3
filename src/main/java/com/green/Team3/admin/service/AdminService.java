@@ -1,8 +1,10 @@
 package com.green.Team3.admin.service;
 
+import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -38,5 +40,21 @@ public interface AdminService {
     // 반에서 정보 수정
     int updateClass(ClsVO clsVO);
 
+    // 결제 요청 시
+    List<ClsVO> requestPayInfo(OperatorVO operatorVO);
 
+    // 수강 신청 모달 열 때
+    List<ClsVO> regClasses(OperatorVO operatorVO);
+
+    // 결제 신청 시
+    void insertOperator(OperatorVO operatorVO);
+
+    // 결제 성공 시 update
+    ClsVO successPayment(@RequestParam(name = "operNum")int operNum);
+
+    // OPER_NUM 조회
+    int selectOperNum();
+
+    // updateClassEnter
+    void updateClassEnter();
 }

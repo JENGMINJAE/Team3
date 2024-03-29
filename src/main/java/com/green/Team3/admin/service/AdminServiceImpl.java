@@ -1,5 +1,6 @@
 package com.green.Team3.admin.service;
 
+import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
@@ -7,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -78,6 +80,54 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public int updateClass(ClsVO clsVO) {
         return sqlSession.update("admin.updateClass", clsVO);
+    }
+
+    // 결제 요청 시
+    @Override
+    public List<ClsVO> requestPayInfo(OperatorVO operatorVO) {
+        sqlSession.insert("admin.insertOperator", operatorVO);
+        return sqlSession.selectList("member.requestPayInfo", operatorVO);
+    }
+
+    // 수강 신청 페이지 이동
+    @Override
+    public List<ClsVO> regClasses(OperatorVO operatorVO) {
+        List<ClsVO> list = sqlSession.selectList("admin.regClasses");
+        if(list != null){
+            return list;
+        }
+        return null;
+    }
+
+//     수강 신청 시
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void insertOperator(OperatorVO operatorVO) {
+        sqlSession.insert("admin.insertOperator", operatorVO);
+    }
+
+    // 결제 승인 시
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ClsVO successPayment(@RequestParam(name = "operNum")int operNum) {
+        sqlSession.update("admin.successPayment", operNum);
+        ClsVO vo = null;
+        if (operNum != 0) {
+            vo = sqlSession.selectOne("admin.findNames", operNum);
+        }
+        return vo;
+    }
+
+    // OPER_NUM 조회
+    @Override
+    public int selectOperNum() {
+        return  sqlSession.selectOne("admin.selectOperNum");
+    }
+
+
+    @Override
+    public void updateClassEnter() {
+        sqlSession.update("clsMapper.updateClassEnter");
     }
 
 }

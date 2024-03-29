@@ -1,12 +1,10 @@
 function look(thisDetail,content){
     const CCB = document.getElementById('CCB');
-    const CDB = document.getElementById('CDB');
     const CCHB = document.getElementById('CCHB');
     const CCCB = document.getElementById('CCCB');
     
     if(CCB.style.display == 'none') {
         CCB.style.display = 'inline-block';
-	    CDB.style.display = 'inline-block';
         CCHB.style.display = 'none';
         CCCB.style.display = 'none';
 
@@ -51,11 +49,11 @@ function look(thisDetail,content){
                     str+=`">
                     <input type="hidden" id="content" value="`;
                     str+= content;
-                    str+=`
+                    str+=`">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="3" id="cctd">
+                    <td colspan="3" id="cctd" style="height: 270px; vertical-align: top;">
                         `;
                         str+=content
                         str+=`
@@ -75,10 +73,8 @@ function crystalConsultContent(){
     const CCB = document.getElementById('CCB');
     const CCHB = document.getElementById('CCHB');
     const CCCB = document.getElementById('CCCB');
-    const CDB = document.getElementById('CDB');
     if(CCB.style.display !== 'none') {
 	    CCB.style.display = 'none';
-	    CDB.style.display = 'none';
 	}
     if(CCHB.style.display == 'none') {
 	    CCHB.style.display = 'inline-block';
@@ -103,6 +99,23 @@ function crystalContentOk(){
 }
 
 function crstalCancle(){
-    // const goBack =
-    
+    const goBack = document.querySelector("#content").value;
+    const selected_td = document.querySelector("#cctd");
+    selected_td.innerHTML="";
+    let str =``;
+    str+=goBack;
+    selected_td.insertAdjacentHTML("afterbegin",str);
+    const CCB = document.getElementById('CCB');
+    const CCHB = document.getElementById('CCHB');
+    const CCCB = document.getElementById('CCCB');
+    if(CCB.style.display == 'none') {
+	    CCB.style.display = 'inline-block';
+	}
+    if(CCHB.style.display !== 'none') {
+	    CCHB.style.display = 'none';
+	    CCCB.style.display = 'none';
+	}
 }
+
+
+

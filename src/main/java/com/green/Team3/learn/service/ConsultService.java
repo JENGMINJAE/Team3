@@ -19,4 +19,5 @@ public interface ConsultService {
     void deleteConsult(int consultNum);
     void addConsultContent(ConsultVO consultVO);
     List<ConsultVO> contentComplete(int teacherNum);
+    void autoDeleteConsult();
 }

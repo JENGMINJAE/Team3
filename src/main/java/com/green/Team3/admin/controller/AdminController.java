@@ -1,17 +1,23 @@
 package com.green.Team3.admin.controller;
 
 import com.green.Team3.admin.service.AdminService;
+import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.service.ClsService;
 import com.green.Team3.cls.vo.ClsVO;
+import com.green.Team3.learn.service.ConsultService;
 import com.green.Team3.member.service.MemberService;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
 import jakarta.annotation.Resource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,6 +31,9 @@ public class AdminController {
 
     @Resource(name = "clsService")
     private ClsService clsService;
+
+    @Resource(name = "consultService")
+    private ConsultService consultService;
 
     // 관리자 클릭 시 페이지 이동
     @GetMapping("/notice")
@@ -42,21 +51,21 @@ public class AdminController {
         return "content/admin/admin_teacher";
     }
 
-    // 강사 정보 상세 조회 (작업 중)
+    // 강사 정보 상세 조회
     @ResponseBody
     @PostMapping("/selectTeacher")
     public List<ClsVO> detailTeacher(@RequestBody ClsVO clsVO){
-//        System.out.println(clsVO);
         List<ClsVO> list = adminService.detailTeacher(clsVO.getTeacherNum());
-//        System.out.println(list);
         return list;
     }
 
     // 회원 관리 페이지 이동
-    @GetMapping("/goMemberList")
-    public String memberList(Model model, @RequestParam(name = "memberId", required = false, defaultValue = "")String updateMemberId){
+    @RequestMapping("/goMemberList")
+    public String memberList(Model model, SearchVO searchVO,
+                             @RequestParam(name = "memberId", required = false, defaultValue = "")String updateMemberId){
         // 전체 회원 목록 조회
-        model.addAttribute("memberList", memberService.selectMembers());
+        List<MemberVO> list = memberService.selectMembers(searchVO);
+        model.addAttribute("memberList", list);
         // MEMBER_ROLL 목록 조회 (관리, 강사, 회원)
         model.addAttribute("rollList", adminService.rollList());
         model.addAttribute("updateMemberId", updateMemberId);
@@ -71,11 +80,19 @@ public class AdminController {
         return vo;
     }
 
-    // 인적 사항 변경 쿼리 실행(변경 버튼 클릭 시)
+    // 인적 사항 변경 쿼리 실행(변경 버튼 클릭 시) -> 회원 관리에서
     @PostMapping("/changePersonalInfo")
     public String changePersonalInfo(MemberVO memberVO){
         adminService.changePersonalInfo(memberVO);
         return "redirect:/admin/goMemberList?memberId=" + memberVO.getMemberId();
+    }
+
+    // 회원 정보 수정
+    @PostMapping("/editPersonInfo")
+    public String editPersonInfo(MemberVO memberVO, Model model, @RequestParam(name = "classNum")int classNum){
+        adminService.changePersonalInfo(memberVO);
+        model.addAttribute("updateMemberId", memberVO.getMemberId());
+        return "redirect:/admin/goClassInfo?classNum=" + classNum;
     }
 
     // 회원 권한 수정 (memberRoll)
@@ -93,7 +110,7 @@ public class AdminController {
         return voList;
     }
 
-    // 학급 생성 페이지 이동 (완료)
+    // 학급 생성 페이지 이동
     @GetMapping("/makeClassForm")
     public String makeClassForm(Model model){
         model.addAttribute("clsList", clsService.selectAllClass());
@@ -101,17 +118,16 @@ public class AdminController {
         return "content/admin/make_class_form";
     }
 
-    // 학급 생성 버튼 클릭 시 실행 메소드 (완료)
+    // 학급 생성 버튼 클릭 시 실행 메소드
     @PostMapping("/makeClass")
     public String makeClass(ClsVO clsVO){
         adminService.makeCls(clsVO);
         return "redirect:/admin/makeClassForm";
     }
 
-    // 근무 상태 변경 (완료)
+    // 근무 상태 변경
     @PostMapping("/changeAttendance")
     public String changeAttendance(TeacherVO teacherVO){
-        System.out.println(teacherVO);
         adminService.changeAttendance(teacherVO);
         return "redirect:/admin/goAdminTeacher";
     }
@@ -121,6 +137,7 @@ public class AdminController {
     public String changeClass(@RequestParam(name = "classNum")int classNum, Model model){
         model.addAttribute("clsInfo", clsService.selectClassDetail(classNum));
         model.addAttribute("teachers", adminService.selectTeacherName());
+        model.addAttribute("students", consultService.selectClassNumAndStuNum(classNum));
         return "content/admin/change_class";
     }
 
@@ -131,7 +148,61 @@ public class AdminController {
        return "redirect:/admin/goClassInfo?classNum=" + clsVO.getClassNum();
     }
 
+    // 인적 사항 페이지 이동
+    @ResponseBody
+    @PostMapping("goStuInfo")
+    public MemberVO goStuInfo(@RequestBody MemberVO memberVO){
+        return memberService.memberDetail(memberVO);
+    }
+
     //    ----------------------- 완료 ---------------------------
 
+    // 반에 학생을 추가하기 위한 학생 목록 조회 페이지 이동
+    @ResponseBody
+    @PostMapping("/goInsertStu")
+    public List<MemberVO> goInsertStu(){
+        return memberService.selectStudents();
+    }
 
+    // 수강 신청 페이지 이동
+    @ResponseBody
+    @PostMapping("/goRegClass")
+    public List<ClsVO> goRegClass(OperatorVO operatorVO){
+        return adminService.regClasses(operatorVO);
+    }
+//     수강 신청 버튼 클릭 시
+//    @GetMapping("/insertOperator")
+//    public String insertOperator(OperatorVO operatorVO){
+//        operatorVO.setOperNum(adminService.selectOperNum());
+//        System.out.println("@@@@@@@@@@@@@@@@@@@@@@숫자는요");
+//        System.out.println(operatorVO.getOperNum());
+////        adminService.insertOperator(operatorVO);
+////        System.out.println(operatorVO);
+//        return "redirect:/admin/goPayment";
+//    }
+
+    // 결제 시스템 페이지 이동 (카카오페이 실행)
+    @ResponseBody
+    @RequestMapping("/goPayment")
+    public List<ClsVO> goPayment(@RequestBody OperatorVO operatorVO){
+        operatorVO.setOperNum(adminService.selectOperNum());
+        List<ClsVO> list = adminService.requestPayInfo(operatorVO);
+        if(list != null){
+            System.out.println(list);
+            return list;
+        } else {
+            System.out.println("정보가 없음");
+            return null;
+        }
+    }
+
+    // 결제 성공 시 이동할 페이지
+    @GetMapping("/successPayment")
+    public String successPayment(@RequestParam(name = "operNum")int operNum, Model model){
+        System.out.println("이동~~~~~~~~~~~~~~~~~");
+        ClsVO vo = adminService.successPayment(operNum);
+        model.addAttribute("info", vo);
+        System.out.println(vo);
+        return "content/admin/payment_system";
+    }
 }

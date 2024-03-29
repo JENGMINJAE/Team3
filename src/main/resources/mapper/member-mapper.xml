@@ -27,7 +27,7 @@
 
     <!-- 전체 회원 목록 조회 -->
     <select id="selectMembers" resultMap="memberMap">
-        SELECT MEMBER_ID
+        SELECT M.MEMBER_ID
             , MEMBER_NAME
             , MEMBER_AGE
             , MEMBER_ROLL
@@ -37,7 +37,14 @@
                 WHEN MEMBER_ROLL = 2 THEN '강사'
                 WHEN MEMBER_ROLL = 3 THEN '관리'
             END AS STR_ROLL
-        FROM MEMBER
+            , OPER_NUM
+            , IS_PAY
+        FROM MEMBER M LEFT JOIN OPERATOR O
+        ON M.MEMBER_ID = O.MEMBER_ID
+        <if test="searchType != null and !searchType.equals('')">
+            WHERE MEMBER_ROLL = ${searchType}
+        </if>
+        ORDER BY MEMBER_NAME
     </select>
 
     <!-- memberRoll 리스트 보기 -->
@@ -96,7 +103,6 @@
             , #{postCode}
         )
     </insert>
-
     <!-- 아이디 중복 확인 -->
 <!--    <select id="idCheck" resultType="boolean">-->
 <!--        SELECT COUNT(*)-->
@@ -113,11 +119,26 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
 
-
-
-
-
-
+    <!-- 카드 결제 신청 시, 결제창에 띄울 정보 검색 -->
+    <select id="requestPayInfo" resultMap="clsMapper.cls">
+        SELECT M.MEMBER_ID
+            , MEMBER_NAME
+            , MEMBER_EMAIL
+            , MEMBER_TEL
+            , MEMBER_ADDR
+            , ADDR_DETAIL
+            , POST_CODE
+            , CLASS_NAME
+            , CLASS_PAYMENT
+            , CI.CLASS_NUM
+            , OPER_NUM
+        FROM class_info CI LEFT JOIN operator O
+        ON CI.CLASS_NUM = O.CLASS_NUM
+        INNER JOIN member M
+        ON M.MEMBER_ID = O.MEMBER_ID
+        WHERE M.MEMBER_ID = #{memberId}
+        AND CI.CLASS_NUM = #{classNum}
+    </select>
 
 </mapper>
 

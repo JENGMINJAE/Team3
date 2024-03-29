@@ -1,5 +1,6 @@
 package com.green.Team3.member.service;
 
+import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.member.vo.MemberVO;
 
 import java.util.List;
@@ -15,10 +16,13 @@ public interface MemberService {
 //    int idCheck(MemberVO memberVO);
 
     // 회원 전체 목록 조회
-    List<MemberVO> selectMembers();
+    List<MemberVO> selectMembers(SearchVO searchVO);
 
     // 상세 회원 목록 조회 (관리자용)
     MemberVO memberDetail(MemberVO memberVO);
+
+    // 학생 전체 목록 조회
+    List<MemberVO> selectStudents();
 
 
 
