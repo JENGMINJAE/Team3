@@ -194,12 +194,14 @@ public class AdminController {
             operatorVO.setMemberId(operatorVOList.get(i).getMemberId());
             list = adminService.requestPayInfo(operatorVO);
         }
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println(list);
         return list;
     }
 
     // 결제 성공 시 이동할 페이지
     @GetMapping("/successPayment")
-    public String successPayment(List<Integer> operNum, Model model){
+    public String successPayment(@RequestParam(name = "operNumList") List<Integer> operNum, Model model){
         List<ClsVO> list = new ArrayList<>();
         System.out.println(operNum);
         for(int e : operNum){

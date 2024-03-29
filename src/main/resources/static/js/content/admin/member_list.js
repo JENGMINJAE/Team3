@@ -385,7 +385,7 @@ function insertClass(memberId){
         modal_tbodyy.innerHTML = '';
         modal_tbodyy.replaceChildren();
 
-        console.log(data);
+        // console.log(data);
         let str = '';
         
         str += `<input type="hidden" name="memberId" id="memberId" value="${selectMemberId}">
@@ -440,7 +440,7 @@ function regClass(selectedTag, classNum){
         })
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
-            console.log(data)
+            // console.log(data)
             IMP.request_pay({
                 pg : 'kakaopay',
                 pay_method : "card",
@@ -494,7 +494,8 @@ function reqSomePay(){
         }
         chkArr.push(a);
     }
-    console.log(chkArr);
+    // console.log(chkArr);
+    
     
         if(confirm(`결제하시겠습니까?`)){
             fetch('/admin/goPayments', { //요청경로
@@ -512,34 +513,46 @@ function reqSomePay(){
             //fetch 통신 후 실행 영역
             .then((data) => {//data -> controller에서 리턴되는 데이터!
                 console.log(data);
-                // data.forEach(function(e,idx){
-                //     IMP.request_pay({
-                //         pg : 'kakaopay',
-                //         pay_method : "card",
-                //         merchant_uid : 'merchant_' + new Date().getTime(),
-                //         name : `${e.className}`, // className
-                //         amount : `${e.classPayment}`, // operPay
-                //         buyer_email : '', // memberEmail
-                //         buyer_name : `${e.teacherVO.memberVO.memberName}`, // memberName
-                //         buyer_tel : `${e.teacherVO.memberVO.memberTel}`,
-                //         buyer_addr : `${e.teacherVO.memberVO.memberAddr + e.teacherVO.memberVO.addrDetail}`,
-                //         buyer_postcode : `${e.teacherVO.memberVO.postCode}`
+                data.forEach(function(e,idx){
+                    IMP.request_pay({
+                        pg : 'kakaopay',
+                        pay_method : "card",
+                        merchant_uid : 'merchant_' + new Date().getTime(),
+                        name : `${e.className}`, // className
+                        amount : `${e.classPayment}`, // operPay
+                        buyer_email : '', // memberEmail
+                        buyer_name : `${e.teacherVO.memberVO.memberName}`, // memberName
+                        buyer_tel : `${e.teacherVO.memberVO.memberTel}`,
+                        buyer_addr : `${e.teacherVO.memberVO.memberAddr + e.teacherVO.memberVO.addrDetail}`,
+                        buyer_postcode : `${e.teacherVO.memberVO.postCode}`
         
         
-                //     }, function (rsp){ // callback
-                //         console.log(rsp);
-                //         if(rsp.success){
-                //             const msg = '결제가 완료되었습니다.';
-                //             alert(msg);
-                //             location.href = `/admin/successPayment?operNum=${e.operatorVOList[0].operNum}`;
-                //             console.log(e.operatorVOList[0].operNum);
-                //         } else {
-                //             const msg = '결제에 실패했습니다.';
-                //             msg += '에러내용: ' + rsp.error_msg;
-                //             alert(msg);
-                //         }
-                //     });
-                // })
+                    }, function (rsp){ // callback
+                        console.log(rsp);
+                        if(rsp.success){
+                            const msg = '결제가 완료되었습니다.';
+                            alert(msg);
+                            let operNumList = []; // operNum 값을 담을 배열
+
+                            for (const e of e.operatorVOList) {
+                                operNumList.push(e.operNum); // 각 operNum 값을 배열에 추가
+                            }
+                            
+                            // 배열의 값을 콤마(,)로 구분하여 쿼리 문자열에 추가
+                            let queryString = `operNumList=${operNumList.join(',')}`;
+                            
+                            // 만들어진 쿼리 문자열을 URL에 추가하여 페이지를 이동
+                            location.href = `/admin/successPayment?${queryString}`;
+                            // location.href = `/admin/successPayment?operNumList=${e.operatorVOList[0].operNum},operNumlist=${e.operatorVOList[1].operNum}`;
+                            console.log(operNumList);
+                        } else {
+                            const msg = '결제에 실패했습니다.';
+                            msg += '에러내용: ' + rsp.error_msg;
+                            alert(msg);
+                        }
+                    });
+                })
+                
             })
             //fetch 통신 실패 시 실행 영역
             .catch(err=>{
