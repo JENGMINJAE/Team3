@@ -85,9 +85,13 @@ public class AdminServiceImpl implements AdminService{
     // 결제 요청 시
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<ClsVO> requestPayInfo(OperatorVO operatorVO) {
-        sqlSession.insert("admin.insertOperator", operatorVO);
-        return sqlSession.selectList("member.requestPayInfo", operatorVO);
+    public ClsVO requestPayInfo(OperatorVO operatorVO) {
+        int operCnt = sqlSession.selectOne("admin.chkDuple", operatorVO);
+        if(operCnt == 0) {
+            sqlSession.insert("admin.insertOperator", operatorVO);
+            return sqlSession.selectOne("member.requestPayInfo", operatorVO);
+        }
+        return null;
     }
 
     // 수강 신청 페이지 이동
@@ -107,17 +111,25 @@ public class AdminServiceImpl implements AdminService{
         sqlSession.insert("admin.insertOperator", operatorVO);
     }
 
+
+    // 결제 정보 갯수 재기
+    @Override
+    public int chkDuple(OperatorVO operatorVO) {
+        return sqlSession.selectOne("admin.chkDuple", operatorVO);
+    }
+
     // 결제 승인 시
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ClsVO successPayment(@RequestParam(name = "operNum")int operNum) {
-        sqlSession.update("admin.successPayment", operNum);
-        ClsVO vo = null;
-        if (operNum != 0) {
-            vo = sqlSession.selectOne("admin.findNames", operNum);
-        }
-        return vo;
+    public void successPayment(OperatorVO operatorVO) {
+        sqlSession.update("admin.successPayment", operatorVO.getOperNum());
     }
+
+    // 결제 정보 조회
+    @Override
+    public ClsVO findNames(OperatorVO operatorVO) {
+        return sqlSession.selectOne("admin.findNames", operatorVO);
+    }
+
 
     // OPER_NUM 조회
     @Override

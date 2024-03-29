@@ -62,7 +62,7 @@ function teacherInfo(teacherCode, className){
                     <tr>
                         <td>${idx + 1}</td>
                         <td class="classNum" name="classNum" value="${e.classNum}" onclick="changeClass(${e.classNum})">${e.className}</td>
-                        <td>${e.classPersonnel - e.stuCnt} / ${e.classPersonnel}</td>
+                        <td>${e.stuCnt} / ${e.classPersonnel}</td>
                         <td>${e.teacherVO.strWork}</td>
                     </tr>`;
             });

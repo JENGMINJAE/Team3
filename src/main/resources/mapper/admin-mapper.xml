@@ -11,7 +11,7 @@
         <result column="PAY_YEAR"               property="payYear" />
         <result column="PAY_MONTH"              property="payMonth" />
         <result column="CLASS_NUM"              property="classNum" />
-
+        <result column="OPER_NUM_CNT"           property="operNumCnt" />
     </resultMap>
     <!-- 회원 권한 수정 -->
     <update id="updateRoll">
@@ -191,6 +191,17 @@
                                 ON MEMBER.MEMBER_ID = OPERATOR.MEMBER_ID
                                 WHERE CLASS_NUM = CI.CLASS_NUM) > 0
         AND CLASS_EDATE > NOW()
+    </select>
+    
+    <!-- OPER_NUM 중복 체크 -->
+    <select id="chkDuple" resultType="int">
+        SELECT COUNT((SELECT MEMBER_ID
+                FROM operator
+                WHERE CLASS_NUM = #{classNum}
+                AND MEMBER_ID = #{memberId}
+                AND IS_PAY = 'Y'
+                AND O.OPER_NUM = operator.OPER_NUM)) AS OPER_NUM_CNT
+        FROM operator O
     </select>
 
     <!-- OPER_NUM 삭제 공란 없애기 -->
