@@ -84,6 +84,7 @@ public class AdminServiceImpl implements AdminService{
 
     // 결제 요청 시
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public List<ClsVO> requestPayInfo(OperatorVO operatorVO) {
         sqlSession.insert("admin.insertOperator", operatorVO);
         return sqlSession.selectList("member.requestPayInfo", operatorVO);
