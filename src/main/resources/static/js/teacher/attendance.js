@@ -82,9 +82,9 @@ function change(){
             str+=`</tr>
                     `
         });
-        str+=`<tr>
+        str+=`<tr id="disappearTr">
                     <td colspan="6" style="text-align: center;">
-                        <input type="button" id="insertAttendance" class="btn btn-success" value="저장">
+                        <input type="button" id="insertAttendance" class="btn btn-success" value="저장" onclick="fullAttendance">
                     </td>
                 </tr>
                 `;
@@ -113,7 +113,7 @@ function change(){
                     // 새로 추가
                     selectedRadioData.push(selectedInfo);
                 }
-                console.log(selectedRadioData); // 선택된 라디오 버튼의 정보를 배열로 출력하거나 원하는 처리를 수행할 수 있습니다.
+                
             });
         });
 
@@ -131,20 +131,15 @@ function change(){
                 if (!response.ok) {
                     throw new Error('데이터 전송 실패');
                 }
-                console.log('선택된 라디오 버튼 정보가 컨트롤러로 전달되었습니다.');
+                return response.json();
+            })
+            .then((data) => {//data -> controller에서 리턴되는 데이터!
+                
             })
             .catch((error) => {
                 console.error('데이터 전송 에러:', error);
             });
         });
-
-
-
-
-
-
-
-
 
     })
     //fetch 통신 실패 시 실행 영역
@@ -154,7 +149,6 @@ function change(){
     });
 }
 change();
-
 
 
 

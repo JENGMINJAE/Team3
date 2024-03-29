@@ -300,6 +300,9 @@
         )
         </foreach>
     </insert>
+    <select id="fullAttendance" resultMap="member.memberMap">
+
+    </select>
 </mapper>
 
 
