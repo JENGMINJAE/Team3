@@ -1,7 +1,6 @@
 package com.green.Team3.board.service;
 
 import com.green.Team3.board.vo.BoardVO;
-import com.green.Team3.board.vo.ImgVO;
 import com.green.Team3.board.vo.SearchVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,15 @@ public class BoardServiceImpl implements BoardService {
     public int selectNextNoticeCode() {
         return sqlSession.selectOne("board.selectNextNoticeCode");
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //게시글 목록 조회 - 공지사항 - 학생일 때
+    @Override
+    public List<BoardVO> selectNoticeListStu(SearchVO searchVO) {
+        List<BoardVO> list = sqlSession.selectList("board.selectNoticeListStu", searchVO);
+        return list;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////
 
     //게시글 목록 조회 - 공지사항
     @Override
