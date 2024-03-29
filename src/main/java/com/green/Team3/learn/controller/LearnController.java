@@ -7,6 +7,7 @@ import com.green.Team3.learn.service.LearnServiceImpl;
 import com.green.Team3.learn.vo.AttendanceTypeVO;
 import com.green.Team3.learn.vo.AttendanceVO;
 import com.green.Team3.learn.vo.InsertAtdListVO;
+import com.green.Team3.member.vo.MemberVO;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,12 @@ public class LearnController {
         Map<String,Object> map = new HashMap<>();
         List<AttendanceTypeVO> atdList = learnService.selectAtd();
         List<OperatorVO> studentList = consultService.selectClassNumAndStuNum(classNum);
+        List<MemberVO> fullAttendanceList = learnService.fullAttendance(classNum);
+        boolean nowCheckAttendance = learnService.nowCheckAttendance(classNum);
         map.put("atdList",atdList);
         map.put("studentList",studentList);
+        map.put("fullAttendanceList",fullAttendanceList);
+        map.put("nowCheckAttendance",nowCheckAttendance);
         return map;
     }
 
@@ -57,6 +62,5 @@ public class LearnController {
         InsertAtdListVO vo = new InsertAtdListVO();
         vo.setAtdList(atdList);
         learnService.insertAttendance(vo);
-
     }
 }

@@ -12,28 +12,50 @@
     <!-- html 코드 작성-->
     <form action="">
         <div class="row">
-            <div class="col-4" id="today">
-                <input type="date" class="form-control" id="currentDate" readonly>
-            </div>
-            <div class="col-4">
-                <select name="classNum" id="class_select" onchange="change()" class="form-select">
+            <div class="col-7" id="today">
+                <input type="date" class="form-control" id="currentDate" readonly style="display: inline-block; width: 49%;">
+                <select name="classNum" id="class_select" onchange="change()" class="form-select" style="display: inline-block; width: 49%;">
                     <th:block th:each="class:${classList}">
                         <option th:value="${class.classNum}">[[${class.className}]]</option>
                     </th:block>
                 </select>
             </div>
-            <div class="col-4" style="text-align: center; border: 1px solid green;">
+            <div class="col-5" style="text-align: center; border: 3px solid green; border-bottom: none;vertical-align: middle; padding: 10px;">
                 출석 현황
             </div>
         </div>
         <div class="row">
-            <div class="col-8">
+            <div class="col-7">
                 <table id="stu_select" class="table" style="text-align: center; vertical-align: middle;">
                     
                 </table>
             </div>
-            <div class="col-4" id="fullAttendance" style="text-align: center; border-collapse: collapse; border: 1px solid green;">
-                출석을 저장하지 않았습니다.
+            <div class="col-5" id="fullAttendance" style="text-align: center; border-collapse: collapse; border: 3px solid green;">
+                <table class="table">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                        <col width="13%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <td>No</td>
+                            <td style="border-right: 1px solid green;">이름</td>
+                            <td>출석</td>
+                            <td>결석</td>
+                            <td>지각</td>
+                            <td>조퇴</td>
+                            <td>보강</td>
+                        </tr>
+                    </thead>
+                    <tbody id="showAttendanceList">
+                        
+                    </tbody>
+                </table>
             </div>
         </div>
     </form>
