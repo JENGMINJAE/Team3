@@ -13,20 +13,34 @@
                 <div class="accordion-body">
                   공지사항
                   <ul>
-                    <li><span class="pointer-span" onclick="location.href='/admin/notice'">학원 전체 공지</span></li>
-                    <li>강사 공지</li>
-                    <li>시험 일정 공지</li>
+                    <li><span class="pointer-span" onclick="location.href='/board/noticeList'">학사 공지</span></li>
+                    <li><span class="pointer-span" onclick="location.href='/board/noticeList'">강사 공지(*학생은 가라)</span></li>
                   </ul>
                 </div>
               </div>
             </div>
             <div class="accordion-item">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                  학급
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                  게시판
                 </button>
               </h2>
               <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                  문의사항
+                  <ul>
+                    <li><span class="pointer-span" onclick="location.href='/board/qnaList'">Q&A</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                  학급
+                </button>
+              </h2>
+              <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
                 <div class="accordion-body">
                   학급 관리
                   <ul>
@@ -39,11 +53,11 @@
             </div>
             <div class="accordion-item">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
                   성적/시험
                 </button>
               </h2>
-              <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+              <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
                 <div class="accordion-body">
                     시험
                     <ul>
@@ -61,11 +75,11 @@
             </div>
             <div class="accordion-item">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
                   강사 관리
                 </button>
               </h2>
-                <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+                <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
                   <div class="accordion-body pointer-span" onclick="location.href='/admin/goAdminTeacher'">
                     근태 관리
                   </div>

@@ -14,7 +14,6 @@
             <div class="col">
                 <h3>공지사항 게시글 상세</h3>
                 <table class="table table-striped table-hover text-center align-middle">
-                    
                     <colgroup>
                         <col width="20%">
                         <col width="*">
@@ -27,22 +26,29 @@
                             <td>내용</td>
                             <td class="text-start">
                                 <div>
-                                    <!-- 내용에 대한 이미지 아이콘 -->
-                                    <th:block th:attr="data-imgList=${notice.imgList != null and notice.imgList.size() > 0}" style="display: none;"></th:block>
-                                    <th:block th:if="${notice.imgList != null and notice.imgList.size() > 0}">
+                                    <th:block th:if="${notice.imgList[0].originFileName != null}">
                                         <th:block th:each="img : ${notice.imgList}">
                                             <a th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
-                                                <img width="100%" th:src="@{'/upload/' + ${img.attachedFileName}}">
+                                                <img width="100%" th:src="@{'/upload/' + ${img.attachedFileName}}" onerror="this.style.display='none'">
                                             </a>
                                         </th:block>
                                     </th:block>
-                                </div>
                                 </div>
                                 <div style="word-break:break-all">
                                     [[${notice.boardContent}]]
                                 </div>
                             </td>
                         </tr>
+                        <th:block th:if="${notice.imgList[0].originFileName != null}">
+                            <tr>
+                                <td>첨부파일</td>
+                                <td class="text-start">
+                                    <th:block th:each="img : ${notice.imgList}">
+                                        [[${img.originFileName}]]
+                                    </th:block>
+                                </td>
+                            </tr>
+                        </th:block>
                         <tr>
                             <td>조회수</td>
                             <td class="text-start">[[${notice.boardCnt}]]</td>
@@ -52,13 +58,13 @@
         </div>
         <div class="row mb-5" >
             <div class="col d-grid">
-                <input type="button" value="목 록" class="btn btn-primary" onclick="location.href='/board/noticeList'">
+                <input type="button" value="목 록" class="btn btn-success" onclick="location.href='/board/noticeList'">
             </div>
             <div class="col d-grid">
-                <input type="button" value="수 정" class="btn btn-primary" th:onclick="goUpdateNotice([[${notice.boardNum}]])">
+                <input type="button" value="수 정" class="btn btn-success" th:onclick="goUpdateNotice([[${notice.boardNum}]])" th:if="${#authentication.principal.username eq notice.memberId}">
             </div>
             <div class="col d-grid">
-                <input type="button" value="삭 제" class="btn btn-primary" th:onclick="goDeleteNotice([[${notice.boardNum}]])">
+                <input type="button" value="삭 제" class="btn btn-success" th:onclick="goDeleteNotice([[${notice.boardNum}]])" th:if="${#authentication.principal.username eq notice.memberId}">
             </div>
         </div>
 
