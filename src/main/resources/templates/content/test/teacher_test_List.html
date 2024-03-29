@@ -35,7 +35,7 @@
                         </div>
                     </div>
                          
-    
+            </div>        
             <div class="row mt-5" style="width: 1000px; padding-left: 20px; margin: 20px; ">
                 <div class="col" >
                     <div class="row">
@@ -99,14 +99,12 @@
                                     <colgroup>
                                         <col width="20%">
                                         <col width="30%">
-                                        <!-- <col width="10%"> -->
                                         <col width="25%">
                                         <col width="25%">
                                     </colgroup>    
                                     <tr style="background-color: rgb(223, 238, 253); color: rgb(22, 58, 136); font-size: 16px;">                                    
                                         <td><strong>시험번호</strong></td>
                                         <td><strong>시험명</strong></td>
-                                        <!-- <td><strong>시험만점</strong></td> -->
                                         <td><strong>시험일자</strong></td>
                                         <td><strong>시험관리</strong></td>
                                     </tr>
@@ -114,21 +112,10 @@
                                     
                                     <tr class="tr-row" th:each="seleOp:${searchTests}" style="font-size: 15px;">
                                         <td id="testNum">[[${seleOp.testNum}]]</td>                                        
-                                        <td><span>[[${seleOp.testName}]]</span></td>
-
-                                            <!-- test 만점 0 이면 과목 총점 출력하기
-                                            <th:block id="tdSub" th:if="${seleOp.testMaxScore ==0}" >
-                                                <td><input type="text" id="subTotal" style="width: 100px;"></td>
-                                            </th:block>
-
-                                             test 만점 점수 출력 
-                                            <th:block th:if="${seleOp.testMaxScore !=0}" >
-                                                <td>[[${seleOp.testMaxScore}]]</td>
-                                            </th:block> -->
-
+                                        <td><span>[[${seleOp.testName}]]</span></td>                                           
                                         <td>[[${seleOp.testDate}]]</td>
                                         <td>
-                                            <input type="button" class="btn btn-secondary btn-sm listBtn"  th:onclick="|location.href='@{/test/goTestN(testNum=${seleOp.testNum}, classNum=${seleOp.studentListVO[0].classNum})}'|" 
+                                            <input type="button" class="btn btn-secondary btn-sm listBtn"  th:onclick="goSelectSub([[${seleOp.testNum}]], [[${seleOp.classNum}]], [[${seleOp.testMaxScore}]], this)" 
                                             value="등록" >
                                            
                                             <input type="button"  class="btn btn-secondary btn-sm listBtn" th:onclick="goSelectScore([[${seleOp.testNum}]], this)" 
@@ -165,11 +152,10 @@
                     </div>                   
     
     
-                    <div class="row">
-                        <div class="col rowthree">
+                    <div class="row rowthree">
+                        <div class="col">
                                       
-                            <div class="row">                                                   
-                                    
+                            <div class="row ">                                                                                     
                                         <div class="col-10 scoreList-div">                                 
                                     
                                             <table class="table-blank text-center align-middle tr-rowTwo" style="width:100%; margin-left:10px; ">
@@ -194,7 +180,7 @@
                             </div>
 
                             <form id="subform" action="/test/updateSubTest" method="post">
-                                <div class="row mt-1">
+                                <div class="row mt-1 rowfour" >
                                     <div class="col-8">
                                         <table class="table-blank text-center align-middle tr-rowTwo" style="width:70%; margin-left:10px; ">
                                             <col width="20%">
@@ -229,7 +215,7 @@
 
 
 
-    <!-- Button trigger modal -->
+    <!--시험 설정 모달입니다!!!!!!!!!!!!!!!!!!!!!! Button trigger modal -->
 
 
     <style>
@@ -310,8 +296,8 @@
                                                                     <td>                                                               
                                                                          -과목생성여부 확인하세요.<br>
                                                                          -'과목있음' 선택: 시험등록 후, 과목을 추가하세요. <br>
-                                                                         -수정: 시험 목록>시험상세정보에서 가능합니다.<br>
-                                                                         -삭제: 시험/과목 선택>삭제버튼 클릭하세요.  
+                                                                         -수정 & 삭제: 시험 목록>시험상세정보 에서 가능합니다.<br>
+                                                                         
                                                                                                                                             
                                                                     </td>    
                                                                 </tr>
@@ -390,49 +376,26 @@
                                                               
                                                             <div class="row mt-2">
                                                                 <div class="col testAddBtn">
-                                                                    <input type="button"  class="btn btn-secondary btn-sm" value="시험등록" style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
+                                                                    <input type="button"  class="btn btn-secondary btn-sm" value="시" style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
                                                                 </div>
-                                                            </div>
-
-
-                                                            <!-- <form action="/test/goInsertSub" method="post"> -->
+                                                            </div>                                                           
                                                                 
                                                                 <div class="classGoSub">
-                                                                
+                                                                <!--  과목입력테이블 들어올자리 -->
 
+                                                                  </div>
 
                                                         
-
-
-                                                                </div>
-
-                                                            <!-- </form> -->
-
-
-
                                                         </div>
                                                     </div> 
 
-                                                </div>
-    
-    
-
-
-
-
-
-    
-                                                
-                                            </div>
+                                                </div>                                                    
+                                           </div>
                             
     
                                         </div>
                                     </div>
-    
-    
-    
-    
-                                    
+
                                 </div>
         
             <div class="modal-footer">

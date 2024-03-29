@@ -11,7 +11,12 @@
 <th:block layout:fragment="contentFragment">
     <!-- html 코드작성 -->
 
-    
+    <style>
+         .trTitle { font-size: 16px; --bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center;} 
+        th, tr, td, .avgDiv {border: 2px solid rgba(58, 111, 228, 0.281);}
+    </style>
+
+
 
     <div class="row">
         <div class="col">
@@ -20,18 +25,24 @@
                 <div class="col">
                         <div class="row mb-3">
                             <div class="col">
-                                <h3>[[${testNumInfo.testName}]]</h3>>
-                            </div>
-                            <div class="col">
-                                <input type="button" value="직접입력" th:onclick="directScore([[${testNumInfo.testNum}]])">
+                                <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 20 20">
+                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                    <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
+                                  </svg> [[${testNumInfo.testName}]] 성적관리</strong></h4>
+                               
+                            </div>                           
+                        </div>
+                        <div class="row" style="width: 500px;">
+                            <div class="col" style="font-size:13px; color: red; font-weight: 15px; text-align: start; margin-top: 10px;">
+                                * 수강생을 선택 후, 성적을 등록하세요. 
                             </div>
                         </div>
-                        <div class="row" style="font-size:20px ;">
+                        <div class="row" style="font-size:15px ;">
                             <div class="col-3">
-                                이름
+                                <strong>이름</strong>
                             </div>
                             <div class="col-3">
-                                점수입력
+                                <strong>성적입력</strong>
                             </div>
                         
                         </div>
@@ -47,21 +58,21 @@
                 <div class="col">
                         <div class="row mb-3">
                             <div class="col-3">
-                                <select name="memberId" class="form-select form-select-lg mb-3" style="font-size: 20px;">
+                                <select name="memberId" class="form-select form-select-lg mb-3" style="font-size: 16px;">
                                     <option th:each=" selectStu : ${memNumInfo}" th:value="${selectStu.memberId}">[[${selectStu.memberName}]]</option>
                                 </select>
                             </div>
                             <div class="col-4">
                                
-                                <input type="text" name="score" class="form-control form-control-lg" style="width:300px;"  placeholder="점수를 입력하세요.">
+                                <input type="text" name="score" class="form-control form-control-lg" style="width:300px; font-size: 16px; "  placeholder="점수를 입력하세요.">
                             </div>
                             
                             <div class="col-4">
-                                <input type="submit" value="등록" class="btn btn-secondary">
+                                <input type="submit" value="등록" class="btn btn-primary">
                             </div>
                         </div>
                         <div class="row" style="width:700px; text-align: end;">
-                            <div class="col" style="font-size:15px; color: red; font-weight: 15px; ">
+                            <div class="col" style="font-size:13px; color: red; ">
                                 * 재등록시 수정을 눌러주세요.
                             </div>
                         </div>                    
@@ -73,7 +84,11 @@
 
                                 <div class="row">
                                     <div class="col-7">
-                                        학생 점수 상세사항
+                                        <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 20 20">
+                                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                            <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
+                                          </svg> 성적 상세정보</strong></h4>
+                                        
                                     </div>
                                     <div class="col" id="changeBtnDiv">
                                         <input type="button" value="수정" id="updateScorBtn" class="btn btn-secondary" th:onclick="goUpdateScores([[${testNumInfo.testNum}]])">
@@ -85,40 +100,73 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <form id="myform" action="/test/updateScore" method="post">
-                                            <input type="hidden" name="testNum" th:value="${testNumInfo.testNum}">
-                                            <table class="table  table-striped" style="font-size: 20px; width:700px;">
-                                                <colgroup>
-                                                    <col width="25%">
-                                                    <col width="25%">
-                                                    <col width="25%">
-                                                    <col width="25%">
-                                                </colgroup>
-                                                <thead>
-                                                    <th>이름</th>
-                                                    <th>성적</th>
-                                                    <th>만점</th>
-                                                    <th>석차</th>
-                                                </thead>
+                                     
+                                        <div class="row">
+                                            <div class="col">
+
                                             
-                                                <tbody class="upScoreTbody">
-                                                    <tr th:each=" classScore : ${classScoresList}">
-                                                        <td>
-                                                            [[${classScore.memberOneVO.memberName}]]
-                                                        </td>
-                                                        <td class="selectScoreTd">
-                                                            [[${classScore.score}]]
-                                                        </td>
-                                                        <td>
-                                                            [[${classScore.testOneVo.testMaxScore}]]
-                                                        </td>
-                                                        <td>
-                                                            [[${classScore.ranking}]]
-                                                        </td>
+                                                <form id="myform" action="/test/updateScore" method="post">
+                                                    <input type="hidden" name="testNum" th:value="${testNumInfo.testNum}">
+                                                    <table class="table" style="width:700px;">
+                                                        <colgroup>
+                                                            <col width="25%">
+                                                            <col width="25%">
+                                                            <col width="25%">
+                                                            <col width="25%">
+                                                        </colgroup>
+                                                        <thead class="trTitle">
+                                                            <th>이름</th>
+                                                            <th>성적</th>
+                                                            <th>만점</th>
+                                                            <th>석차</th>
+                                                        </thead>
+                                                    
+                                                        <tbody class="upScoreTbody" style="text-align: center;">
+                                                            <tr th:each=" classScore : ${classScoresList}">
+                                                                <td>
+                                                                    [[${classScore.memberOneVO.memberName}]] [<Span>[[${classScore.memberOneVO.memberId}]]</Span>]
+                                                                </td>
+                                                                <td class="selectScoreTd">
+                                                                    [[${classScore.score}]]
+                                                                </td>
+                                                                <td>
+                                                                    [[${classScore.testOneVo.testMaxScore}]]
+                                                                </td>
+                                                                <td>
+                                                                    [[${classScore.ranking}]]
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        </tbody>    
+                                                    </table> 
+                                                </form>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="width:300px;">
+                                            <div class="col">
+                                                
+                                               <table class="table">
+                                                    <colgroup>
+                                                        <col width="50%">
+                                                        <col width="50%">
+                                                    </colgroup>
+
+                                                    <tr>
+                                                        <td class="trTitle"><strong>반평균</strong></td>
+                                                        <td>[[${classScoresList[0].testAvg}]]</td>
                                                     </tr>
-                                                </tbody>
-                                            </table> 
-                                        </form>
+                                               </table>
+                                            </div>
+                                            
+                                        </div>
+
+
+
+
+
+
                                     </div>
                                 </div>
                             </div>

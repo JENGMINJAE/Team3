@@ -17,7 +17,7 @@ public class TestScoreVO {
     private int subTestNum;
 
     private int ranking;
-
+    private double testAvg;
     private MemberVO memberOneVO;
     private TestVO testOneVo;
     private TestSubjectVO testSubOneVO;
