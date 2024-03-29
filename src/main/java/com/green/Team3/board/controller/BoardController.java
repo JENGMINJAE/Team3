@@ -34,11 +34,12 @@ public class BoardController {
 
     ///////////////////////////////// 공지 사항 /////////////////////////////////////
 
-    // 공지사항 페이지
+    // 공지사항 목록 페이지
     @RequestMapping("/noticeList")
     public String List(SearchVO searchVO, Model model
                     , @RequestParam(name = "searchValue" ,required = false) String searchValue
-                    , @RequestParam(name = "searchType" ,required = false) String searchType){
+                    , @RequestParam(name = "searchType" ,required = false) String searchType
+                    , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
         // 공지사항 전체 데이터 수
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
@@ -49,6 +50,14 @@ public class BoardController {
 
         // 공지사항 목록 조회
         List<BoardVO> noticeList = boardService.selectNoticeList(searchVO);
+            if(isSearch == 1){
+                searchVO.setTotalDataCnt(noticeList.size());
+                searchVO.setPageInfo();
+                if(searchVO.getTotalDataCnt() == 0){
+                    isSearch = 2;
+                }
+            }
+        model.addAttribute("isSearch", isSearch);
         model.addAttribute("noticeList", noticeList);
         // 공지사항 내 전체 데이터 목록
         model.addAttribute("totalDataCnt", totalDataCnt);

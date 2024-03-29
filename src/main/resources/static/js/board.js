@@ -114,7 +114,6 @@ function goDeleteImg(button, imgNum, boardNum){
 
             // const deleteImgFile = document.querySelector('');
 
-
         })
         
         //fetch 통신 실패 시 실행 영역
@@ -127,29 +126,29 @@ function goDeleteImg(button, imgNum, boardNum){
 ////////////////////////////////////////////////////////////////////////////////
 
 // 공지사항 게시글 수정 - 첨부파일 첨부 - 비동기
-document.getElementById('upload-btn').addEventListener('click', function() {
-    const input = document.getElementById('file-upload-input');
-    const files = input.files;
-    const formData = new FormData();
+// document.getElementById('upload-btn').addEventListener('click', function() {
+//     const input = document.getElementById('file-input'); // 수정: 'file-upload-input' -> 'file-input'
+//     const files = input.files;
+//     const formData = new FormData();
 
-    for (let i = 0; i < files.length; i++) {
-        formData.append('subImgs', files[i]);
-    }
+//     for (let i = 0; i < files.length; i++) {
+//         formData.append('subImgs', files[i]);
+//     }
 
-    fetch('/your-server-endpoint', { 
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); 
-        alert('파일이 성공적으로 업로드되었습니다.');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('파일 업로드 중 오류가 발생했습니다.');
-    });
-});
+//     fetch('/insertImgFile', { // 수정: '/your-server-endpoint' -> '/insertImgFile'
+//         method: 'POST',
+//         body: formData,
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         console.log(data); 
+//         alert('파일이 성공적으로 업로드되었습니다.');
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         alert('파일 업로드 중 오류가 발생했습니다.');
+//     });
+// });
 
 
 

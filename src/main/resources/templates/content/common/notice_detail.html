@@ -58,13 +58,13 @@
         </div>
         <div class="row mb-5" >
             <div class="col d-grid">
-                <input type="button" value="목 록" class="btn btn-primary" onclick="location.href='/board/noticeList'">
+                <input type="button" value="목 록" class="btn btn-success" onclick="location.href='/board/noticeList'">
             </div>
             <div class="col d-grid">
-                <input type="button" value="수 정" class="btn btn-primary" th:onclick="goUpdateNotice([[${notice.boardNum}]])" th:if="${#authentication.principal.username eq notice.memberId}">
+                <input type="button" value="수 정" class="btn btn-success" th:onclick="goUpdateNotice([[${notice.boardNum}]])" th:if="${#authentication.principal.username eq notice.memberId}">
             </div>
             <div class="col d-grid">
-                <input type="button" value="삭 제" class="btn btn-primary" th:onclick="goDeleteNotice([[${notice.boardNum}]])" th:if="${#authentication.principal.username eq notice.memberId}">
+                <input type="button" value="삭 제" class="btn btn-success" th:onclick="goDeleteNotice([[${notice.boardNum}]])" th:if="${#authentication.principal.username eq notice.memberId}">
             </div>
         </div>
 
