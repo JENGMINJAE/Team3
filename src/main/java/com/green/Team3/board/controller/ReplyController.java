@@ -45,7 +45,6 @@ public class ReplyController {
     @PostMapping("/updateReply")
     public String updateReply(ReplyVO replyVO){
         replyService.updateReply(replyVO);
-
         return replyService.reSelect(replyVO.getReplyNum());
     }
 

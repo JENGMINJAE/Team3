@@ -23,10 +23,17 @@ public class BoardServiceImpl implements BoardService {
         return sqlSession.selectOne("board.selectNextNoticeCode");
     }
 
-    //게시글 목록 조회
+    //게시글 목록 조회 - 공지사항
     @Override
     public List<BoardVO> selectNoticeList(SearchVO searchVO) {
         List<BoardVO> list = sqlSession.selectList("board.selectNoticeList", searchVO);
+        return list;
+    }
+
+    //게시글 목록 조회 - 문의사항
+    @Override
+    public List<BoardVO> selectQnaList(SearchVO searchVO) {
+        List<BoardVO> list = sqlSession.selectList("board.selectQnaList", searchVO);
         return list;
     }
 
@@ -79,18 +86,32 @@ public class BoardServiceImpl implements BoardService {
         sqlSession.delete("board.deleteNotice", boardVO);
     }
 
-    //게시글 첨부파일 유무 확인 ******************
-    @Override
-    public boolean hasImg(int boardNum) {
-
-        return false;
-    }
-
     //게시글 삭제 - 문의사항
     @Override
     public void deleteQna(int boardNum) {
         sqlSession.delete("board.deleteQna", boardNum);
     }
+
+
+    //공지사항 게시글 수정 시 첨부파일 이미지 삭제 *******************************
+    @Override
+    public void deleteImgFile(int imgNum) {
+        sqlSession.delete("board.deleteImgFile", imgNum);
+    }
+
+    //공지사항 게시글 수정 시 첨부파일 이미지 첨부 *******************************
+    @Override
+    public void insertImgs(BoardVO boardVO) {
+        sqlSession.insert("board.insertImgs", boardVO);
+    }
+
+    //게시글 첨부파일 유무 확인
+    @Override
+    public boolean hasImg(int boardNum) {
+        return false;
+    }
+
+
 
     //문의사항 게시글 수정
     @Override
@@ -99,10 +120,10 @@ public class BoardServiceImpl implements BoardService {
     }
 
     //공지사항 게시글 수정 - 첨부파일 수정까지 ************************************(구현중)
-    @Override
-    public void updateImgFile(BoardVO boardVO, int imgNum) {
-        sqlSession.update("board.updateImgFile", boardVO);
-    }
+//    @Override
+//    public void updateImgFile(BoardVO boardVO, int imgNum) {
+//        sqlSession.update("board.updateImgFile", boardVO);
+//    }
 
     //게시글 수 조회
     @Override

@@ -7,52 +7,67 @@
     <!-- <link rel="stylesheet" href="/"> -->
 </th:block>
 <body>
+
     
 <th:block layout:fragment="contentFragment">
     <!-- 공지사항 게시글 수정 -->
-    <form action="/board/updateNotice" method="post">
+    <form id="updateForm" action="/board/updateNotice" method="post">
+        <input type="hidden" name="boardNum" th:value="${notice.boardNum}">
+        <input type="hidden" name="deletedImgNum" id="deletedImgNum">
         <div class="row">
             <div class="col">
                 <h3>공지사항 게시글 수정</h3>
-                <input type="hidden" name="boardNum" th:value="${notice.boardNum}">
                 <table class="notice-list-table table table-striped table-hover text-center align-middle">
                     <colgroup>
                         <col width="30">
                         <col width="*">
                     </colgroup>
-                        <tr>
-                            <td>제목</td>
-                            <td>
-                                <input type="text" class="form-control" name="boardTitle" th:value="${notice.boardTitle}">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>내용</td>
-                            <td>
-                                <textarea name="boardContent" cols="30" rows="10" class="form-control">[[${notice.boardContent}]]</textarea>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>첨부파일</td>
-                            <td class="text-start">
-                                <div>
-                                    <!-- 수정할 첨부파일 -->
-                                    수정할 첨부파일 조회해야함(미구현)
-                                </div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>제목</td>
+                        <td>
+                            <input type="text" class="form-control" name="boardTitle" th:value="${notice.boardTitle}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>내용</td>
+                        <td>
+                            <textarea name="boardContent" cols="30" rows="10" class="form-control">[[${notice.boardContent}]]</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>첨부파일</td>
+                        <td class="text-start">
+                            <th:block th:if="${notice.imgList[0].originFileName != null}">
+                                <th:block th:each="img, imgStat : ${notice.imgList}">
+                                    [[${img.originFileName}]]
+                                    <input type="button" class="btn btn-secondary" value="삭제"
+                                        th:onclick="goDeleteImg(this, [[${img.imgNum}]], [[${notice.boardNum}]]);"
+                                        data-img-num="[[${img.imgNum}]]" 
+                                data-board-num="[[${notice.boardNum}]]">
+                                </th:block>
+                            </th:block>
+                            <div>
+                                새로운 첨부파일
+                                <input type="file" id="file-input" class="form-control" name="subImgs" multiple>
+                                <button id="upload-btn" class="btn btn-primary mt-2">게시</button>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
         <div class="row mb-5">
             <div class="col"></div>
             <div class="col d-grid">
-                <input type="submit" value="수정 완료" class="btn btn-primary">
+                <input type="button" value="뒤로가기" class="btn btn-primary" onclick="location.href='/board/noticeList'">
+            </div>
+            <div class="col"></div>
+            <div class="col d-grid">
+                <button type="button" class="btn btn-primary" onclick="submitForm()">수정 완료</button>
             </div>
             <div class="col"></div>
         </div>
     </form>
-    
 </th:block>
 
 <th:block layout:fragment="content_js">

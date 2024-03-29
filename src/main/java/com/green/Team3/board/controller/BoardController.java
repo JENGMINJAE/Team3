@@ -9,17 +9,18 @@ import com.green.Team3.member.vo.MemberVO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -70,11 +71,9 @@ public class BoardController {
 //    public String noticeWrite(BoardVO boardVO, HttpSession session){
 //        //로그인 정보
 //        MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
-//
 //        //공지사항 등록 쿼리
 //        boardVO.setMemberId(loginInfo.getMemberId());
 //        boardService.insertNotice(boardVO);
-//
 //        return "redirect:/board/noticeList";
 //    }
 
@@ -122,10 +121,6 @@ public class BoardController {
         System.out.println(vo);
         model.addAttribute("notice", vo);
 
-        //첨부 파일이 있는지 여부 확인 **************************
-
-
-
         //이전글 조회
         BoardVO prevPage = boardService.prevPage(boardNum);
         if (prevPage != null){
@@ -166,34 +161,110 @@ public class BoardController {
         return "content/common/notice_update";
     }
 
-    //공지사항 게시글 수정 - 원본
-//    @PostMapping("/updateNotice")
-//    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
+
+
+
+    //공지사항 게시글 수정 ***********************************
+    @PostMapping("/updateNotice")
+    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
+        boardVO.setBoardNum(boardNum);
+        boardService.updateBoard(boardVO);
+        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
+    }
+
+    //공지사항 게시글 수정 시 첨부파일 이미지 삭제 ******************************* 비동기
+    @ResponseBody
+    @PostMapping("/deleteImgFile")
+    public String deleteImgFile(@RequestParam(name="imgNum") int imgNum, BoardVO boardVO){
+        boardService.deleteImgFile(imgNum);
+        return "redirect:/board/noticeDetail?boardNum=" + boardVO.getBoardNum();
+    }
+
+
+    //공지사항 게시글 수정 시 첨부파일 이미지 첨부 ******************************* 비동기
+//    @ResponseBody
+//    @PostMapping("/insertImgFile")
+//    public String insertImgFile(BoardVO boardVO
+//                                , @RequestParam(name = "subImgs") MultipartFile[] subImgs){
+//        //첨부 이미지들 업로드
+//        List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
+//        //다음에 들어갈 boardNum 조회
+//        int boardNum = boardService.selectNextNoticeCode();
+//
 //        boardVO.setBoardNum(boardNum);
-//        boardService.updateBoard(boardVO);
+//        boardVO.setImgList(imgList);
+//        boardService.insertImgs(boardVO);
+//        return "redirect:/board/noticeList";
+//    }
+
+    // 공지사항 게시글 수정 시 첨부파일 이미지 첨부 ******************************* 비동기
+    @ResponseBody
+    @PostMapping("/insertImgFile")
+    public ResponseEntity<String> insertImgFile(BoardVO boardVO, @RequestParam(name = "subImgs") MultipartFile[] subImgs) {
+        try {
+            // 첨부 이미지들 업로드
+            List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
+            // 다음에 들어갈 boardNum 조회
+            int boardNum = boardService.selectNextNoticeCode();
+
+            boardVO.setBoardNum(boardNum);
+            boardVO.setImgList(imgList);
+            boardService.insertImgs(boardVO);
+
+            // JSON 형식의 응답 반환
+            return new ResponseEntity<>("파일이 성공적으로 업로드되었습니다.", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 오류 발생 시 JSON 형식의 응답 반환
+            return new ResponseEntity<>("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
+
+    //댓글 수정 - 비동기
+//    @ResponseBody
+//    @PostMapping("/updateReply")
+//    public String updateReply(ReplyVO replyVO){
+//        replyService.updateReply(replyVO);
+//        return replyService.reSelect(replyVO.getReplyNum());
+//    }
+
+    // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
+//    @PostMapping("/updateNotice")
+//    public String update(BoardVO boardVO,
+//                         @RequestParam(name="imgNum") int imgNum,
+//                         @RequestParam("boardNum") int boardNum,
+//                         @RequestParam(name = "subImgs", required = false) MultipartFile[] subImgs){
+//        //글번호 세팅
+//        boardVO.setBoardNum(boardNum);
+//        //업데이트 쿼리 실행
+//        boardService.updateImgFile(boardVO, imgNum);
 //        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
 //    }
 
-    // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 *******************************
-    @PostMapping("/updateNotice")
-    public String update(BoardVO boardVO, int imgNum, @RequestParam("boardNum") int boardNum,
-                         @RequestParam(name = "subImgs", required = false) MultipartFile[] subImgs){
-        //글번호 세팅
-        boardVO.setBoardNum(boardNum);
 
-        // 새로운 첨부파일이 있는 경우
-        if (subImgs != null && subImgs.length > 0) {
-            // 새로운 첨부 파일 업로드
-            List<ImgVO> newImgList = UploadUtil.multiUploadFile(subImgs);
-            // 기존 첨부파일 삭제 + 새로운 첨부 파일 추가
-            boardVO.setImgList(newImgList);
-        }
 
-        //업데이트 쿼리 실행
-        boardService.updateImgFile(boardVO, imgNum);
-
-        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
-    }
+    // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
+//    @ResponseBody
+//    @PostMapping("/updateNotice")
+//    public String update(BoardVO boardVO, int imgNum, @RequestParam("boardNum") int boardNum,
+//                         @RequestParam(name = "subImgs", required = false) MultipartFile[] subImgs){
+//        //글번호 세팅
+//        boardVO.setBoardNum(boardNum);
+//        // 새로운 첨부파일이 있는 경우
+//        if (subImgs != null && subImgs.length > 0) {
+//            // 새로운 첨부 파일 업로드
+//            List<ImgVO> newImgList = UploadUtil.multiUploadFile(subImgs);
+//            // 기존 첨부파일 삭제 + 새로운 첨부 파일 추가
+//            boardVO.setImgList(newImgList);
+//        }
+//        //업데이트 쿼리 실행
+//        boardService.updateImgFile(boardVO, imgNum);
+//        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
+//    }
 
 
     ///////////////////////////////// 문의 사항 /////////////////////////////////////
@@ -212,7 +283,7 @@ public class BoardController {
         System.out.println(searchVO);
 
         // 문의사항 목록 조회
-        List<BoardVO> qnaList = boardService.selectNoticeList(searchVO);
+        List<BoardVO> qnaList = boardService.selectQnaList(searchVO);
         model.addAttribute("qnaList", qnaList);
         // 문의사항 내 전체 데이터 목록
         model.addAttribute("totalDataCnt", totalDataCnt);
