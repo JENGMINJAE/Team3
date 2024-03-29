@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/integrated_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴때 같이 실행되는 css -->
+    <!-- <link rel="stylesheet" href="/"> -->
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드작성 -->
+
+
+    <style>
+        tr, td{border: 1px solid black; }
+        .thTd{text-align: center; font-weight: bolder;}
+
+        @page {size:auto; margin : 0mm 11mm 0mm 10mm; }
+        @media print { .container{ width: 500px; font-size :15px; margin-top: 10mm; margin-left: 0mm; margin-right: 1mm; }
+
+         
+        .buttonRow{display: none; }
+        .ftable{width:800px;}
+        
+        .loginFor{display: none;}
+        .printStu{display: none;}
+        }
+
+        
+   </style>
+
+    <div class="container">
+        <div class="row mainBox">
+            <div class="col">
+                        <div class="row buttonRow" >
+                            <div class="col" style="text-align: end;">
+                                <button onclick="printScPage();"><b>성적출력</b></button>
+                            </div>
+                        </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <h1>성적증명서</h1>
+                        </div>
+                    </div>
+                    <div class="row ftable">
+                        <div class="col">
+                            <table class="table" style="width: 100%;">
+                                <colgroup>
+                                    <col width="13%">
+                                    <col width="19%">
+                                    <col width="13%">
+                                    <col width="19%">
+                                    <col width="13%">
+                                    <col width="19%">
+                                </colgroup>
+                                <tr>
+                                    <td class="thTd">수강반</td>
+                                    <td>스포츠지도사</td>
+                                    <td class="thTd">생년월일</td>
+                                    <td>1981-07-11</td>
+                                    <td class="thTd">입학일자</td>
+                                    <td>2024-03-05</td>
+                                </tr>
+                                <tr>
+                                    <td class="thTd">수강생번호</td>
+                                    <td>aaaaa</td>
+                                    <td class="thTd">성명</td>
+                                    <td>홍길동</td>
+                                    <td class="thTd">수료일자</td>
+                                    <td>2024-04-06</td>
+                                </tr>
+                               
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row ftable">
+                        <div class="col">
+                            <table class="table" style="width: 100%;">
+                                <colgroup>
+                                    <col width="13%">
+                                    <col width="19%">
+                                    <col width="13%">
+                                    <col width="19%">
+                                    <col width="13%">
+                                    <col width="19%">
+                                </colgroup>
+                                <tr class="thTd">
+                                    <td>구분</td>
+                                    <td>시험명</td>
+                                    <td>과목명</td>
+                                    <td>실점</td>
+                                    <td>등급</td>
+                                    <td>평점</td>
+                                </tr>
+                                <tr>
+                                    <td>1102</td>
+                                    <td>2월 중간고사</td>
+                                    <td>---</td>
+                                    <td>80</td>
+                                    <td>B</td>
+                                    <td>86.7</td>
+                                </tr>
+                                <tr>
+                                    <td>1101</td>
+                                    <td>1월 중간고사</td>
+                                    <td>국어</td>
+                                    <td>88</td>
+                                    <td>B</td>
+                                    <td>76.7</td>
+                                </tr>
+                                <tr>
+                                    <td>1101</td>
+                                    <td>1월 중간고사</td>
+                                    <td>수학</td>
+                                    <td>60</td>
+                                    <td>c</td>
+                                    <td>66.7</td>
+                                </tr>
+                                <tr>
+                                    <td>1101</td>
+                                    <td>1월 중간고사</td>
+                                    <td>영아</td>
+                                    <td>60</td>
+                                    <td>c</td>
+                                    <td>56.7</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row ftable">
+                        <div class="col">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            ** 성적등급
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">                                      
+                                            <table class="table">
+                                                <colgroup>
+                                                    <col width="10%">
+                                                    <col width="15%">
+                                                    <col width="10%">
+                                                    <col width="15%">
+                                                    <col width="10%">
+                                                    <col width="15%">
+                                                </colgroup>
+                                                <tr>
+                                                    <td>A</td>
+                                                    <td>100~91</td>
+                                                    <td>B</td>
+                                                    <td>90~81</td>
+                                                    <td>C</td>
+                                                    <td>80~71</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>D</td>
+                                                    <td>70~61</td>
+                                                    <td>E</td>
+                                                    <td>60~51</td>
+                                                    <td>F</td>
+                                                    <td>50이하</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>    
+                                </div>
+
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="col">
+                                            위의 사실을 증명합니다
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            2024년 5월 1일
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3>그린사이버대학교 교무처장</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>    
+
+
+
+<script>
+
+function printScPage(){window.print();}
+
+
+</script>
+
+
+
+
+
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴때 같이 실행되는 js -->
+    <!-- <script src="/js/content/item/student_total_test.js"></script> -->
+</th:block>
+</html>

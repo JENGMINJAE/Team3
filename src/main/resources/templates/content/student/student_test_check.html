@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/integrated_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴때 같이 실행되는 css -->
+    <!-- <link rel="stylesheet" href="/"> -->
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드작성 -->
+
+
+    <style>
+        tr, td{border: 1px solid black; }
+   </style>
+
+<div class="row">
+    <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h4>나의 성적 확인</h4>
+                </div>
+            </div>
+
+        <div class="row">
+            <div class="col">
+
+                    <div class="row" style="width: 800px;">
+                        <div class="col">
+                            <colgroup>
+                                <col width="50%">
+                                <col width="50%">
+                                
+                            </colgroup>
+
+                            <table class="table" style="width: 800px;">
+                                <tr>
+                                    <td>수강명</td>
+                                    <td> 스포츠</td>
+                                </tr>
+                                <tr>
+                                    <td>아이다</td>
+                                    <td>cccc</td>
+                                </tr>
+                                <tr>
+                                    <td>이름</td>
+                                    <td>홍길동</td>
+                                </tr>          
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row" style="width: 800px;">
+                        <div class="col">
+                            <table class="table" style="width: 800px;">
+                                <colgroup>
+                                    <col width="50%">
+                                    <col width="50%">
+                                    
+                                </colgroup>
+                                <tr>
+                                    <td>시험명(시험번호)</td>
+                                    <td>1월 중간고사(124)</td>
+                                </tr>
+                                <tr>
+                                    <td>시험일</td>
+                                    <td>2024-03-20</td>
+                                </tr>
+                                <tr>
+                                    <td>과목수</td>
+                                    <td>3 </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+<!-- 과목없을때 -->
+        <div class="row" style="width: 800px;">
+            <div class="col">
+                <table class="table" style="width: 800px;">
+
+                    <colgroup>
+                        <col width="30%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="30%">
+                    </colgroup>
+                    <tr>
+                        <td>시험명</td>
+                        <td>점수</td>
+                        <td>등급</td>
+                        <td>반평균</td>
+                    </tr>
+                    <tr>
+                        <td>1월중간고사</td>
+                        <td>90</td>
+                        <td>A</td>
+                        <td>86.5</td>
+                    </tr>
+                    <tr>
+                        <td>총점</td>
+                        <td colspan="2">90 /  100</td>
+                        <td>86.5</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴때 같이 실행되는 js -->
+    <!-- <script src="/"></script> -->
+</th:block>
+</html>
