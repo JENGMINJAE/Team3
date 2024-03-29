@@ -17,7 +17,6 @@ function goUpdateNotice(boardNum){
     if(confirm('공지사항을 수정하시겠습니까?')){
         location.href=`/board/updateNotice?boardNum=${boardNum}`;
     }
-    
 }
 
 // 공지사항 게시글 삭제(*관리자만)
@@ -26,38 +25,6 @@ function goDeleteNotice(boardNum){
         location.href=`/board/deleteNotice?boardNum=${boardNum}`;
     }
 }
-
-//공지사항 게시글 작성 시 필수입력 안내창
-// function noticeReg(){
-//     //제목 빈칸 시
-//     const boardTitle = document.querySelector('#boardTitle');
-//     if(boardTitle.value == ''){
-//         alert('공지사항 제목을 입력하세요.');
-//         return false;
-//     }
-
-//     //열람대상 빈칸 시
-//     const typeNum = document.querySelector('input[name="typeNum"]:checked');
-//     if (!typeNum) {
-//         alert('공지사항 열람대상을 선택하세요.');
-//         return false;
-//     }
-
-//     //내용 빈칸 시
-//     const boardContent = document.querySelector('#boardContent');
-//     if(boardContent.value == ''){
-//         alert('공지사항 내용을 입력하세요.');
-//         return false;
-//     }
-
-//     //유효성 검사 모두 만족 시 true
-//     const post = document.querySelector('form');
-//     if (noticeReg()) {
-//         post.submit();
-//     }
-//     return true;
-// }
-
 
 // 공지사항 게시글 작성 시 필수입력 안내창
 function noticeReg() {
@@ -94,24 +61,99 @@ function submitNotice() {
     }
 }
 
-//첨부파일 이미지 아이콘 숨기기(첨부파일이 없을 때)
-window.onload = function() {
-    // 이미지 아이콘이 있는지 확인
-    var imgListElement = document.querySelector('[data-imgList]');
-    if (imgListElement) {
-        var imgList = imgListElement.getAttribute('data-imgList');
-        // 이미지 아이콘이 있는 경우의 처리
-        console.log('이미지 아이콘이 있습니다.');
-    } else {
-        // 이미지 아이콘이 없는 경우의 처리
-        console.log('이미지 아이콘이 없습니다.');
-        // 이미지 아이콘이 없을 때의 동작 추가
-        var imgElement = document.querySelector('img'); // 이미지 요소 선택
-        if (imgElement) {
-            imgElement.style.display = 'none'; // 이미지 숨기기
-        }
-    }
+
+////////////////////////////////////////////////////////////////////////////////////////
+//게시글 수정 시 첨부파일 삭제
+// function goDeleteImg(imgNum, boardNum) {
+//     if (confirm('첨부파일을 삭제하시겠습니까?')) {
+//         document.getElementById("deletedImgNum").value = imgNum;
+//         document.getElementById("updateForm").submit();
+//     }
+// }
+
+// 수정 완료 버튼 클릭 시
+function submitForm() {
+    // 수정된 내용을 서버로 전송
+    document.getElementById("updateForm").submit();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+//공지사항 게시글 수정 시 첨부파일 삭제 - 비동기
+function goDeleteImg(button, imgNum, boardNum){
+    const imgNumber = button.getAttribute('data-img-num');
+    const boardNumer = button.getAttribute('data-board-num');
+
+        fetch('/board/deleteImgFile', { //요청경로
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            //컨트롤러로 전달할 데이터
+            body: new URLSearchParams({
+               // 데이터명 : 데이터값
+               'imgNum' : imgNum,
+               'boardNum' : boardNum
+            })
+        })
+        .then((response) => {
+            if(!response.ok){
+                alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                return ;
+            }
+        
+            return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+            //return response.json(); //나머지 경우에 사용
+        })
+        //fetch 통신 후 실행 영역
+    
+        .then((data) => {//data -> controller에서 리턴되는 데이터!
+            //수정된 화면 갱신
+            alert('첨부파일이 삭제되었습니다.');
+
+            // const deleteImgFile = document.querySelector('');
+
+        })
+        
+        //fetch 통신 실패 시 실행 영역
+        .catch(err=>{
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
+    }
+
+////////////////////////////////////////////////////////////////////////////////
+
+// 공지사항 게시글 수정 - 첨부파일 첨부 - 비동기
+// document.getElementById('upload-btn').addEventListener('click', function() {
+//     const input = document.getElementById('file-input'); // 수정: 'file-upload-input' -> 'file-input'
+//     const files = input.files;
+//     const formData = new FormData();
+
+//     for (let i = 0; i < files.length; i++) {
+//         formData.append('subImgs', files[i]);
+//     }
+
+//     fetch('/insertImgFile', { // 수정: '/your-server-endpoint' -> '/insertImgFile'
+//         method: 'POST',
+//         body: formData,
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         console.log(data); 
+//         alert('파일이 성공적으로 업로드되었습니다.');
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         alert('파일 업로드 중 오류가 발생했습니다.');
+//     });
+// });
+
+
+
+
+
 
 
 
@@ -144,21 +186,21 @@ function qnaReg() {
     // 제목 빈칸 시
     const boardTitle = document.querySelector('#boardTitle');
     if (boardTitle.value == '') {
-        alert('공지사항 제목을 입력하세요.');
+        alert('문의사항 제목을 입력하세요.');
         return false;
     }
 
     // 열람대상 빈칸 시
     const typeNum = document.querySelector('input[name="typeNum"]:checked');
     if (!typeNum) {
-        alert('공지사항 열람대상을 선택하세요.');
+        alert('문의사항 열람대상을 선택하세요.');
         return false;
     }
 
     // 내용 빈칸 시
     const boardContent = document.querySelector('#boardContent');
     if (boardContent.value == '') {
-        alert('공지사항 내용을 입력하세요.');
+        alert('문의사항 내용을 입력하세요.');
         return false;
     }
 
@@ -175,6 +217,19 @@ function submitQna() {
 }
 
 
+//문의사항 댓글 유효성 검사
+function goReplyReg(){
+    // 댓글 내용 빈칸 시
+    const replyContent = document.querySelector('#replyContent');
+    if (replyContent.value == '') {
+        alert('댓글 내용을 입력하세요.');
+        return false;
+    }
+
+    // 유효성 검사 모두 만족 시 true
+    return true;
+}
+
 
 //문의사항 댓글 삭제
 function goDeleteReply(replyNum, boardNum){
@@ -184,7 +239,7 @@ function goDeleteReply(replyNum, boardNum){
 }
 
 
-//문의사항 댓글 변경 변경
+//문의사항 댓글 변경
 function goUpdateReply(selectedTd ,boardNum, replyNum, replyContent){
     const Td = selectedTd.parentElement.parentElement.previousElementSibling.lastElementChild;
 
