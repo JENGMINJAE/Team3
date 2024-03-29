@@ -19,4 +19,6 @@ public class BoardVO {
     private SearchVO searchVO;
     private List<ReplyVO> replyVO;
     private List<ImgVO> imgList;
+    private int imgNum;
+
 }

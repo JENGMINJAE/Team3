@@ -1,6 +1,14 @@
 package com.green.Team3.board.vo;
 
 // 페이징 정보
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class PageVO {
     //현재 선택된 페이지 번호
     private int nowPage;
