@@ -1,8 +1,12 @@
-// 수강목록 조회
-function showClasses(memberId, memberRoll){
 
-    const classes_modal = new bootstrap.Modal('#classes-modal');
+// 수강목록 조회 (복수 결제 시)
+function findClasses(){
 
+    const classes_modal_1 = new bootstrap.Modal('#classes-modal-1');
+
+    const memberId = document.querySelector('input[name="memberId"]').value;
+    const memberRoll = document.querySelector('input[name="memberRoll"]').value;
+    
     fetch('/admin/showClass', { //요청경로
         method: 'POST',
         cache: 'no-cache',
@@ -23,10 +27,10 @@ function showClasses(memberId, memberRoll){
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
         // 모달 상세 정보 하단
-        const modal_tbody = document.querySelector('.class-tbody-tag');
+        const modal_tbody_1 = document.querySelector('.class-tbody-tag');
         
-        modal_tbody.innerHTML = '';
-        modal_tbody.replaceChildren();
+        modal_tbody_1.innerHTML = '';
+        modal_tbody_1.replaceChildren();
 
 
         let str = '';
@@ -50,15 +54,17 @@ function showClasses(memberId, memberRoll){
         });
 
 
-        modal_tbody.insertAdjacentHTML('afterbegin', str);
+        modal_tbody_1.insertAdjacentHTML('afterbegin', str);
 
-        classes_modal.show();
+        classes_modal_1.show();
     })
     //fetch 통신 실패 시 실행 영역
     .catch(err=>{
         alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
         console.log(err);
     });
-    
+
+
+
 
 }

@@ -298,63 +298,64 @@ function showClasses(memberId, memberRoll){
 }
 
 // 결제 요청 페이지 이동
-function requestPay(selectedTag){
-    // console.log(selectedTag.previousElementSibling.previousElementSibling);
-    if(confirm(`결제하시겠습니까?`)){
-        fetch('/admin/goPayment', { //요청경로
-            method: 'POST',
-            cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8'
-            },
-            //컨트롤러로 전달할 데이터
-            body: JSON.stringify({
-            // 데이터명 : 데이터값
-            memberId : selectedTag.previousElementSibling.value,
-            classNum : selectedTag.previousElementSibling.previousElementSibling.value
+// function requestPay(selectedTag){
+//     // console.log(selectedTag.previousElementSibling.previousElementSibling);
+//     if(confirm(`결제하시겠습니까?`)){
+//         fetch('/admin/goPayment', { //요청경로
+//             method: 'POST',
+//             cache: 'no-cache',
+//             headers: {
+//                 'Content-Type': 'application/json; charset=UTF-8'
+//             },
+//             //컨트롤러로 전달할 데이터
+//             body: JSON.stringify({
+//             // 데이터명 : 데이터값
+//             memberId : selectedTag.previousElementSibling.value,
+//             classNum : selectedTag.previousElementSibling.previousElementSibling.value
 
-            })
-        })
-        .then((response) => {
-            return response.json(); //나머지 경우에 사용
-        })
-        //fetch 통신 후 실행 영역
-        .then((data) => {//data -> controller에서 리턴되는 데이터!
-            IMP.request_pay({
-                pg : 'kakaopay',
-                pay_method : "card",
-                merchant_uid : 'merchant_' + new Date().getTime(),
-                name : `${data[0].className}`, // className
-                amount : `${data[0].classPayment}`, // operPay
-                buyer_email : '', // memberEmail
-                buyer_name : `${data[0].teacherVO.memberVO.memberName}`, // memberName
-                buyer_tel : `${data[0].teacherVO.memberVO.memberTel}`,
-                buyer_addr : `${data[0].teacherVO.memberVO.memberAddr + data[0].teacherVO.memberVO.addrDetail}`,
-                buyer_postcode : `${data[0].teacherVO.memberVO.postCode}`
+//             })
+//         })
+//         .then((response) => {
+//             return response.json(); //나머지 경우에 사용
+//         })
+//         //fetch 통신 후 실행 영역
+//         .then((data) => {//data -> controller에서 리턴되는 데이터!
+//             console.log(data);
+//             IMP.request_pay({
+//                 pg : 'kakaopay',
+//                 pay_method : "card",
+//                 merchant_uid : 'merchant_' + new Date().getTime(),
+//                 name : `${data.className}`, // className
+//                 amount : `${data.classPayment}`, // operPay
+//                 buyer_email : '', // memberEmail
+//                 buyer_name : `${data.teacherVO.memberVO.memberName}`, // memberName
+//                 buyer_tel : `${data.teacherVO.memberVO.memberTel}`,
+//                 buyer_addr : `${data.teacherVO.memberVO.memberAddr + data.teacherVO.memberVO.addrDetail}`,
+//                 buyer_postcode : `${data.teacherVO.memberVO.postCode}`
 
 
-            }, function (rsp){ // callback
-                console.log(rsp);
-                if(rsp.success){
-                    const msg = '결제가 완료되었습니다.';
-                    alert(msg);
-                    location.href = "/admin/successPayment"
-                } else {
-                    const msg = '결제에 실패했습니다.';
-                    msg += '에러내용: ' + rsp.error_msg;
-                    alert(msg);
-                }
-            });
-        })
-        //fetch 통신 실패 시 실행 영역
-        .catch(err=>{
-            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-            console.log(err);
-        });
+//             }, function (rsp){ // callback
+//                 console.log(rsp);
+//                 if(rsp.success){
+//                     const msg = '결제가 완료되었습니다.';
+//                     alert(msg);
+//                     location.href = `/admin/successPayment?operNum`
+//                 } else {
+//                     const msg = '결제에 실패했습니다.';
+//                     msg += '에러내용: ' + rsp.error_msg;
+//                     alert(msg);
+//                 }
+//             });
+//         })
+//         //fetch 통신 실패 시 실행 영역
+//         .catch(err=>{
+//             alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+//             console.log(err);
+//         });
     
 
-    }
-}
+//     }
+// }
 
 // 수강신청 페이지 이동
 function insertClass(memberId){
@@ -440,18 +441,18 @@ function regClass(selectedTag, classNum){
         })
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
-            // console.log(data)
+
             IMP.request_pay({
                 pg : 'kakaopay',
                 pay_method : "card",
                 merchant_uid : 'merchant_' + new Date().getTime(),
-                name : `${data[0].className}`, // className
-                amount : `${data[0].classPayment}`, // operPay
+                name : `${data.className}`, // className
+                amount : `${data.classPayment}`, // operPay
                 buyer_email : '', // memberEmail
-                buyer_name : `${data[0].teacherVO.memberVO.memberName}`, // memberName
-                buyer_tel : `${data[0].teacherVO.memberVO.memberTel}`,
-                buyer_addr : `${data[0].teacherVO.memberVO.memberAddr + data[0].teacherVO.memberVO.addrDetail}`,
-                buyer_postcode : `${data[0].teacherVO.memberVO.postCode}`
+                buyer_name : `${data.teacherVO.memberVO.memberName}`, // memberName
+                buyer_tel : `${data.teacherVO.memberVO.memberTel}`,
+                buyer_addr : `${data.teacherVO.memberVO.memberAddr + data.teacherVO.memberVO.addrDetail}`,
+                buyer_postcode : `${data.teacherVO.memberVO.postCode}`
 
 
             }, function (rsp){ // callback
@@ -459,7 +460,7 @@ function regClass(selectedTag, classNum){
                 if(rsp.success){
                     const msg = '결제가 완료되었습니다.';
                     alert(msg);
-                    location.href = `/admin/successPayment?operNum=${data[0].operatorVOList[0].operNum}`;
+                    location.href = `/admin/successPayment?operNum=${data.operatorVOList[0].operNum}`;
                 } else {
                     const msg = '결제에 실패했습니다.';
                     msg += '에러내용: ' + rsp.error_msg;
@@ -494,7 +495,6 @@ function reqSomePay(){
         }
         chkArr.push(a);
     }
-    // console.log(chkArr);
     
     
         if(confirm(`결제하시겠습니까?`)){
@@ -513,45 +513,74 @@ function reqSomePay(){
             //fetch 통신 후 실행 영역
             .then((data) => {//data -> controller에서 리턴되는 데이터!
                 console.log(data);
-                data.forEach(function(e,idx){
-                    IMP.request_pay({
-                        pg : 'kakaopay',
-                        pay_method : "card",
-                        merchant_uid : 'merchant_' + new Date().getTime(),
-                        name : `${e.className}`, // className
-                        amount : `${e.classPayment}`, // operPay
-                        buyer_email : '', // memberEmail
-                        buyer_name : `${e.teacherVO.memberVO.memberName}`, // memberName
-                        buyer_tel : `${e.teacherVO.memberVO.memberTel}`,
-                        buyer_addr : `${e.teacherVO.memberVO.memberAddr + e.teacherVO.memberVO.addrDetail}`,
-                        buyer_postcode : `${e.teacherVO.memberVO.postCode}`
-        
-        
-                    }, function (rsp){ // callback
-                        console.log(rsp);
-                        if(rsp.success){
-                            const msg = '결제가 완료되었습니다.';
-                            alert(msg);
-                            let operNumList = []; // operNum 값을 담을 배열
-
-                            for (const e of e.operatorVOList) {
-                                operNumList.push(e.operNum); // 각 operNum 값을 배열에 추가
-                            }
-                            
-                            // 배열의 값을 콤마(,)로 구분하여 쿼리 문자열에 추가
-                            let queryString = `operNumList=${operNumList.join(',')}`;
-                            
-                            // 만들어진 쿼리 문자열을 URL에 추가하여 페이지를 이동
-                            location.href = `/admin/successPayment?${queryString}`;
-                            // location.href = `/admin/successPayment?operNumList=${e.operatorVOList[0].operNum},operNumlist=${e.operatorVOList[1].operNum}`;
-                            console.log(operNumList);
-                        } else {
-                            const msg = '결제에 실패했습니다.';
-                            msg += '에러내용: ' + rsp.error_msg;
-                            alert(msg);
-                        }
-                    });
+                let classCnt = 0;
+                let totalPay = 0;
+                let operArray = [];
+                let operNumArr = [];
+                
+                data.forEach(function(e, idx){
+                    totalPay += e.classPayment;
+                    classCnt = idx;
+                    dt = {
+                        classNum : e.classNum,
+                        memberId : e.teacherVO.memberVO.memberId,
+                        operNum : e.operatorVOList[0].operNum
+                    }
+                    operArray.push(dt);
+                    operNumArr.push(e.operatorVOList[0].operNum);
                 })
+                
+
+                IMP.request_pay({
+                    pg : 'kakaopay',
+                    pay_method : "card",
+                    merchant_uid : 'merchant_' + new Date().getTime(),
+                    name : `${data[0].className} 외 ${classCnt}`, // className
+                    amount : `${totalPay}`, // operPay
+                    buyer_email : `${data[0].teacherVO.memberVO.memberEmail}`, // memberEmail
+                    buyer_name : `${data[0].teacherVO.memberVO.memberName}`, // memberName
+                    buyer_tel : `${data[0].teacherVO.memberVO.memberTel}`,
+                    buyer_addr : `${data[0].teacherVO.memberVO.memberAddr + data[0].teacherVO.memberVO.addrDetail}`,
+                    buyer_postcode : `${data[0].teacherVO.memberVO.postCode}`
+    
+                }, function (rsp){ // callback
+                    console.log(rsp);
+                    if(rsp.success){
+                        const msg = '결제가 완료되었습니다.';
+                        alert(msg);
+
+                        fetch('/admin/checkReceipt', { //요청경로
+                            method: 'POST',
+                            cache: 'no-cache',
+                            headers: {
+                                'Content-Type': 'application/json; charset=UTF-8'
+                            }, 
+                            //컨트롤러로 전달할 데이터
+                            body: JSON.stringify(operArray)
+                        })
+                        .then((response) => {
+                            return response.text();
+                            // return response.json(); //나머지 경우에 사용
+                        })
+                        //fetch 통신 후 실행 영역
+                        .then((data) => {//data -> controller에서 리턴되는 데이터!
+                            console.log(data);
+                            location.href=`/admin/successPayments?operNumList=${operNumArr}`;
+                            alert('결제 성공');
+                        })
+                        //fetch 통신 실패 시 실행 영역
+                        .catch(err=>{
+                            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                            console.log(err);
+                        });
+
+                    } else {
+                        const msg = '결제에 실패했습니다.';
+                        msg += '에러내용: ' + rsp.error_msg;
+                        alert(msg);
+                    }
+                });
+            
                 
             })
             //fetch 통신 실패 시 실행 영역

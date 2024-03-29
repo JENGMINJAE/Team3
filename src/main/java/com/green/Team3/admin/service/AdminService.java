@@ -41,7 +41,7 @@ public interface AdminService {
     int updateClass(ClsVO clsVO);
 
     // 결제 요청 시
-    List<ClsVO> requestPayInfo(OperatorVO operatorVO);
+    ClsVO requestPayInfo(OperatorVO operatorVO);
 
     // 수강 신청 모달 열 때
     List<ClsVO> regClasses(OperatorVO operatorVO);
@@ -49,8 +49,14 @@ public interface AdminService {
     // 결제 신청 시
     void insertOperator(OperatorVO operatorVO);
 
+    // 결제 중복 체크
+    int chkDuple(OperatorVO operatorVO);
+
     // 결제 성공 시 update
-    ClsVO successPayment(@RequestParam(name = "operNum")int operNum);
+    void successPayment(OperatorVO operatorVO);
+
+    // 결제 성공한 결제자 정보 조회
+    ClsVO findNames(OperatorVO operatorVO);
 
     // OPER_NUM 조회
     int selectOperNum();

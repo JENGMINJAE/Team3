@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,9 +173,9 @@ public class AdminController {
     // 결제 시스템 페이지 이동 (카카오페이 실행)
     @ResponseBody
     @RequestMapping("/goPayment")
-    public List<ClsVO> goPayment(@RequestBody OperatorVO operatorVO){
+    public ClsVO goPayment(@RequestBody OperatorVO operatorVO){
         operatorVO.setOperNum(adminService.selectOperNum());
-        List<ClsVO> list = adminService.requestPayInfo(operatorVO);
+        ClsVO list = adminService.requestPayInfo(operatorVO);
         if(list != null){
             return list;
         } else {
@@ -192,25 +193,43 @@ public class AdminController {
             operatorVO.setOperNum(adminService.selectOperNum());
             operatorVO.setClassNum(operatorVOList.get(i).getClassNum());
             operatorVO.setMemberId(operatorVOList.get(i).getMemberId());
-            list = adminService.requestPayInfo(operatorVO);
+            list.add(adminService.requestPayInfo(operatorVO));
         }
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(list);
         return list;
     }
 
-    // 결제 성공 시 이동할 페이지
+    // 단일 결제 성공 시 이동 페이지
     @GetMapping("/successPayment")
-    public String successPayment(@RequestParam(name = "operNumList") List<Integer> operNum, Model model){
-        List<ClsVO> list = new ArrayList<>();
-        System.out.println(operNum);
-        for(int e : operNum){
-            ClsVO vo = adminService.successPayment(e);
-            System.out.println(e);
-            list.add(vo);
-        }
-        model.addAttribute("info", list);
-        System.out.println(list);
+    public String successPayment(OperatorVO operatorVO, Model model){
+        adminService.successPayment(operatorVO);
+        model.addAttribute("info", adminService.findNames(operatorVO));
         return "content/admin/payment_system";
+    }
+
+    // 복수 결제 성공 시 이동할 페이지
+    @ResponseBody
+    @PostMapping("/checkReceipt")
+    public void checkReceipt(@RequestBody List<OperatorVO> operatorVOList){
+        List<ClsVO> list = new ArrayList<>();
+        int vo = 0;
+        for(OperatorVO e : operatorVOList){
+            adminService.successPayment(e);
+        }
+    }
+
+    @GetMapping("/successPayments")
+    public String successPayments(@RequestParam(name = "operNumList")List<Integer> operNumList, Model model){
+        List<ClsVO> list = new ArrayList<>();
+        for(Integer i : operNumList){
+            OperatorVO operatorVO = new OperatorVO();
+            operatorVO.setOperNum(i);
+            if(operatorVO.getOperNum() != 0) {
+                list.add(adminService.findNames(operatorVO));
+            } else {
+                System.out.println("operNum이 없음");
+            }
+        }
+        model.addAttribute("infoList", list);
+        return "content/admin/payment_systems";
     }
 }
