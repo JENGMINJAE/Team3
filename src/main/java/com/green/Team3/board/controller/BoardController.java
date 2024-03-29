@@ -63,7 +63,7 @@ public class BoardController {
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
 
-        return "content/common/notice_list";
+        return "content/common/notice_list_stu";
     }
 
     // 공지사항 목록 페이지 - 강사/관리자일 때
