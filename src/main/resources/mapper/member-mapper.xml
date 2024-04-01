@@ -145,6 +145,19 @@
         AND CI.CLASS_NUM = #{classNum}
     </select>
 
+    <!--  아이디찾기  -->
+    <select id="findId" resultType="String">
+        SELECT MEMBER_ID FROM member
+        WHERE MEMBER_NAME = #{memberName}
+        AND MEMBER_TEL = #{memberTel}
+    </select>
+
+    <select id="findPw" resultType="String">
+        SELECT MEMBER_ID FROM member
+        WHERE MEMBER_NAME = #{memberName}
+        AND MEMBER_TEL = #{memberTel}
+    </select>
+
 </mapper>
 
 
