@@ -145,25 +145,27 @@ function change(){
 
         document.getElementById('insertAttendance').addEventListener('click', function() {
             // 여기서는 selectedRadioData 배열을 컨트롤러로 전송하는 fetch 요청을 보냅니다.
-            fetch('/learn/insertAttendance', {
-                method: 'POST',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                },
-                body: JSON.stringify(selectedRadioData)
-            })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('데이터 전송 실패');
-                }
-                location.reload(true);
-            })
-            .catch((error) => {
-                console.error('데이터 전송 에러:', error);
-            });
+            if(confirm("한번 저장한 출석은 되돌릴 수 없습니다. 저장 하시겠습니까?")){
+                fetch('/learn/insertAttendance', {
+                    method: 'POST',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                    body: JSON.stringify(selectedRadioData)
+                })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('데이터 전송 실패');
+                    }
+                    location.reload(true);
+                })
+                .catch((error) => {
+                    console.error('데이터 전송 에러:', error);
+                });
+            }
         });
-
+            
 
 
 

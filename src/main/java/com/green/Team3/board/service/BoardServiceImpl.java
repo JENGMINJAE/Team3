@@ -29,6 +29,13 @@ public class BoardServiceImpl implements BoardService {
         List<BoardVO> list = sqlSession.selectList("board.selectNoticeListStu", searchVO);
         return list;
     }
+
+    //게시글 목록 조회 - 공지사항 - 강사/관리자일 때
+    @Override
+    public List<BoardVO> selectNoticeListTA(SearchVO searchVO) {
+        List<BoardVO> list = sqlSession.selectList("board.selectNoticeListTA", searchVO);
+        return list;
+    }
     /////////////////////////////////////////////////////////////////////////////////////
 
     //게시글 목록 조회 - 공지사항
