@@ -40,6 +40,12 @@ public interface AdminService {
     // 반에서 정보 수정
     int updateClass(ClsVO clsVO);
 
+    // 결제 실패 시
+    void deleteOperator(OperatorVO operatorVO);
+
+    // 수강 중복 확인
+    int chkDuple(OperatorVO operatorVO);
+
     // 결제 요청 시
     ClsVO requestPayInfo(OperatorVO operatorVO);
 
@@ -47,10 +53,7 @@ public interface AdminService {
     List<ClsVO> regClasses(OperatorVO operatorVO);
 
     // 결제 신청 시
-    void insertOperator(OperatorVO operatorVO);
-
-    // 결제 중복 체크
-    int chkDuple(OperatorVO operatorVO);
+//    void insertOperator(OperatorVO operatorVO);
 
     // 결제 성공 시 update
     void successPayment(OperatorVO operatorVO);

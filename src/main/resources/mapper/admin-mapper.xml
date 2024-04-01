@@ -203,6 +203,12 @@
                 AND O.OPER_NUM = operator.OPER_NUM)) AS OPER_NUM_CNT
         FROM operator O
     </select>
+    <!-- 결제 실패 시 insert한 operator 삭제쿼리 -->
+    <delete id="deleteOperator">
+        DELETE FROM OPERATOR
+        WHERE MEMBER_ID = #{memberId}
+        AND CLASS_NUM = #{classNum}
+    </delete>
 
     <!-- OPER_NUM 삭제 공란 없애기 -->
     <select id="selectOperNum" resultType="int">

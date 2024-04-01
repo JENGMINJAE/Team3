@@ -170,6 +170,47 @@ public class AdminController {
         return adminService.regClasses(operatorVO);
     }
 
+    // 결제 중복 체크 (단수)
+    @ResponseBody
+    @PostMapping("/chkDuple")
+    public int chkDuple(@RequestBody OperatorVO operatorVO){
+        return adminService.chkDuple(operatorVO);
+    }
+    // 결제 중복 체크 (복수)
+    @ResponseBody
+    @PostMapping("/chkDuples")
+    public int chkDuples(@RequestBody List<OperatorVO> list){
+        System.out.println(list);
+        List<Integer> numList = new ArrayList<>();
+        int sum = 0;
+        for(OperatorVO e : list){
+            int num = adminService.chkDuple(e);
+            if(num > 0) {
+                numList.add(num);
+            }
+        }
+        for(int e : numList){
+            sum += e;
+        }
+        return sum;
+    }
+
+    // 결제 실패 시 (단수)
+    @ResponseBody
+    @PostMapping("/deleteOperator")
+    public void deleteOperator(@RequestBody OperatorVO operatorVO){
+        adminService.deleteOperator(operatorVO);
+    }
+
+    // 결제 실패 시 (복수)
+    @ResponseBody
+    @PostMapping("/deleteOperators")
+    public void deleteOperator(@RequestBody List<OperatorVO> list){
+        for(OperatorVO e : list) {
+            adminService.deleteOperator(e);
+        }
+    }
+
     // 결제 시스템 페이지 이동 (카카오페이 실행)
     @ResponseBody
     @RequestMapping("/goPayment")
@@ -206,17 +247,17 @@ public class AdminController {
         return "content/admin/payment_system";
     }
 
-    // 복수 결제 성공 시 이동할 페이지
+    // 복수 결제 성공 시 이동할 페이지(비동기)
     @ResponseBody
     @PostMapping("/checkReceipt")
     public void checkReceipt(@RequestBody List<OperatorVO> operatorVOList){
         List<ClsVO> list = new ArrayList<>();
-        int vo = 0;
         for(OperatorVO e : operatorVOList){
             adminService.successPayment(e);
         }
     }
 
+    // 복수 결제 성공 시 이동하는 최종 페이지
     @GetMapping("/successPayments")
     public String successPayments(@RequestParam(name = "operNumList")List<Integer> operNumList, Model model){
         List<ClsVO> list = new ArrayList<>();

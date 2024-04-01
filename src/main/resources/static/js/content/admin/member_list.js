@@ -297,65 +297,7 @@ function showClasses(memberId, memberRoll){
 
 }
 
-// 결제 요청 페이지 이동
-// function requestPay(selectedTag){
-//     // console.log(selectedTag.previousElementSibling.previousElementSibling);
-//     if(confirm(`결제하시겠습니까?`)){
-//         fetch('/admin/goPayment', { //요청경로
-//             method: 'POST',
-//             cache: 'no-cache',
-//             headers: {
-//                 'Content-Type': 'application/json; charset=UTF-8'
-//             },
-//             //컨트롤러로 전달할 데이터
-//             body: JSON.stringify({
-//             // 데이터명 : 데이터값
-//             memberId : selectedTag.previousElementSibling.value,
-//             classNum : selectedTag.previousElementSibling.previousElementSibling.value
 
-//             })
-//         })
-//         .then((response) => {
-//             return response.json(); //나머지 경우에 사용
-//         })
-//         //fetch 통신 후 실행 영역
-//         .then((data) => {//data -> controller에서 리턴되는 데이터!
-//             console.log(data);
-//             IMP.request_pay({
-//                 pg : 'kakaopay',
-//                 pay_method : "card",
-//                 merchant_uid : 'merchant_' + new Date().getTime(),
-//                 name : `${data.className}`, // className
-//                 amount : `${data.classPayment}`, // operPay
-//                 buyer_email : '', // memberEmail
-//                 buyer_name : `${data.teacherVO.memberVO.memberName}`, // memberName
-//                 buyer_tel : `${data.teacherVO.memberVO.memberTel}`,
-//                 buyer_addr : `${data.teacherVO.memberVO.memberAddr + data.teacherVO.memberVO.addrDetail}`,
-//                 buyer_postcode : `${data.teacherVO.memberVO.postCode}`
-
-
-//             }, function (rsp){ // callback
-//                 console.log(rsp);
-//                 if(rsp.success){
-//                     const msg = '결제가 완료되었습니다.';
-//                     alert(msg);
-//                     location.href = `/admin/successPayment?operNum`
-//                 } else {
-//                     const msg = '결제에 실패했습니다.';
-//                     msg += '에러내용: ' + rsp.error_msg;
-//                     alert(msg);
-//                 }
-//             });
-//         })
-//         //fetch 통신 실패 시 실행 영역
-//         .catch(err=>{
-//             alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-//             console.log(err);
-//         });
-    
-
-//     }
-// }
 
 // 수강신청 페이지 이동
 function insertClass(memberId){
@@ -379,7 +321,6 @@ function insertClass(memberId){
     })
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
-        
         // 모달 상세 정보 하단
         const modal_tbodyy = document.querySelector('.tbody-tag');
 
@@ -405,7 +346,7 @@ function insertClass(memberId){
                     <td>${pay} 원</td>
                     <td>${e.stuCnt}/${e.classPersonnel}</td>
                     <td>
-                        <input type="button" class="btn btn-outline-success" value="신청" onclick="regClass(this,${e.classNum})">
+                        <input type="button" class="btn btn-outline-success" value="신청" onclick="chkDuple(this,${e.classNum})">
                     </td>
                 </tr>
                 `;
@@ -418,9 +359,103 @@ function insertClass(memberId){
 
 }
 
-// 수강 신청 버튼 클릭 시 실행
-function regClass(selectedTag, classNum){
+// 수강 중복 체크
+function chkDuple(selected, classNum){
     const memberId = document.querySelector('#memberId').value;
+
+    fetch('/admin/chkDuple', { //요청경로
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        },
+        //컨트롤러로 전달할 데이터
+        body: JSON.stringify({
+           // 데이터명 : 데이터값
+           memberId : memberId,
+           classNum : classNum
+        })
+    })
+    .then((response) => {
+        return response.text();
+        // return response.json(); //나머지 경우에 사용
+    })
+    //fetch 통신 후 실행 영역
+    .then((data) => {//data -> controller에서 리턴되는 데이터!
+        if(data > 0){
+            alert('이미 수강 신청한 반입니다.');
+        
+        } else {
+            regClass(memberId, classNum);
+        }
+        
+    })
+    //fetch 통신 실패 시 실행 영역
+    .catch(err=>{
+        alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+        console.log(err);
+    });
+    
+}
+
+// 수강 신청한 여러 반 클릭 시 실행
+function chkDuples(){
+    const checks = document.querySelectorAll('input[type="checkbox"]:checked');
+    const memberId = document.querySelector('#memberId').value;
+
+    const chkArr = [];
+    if(checks.length > 0){
+        for(const chk of checks){
+            console.log(chk.checked);
+            if(chk.checked == true){
+                a = {
+                    classNum : chk.value,
+                    'memberId' : memberId,
+                }
+                chkArr.push(a);
+
+            }
+        }
+        console.log(chkArr);
+
+        fetch('/admin/chkDuples', { //요청경로
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            //컨트롤러로 전달할 데이터
+            body: JSON.stringify(
+                chkArr
+            )
+        })
+        .then((response) => {
+            return response.text();
+            // return response.json(); //나머지 경우에 사용
+        })
+        //fetch 통신 후 실행 영역
+        .then((data) => {//data -> controller에서 리턴되는 데이터!
+            console.log(data);
+            if(data == 0){
+                reqSomePay();
+            } else {
+                return alert('이미 수강신청한 반입니다.');
+            }
+            
+        })
+        //fetch 통신 실패 시 실행 영역
+        .catch(err=>{
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
+    } else {
+        alert('수강신청할 반을 선택하세요.');
+    }
+}
+// 수강 신청 버튼 클릭 시 실행
+function regClass(memberId, classNum){
+    alert(memberId, classNum);
+    
     if(confirm(`결제하시겠습니까?`)){
         fetch('/admin/goPayment', { //요청경로
             method: 'POST',
@@ -441,32 +476,63 @@ function regClass(selectedTag, classNum){
         })
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
+            if(data != null){
+                IMP.request_pay({
+                    pg : 'kakaopay',
+                    pay_method : "card",
+                    merchant_uid : 'merchant_' + new Date().getTime(),
+                    name : `${data.className}`, // className
+                    amount : `${data.classPayment}`, // operPay
+                    buyer_email : '', // memberEmail
+                    buyer_name : `${data.teacherVO.memberVO.memberName}`, // memberName
+                    buyer_tel : `${data.teacherVO.memberVO.memberTel}`,
+                    buyer_addr : `${data.teacherVO.memberVO.memberAddr + data.teacherVO.memberVO.addrDetail}`,
+                    buyer_postcode : `${data.teacherVO.memberVO.postCode}`
 
-            IMP.request_pay({
-                pg : 'kakaopay',
-                pay_method : "card",
-                merchant_uid : 'merchant_' + new Date().getTime(),
-                name : `${data.className}`, // className
-                amount : `${data.classPayment}`, // operPay
-                buyer_email : '', // memberEmail
-                buyer_name : `${data.teacherVO.memberVO.memberName}`, // memberName
-                buyer_tel : `${data.teacherVO.memberVO.memberTel}`,
-                buyer_addr : `${data.teacherVO.memberVO.memberAddr + data.teacherVO.memberVO.addrDetail}`,
-                buyer_postcode : `${data.teacherVO.memberVO.postCode}`
 
+                }, function (rsp){ // callback
+                    console.log(rsp);
+                    let msg = '';
+                    if(rsp.success){
+                        msg = '결제가 완료되었습니다.';
+                        alert(msg);
+                        location.href = `/admin/successPayment?operNum=${data.operatorVOList[0].operNum}`;
+                    } else {
 
-            }, function (rsp){ // callback
-                console.log(rsp);
-                if(rsp.success){
-                    const msg = '결제가 완료되었습니다.';
-                    alert(msg);
-                    location.href = `/admin/successPayment?operNum=${data.operatorVOList[0].operNum}`;
-                } else {
-                    const msg = '결제에 실패했습니다.';
-                    msg += '에러내용: ' + rsp.error_msg;
-                    alert(msg);
-                }
-            });
+                        fetch('/admin/deleteOperator', { //요청경로
+                            method: 'POST',
+                            cache: 'no-cache',
+                            headers: {
+                                'Content-Type': 'application/json; charset=UTF-8'
+                            },
+                            //컨트롤러로 전달할 데이터
+                            body: JSON.stringify({
+                               // 데이터명 : 데이터값
+                               memberId : memberId,
+                               classNum : classNum
+                            })
+                        })
+                        .then((response) => {
+                            return response.text();
+                            // return response.json(); //나머지 경우에 사용
+                        })
+                        //fetch 통신 후 실행 영역
+                        .then((data) => {//data -> controller에서 리턴되는 데이터!
+                            msg += '결제에 실패했습니다.';
+                            msg += '에러내용:' + rsp.error_msg;
+                            alert(msg);
+                        })
+                        //fetch 통신 실패 시 실행 영역
+                        .catch(err=>{
+                            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                            console.log(err);
+                        });
+                        
+                    }
+                });
+            } else {
+                alert('이미 수강 신청한 학생입니다.');
+            }
         })
         //fetch 통신 실패 시 실행 영역
         .catch(err=>{
@@ -482,7 +548,7 @@ function regClass(selectedTag, classNum){
 function reqSomePay(){
     const checks = document.querySelectorAll('input[type="checkbox"]:checked');
     const memberId = document.querySelector('#memberId').value;
-    
+    const classNum = 0;
     const chkArr = [];
     for(const chk of checks){
         console.log(chk.checked);
@@ -495,104 +561,124 @@ function reqSomePay(){
 
         }
     }
-    
-    if(chkArr != ""){
-        if(confirm(`결제하시겠습니까?`)){
-            fetch('/admin/goPayments', { //요청경로
-                method: 'POST',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                },
-                //컨트롤러로 전달할 데이터
-                body: JSON.stringify(chkArr)
+
+
+    if(confirm(`결제하시겠습니까?`)){
+        fetch('/admin/goPayments', { //요청경로
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            //컨트롤러로 전달할 데이터
+            body: JSON.stringify(chkArr)
+        })
+        .then((response) => {
+            return response.json(); //나머지 경우에 사용
+        })
+        //fetch 통신 후 실행 영역
+        .then((data) => {//data -> controller에서 리턴되는 데이터!
+            console.log(data);
+
+            let classCnt = 0;
+            let totalPay = 0;
+            let operArray = [];
+            let operNumArr = [];
+
+            data.forEach(function(e, idx){
+                totalPay += e.classPayment;
+                classCnt = idx;
+                dt = {
+                    classNum : e.classNum,
+                    memberId : e.teacherVO.memberVO.memberId,
+                    operNum : e.operatorVOList[0].operNum
+                }
+                operArray.push(dt);
+                operNumArr.push(e.operatorVOList[0].operNum);
             })
-            .then((response) => {
-                return response.json(); //나머지 경우에 사용
-            })
-            //fetch 통신 후 실행 영역
-            .then((data) => {//data -> controller에서 리턴되는 데이터!
-                console.log(data);
-
-                let classCnt = 0;
-                let totalPay = 0;
-                let operArray = [];
-                let operNumArr = [];
-
-                data.forEach(function(e, idx){
-                    totalPay += e.classPayment;
-                    classCnt = idx;
-                    dt = {
-                        classNum : e.classNum,
-                        memberId : e.teacherVO.memberVO.memberId,
-                        operNum : e.operatorVOList[0].operNum
-                    }
-                    operArray.push(dt);
-                    operNumArr.push(e.operatorVOList[0].operNum);
-                })
-                
-
-                IMP.request_pay({
-                    pg : 'kakaopay',
-                    pay_method : "card",
-                    merchant_uid : 'merchant_' + new Date().getTime(),
-                    name : `${data[0].className} 외 ${classCnt}`, // className
-                    amount : `${totalPay}`, // operPay
-                    buyer_email : `${data[0].teacherVO.memberVO.memberEmail}`, // memberEmail
-                    buyer_name : `${data[0].teacherVO.memberVO.memberName}`, // memberName
-                    buyer_tel : `${data[0].teacherVO.memberVO.memberTel}`,
-                    buyer_addr : `${data[0].teacherVO.memberVO.memberAddr + data[0].teacherVO.memberVO.addrDetail}`,
-                    buyer_postcode : `${data[0].teacherVO.memberVO.postCode}`
-    
-                }, function (rsp){ // callback
-                    console.log(rsp);
-                    if(rsp.success){
-                        const msg = '결제가 완료되었습니다.';
-                        alert(msg);
-
-                        fetch('/admin/checkReceipt', { //요청경로
-                            method: 'POST',
-                            cache: 'no-cache',
-                            headers: {
-                                'Content-Type': 'application/json; charset=UTF-8'
-                            }, 
-                            //컨트롤러로 전달할 데이터
-                            body: JSON.stringify(operArray)
-                        })
-                        .then((response) => {
-                            return response.text();
-                            // return response.json(); //나머지 경우에 사용
-                        })
-                        //fetch 통신 후 실행 영역
-                        .then((data) => {//data -> controller에서 리턴되는 데이터!
-                            location.href=`/admin/successPayments?operNumList=${operNumArr}`;
-                        })
-                        //fetch 통신 실패 시 실행 영역
-                        .catch(err=>{
-                            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-                            console.log(err);
-                        });
-
-                    } else {
-                        const msg = '결제에 실패했습니다.';
-                        msg += '에러내용: ' + rsp.error_msg;
-                        alert(msg);
-                    }
-                });
             
-                
-            })
-            //fetch 통신 실패 시 실행 영역
-            .catch(err=>{
-                alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-                console.log(err);
+            IMP.request_pay({ 
+                pg : 'kakaopay',
+                pay_method : "card",
+                merchant_uid : 'merchant_' + new Date().getTime(),
+                name : `${data[0].className} 외 ${classCnt}`, // className
+                amount : `${totalPay}`, // operPay
+                buyer_email : `${data[0].teacherVO.memberVO.memberEmail}`, // memberEmail
+                buyer_name : `${data[0].teacherVO.memberVO.memberName}`, // memberName
+                buyer_tel : `${data[0].teacherVO.memberVO.memberTel}`,
+                buyer_addr : `${data[0].teacherVO.memberVO.memberAddr + data[0].teacherVO.memberVO.addrDetail}`,
+                buyer_postcode : `${data[0].teacherVO.memberVO.postCode}`
+
+            }, function (rsp){ // callback
+                console.log(rsp);
+                if(rsp.success){
+                    const msg = '결제가 완료되었습니다.';
+                    alert(msg);
+
+                    fetch('/admin/checkReceipt', { //요청경로
+                        method: 'POST',
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/json; charset=UTF-8'
+                        }, 
+                        //컨트롤러로 전달할 데이터
+                        body: JSON.stringify(operArray)
+                    })
+                    .then((response) => {
+                        return response.text();
+                        // return response.json(); //나머지 경우에 사용
+                    })
+                    //fetch 통신 후 실행 영역
+                    .then((data) => {//data -> controller에서 리턴되는 데이터!
+                        location.href=`/admin/successPayments?operNumList=${operNumArr}`;
+                    })
+                    //fetch 통신 실패 시 실행 영역
+                    .catch(err=>{
+                        alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                        console.log(err);
+                        
+                    });
+
+                } else {
+                    let msg = '결제에 실패했습니다.';
+                    msg += '에러내용: ' + rsp.error_msg;
+                    alert(msg);
+                    fetch('/admin/deleteOperators', { //요청경로
+                        method: 'POST',
+                        cache: 'no-cache',
+                        headers: {
+                            'Content-Type': 'application/json; charset=UTF-8'
+                        },
+                        //컨트롤러로 전달할 데이터
+                        body: JSON.stringify(chkArr)
+                    })
+                    .then((response) => {
+                        return response.text();
+                        // return response.json(); //나머지 경우에 사용
+                    })
+                    //fetch 통신 후 실행 영역
+                    .then((data) => {//data -> controller에서 리턴되는 데이터!
+
+                    })
+                    //fetch 통신 실패 시 실행 영역
+                    .catch(err=>{
+                        alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                        console.log(err);
+                    });
+                    
+                }
             });
-        
+            
+        })
+        //fetch 통신 실패 시 실행 영역
+        .catch(err=>{
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
     
-        }
-    }else {
-        alert('수강신청할 반을 선택하세요.');
+
     }
+
     
 
 

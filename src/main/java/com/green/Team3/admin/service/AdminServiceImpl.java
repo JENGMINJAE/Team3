@@ -82,17 +82,26 @@ public class AdminServiceImpl implements AdminService{
         return sqlSession.update("admin.updateClass", clsVO);
     }
 
+    // 결제 실패 시
+    @Override
+    public void deleteOperator(OperatorVO operatorVO) {
+        sqlSession.delete("admin.deleteOperator", operatorVO);
+    }
+
+    // 중복 수강신청 여부 체크
+    @Override
+    public int chkDuple(OperatorVO operatorVO) {
+        return sqlSession.selectOne("admin.chkDuple", operatorVO);
+    }
+
     // 결제 요청 시
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ClsVO requestPayInfo(OperatorVO operatorVO) {
-        int operCnt = sqlSession.selectOne("admin.chkDuple", operatorVO);
-        if(operCnt == 0) {
-            sqlSession.insert("admin.insertOperator", operatorVO);
-            return sqlSession.selectOne("member.requestPayInfo", operatorVO);
-        }
-        return null;
+        sqlSession.insert("admin.insertOperator", operatorVO);
+        return sqlSession.selectOne("member.requestPayInfo", operatorVO);
     }
+
 
     // 수강 신청 페이지 이동
     @Override
@@ -100,22 +109,9 @@ public class AdminServiceImpl implements AdminService{
         List<ClsVO> list = sqlSession.selectList("admin.regClasses");
         if(list != null){
             return list;
+        } else {
+            return null;
         }
-        return null;
-    }
-
-//     수강 신청 시
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void insertOperator(OperatorVO operatorVO) {
-        sqlSession.insert("admin.insertOperator", operatorVO);
-    }
-
-
-    // 결제 정보 갯수 재기
-    @Override
-    public int chkDuple(OperatorVO operatorVO) {
-        return sqlSession.selectOne("admin.chkDuple", operatorVO);
     }
 
     // 결제 승인 시
