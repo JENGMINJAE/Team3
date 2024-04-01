@@ -152,11 +152,16 @@
         AND MEMBER_TEL = #{memberTel}
     </select>
 
-    <select id="findPw" resultType="String">
-        SELECT MEMBER_ID FROM member
-        WHERE MEMBER_NAME = #{memberName}
-        AND MEMBER_TEL = #{memberTel}
+    <select id="getMemberEmail" resultType="String">
+        SELECT MEMBER_EMAIL FROM member
+        WHERE MEMBER_ID = #{memberId}
+        AND MEMBER_NAME = #{memberName}
     </select>
+    <update id="updateMemberPw">
+        UPDATE MEMBER SET
+        MEMBER_PW = #{memberPw}
+        WHERE MEMBER_ID = #{memberId}
+    </update>
 
 </mapper>
 
