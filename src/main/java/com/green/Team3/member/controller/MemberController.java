@@ -2,6 +2,7 @@ package com.green.Team3.member.controller;
 
 import com.green.Team3.member.service.MemberServiceImpl;
 import com.green.Team3.member.vo.MemberVO;
+import com.green.Team3.util.MailService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
