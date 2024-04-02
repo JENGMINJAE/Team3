@@ -34,9 +34,9 @@ public class BoardController {
 
     ///////////////////////////////// 공지 사항 /////////////////////////////////////
 
-    // 공지사항 목록 페이지 - 학생일 때
+    // 공지사항 - 학사공지 목록 페이지
     @RequestMapping("/noticeListStu")
-    public String List(SearchVO searchVO, Model model
+    public String List1(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
             , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
@@ -46,7 +46,7 @@ public class BoardController {
         // 페이지 정보 세팅
         searchVO.setPageInfo();
         System.out.println(searchVO);
-        // 공지사항 목록 조회
+        // 공지사항 검색 시 페이징코드 정리
         List<BoardVO> noticeList = boardService.selectNoticeListStu(searchVO);
         if(isSearch == 1){
             searchVO.setTotalDataCnt(noticeList.size());
@@ -56,6 +56,7 @@ public class BoardController {
             }
         }
         model.addAttribute("isSearch", isSearch);
+        // 공지사항 목록 조회
         model.addAttribute("noticeList", noticeList);
         // 공지사항 내 전체 데이터 목록
         model.addAttribute("totalDataCnt", totalDataCnt);
@@ -66,8 +67,8 @@ public class BoardController {
         return "content/common/notice_list_stu";
     }
 
-    // 공지사항 목록 페이지 - 강사/관리자일 때
-    @RequestMapping("/noticeListTA")
+    // 공지사항 - 강사공지 목록 페이지
+    @RequestMapping("/noticeListTea")
     public String List2(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
@@ -78,8 +79,8 @@ public class BoardController {
         // 페이지 정보 세팅
         searchVO.setPageInfo();
         System.out.println(searchVO);
-        // 공지사항 목록 조회
-        List<BoardVO> noticeList = boardService.selectNoticeListTA(searchVO);
+        // 공지사항 검색 시 페이징코드 정리
+        List<BoardVO> noticeList = boardService.selectNoticeListTea(searchVO);
         if(isSearch == 1){
             searchVO.setTotalDataCnt(noticeList.size());
             searchVO.setPageInfo();
@@ -88,17 +89,18 @@ public class BoardController {
             }
         }
         model.addAttribute("isSearch", isSearch);
+        // 공지사항 목록 조회
         model.addAttribute("noticeList", noticeList);
         // 공지사항 내 전체 데이터 목록
         model.addAttribute("totalDataCnt", totalDataCnt);
         // 공지사항 목록에서 검색한 데이터
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
-        return "content/common/notice_list_ta";
+        return "content/common/notice_list_tea";
     }
 
 
-
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     // 공지사항 목록 페이지
 //    @RequestMapping("/noticeList")
 //    public String List(SearchVO searchVO, Model model
@@ -132,6 +134,7 @@ public class BoardController {
 //
 //        return "content/common/notice_list";
 //    }
+    ////////////////////////////////////////////////
 
     // 공지사항 작성 페이지로 이동
     @GetMapping("/noticeWriteForm")
@@ -152,7 +155,7 @@ public class BoardController {
 //    }
 
 
-    // 공지사항 게시글 작성 + 이미지 첨부 기능
+    // 공지사항 게시글 작성 + 이미지 첨부 기능 (관리자만)
     @PostMapping("/noticeWrite")
     public String noticeWrite(BoardVO boardVO
                             , Authentication authentication
@@ -295,17 +298,6 @@ public class BoardController {
     }
 
 
-
-
-
-    //댓글 수정 - 비동기
-//    @ResponseBody
-//    @PostMapping("/updateReply")
-//    public String updateReply(ReplyVO replyVO){
-//        replyService.updateReply(replyVO);
-//        return replyService.reSelect(replyVO.getReplyNum());
-//    }
-
     // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
 //    @PostMapping("/updateNotice")
 //    public String update(BoardVO boardVO,
@@ -318,7 +310,6 @@ public class BoardController {
 //        boardService.updateImgFile(boardVO, imgNum);
 //        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
 //    }
-
 
 
     // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
@@ -341,13 +332,41 @@ public class BoardController {
 //    }
 
 
+
     ///////////////////////////////// 문의 사항 /////////////////////////////////////
 
-    // 문의사항 페이지
+    // 문의사항 페이지 - 원본
+//    @RequestMapping("/qnaList")
+//    public String qnaList(SearchVO searchVO, Model model
+//            , @RequestParam(name = "searchValue" ,required = false) String searchValue
+//            , @RequestParam(name = "searchType" ,required = false) String searchType){
+//        // 문의사항 전체 데이터 수
+//        int totalDataCnt = boardService.selectNoticeCnt(searchVO);
+//        searchVO.setTotalDataCnt(totalDataCnt);
+//
+//        // 페이지 정보 세팅
+//        searchVO.setPageInfo();
+//        System.out.println(searchVO);
+//
+//        // 문의사항 목록 조회
+//        List<BoardVO> qnaList = boardService.selectQnaList(searchVO);
+//        model.addAttribute("qnaList", qnaList);
+//        // 문의사항 내 전체 데이터 목록
+//        model.addAttribute("totalDataCnt", totalDataCnt);
+//        // 문의사항 목록에서 검색한 데이터
+//        model.addAttribute("searchValue", searchValue);
+//        model.addAttribute("searchType", searchType);
+//
+//        return "content/common/qna_list";
+//    }
+    
+
+    // 문의사항 페이지 - 공지사항이랑 분리
     @RequestMapping("/qnaList")
     public String qnaList(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
-            , @RequestParam(name = "searchType" ,required = false) String searchType){
+            , @RequestParam(name = "searchType" ,required = false) String searchType
+            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
         // 문의사항 전체 데이터 수
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
@@ -356,8 +375,18 @@ public class BoardController {
         searchVO.setPageInfo();
         System.out.println(searchVO);
 
-        // 문의사항 목록 조회
+        // 공지사항 검색 시 페이징코드 정리
         List<BoardVO> qnaList = boardService.selectQnaList(searchVO);
+
+        if(isSearch == 1){
+            searchVO.setTotalDataCnt(qnaList.size());
+            searchVO.setPageInfo();
+            if(searchVO.getTotalDataCnt() == 0){
+                isSearch = 2;
+            }
+        }
+        model.addAttribute("isSearch", isSearch);
+        // 문의사항 목록 조회
         model.addAttribute("qnaList", qnaList);
         // 문의사항 내 전체 데이터 목록
         model.addAttribute("totalDataCnt", totalDataCnt);

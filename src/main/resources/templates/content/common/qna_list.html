@@ -11,13 +11,13 @@
     <div>
         <!-- 문의사항 목록 페이지 -->
         <div class="mb-5">
-            <h3>문의사항 목록</h3>
+            <h3>문의사항</h3>
         </div>
 
         <!-- 검색 -->
         <div class="row">
             <div class="col text-start">
-                <th:block th:each="totalDataCnt : ${totalDataCnt}">
+                <th:block>
                     총 <span class="fw-bold fs-3">[[${totalDataCnt}]]</span>개의 게시물이 등록되어 있습니다.
                 </th:block>
             </div>
@@ -58,14 +58,13 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider border-success">
-                            <!-- (typeNum 3, 4 = 문의사항 학생, 강사)게시글이 없을 때 -->
+                            <!-- 게시글이 없을 때 -->
                             <th:block th:if="${#lists.isEmpty(qnaList)}">
                                 <tr>
                                     <td colspan="4"> 조회된 게시글이 없습니다. </td>
                                 </tr>
                             </th:block>
-                            <!-- (typeNum 3, 4 = 문의사항 학생, 강사)게시글이 있을 때 조회 -->
-                            <!-- <th:block th:unless="${typeNum} == 3 or ${typeNum} == 4"> -->
+                            <!-- 게시글이 있을 때 조회 -->
                             <th:block th:unless="${#lists.isEmpty(qnaList)}">
                                 <tr th:each="qna, state : ${qnaList}">
                                     <td>[[${totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1) ) - state.index}]]</td>
@@ -75,7 +74,7 @@
                                         </a>
                                     </td>
                                     <td class="border-end border border-success">
-                                        [[${qna.memberId}]]
+                                        [[${qna.memberId}]], [[${qna.typeNum}]]
                                     </td>
                                     <td>[[${qna.boardCnt}]]</td>
                                 </tr>
@@ -102,7 +101,7 @@
                             <th:block th:each="i : ${#numbers.sequence(searchVO.beginPage, searchVO.endPage)}"> 
                                 <!-- 공지사항 목록에서 선택한 페이지 + 조회한 검색 데이터 함께 가져옴 -->   
                                 <li class="page-item">
-                                    <a class="page-link" th:href="@{/board/qnaList(nowPage=${i}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
+                                    <a class="page-link" th:href="@{/board/qnaList(nowPage=${i}, typeNum=3, typeNum=4, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
                                         [[${i}]]
                                     </a>
                                 </li>
@@ -120,7 +119,6 @@
             </div>
         </th:block>
         
-
         <!-- 문의사항 게시글 작성 버튼 -->
         <div class="row">
             <div class="col text-end align-middle">
@@ -130,12 +128,7 @@
 
     </div>
 
-
     
-
-    
-
-        
 </th:block>
 
 <th:block layout:fragment="content_js">

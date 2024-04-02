@@ -11,42 +11,19 @@
     <div>
         <!-- 공지사항 목록 페이지 -->
         <div class="mb-5">
-            <h3>공지사항 목록</h3>
+            <h3>공지사항 - 학사공지</h3>
         </div>
 
-        
-
-        <!-- 1. 학생일 때 -->
-        <th:block sec:authorize="hasRole('ROLE_1')">
-
-        </th:block>
-
-        <!-- 2. 강사일 때 -->
-        <th:block sec:authorize="hasRole('ROLE_1')">
-
-        </th:block>
-
-        <!-- 3. 관리자일 때 -->
-        <th:block sec:authorize="hasRole('ROLE_1')">
-
-        </th:block>
-
-
-
-
-        
         <!-- 검색 -->
         <div class="row">
-            <!-- memberRoll 따라 조회되는 게시글 수 다름... -->
             <div class="col text-start">
-                <th:block th:each="totalDataCnt : ${totalDataCnt}">
+                <th:block>
                     총 <span class="fw-bold fs-3">[[${totalDataCnt}]]</span>개의 게시물이 등록되어 있습니다.
                 </th:block>
             </div>
-            <!-- memberRoll -->
             <div class="col justify-content-center mb-5">
                 <div class="col-lg-12 text-center">
-                    <form action="/board/noticeList" method="post">
+                    <form action="/board/noticeListStu" method="post">
                         <div class="input-group">
                             <select class="form-select" name="searchType">
                                 <option value="BOARD_TITLE" th:selected="${searchVO.searchType == NULL or searchVO.searchType == 'BOARD_TITLE'}">제목</option>
@@ -60,8 +37,7 @@
                 </div>
             </div>
         </div>
-        
-            
+
         <!-- 공지사항 목록 -->
         <div class="row">
             <table class="table table-hover text-center align-middle">
@@ -91,8 +67,7 @@
                     <!-- 게시글이 있을 때 조회 -->
                     <th:block th:unless="${#lists.isEmpty(noticeList)}">
                         <tr th:each="notice, state : ${noticeList}" >
-                            <th:block th:if="${notice.typeNum == 1}">
-                                <td>[[${totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1) ) - state.index}]]</td>
+                            <td>[[${totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1) ) - state.index}]]</td>
                             <td class="border-end border border-success">
                                 <a style="text-decoration: none; color: black;" th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
                                     [[${notice.boardTitle}]]
@@ -110,7 +85,6 @@
                                 [[${notice.memberId}]], [[${notice.typeNum}]]
                             </td>
                             <td>[[${notice.boardCnt}]]</td>
-                            </th:block>
                         </tr>
                     </th:block>
                 </tbody>
@@ -125,7 +99,7 @@
                         <ul class="pagination">
                             <th:block th:if="${searchVO.prev}">
                                 <li class="page-item">
-                                    <a class="page-link" th:href="@{/board/noticeList(nowPage=${searchVO.beginPage - 1})}" aria-label="Previous" style="color: rgb(116, 116, 116)">
+                                    <a class="page-link" th:href="@{/board/noticeListStu(nowPage=${searchVO.beginPage - 1})}" aria-label="Previous" style="color: rgb(116, 116, 116)">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
@@ -133,14 +107,14 @@
                             <th:block th:each="i : ${#numbers.sequence(searchVO.beginPage, searchVO.endPage)}"> 
                                 <!-- 공지사항 목록에서 선택한 페이지 + 조회한 검색 데이터 함께 가져옴 -->   
                                 <li class="page-item">
-                                    <a class="page-link" th:href="@{/board/noticeList(nowPage=${i}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
+                                    <a class="page-link" th:href="@{/board/noticeListStu(nowPage=${i}, typeNum=1, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
                                         [[${i}]]
                                     </a>
                                 </li>
                             </th:block>
                             <th:block th:if="${searchVO.next}">
                                 <li class="page-item">
-                                    <a class="page-link" th:href="@{/board/noticeList(nowPage=${searchVO.endPage + 1})}" aria-label="Next" style="color: rgb(116, 116, 116)">
+                                    <a class="page-link" th:href="@{/board/noticeListStu(nowPage=${searchVO.endPage + 1})}" aria-label="Next" style="color: rgb(116, 116, 116)">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
@@ -150,9 +124,9 @@
                 </div>
             </div>
         </th:block>
-            
-            <!-- 공지사항 게시글 작성 버튼 -->
-            <!-- 게시글 작성 버튼 : 관리자일 때만 -->
+
+        <!-- 공지사항 게시글 작성 버튼 -->
+        <!-- 게시글 작성 버튼 : 관리자일 때만 -->
         <div class="row">
             <div class="col text-end align-middle">
                 <th:block sec:authorize="hasRole('ROLE_3')">

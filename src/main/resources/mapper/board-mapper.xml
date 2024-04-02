@@ -31,14 +31,23 @@
 <!--  [ 공지사항 & 문의사항 게시판 관련 ]  -->
 
     <!-- 다음에 INSERT 할 게시물 BOARD_NUM 조회 -->
+    <!-- typeNum에 따라서 다르게 조회 -->
     <select id="selectNextNoticeCode" resultType="int">
         SELECT IFNULL(MAX(BOARD_NUM), 0) + 1
         FROM BOARD
     </select>
 
+    <!-- 타입넘버 선택 -->
+    <select id="selectTypeNum" resultMap="boardTypeMap">
+        SELECT TYPE_NUM
+            , TYPE_NAME
+        FROM BOARD_TYPE
+    </select>
+
 <!--    ///////////////////////////////////////////////////////////////////////////////////// -->
 
-    <!-- 게시물 목록 조회 - 공지사항 (학생일 때만 조회) -->
+    <!-- 게시물 목록 조회 - 공지사항 - 학사공지 -->
+    <!-- boardType - typeNum: 1(학생/공지) -->
     <select id="selectNoticeListStu" resultMap="boardMap">
         SELECT B.BOARD_NUM,
         BOARD_TITLE,
@@ -52,7 +61,7 @@
         INNER JOIN MEMBER M ON B.MEMBER_ID = M.MEMBER_ID
         LEFT JOIN BOARD_IMAGE I ON B.BOARD_NUM = I.BOARD_NUM
         <where>
-            M.MEMBER_ROLL = 1
+            TYPE_NUM = 1
             <if test='searchValue != null and searchValue != ""'>
                 AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
@@ -63,8 +72,9 @@
     </select>
 
 
-    <!-- 게시물 목록 조회 - 공지사항 (강사/관리자 조회) -->
-    <select id="selectNoticeListTA" resultMap="boardMap">
+    <!-- 게시물 목록 조회 - 공지사항 - 강사공지 -->
+    <!-- boardType - typeNum: 2(강사/공지) -->
+    <select id="selectNoticeListTea" resultMap="boardMap">
         SELECT B.BOARD_NUM,
         BOARD_TITLE,
         BOARD_CONTENT,
@@ -77,7 +87,7 @@
         INNER JOIN MEMBER M ON B.MEMBER_ID = M.MEMBER_ID
         LEFT JOIN BOARD_IMAGE I ON B.BOARD_NUM = I.BOARD_NUM
         <where>
-            M.MEMBER_ROLL = 2 AND M.MEMBER_ROLL = 3
+            TYPE_NUM = 2
             <if test='searchValue != null and searchValue != ""'>
                 AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
@@ -89,7 +99,7 @@
 
     <!--    ///////////////////////////////////////////////////////////////////////////////////// -->
 
-    <!-- 게시물 목록 조회 - 공지사항 -->
+    <!-- 게시물 목록 조회 - 공지사항 - 원본 -->
 <!--    <select id="selectNoticeList" resultMap="boardMap">-->
 <!--        SELECT B.BOARD_NUM,-->
 <!--        BOARD_TITLE,-->
@@ -122,12 +132,17 @@
         FROM BOARD B
         INNER JOIN MEMBER M
         ON B.MEMBER_ID = M.MEMBER_ID
-        <if test='searchValue != null and !searchValue.equals("")'>
-            WHERE ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
-        </if>
+        <where>
+            TYPE_NUM = 3 OR TYPE_NUM = 4
+            <if test='searchValue != null and !searchValue.equals("")'>
+                AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+        </where>
         ORDER BY BOARD_NUM DESC
         LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}
     </select>
+
+
 
     <!-- 게시글 작성 - 공지사항 -->
     <insert id="insertNotice" parameterType="com.green.Team3.board.vo.BoardVO">
@@ -273,16 +288,17 @@
 
 
 
-
-
     <!-- 게시글 갯수 조회 -->
     <!--  *****공지/문의 분리해서 조회해야함  -->
     <select id="selectNoticeCnt" resultType="int">
         SELECT COUNT(BOARD_NUM)
         FROM BOARD
-        <if test='searchValue != null and !searchValue.equals("")'>
-            WHERE ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
-        </if>
+        <where>
+            <if test='searchValue != null and !searchValue.equals("")'>
+                ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+            AND TYPE_NUM = #{typeNum}
+        </where>
     </select>
 
     <!-- 게시글 상세 - 이전글 조회 -->

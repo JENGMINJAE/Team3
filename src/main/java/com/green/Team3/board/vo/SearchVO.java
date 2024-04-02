@@ -11,5 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SearchVO extends PageVO{
     private String searchType;
     private String searchValue;
+    private int typeNum;
 
 }

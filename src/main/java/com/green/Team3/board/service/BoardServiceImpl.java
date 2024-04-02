@@ -1,5 +1,6 @@
 package com.green.Team3.board.service;
 
+import com.green.Team3.board.vo.BoardTypeVO;
 import com.green.Team3.board.vo.BoardVO;
 import com.green.Team3.board.vo.SearchVO;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -23,27 +24,27 @@ public class BoardServiceImpl implements BoardService {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////
-    //게시글 목록 조회 - 공지사항 - 학생일 때
+    //게시글 목록 조회 - 공지사항 - 학사공지
     @Override
     public List<BoardVO> selectNoticeListStu(SearchVO searchVO) {
         List<BoardVO> list = sqlSession.selectList("board.selectNoticeListStu", searchVO);
         return list;
     }
 
-    //게시글 목록 조회 - 공지사항 - 강사/관리자일 때
+    //게시글 목록 조회 - 공지사항 - 강사공지
     @Override
-    public List<BoardVO> selectNoticeListTA(SearchVO searchVO) {
-        List<BoardVO> list = sqlSession.selectList("board.selectNoticeListTA", searchVO);
+    public List<BoardVO> selectNoticeListTea(SearchVO searchVO) {
+        List<BoardVO> list = sqlSession.selectList("board.selectNoticeListTea", searchVO);
         return list;
     }
     /////////////////////////////////////////////////////////////////////////////////////
 
     //게시글 목록 조회 - 공지사항
-    @Override
-    public List<BoardVO> selectNoticeList(SearchVO searchVO) {
-        List<BoardVO> list = sqlSession.selectList("board.selectNoticeList", searchVO);
-        return list;
-    }
+//    @Override
+//    public List<BoardVO> selectNoticeList(SearchVO searchVO) {
+//        List<BoardVO> list = sqlSession.selectList("board.selectNoticeList", searchVO);
+//        return list;
+//    }
 
     //게시글 목록 조회 - 문의사항
     @Override
@@ -158,5 +159,8 @@ public class BoardServiceImpl implements BoardService {
         return sqlSession.selectOne("board.nextPage", boardNum);
     }
 
-
+    @Override
+    public List<BoardTypeVO> selectType() {
+        return sqlSession.selectList("board.selectTypeNum");
+    }
 }

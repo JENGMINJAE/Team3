@@ -1,6 +1,7 @@
 package com.green.Team3.board.service;
 
 
+import com.green.Team3.board.vo.BoardTypeVO;
 import com.green.Team3.board.vo.BoardVO;
 import com.green.Team3.board.vo.ImgVO;
 import com.green.Team3.board.vo.SearchVO;
@@ -14,14 +15,14 @@ public interface BoardService {
 
     ////////////////////////////////////////////////////
 
-    //게시글 목록 조회 - 공지사항 - 학생일 때
+    //게시글 목록 조회 - 공지사항 - 학사공지
     List<BoardVO> selectNoticeListStu(SearchVO searchVO);
 
-    //게시글 목록 조회 - 공지사항 - 학생일 때
-    List<BoardVO> selectNoticeListTA(SearchVO searchVO);
+    //게시글 목록 조회 - 공지사항 - 강사공지
+    List<BoardVO> selectNoticeListTea(SearchVO searchVO);
 
     //게시글 목록 조회 - 공지사항
-    List<BoardVO> selectNoticeList(SearchVO searchVO);
+//    List<BoardVO> selectNoticeList(SearchVO searchVO);
 
     /////////////////////////////////////////////////////////////
 
@@ -70,6 +71,7 @@ public interface BoardService {
     //게시글 상세 - 다음글 조회
     BoardVO nextPage(int boardNum);
 
-
+    //
+    List<BoardTypeVO> selectType();
 
 }
