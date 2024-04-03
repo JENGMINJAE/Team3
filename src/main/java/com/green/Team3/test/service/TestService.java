@@ -3,10 +3,7 @@ package com.green.Team3.test.service;
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
-import com.green.Team3.test.vo.SearchTestVO;
-import com.green.Team3.test.vo.TestScoreVO;
-import com.green.Team3.test.vo.TestSubjectVO;
-import com.green.Team3.test.vo.TestVO;
+import com.green.Team3.test.vo.*;
 
 import java.util.List;
 
@@ -112,7 +109,8 @@ public interface TestService {
 
 
 
-
-
+// ######################################### 선생님 이의신청 페이지  ##################################
+    //  선생님 이의신청 목록/////
+    List<TestAskVO> selTeacherAsk(String memberId);
 
 }

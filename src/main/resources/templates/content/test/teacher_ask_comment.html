@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/integrated_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴때 같이 실행되는 css -->
+    <!-- <link rel="stylesheet" href="/"> -->
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드작성 -->
+
+    <div class="row">
+        <div class="col">
+            <form action="/test/insertThComment" method="post">
+                <div class="row">
+                    <div class="col">
+                         <input type="text" name="memberId" th:value="${testAskOne.memberId}" >
+                         <input type="hidden" name="classNum" th:value="${testAskOne.classNum}" >
+                         <input type="hidden" name="testNum" th:value="${testAskOne.testNum}" >
+                         
+                         
+                        <th:block th:if="${testAskOne.protestOrigino}==0"> 
+                         <input type="text" name="protestOrigino" th:value="${testAskOne.protestNum}" >  
+                        </th:block>
+                         
+                        <th:block th:if="${testAskOne.protestOrigino}!=0"> 
+                         <input type="text" name="protestOrigino" th:value="${testAskOne.protestOrigino}" >  
+                        </th:block>
+
+                         
+                         <input type="text" name="protestGroupno" th:value="${testAskOne.protestGroupno}+1" >  
+                         <input type="text" name="protestStepno" th:value="${testAskOne.protestStepno}+1" >
+                         
+                         <table class="table" style="width:900px">
+                                <tr>
+                                    
+
+                                <!-- <th:block th:if="${testAskOne.protestOrigino}!=0">    
+                                    <td>작성자</td>
+                                    <td>[[${thTestAskList[0].teacherN}]]</td>
+                                </th:block> -->
+
+                                <!-- <th:block th:if="${testAskOne.protestOrigino}==0"> 
+                                    <td>아이디</td>
+                                    <td>[[${testAskOne.memberId}]]</td>
+                                </th:block> -->
+
+
+                                <td>작성자</td>
+                                <td>[[${thTestAskList[0].teacherN}]]</td>
+
+                                
+                                    <td>신청자</td>
+                                    <td>[[${testAskOne.memberN}]] (<span>[[${testAskOne.memberId}]]</span>)</td>
+                               
+                                
+                                
+                                </tr>
+                                <tr>
+                                    <td>수강명</td>
+                                    <td>[[${testAskOne.classN}]]</td>                                   
+                                    <td>시험명</td>
+                                    <td>[[${testAskOne.testN}]]</td>
+                   
+                                </tr>
+                                <tr>
+                                    
+                                    <td>제목</td>
+                                    <td>RE:<input type="text" name="protestTitle"></td>
+                                    <td>작성일</td>
+                                    <td>
+                                        <script>
+                                            let day=new Date();
+                                            document.write(day.toLocaleString()+"<br>");
+                                        </script>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>성적정정 <br>결과</td>
+                                    <td colspan="5"><textarea name="protestContent" id="protest" cols="30" rows="10"></textarea></td>
+                                </tr>
+                            </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" class="btn btn-primary text-end"  value="등록">
+                        
+                    </div>
+                    
+                </div>
+            </form>  
+            
+        </div>
+    </div>
+
+
+
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴때 같이 실행되는 js -->
+    <!-- <script src="/"></script> -->
+</th:block>
+</html>

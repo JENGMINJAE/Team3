@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{fragment/integrated_layout}" >
+
+<th:block layout:fragment="content_css">
+    <!-- html 파일이 열릴때 같이 실행되는 css -->
+    <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+    <!-- html 코드작성 -->
+
+    <div class="row">
+        <div class="col">
+            <form action="/stuTest/insertStuAsk" method="post">
+                <div class="row">
+                    <div class="col">
+                       
+                         
+
+                            <table class="table" style="width:900px">
+                                <tr>
+                                    
+                                    <td>신청자</td>
+                                    <td>[[${testAskOne.memberN}]] </td>
+                                    <td>아이디</td>
+                                    <td>[[${testAskOne.memberId}]]</td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>수강명</td>
+                                    <td>[[${testAskOne.classN}]]</td>                                   
+                                    <td>시험명</td>
+                                    <td>[[${testAskOne.testN}]]</td>         
+                                </tr>
+                                <tr>
+                                    
+                                    <td>제목</td>
+                                    <td>[[${testAskOne.protestTitle}]]</td>
+                                    <td>작성일</td>
+                                    <td>[[${testAskOne.protestDate}]]</td>                                                                          
+                                </tr>
+                                <tr>
+                                    <td>신청사유</td>
+                                    <td colspan="5">[[${testAskOne.protestContent}]]</td>
+                                </tr>
+                            </table>
+                    </div>
+                </div>
+                <div class="row">
+                  
+                    <div class="col">
+                        <th:block th:if="${thTestAskList}==null">
+                            <input type="submit" class="btn btn-primary text-end"  value="수정">                          
+                        </th:block>
+                         <!-- 원글의 답글버튼(선생님) -->
+                       <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestStepno==0}">
+                            <input type="button" class="btn btn-primary" th:onclick="goComment([[${testAskOne.protestNum}]])" value="답글">
+                       </th:block>
+                        
+                    </div>
+
+
+
+                </div>
+            </form>  
+            
+        </div>
+    </div>
+
+<script>
+function goComment(protestNum){
+ location.href='/test/teacherComment?protestNum=' +protestNum;
+}
+
+</script>
+
+
+</th:block>
+
+<th:block layout:fragment="content_js">
+    <!-- html 파일이 열릴때 같이 실행되는 js -->
+    <!-- <script src="/"></script> -->
+</th:block>
+</html>
