@@ -3,6 +3,8 @@ package com.green.Team3.test.service;
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
+import com.green.Team3.member.vo.TeacherVO;
+import com.green.Team3.test.vo.TestAskVO;
 import com.green.Team3.test.vo.TestScoreVO;
 import com.green.Team3.test.vo.TestSubjectVO;
 import com.green.Team3.test.vo.TestVO;
@@ -59,4 +61,28 @@ public class StuTestServiceImpl implements StuTestService {
             public List<TestScoreVO> subTestMyScore(TestScoreVO testScoreVO) {
                 return sqlSession.selectList("testMapper.subTestMyScore", testScoreVO);
             }
+//################# 학생 성적 이의신청 페이지 #######################
+            // [학생] 이의신청 글 적기
+            @Override
+            public void insertStuAsk(TestAskVO testAskVO) {
+                sqlSession.insert("testMapper.insertStuAsk", testAskVO);
+            }
+            // [학생] 이의신청 글 목록
+            @Override
+            public List<TestAskVO> selectStuAsk(String memberId) {
+                return sqlSession.selectList("testMapper.selectStuAsk", memberId);
+            }
+            // [학생] 이의신청 글 상세보기
+            @Override
+            public TestAskVO stuAskDetail(TestAskVO testAskVO) {
+                return sqlSession.selectOne("testMapper.stuAskDetail", testAskVO);
+            }
+
+            //  답글 표시 구분하려고
+            @Override
+            public TeacherVO askMemberId(String memberId) {
+                return sqlSession.selectOne("testMapper.askMemberId",memberId);
+            }
+
+
 }

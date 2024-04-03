@@ -3,11 +3,9 @@ package com.green.Team3.test.controller;
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
+import com.green.Team3.test.service.StuTestServiceImpl;
 import com.green.Team3.test.service.TestServiceImpl;
-import com.green.Team3.test.vo.SearchTestVO;
-import com.green.Team3.test.vo.TestScoreVO;
-import com.green.Team3.test.vo.TestSubjectVO;
-import com.green.Team3.test.vo.TestVO;
+import com.green.Team3.test.vo.*;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -26,7 +24,10 @@ public class TestController {
 
 
     @Resource(name = "testService")
-  private TestServiceImpl testService;
+    private TestServiceImpl testService;
+
+    @Resource(name = "stuTestService")
+    private StuTestServiceImpl stuTestService;
 
 
 
@@ -366,11 +367,6 @@ public class TestController {
 
     // ????????????? 진행중~~~~~~~~~
     // 입력한 과목 점수 저장
-    private int[] score;
-    private int[] testNum;
-    private String[] memberId;
-    private int[] subTestNum;
-
     @ResponseBody
     @RequestMapping("/insertSubNtest")
     public void insertSubNtest(@RequestParam(name = "score")int score,
@@ -393,12 +389,36 @@ public class TestController {
 
 
 
+// ####################################  선생님 이의신청 페이지 기능 ~~~~##############################
 
 
+        // 선생님 이의신청 글 목록
+        @GetMapping("/teacherAskFirst")
+        public String teacherAskFirst(Model model, Authentication authentication){
+            User user=(User) authentication.getPrincipal();
+            List<TestAskVO> thTestAskList = testService.selTeacherAsk(user.getUsername());
+            model.addAttribute("thTestAskList", thTestAskList);
 
 
+            return "/content/test/teacher_test_ask";
+        }
 
 
+        @GetMapping("/teacherComment")
+        public String teacherComment(TestAskVO testAskVO, Model model, Authentication authentication){
+            User user=(User) authentication.getPrincipal();
+
+            List<TestAskVO> thTestAskList = testService.selTeacherAsk(user.getUsername());
+            model.addAttribute("thTestAskList", thTestAskList);
+            System.out.println("44444444444"+thTestAskList);
+
+
+            TestAskVO testAskOne = stuTestService.stuAskDetail(testAskVO);
+            model.addAttribute("testAskOne",testAskOne);
+
+
+            return "/content/test/teacher_ask_comment";
+        }
 
 
 
