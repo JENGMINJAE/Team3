@@ -8,6 +8,7 @@ import com.green.Team3.learn.vo.ConsultVO;
 import com.green.Team3.learn.vo.EventCalenderVO;
 import com.green.Team3.learn.vo.EventTypeVO;
 import com.green.Team3.learn.vo.HomeworkVO;
+import com.green.Team3.util.MailService;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;

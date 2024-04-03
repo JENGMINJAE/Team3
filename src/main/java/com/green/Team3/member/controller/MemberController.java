@@ -2,21 +2,25 @@ package com.green.Team3.member.controller;
 
 import com.green.Team3.member.service.MemberServiceImpl;
 import com.green.Team3.member.vo.MemberVO;
+import com.green.Team3.util.MailService;
+import com.green.Team3.util.MailVO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/member")
 public class MemberController {
     @Resource(name = "memberService")
     private MemberServiceImpl memberService;
+    @Resource(name = "mailService")
+    private MailService mailService;
     @Autowired
     private BCryptPasswordEncoder encoder;
 
@@ -94,6 +98,44 @@ public class MemberController {
     @GetMapping("/logoClick")
     public String logoClick(){
         return "redirect:/";
+    }
+
+    @GetMapping("/findPasswordForm")
+    public String findPw(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg,Model model){
+        model.addAttribute("errorMsg",errorMsg);
+//        mailService.sendHTMLEmail();
+        return "/content/member/findPassword";
+    }
+
+
+    @ResponseBody
+    @PostMapping("/findPwFetch")
+    public boolean findPwFetch(MemberVO memberVO){
+        String memberEmail = memberService.getMemberEmail(memberVO);
+        if(memberEmail != null){
+            //비밀번호 변경
+            //임시 비밀번호 생성
+            String imsiPw = mailService.createRandomPw();
+            //암호화
+            String encodedPw = encoder.encode(imsiPw);
+            memberVO.setMemberPw(encodedPw);
+            memberService.updateMemberPw(memberVO);
+            //메일 보내기
+            MailVO mailVO = new MailVO();
+            mailVO.setTitle("임시 비밀번호 발송");
+            mailVO.setRecipient(memberEmail);
+            mailVO.setContent("임시 비밀번호 : "+imsiPw + "\n로그인 이후 비밀번호를 꼭 변경해 주세요.");
+            mailService.sendSimpleEmail(mailVO);
+
+        }
+        return memberEmail != null ? true : false;
+    }
+
+    @GetMapping("/myInformationForm")
+    public String myInformation(Authentication authentication,Model model){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("memberVO",memberService.selectMyInformation(user.getUsername()));
+        return "/content/member/myInformation";
     }
 
 }
