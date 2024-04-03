@@ -10,7 +10,58 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성-->
-    학생정보 보여줄거야
+    <div class="row">
+        <div class="col-8">
+            <table class="table table-striped-columns">
+                <colgroup>
+                    <col width="16%">
+                    <col width="29%">
+                    <col width="16%">
+                    <col width="*%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td colspan="4">개인정보</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>이름</td>
+                        <td>[[${memberVO.memberName}]]</td>
+                        <td>아이디</td>
+                        <td>[[${memberVO.memberId}]]</td>
+                    </tr>
+                    <tr>
+                        <td>전화번호</td>
+                        <td>[[${memberVO.memberTel}]]</td>
+                        <td>@email</td>
+                        <td>[[${memberVO.memberEmail}]]</td>
+                    </tr>
+                    <tr>
+                        <td>주소</td>
+                        <td colspan="3">[[${memberVO.memberAddr}]]</td>
+                    </tr>
+                    <tr>
+                        <td>상세 주소</td>
+                        <td colspan="3">[[${memberVO.addrDetail}]]</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <input type="button" value="개인정보 변경" class="btn btn-outline-secondary">
+                </div>
+                <div class="col-9" id="passwordInput">
+                    뙇 하고 뜰곳
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <form action="">
+                
+            </form>
+        </div>
+    </div>
 </th:block>
 
 <th:block layout:fragment="content_js">

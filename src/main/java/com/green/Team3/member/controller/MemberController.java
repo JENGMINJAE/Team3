@@ -124,7 +124,7 @@ public class MemberController {
             MailVO mailVO = new MailVO();
             mailVO.setTitle("임시 비밀번호 발송");
             mailVO.setRecipient(memberEmail);
-            mailVO.setContent("임시 비밀번호 : "+imsiPw + "\n로그인 이후 비밀번호를 꼭 변경해 주세요.");
+            mailVO.setContent("임시 비밀번호 : "+imsiPw + "\n\n로그인 이후 비밀번호를 꼭 변경해 주세요.");
             mailService.sendSimpleEmail(mailVO);
 
         }
