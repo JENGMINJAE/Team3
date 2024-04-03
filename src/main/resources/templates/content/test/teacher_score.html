@@ -12,8 +12,10 @@
     <!-- html 코드작성 -->
 
     <style>
-         .trTitle { font-size: 16px; --bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center;} 
+         .trTitle {  height: 10px; font-size: 16px; --bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center; padding: 2px;} 
         th, tr, td, .avgDiv {border: 2px solid rgba(58, 111, 228, 0.281);}
+        
+        .table>:not(caption)>*>*{padding: 5px 5px;}
     </style>
 
 
@@ -114,7 +116,7 @@
                                                             <col width="25%">
                                                             <col width="25%">
                                                         </colgroup>
-                                                        <thead class="trTitle">
+                                                        <thead class="trTitle h-25">
                                                             <th>이름</th>
                                                             <th>성적</th>
                                                             <th>만점</th>

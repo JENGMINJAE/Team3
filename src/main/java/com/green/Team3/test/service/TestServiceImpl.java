@@ -83,11 +83,9 @@ public class TestServiceImpl implements TestService{
 
     // (선생님 모달) 과목저장
     @Override
-    public void insertSubScore(TestScoreVO testScoreVO) {
-        sqlSession.insert("testMapper.insertSubScore", testScoreVO);
+    public void insertSub(TestSubjectVO testSubjectVO) {
+        sqlSession.insert("testMapper.insertSub", testSubjectVO);
     }
-
-
 
 
 // ######################################### 시험 상세정보 조회시  ##################################
@@ -181,13 +179,11 @@ public class TestServiceImpl implements TestService{
         return sqlSession.selectList("testMapper.stuCnt",classNum);
     }
 
-    // (과목시험 성적입력페이지) 과목 저장
+    // (과목시험 성적입력페이지) 과목 성적 저장
     @Override
-    public void insertSub(TestSubjectVO testSubjectVO) {
-        sqlSession.insert("testMapper.insertSub", testSubjectVO);
+    public void insertSubScore(TestScoreVO testScoreVO) {
+        sqlSession.insert("testMapper.insertSubScore", testScoreVO);
     }
-
-
 
 
 

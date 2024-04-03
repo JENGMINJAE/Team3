@@ -2,6 +2,7 @@ package com.green.Team3.test.controller;
 
 
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.test.service.StuTestServiceImpl;
 import com.green.Team3.test.service.TestServiceImpl;
@@ -79,10 +80,10 @@ public class StuTestController {
     // 학생이 전체이수표 조회
     @ResponseBody
     @PostMapping("/totalListSearch")
-    public List<OperatorVO> totalListSearch(Authentication authentication){
+    public List<ClsVO> totalListSearch(Authentication authentication){
 
         User user=(User) authentication.getPrincipal();
-        List<OperatorVO> totalStuTest =stuTestService.totalSelectTest(user.getUsername());
+        List<ClsVO> totalStuTest =stuTestService.totalSelectTest(user.getUsername());
         return totalStuTest;
     }
 
@@ -96,9 +97,15 @@ public class StuTestController {
 
         User user=(User) authentication.getPrincipal();
 
+        MemberVO stuInfoService = stuTestService.selectStuTest(user.getUsername());
+        model.addAttribute("stuInfoService",stuInfoService);
+        System.out.println(stuInfoService);
 
-        List<TestScoreVO> mainMyScore= stuTestService.mainTestMyScore(testScoreVO);
+
+        TestScoreVO mainMyScore= stuTestService.mainTestMyScore(testScoreVO);
         model.addAttribute("mainMyScore",mainMyScore);
+        System.out.println(mainMyScore);
+
         return "content/student/student_test_check";
 
     }

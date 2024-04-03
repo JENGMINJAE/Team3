@@ -24,6 +24,10 @@ public interface MemberService {
     // 학생 전체 목록 조회
     List<MemberVO> selectStudents();
 
+    String getMemberEmail(MemberVO memberVO);
 
+    void updateMemberPw(MemberVO memberVO);
+
+    MemberVO selectMyInformation(String memberId);
 
 }

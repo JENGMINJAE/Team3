@@ -145,6 +145,36 @@
         AND CI.CLASS_NUM = #{classNum}
     </select>
 
+    <!--  아이디찾기  -->
+    <select id="findId" resultType="String">
+        SELECT MEMBER_ID FROM member
+        WHERE MEMBER_NAME = #{memberName}
+        AND MEMBER_TEL = #{memberTel}
+    </select>
+
+    <select id="getMemberEmail" resultType="String">
+        SELECT MEMBER_EMAIL FROM member
+        WHERE MEMBER_ID = #{memberId}
+        AND MEMBER_NAME = #{memberName}
+    </select>
+    <update id="updateMemberPw">
+        UPDATE MEMBER SET
+        MEMBER_PW = #{memberPw}
+        WHERE MEMBER_ID = #{memberId}
+    </update>
+    <select id="selectMyInformation" resultMap="memberMap">
+        SELECT
+            MEMBER_ID,
+            MEMBER_NAME,
+            MEMBER_TEL,
+            MEMBER_EMAIL,
+            MEMBER_AGE,
+            MEMBER_ADDR,
+            ADDR_DETAIL
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
 </mapper>
 
 

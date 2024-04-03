@@ -61,7 +61,8 @@ function goUpdateScores(testNum){
                             document.querySelector('#updateScorBtn').value='저장';                             
                     }
 
-                    else if(updateScorBtn.value=='저장'){ goUpdate(); }
+                    else if(updateScorBtn.value=='저장'){
+                         goUpdate(); }
     
         })
 

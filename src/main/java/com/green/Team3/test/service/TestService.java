@@ -46,8 +46,7 @@ public interface TestService {
     List<TestVO> testNumInfo2(int testNum);
 
     // (선생님 모달) 과목저장
-    void insertSubScore(TestScoreVO testScoreVO);
-
+    void insertSub(TestSubjectVO testSubjectVO);
     // (선생님 모달)  과목목록 조회  %%%%%%%%%%%%%%%%%확인중%%%%%%%%%%%%%%%%%%%%
     List<TestSubjectVO> selectSubList(int testNum);
 
@@ -109,7 +108,9 @@ public interface TestService {
     List<MemberVO> stuCnt(int classNum);
 
     // (과목시험 성적입력페이지) 과목 저장   %%%%%%%%%%%%%%%%%%%%%%%%% 진행중
-    void insertSub(TestSubjectVO testSubjectVO);
+    void insertSubScore(TestScoreVO testScoreVO);
+
+
 
 
 
