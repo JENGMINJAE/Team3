@@ -4,8 +4,11 @@ package com.green.Team3.test.controller;
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
+import com.green.Team3.member.vo.TeacherVO;
 import com.green.Team3.test.service.StuTestServiceImpl;
+import com.green.Team3.test.service.TestService;
 import com.green.Team3.test.service.TestServiceImpl;
+import com.green.Team3.test.vo.TestAskVO;
 import com.green.Team3.test.vo.TestScoreVO;
 import com.green.Team3.test.vo.TestSubjectVO;
 import com.green.Team3.test.vo.TestVO;
@@ -25,6 +28,8 @@ public class StuTestController {
     @Resource(name = "stuTestService")
     private StuTestServiceImpl stuTestService;
 
+    @Resource(name = "testService")
+    private TestServiceImpl testService;
 
 
     // ??????????????? 진행중
@@ -136,13 +141,79 @@ public class StuTestController {
 
 
 
+// ############################# (학생) 이의신청 페이지  #############################
 
 
+    // (학생)이의신청 목록페이지 (첫페이지)
+    @GetMapping("/stuAskFirst")
+    public String stuAskFirst(Model model, Authentication authentication){
+        User user=(User) authentication.getPrincipal();
+        List<TestAskVO> testAskList = stuTestService.selectStuAsk(user.getUsername());
+        model.addAttribute("testAskList",testAskList);
+
+         return "content/student/student_test_ask";
+    }
+
+    // (학생) 이의신청 글 적기 페이지
+    @GetMapping("/stuAskWrite")
+    public String stuAskWrite(Model model, MemberVO memberVO, Authentication authentication ){
+            User user=(User) authentication.getPrincipal();
+            MemberVO stuInfoService = stuTestService.selectStuTest(user.getUsername());
+            model.addAttribute("stuInfoService",stuInfoService);
+
+            List<TestVO> stuTest = stuTestService.selectStuTestDetail(user.getUsername());
+            model.addAttribute("stuTest",stuTest);
+
+            List<ClsVO> totalStuTest =stuTestService.totalSelectTest(user.getUsername());
+            model.addAttribute("totalStuTest", totalStuTest);
+
+        return "content/student/student_ask_write";
+    }
 
 
+    // (학생) 이의신청 글 저장
+    @PostMapping("/insertStuAsk")
+    public String insertStuAsk(TestAskVO testAskVO){
+        stuTestService.insertStuAsk(testAskVO);
+        return "redirect:/stuTest/stuAskFirst?memberId=" + testAskVO.getMemberId();
+    }
 
+    @GetMapping("/stuAskDetail")
+    public String stuAskDetail(TestAskVO testAskVO, Model model,Authentication authentication){
 
+        User user=(User) authentication.getPrincipal();
 
+        TestAskVO testAskOne = stuTestService.stuAskDetail(testAskVO);
+        model.addAttribute("testAskOne",testAskOne);
+        System.out.println(testAskOne);
+
+       TeacherVO teacherID = stuTestService.askMemberId(user.getUsername());
+        System.out.println("999999"+teacherID);
+
+        if(teacherID!=null){
+            List<TestAskVO> thTestAskList = testService.selTeacherAsk(user.getUsername());
+            model.addAttribute("thTestAskList", thTestAskList);
+            System.out.println("0543678889"+thTestAskList);
+        }
+
+//        if(testAskOne.getProtestOrigino()>0 && testAskOne.getProtestStepno()<2){
+//
+//            TestAskVO testAskO = stuTestService.stuAskDetail(testAskVO);
+//            model.addAttribute("testAskO",testAskO);
+//            System.out.println(testAskOne);
+//
+//            TeacherVO teacherI = stuTestService.askMemberId(memberId);
+//            System.out.println("999999"+teacherI);
+//
+//
+//            List<TestAskVO> thTestAskL = testService.selTeacherAsk(memberId);
+//            model.addAttribute("thTestAskL", thTestAskL);
+//            System.out.println("0543678889"+thTestAskL);
+//
+//            return "content/student/teacher_comm_detail";
+//        }
+        return "content/student/student_ask_detail";
+    }
 
 
 

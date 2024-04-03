@@ -3,10 +3,7 @@ package com.green.Team3.test.service;
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
-import com.green.Team3.test.vo.SearchTestVO;
-import com.green.Team3.test.vo.TestScoreVO;
-import com.green.Team3.test.vo.TestSubjectVO;
-import com.green.Team3.test.vo.TestVO;
+import com.green.Team3.test.vo.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -183,6 +180,12 @@ public class TestServiceImpl implements TestService{
     @Override
     public void insertSubScore(TestScoreVO testScoreVO) {
         sqlSession.insert("testMapper.insertSubScore", testScoreVO);
+    }
+
+    // ######################################### 선생님 이의신청 페이지  ##################################
+    @Override
+    public List<TestAskVO> selTeacherAsk(String memberId) {
+        return sqlSession.selectList("testMapper.selTeacherAsk",memberId);
     }
 
 
