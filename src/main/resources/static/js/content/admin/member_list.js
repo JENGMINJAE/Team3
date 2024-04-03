@@ -676,11 +676,6 @@ function reqSomePay(){
             console.log(err);
         });
     
-
     }
-
-    
-
-
-    
+  
 }
