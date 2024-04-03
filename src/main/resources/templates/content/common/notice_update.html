@@ -36,14 +36,16 @@
                             </tr>
                             <tr>
                                 <td>첨부파일</td>
-                                <td class="text-start">
+                                <td class="text-start" id="deleteImgFile" >
                                     <th:block th:if="${notice.imgList[0].originFileName != null}">
                                         <th:block th:each="img, imgStat : ${notice.imgList}">
-                                            [[${img.originFileName}]]
-                                            <input type="button" class="btn btn-secondary" value="삭제"
-                                                th:onclick="goDeleteImg(this, [[${img.imgNum}]], [[${notice.boardNum}]])"
-                                                data-img-num="[[${img.imgNum}]]" 
-                                        data-board-num="[[${notice.boardNum}]]">
+                                            <div>
+                                                [[${img.originFileName}]]
+                                                <input type="button" class="btn btn-secondary" value="삭제"
+                                                    th:onclick="goDeleteImg(this, [[${img.imgNum}]], [[${notice.boardNum}]])"
+                                                    data-img-num="[[${img.imgNum}]]" 
+                                                    data-board-num="[[${notice.boardNum}]]">
+                                            </div>
                                         </th:block>
                                     </th:block>
                                     <div>
