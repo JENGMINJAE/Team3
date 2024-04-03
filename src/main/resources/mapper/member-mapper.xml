@@ -162,6 +162,18 @@
         MEMBER_PW = #{memberPw}
         WHERE MEMBER_ID = #{memberId}
     </update>
+    <select id="selectMyInformation" resultMap="memberMap">
+        SELECT
+            MEMBER_ID,
+            MEMBER_NAME,
+            MEMBER_TEL,
+            MEMBER_EMAIL,
+            MEMBER_AGE,
+            MEMBER_ADDR,
+            ADDR_DETAIL
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
 
 </mapper>
 

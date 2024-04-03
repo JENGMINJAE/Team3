@@ -28,4 +28,6 @@ public interface MemberService {
 
     void updateMemberPw(MemberVO memberVO);
 
+    MemberVO selectMyInformation(String memberId);
+
 }

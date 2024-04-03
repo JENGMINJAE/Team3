@@ -7,6 +7,8 @@ import com.green.Team3.util.MailVO;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -122,11 +124,18 @@ public class MemberController {
             MailVO mailVO = new MailVO();
             mailVO.setTitle("임시 비밀번호 발송");
             mailVO.setRecipient(memberEmail);
-            mailVO.setContent("임시 비밀번호 : "+imsiPw);
+            mailVO.setContent("임시 비밀번호 : "+imsiPw + "\n로그인 이후 비밀번호를 꼭 변경해 주세요.");
             mailService.sendSimpleEmail(mailVO);
 
         }
         return memberEmail != null ? true : false;
+    }
+
+    @GetMapping("/myInformationForm")
+    public String myInformation(Authentication authentication,Model model){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("memberVO",memberService.selectMyInformation(user.getUsername()));
+        return "/content/member/myInformation";
     }
 
 }

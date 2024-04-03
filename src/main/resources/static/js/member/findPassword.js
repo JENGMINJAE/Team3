@@ -26,13 +26,16 @@ function findPw(){
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
         if(data){
-
+            document.querySelector("#failChecker").innerHTML = '';
+            let str = '';
+            str += `가입하신 Email로 임시비밀번호를 전송했습니다.`;
+            document.querySelector("#failChecker").insertAdjacentHTML('afterbegin',str);
         }
         else{
-        document.querySelector("#failChecker").innerHTML = '';
+            document.querySelector("#failChecker").innerHTML = '';
             let str = '';
             str += `아이디와 비밀번호를 확인해주세요.`;
-        document.querySelector("#failChecker").insertAdjacentHTML('beforeend',str);
+            document.querySelector("#failChecker").insertAdjacentHTML('afterbegin',str);
         }
     })
     //fetch 통신 실패 시 실행 영역

@@ -51,6 +51,11 @@ public class MemberServiceImpl implements MemberService{
         sqlSession.update("member.updateMemberPw",memberVO);
     }
 
+    @Override
+    public MemberVO selectMyInformation(String memberId) {
+        return sqlSession.selectOne("member.selectMyInformation",memberId);
+    }
+
     //아이디 중복 확인
 //    @Override
 //    public int idCheck(MemberVO memberVO) {

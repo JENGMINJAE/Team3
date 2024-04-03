@@ -4,7 +4,7 @@
         <div class="row loginFor" style="height: 105px;  margin-top: 20px; margin-bottom: 20px;">
 
             <th:block sec:authorize="isAnonymous()">
-                <div class="col-9" style="text-align: center; font-size: 40px;" location.href='/'>
+                <div class="col-9" style="text-align: center; font-size: 40px;" onclick="location.href='/'">
                     그린 학원
                 </div>
                 <div class="col-3">
@@ -85,17 +85,24 @@
                     <div class="row" style="height: 105px;">
                         <th:block sec:authorize="hasRole('ROLE_1')">
                             <div class="col-7" style="text-align: right; padding: 14.5px 10px 0px 0px;">
-                                [[${#authentication.name}]] 학생
+                                <span>내정보</span>[[${#authentication.name}]] 학생
                             </div>
                         </th:block>
                         <th:block sec:authorize="hasRole('ROLE_2')">
-                            <div class="col-7" style="text-align: right; padding: 14.5px 10px 0px 0px;">
-                                [[${#authentication.name}]] 선생님
+                            <div class="col-7" style="text-align: right;">
+                                <div class="row">
+                                    <div class="col-12" style="padding-top:5px" onclick="location.href='/member/myInformationForm'">
+                                        개인 정보 수정
+                                    </div>
+                                    <div class="col-12">
+                                        [[${#authentication.name}]] 선생님
+                                    </div>
+                                </div>
                             </div>
                         </th:block>
                         <th:block sec:authorize="hasRole('ROLE_3')">
                             <div class="col-7" style="text-align: right; padding: 14.5px 10px 0px 0px;">
-                                [[${#authentication.name}]] 원장님
+                                <span>내정보</span>[[${#authentication.name}]] 원장님
                             </div>
                         </th:block>
                         <div class="col-5" style="padding: 8.2px 0px;">
