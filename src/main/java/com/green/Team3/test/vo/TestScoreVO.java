@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -18,7 +20,10 @@ public class TestScoreVO {
 
     private int ranking;
     private double testAvg;
+    private String className;
+    private String level;
     private MemberVO memberOneVO;
     private TestVO testOneVo;
     private TestSubjectVO testSubOneVO;
+
 }

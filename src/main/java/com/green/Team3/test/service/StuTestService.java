@@ -1,6 +1,7 @@
 package com.green.Team3.test.service;
 
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.test.vo.TestScoreVO;
 import com.green.Team3.test.vo.TestSubjectVO;
@@ -30,12 +31,12 @@ public interface StuTestService {
     List<TestSubjectVO> selectStuSub(String memberId);
 
     //학생 전체 성적이수표 조회
-    List<OperatorVO> totalSelectTest(String memberId);
+    List<ClsVO> totalSelectTest(String memberId);
 
 
     //############ 조회버튼 클릭시 성적 상세페이지 이동하여 조회 ########
     // 학생 과목 없을시   my 성적페이지 이동 & 조회
-    List<TestScoreVO> mainTestMyScore(TestScoreVO testScoreVO);
+    TestScoreVO mainTestMyScore(TestScoreVO testScoreVO);
     // 학생 과목 있을시   my 성적페이지 이동 & 조회
     List<TestScoreVO> subTestMyScore(TestScoreVO testScoreVO);
 
