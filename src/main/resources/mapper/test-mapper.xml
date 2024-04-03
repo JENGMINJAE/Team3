@@ -7,35 +7,38 @@
 
 
     <resultMap id="testResult" type="com.green.Team3.test.vo.TestVO">
-        <id column="TEST_NUM" property="testNum"/>
-        <result column="TEST_NAME" property="testName"/>
-        <result column="TEST_DATE" property="testDate"/>
-        <result column="TEST_MAXSCORE" property="testMaxScore"/>
-        <result column="CLASS_NUM" property="classNum"/>
-        <result column="SUB_CNT" property="subCnt"/>
-        <result column="TOTAL_SUBMAX" property="totalSubMax"/>
-        <association property="classOneVo" resultMap="clsMapper.cls"/>
-        <collection property="studentListVO" resultMap="admin.operator"/>
+        <id column="TEST_NUM"                   property="testNum"/>
+        <result column="TEST_NAME"              property="testName"/>
+        <result column="TEST_DATE"              property="testDate"/>
+        <result column="TEST_MAXSCORE"          property="testMaxScore"/>
+        <result column="CLASS_NUM"              property="classNum"/>
+        <result column="SUB_CNT"                property="subCnt"/>
+        <result column="TOTAL_SUBMAX"           property="totalSubMax"/>
+        <association property="classOneVo"      resultMap="clsMapper.cls"/>
+        <collection property="studentListVO"    resultMap="admin.operator"/>
     </resultMap>
 
     <resultMap id="scoreResult" type="com.green.Team3.test.vo.TestScoreVO">
-    <id column="SCORE_NUM" property="scoreNum"/>
-    <result column="SCORE" property="score"/>
-    <result column="TEST_NUM" property="testNum"/>
-    <result column="MEMBER_ID" property="memberId"/>
-    <result column="RANKING" property="ranking"/>
-    <result column="SUB_TEST_NUM" property="subTestNum"/>
-    <result column="TEST_AVG" property="testAvg"/>
-    <association property="memberOneVO" resultMap="member.memberMap"/>
-    <association property="testOneVo" resultMap="testResult"/>
-    <association property="testSubOneVO" resultMap="subResult"/>
+        <id column="SCORE_NUM"              property="scoreNum"/>
+        <result column="SCORE"              property="score"/>
+        <result column="TEST_NUM"           property="testNum"/>
+        <result column="MEMBER_ID"          property="memberId"/>
+        <result column="RANKING"            property="ranking"/>
+        <result column="SUB_TEST_NUM"       property="subTestNum"/>
+        <result column="TEST_AVG"           property="testAvg"/>
+        <result column="CLASS_NAME"         property="className"/>
+        <result column="LEVEL"              property="level"/>
+        <association property="memberOneVO" resultMap="member.memberMap"/>
+        <association property="testOneVo"    resultMap="testResult"/>
+        <association property="testSubOneVO" resultMap="subResult"/>
+
     </resultMap>
 
     <resultMap id="subResult" type="com.green.Team3.test.vo.TestSubjectVO">
-        <id column="SUB_TEST_NUM"       property="subTestNum" />
-        <result column="SUB_NAME"           property="subName" />
-        <result column="SUB_MAXSCORE"       property="subMaxScore" />
-        <result column="TEST_NUM"           property="testNum" />
+        <id column="SUB_TEST_NUM"               property="subTestNum" />
+        <result column="SUB_NAME"               property="subName" />
+        <result column="SUB_MAXSCORE"           property="subMaxScore" />
+        <result column="TEST_NUM"               property="testNum" />
         <association property="testOneVO"      resultMap="testResult"/>
     </resultMap>
 
@@ -366,7 +369,7 @@
 
 
     <!-- 과목있을시 과목별 성적, 등록 버튼 틀릭 시 저장 -->
-    <insert id="insertSubScore">
+    <insert id="insertSubScore" parameterType="java.util.List">
         INSERT INTO TEST_SCORE(
         SCORE
         , TEST_NUM
@@ -391,9 +394,7 @@
         , MEMBER_NAME
         , MEMBER_ROLL
         FROM member MEM
-        INNER JOIN operator OP
-        ON MEM.MEMBER_ID=OP.MEMBER_ID
-        WHERE OP.MEMBER_ID= #{memberId}
+        WHERE MEM.MEMBER_ID= #{memberId}
     </select>
 
     <!--학생 수강별조회 서비스-->
@@ -472,20 +473,31 @@
 
     <!--    과목 없을시   my 성적페이지 이동 & 조회 -->
     <select id="mainTestMyScore" resultMap="scoreResult">
-        SELECT
-        TS.TEST_NUM
-        ,TEST_NAME
-        ,TEST_DATE
-        , SCORE
-        , TS.MEMBER_ID
-        , TEST_MAXSCORE
-        , SCORE_NUM
-        , (SELECT COUNT(SUB_NAME)  FROM test_subject WHERE TEST_NUM = TS.TEST_NUM) AS SUB_CNT
-        , (SELECT AVG (SCORE) FROM test_score WHERE TEST_NUM=TS.TEST_NUM) AS TEST_AVG
-        FROM test_score TS
-        INNER JOIN test TT
-        ON TS.TEST_NUM= TT.TEST_NUM
-        WHERE TS.TEST_NUM= #{testNum} AND TS.MEMBER_ID=#{memberId}
+        <![CDATA[
+                SELECT
+                TS.TEST_NUM
+                ,TEST_NAME
+                ,TEST_DATE
+                , SCORE
+                , TS.MEMBER_ID
+                , TEST_MAXSCORE
+                , SCORE_NUM
+                , (SELECT COUNT(SUB_NAME)  FROM test_subject WHERE TEST_NUM = TS.TEST_NUM) AS SUB_CNT
+                , ROUND((SELECT AVG (SCORE) FROM test_score WHERE TEST_NUM=TS.TEST_NUM),1) AS TEST_AVG
+                , (SELECT CLASS_NAME FROM CLASS_INFO WHERE CLASS_NUM=TT.CLASS_NUM) AS CLASS_NAME
+                , CASE
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.90 THEN 'A'
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.80 AND TS.SCORE <TEST_MAXSCORE*0.91  THEN 'B'
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.70 AND TS.SCORE <TEST_MAXSCORE*0.81  THEN 'C'
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.60 AND TS.SCORE <TEST_MAXSCORE*0.71  THEN 'D'
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.50 AND TS.SCORE <TEST_MAXSCORE*0.61  THEN 'E'
+                        WHEN TS.SCORE <TEST_MAXSCORE*0.51 THEN 'F'
+                END AS 'LEVEL'
+                FROM test_score TS
+                INNER JOIN test TT
+                ON TS.TEST_NUM= TT.TEST_NUM
+                WHERE TS.TEST_NUM= #{testNum} AND TS.MEMBER_ID=#{memberId}
+        ]]>
     </select>
     <!--    과목 있을시   my 성적페이지 이동 & 조회 -->
     <select id="subTestMyScore" resultMap="scoreResult">

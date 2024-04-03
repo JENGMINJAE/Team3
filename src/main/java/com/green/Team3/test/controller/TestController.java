@@ -328,7 +328,8 @@ public class TestController {
     @PostMapping("/updateScore")
     public String updateScore(@RequestParam(name = "score") List<Integer> scoreList
             , @RequestParam(name = "scoreNum") List<Integer> scoreNumList ,TestScoreVO testScoreVO){
-                    for(int i = 0 ; i < scoreNumList.size() ; i++){
+
+                 for(int i = 0 ; i < scoreNumList.size() ; i++){
                         TestScoreVO vo = new TestScoreVO();
                         vo.setScore(scoreList.get(i));
                         vo.setScoreNum(scoreNumList.get(i));
@@ -365,27 +366,28 @@ public class TestController {
 
     // ????????????? 진행중~~~~~~~~~
     // 입력한 과목 점수 저장
+    private int[] score;
+    private int[] testNum;
+    private String[] memberId;
+    private int[] subTestNum;
 
-    @PostMapping("/insertSubNtest")
-    public String insertSubNtest(@RequestParam(name="testNum") List<Integer> testNums,
-                                 @RequestParam(name="score") List<Integer> scores,
-                                 @RequestParam(name ="memberId") List<String> memberIds,
-                                 @RequestParam(name = "subTestNum")List<Integer> subTestNums,
-                                 TestScoreVO testScoreVO){
+    @ResponseBody
+    @RequestMapping("/insertSubNtest")
+    public void insertSubNtest(@RequestParam(name = "score")int score,
+                               @RequestParam(name = "testNum")int testNum,
+                               @RequestParam(name = "memberId")String memberId,
+                               @RequestParam(name = "subTestNum")int subTestNum){
 
-        for(int j =0; j<scores.size(); j++){
+        System.out.println(score);
 
-            TestScoreVO ts = new TestScoreVO();
+//        for(TestScoreVO TestScoreVo : testScoreVOList){
+//
+//            testService.insertSubScore(TestScoreVo);
+//
+//        }
 
-            ts.setTestNum(testNums.get(j));
-            ts.setScore(scores.get(j));
-            ts.setMemberId(memberIds.get(j));
-            ts.setSubTestNum(subTestNums.get(j));
-            testService.insertSubScore(ts);
-
-        }
-
-        return "redirect:/test/goTestN?testNum="+ testScoreVO.getTestNum()+"&classNum="+ testScoreVO.getTestOneVo().getClassNum();
+        //return  //"redirect:/test/goTestN?testNum="+ testScoreVOList.get(0).getTestNum()+"&classNum=" + testScoreVOList.get(0).getTestOneVo().getClassNum();
+        //getTestNum()+"&classNum="+ testScoreVO.getTestOneVo().getClassNum();
 
     }
 

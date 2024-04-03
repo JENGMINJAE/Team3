@@ -349,6 +349,7 @@ function totalTest(memberId){
 // ######################################## (서치 서비스) 과목 있음, 없음 성적 확인페이지 이동 ############################# 
 function goStuScoreCheck(testNum, testMaxScore){
     alert(testMaxScore);
+        
         if(testMaxScore!=0){
             location.href='/stuTest/goMyScore?testNum='+ testNum +'&memberId='+ memberId; 
         }
