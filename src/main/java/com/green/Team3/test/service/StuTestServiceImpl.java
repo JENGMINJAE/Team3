@@ -61,7 +61,11 @@ public class StuTestServiceImpl implements StuTestService {
             public List<TestScoreVO> subTestMyScore(TestScoreVO testScoreVO) {
                 return sqlSession.selectList("testMapper.subTestMyScore", testScoreVO);
             }
-//################# 학생 성적 이의신청 페이지 #######################
+
+
+    //################# 학생 성적 이의신청 페이지 #######################
+
+
             // [학생] 이의신청 글 적기
             @Override
             public void insertStuAsk(TestAskVO testAskVO) {

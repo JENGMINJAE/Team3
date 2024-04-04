@@ -44,6 +44,7 @@ public interface StuTestService {
 
 
 //############ 학생 성적 이의신청 페이지 #######################
+
     // [학생] 이의신청 글 적기
     void insertStuAsk(TestAskVO testAskVO);
     // [학생] 이의신청 글 목록

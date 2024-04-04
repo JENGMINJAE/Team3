@@ -156,8 +156,9 @@ public class StuTestController {
 
     // (학생) 이의신청 글 적기 페이지
     @GetMapping("/stuAskWrite")
-    public String stuAskWrite(Model model, MemberVO memberVO, Authentication authentication ){
+    public String stuAskWrite(Model model, Authentication authentication ){
             User user=(User) authentication.getPrincipal();
+
             MemberVO stuInfoService = stuTestService.selectStuTest(user.getUsername());
             model.addAttribute("stuInfoService",stuInfoService);
 
@@ -173,7 +174,9 @@ public class StuTestController {
 
     // (학생) 이의신청 글 저장
     @PostMapping("/insertStuAsk")
-    public String insertStuAsk(TestAskVO testAskVO){
+    public String insertStuAsk(TestAskVO testAskVO, Authentication authentication){
+        User user=(User) authentication.getPrincipal();
+
         stuTestService.insertStuAsk(testAskVO);
         return "redirect:/stuTest/stuAskFirst?memberId=" + testAskVO.getMemberId();
     }

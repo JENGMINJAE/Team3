@@ -47,6 +47,7 @@
         <result column="PROTEST_TITLE"      property="protestTitle"/>
         <result column="PROTEST_CONTENT"    property="protestContent"/>
         <result column="PROTEST_DATE"       property="protestDate"/>
+        <result column="PROTEST_WRITER"       property="protestWriter"/>
         <result column="PROTEST_ORIGINO"    property="protestOrigino"/>
         <result column="PROTEST_GROUPNO"    property="protestGroupno"/>
         <result column="PROTEST_STEPNO"     property="protestStepno"/>
@@ -544,6 +545,7 @@
 
     <!--  // //////////////////////////// 학생이 로그인해서 성적이의신청 페이지 ////////////////////////////////////////////-->
 
+
     <!--   [학생] 이의신청 글 적기   -->
     <insert id="insertStuAsk">
         INSERT INTO test_ask(
@@ -552,6 +554,7 @@
         , PROTEST_ORIGINO
         , PROTEST_GROUPNO
         , PROTEST_STEPNO
+        , PROTEST_WRITER
         , MEMBER_ID
         , CLASS_NUM
         , TEST_NUM
@@ -561,7 +564,8 @@
         , 0
         , 0
         , 0
-        ,  #{memberId}
+        , #{protestWriter}
+        , #{memberId}
         , #{classNum}
         , #{testNum}
         )
@@ -575,6 +579,7 @@
         , PROTEST_TITLE
         , PROTEST_DATE
         , PROTEST_CONTENT
+        , PROTEST_ORIGINO
         , MEMBER_ID
         , (SELECT MEMBER_NAME FROM MEMBER MEM WHERE MEM.MEMBER_ID= TA.MEMBER_ID)AS MEMBER_N
         , (SELECT TEST_NAME FROM TEST TT WHERE TT.TEST_NUM= TA.TEST_NUM) AS TEST_N
@@ -590,6 +595,7 @@
         , PROTEST_TITLE
         , PROTEST_DATE
         , PROTEST_CONTENT
+        , PROTEST_WRITER
         , MEMBER_ID
         , CLASS_NUM
         , TEST_NUM
@@ -622,6 +628,7 @@
         , PROTEST_DATE
         , TA.CLASS_NUM
         , TA.MEMBER_ID
+        , PROTEST_ORIGINO
         , (SELECT MEMBER_NAME FROM MEMBER MEM WHERE MEM.MEMBER_ID= TA.MEMBER_ID)AS MEMBER_N
         , (SELECT TEST_NAME FROM TEST TT WHERE TT.TEST_NUM= TA.TEST_NUM) AS TEST_N
         , (SELECT CLASS_NAME FROM class_info CI WHERE CI.CLASS_NUM= TA.CLASS_NUM) AS CLASS_N
@@ -633,7 +640,40 @@
         INNER JOIN TEACHER TC
         ON TC.TEACHER_NUM = CI.TEACHER_NUM
         WHERE TC.MEMBER_ID =#{memberId}
+        ORDER BY PROTEST_NUM ASC, PROTEST_ORIGINO DESC
     </select>
+
+    <!-- 선생님 답글 저장하기 (1)   -->
+    <insert id="insertCom">
+        INSERT INTO test_ask(
+        PROTEST_TITLE
+        , PROTEST_CONTENT
+        , PROTEST_ORIGINO
+        , PROTEST_GROUPNO
+        , PROTEST_STEPNO
+        , PROTEST_WRITER
+        , MEMBER_ID
+        , CLASS_NUM
+        , TEST_NUM
+        )VALUES(
+        #{protestTitle}
+        , #{protestContent}
+        , #{protestOrigino}
+        , #{protestGroupno}
+        , #{protestStepno}
+        , #{protestWriter}
+        , #{memberId}
+        , #{classNum}
+        , #{testNum}
+        )
+    </insert>
+    <!-- 선생님 계단형 답글 저장하기 (2)   -->
+    <update id="updateComm">
+        UPDATE test_ask
+        SET PROTEST_GROUPNO= #{protestGroupno}
+        WHERE PROTEST_ORIGINO=#{protestOrigino} AND PROTEST_GROUPNO&gt;0
+    </update>
+
 
 </mapper>
 

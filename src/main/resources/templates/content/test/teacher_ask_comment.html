@@ -19,7 +19,7 @@
                          <input type="text" name="memberId" th:value="${testAskOne.memberId}" >
                          <input type="hidden" name="classNum" th:value="${testAskOne.classNum}" >
                          <input type="hidden" name="testNum" th:value="${testAskOne.testNum}" >
-                         
+                         <input type="text" name="protestWriter" th:value="${stuInfoService.memberName}" >
                          
                         <th:block th:if="${testAskOne.protestOrigino}==0"> 
                          <input type="text" name="protestOrigino" th:value="${testAskOne.protestNum}" >  
