@@ -174,6 +174,12 @@
         FROM MEMBER
         WHERE MEMBER_ID = #{memberId}
     </select>
+    <select id="matchPassWord" resultType="String">
+        SELECT
+            MEMBER_PW
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
 
 </mapper>
 

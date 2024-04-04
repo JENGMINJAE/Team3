@@ -33,9 +33,9 @@
                     </tr>
                     <tr>
                         <td>전화번호</td>
-                        <td>[[${memberVO.memberTel}]]</td>
+                        <td id="memTel">[[${memberVO.memberTel}]]</td>
                         <td>@email</td>
-                        <td>[[${memberVO.memberEmail}]]</td>
+                        <td id="memEmail">[[${memberVO.memberEmail}]]</td>
                     </tr>
                     <tr>
                         <td>주소</td>
@@ -47,25 +47,23 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="row mb-2">
+            <div class="row mb-2" id="passwordInput">
                 <div class="col-3">
-                    <input type="button" value="개인정보 변경" class="btn btn-outline-secondary">
+                    <input type="button" value="개인정보 변경" class="btn btn-outline-secondary" onclick="passwordInput()">
                 </div>
-                <div class="col-9" id="passwordInput">
-                    뙇 하고 뜰곳
+                <div class="col-9">
+                    
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <form action="">
-                
-            </form>
+        <div class="col-4" id="passwordChanger" style="margin-top: 41px;">
+            
         </div>
     </div>
 </th:block>
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴 때 같이 실행 되는 js-->
-    <script src="/"></script>
+    <script src="/js/member/myInformation.js"></script>
 </th:block>
 </html>

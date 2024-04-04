@@ -30,4 +30,5 @@ public interface MemberService {
 
     MemberVO selectMyInformation(String memberId);
 
+    String matchPassWord(String memberId);
 }
