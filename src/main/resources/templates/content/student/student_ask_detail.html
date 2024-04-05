@@ -10,80 +10,108 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드작성 -->
-
-    <div class="row">
-        <div class="col">
-            <form action="/stuTest/insertStuAsk" method="post">
+    <style>
+        td ,th, tr{border: 2px solid rgba(58, 111, 228, 0.281); }
+        th{--bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center;}
+   </style>
+        <div class="row">
+            <div class="col">
                 <div class="row">
                     <div class="col">
-                       
-                         
+                        <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 20 20">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                            <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
+                          </svg> 이의신청 상세내역</strong></h4>
+                    </div>
+                </div>
 
-                            <table class="table" style="width:900px">
-                                <tr>
+
+
+                <form action="/stuTest/insertStuAsk" method="post">
+                    <div class="row">
+                        <div class="col">
+                                               
+                                <table class="table" style="width:800px">
+                                    <colgroup>
+                                        <col width="20%">
+                                        <col width="30%">
+                                        <col width="20%">
+                                        <col width="30%">
+                                    </colgroup>
+                                    <tr>
+                                        
+                                        <th:block th:if="${testAskOne.protestGroupno!=0}">
+                                            <th>답변자</th>
+                                            <td>[[${testAskOne.protestWriter}]] </td>
+                                        </th:block>
+
+                                        <th>신청자</th>
+                                        <td>[[${testAskOne.memberN}]] </td>
                                     
-                                <th:block th:if="${testAskOne.protestGroupno!=0}">
-                                    <td>답변자</td>
-                                    <td>[[${testAskOne.protestWriter}]] </td>
-                                </th:block>
-
-                                    <td>신청자</td>
-                                    <td>[[${testAskOne.memberN}]] </td>
-                                
-                                <th:block th:if="${testAskOne.protestGroupno==0}">   
-                                    <td>아이디</td>
-                                    <td>[[${testAskOne.memberId}]]</td>
-                                </th:block>
-                                </tr>
-                                <tr>
-                                    <td>수강명</td>
-                                    <td>[[${testAskOne.classN}]]</td>                                   
-                                    <td>시험명</td>
-                                    <td>[[${testAskOne.testN}]]</td>         
-                                </tr>
-                                <tr>
-                                                                   
-                                    <td>제목</td>
-                                    <td>[[${testAskOne.protestTitle}]]</td> 
-                                    <td>작성일</td>                      
-                                    <td>[[${testAskOne.protestDate}]]</td>                                                                          
-                                </tr>
-                                <tr>
-                                    <th:block th:if="${testAskOne.protestGroupno!=0}">  
-                                        <td>성적정정 <br>결과</td>
+                                    <th:block th:if="${testAskOne.protestGroupno==0}">   
+                                        <th>아이디</th>
+                                        <td>[[${testAskOne.memberId}]]</td>
                                     </th:block>
-                                    <th:block th:if="${testAskOne.protestGroupno==0}">  
-                                        <td>신청사유</td>
-                                    </th:block>
-                                    <td colspan="5">[[${testAskOne.protestContent}]]</td>
-                                </tr>
-                            </table>
+                                    </tr>
+                                    <tr>
+                                        <th>수강명</th>
+                                        <td>[[${testAskOne.classN}]]</td>                                   
+                                        <th>시험명</th>
+                                        <td>[[${testAskOne.testN}]]</td>         
+                                    </tr>
+                                    <tr>
+                                                                    
+                                        <th>제목</th>
+                                        <td>[[${testAskOne.protestTitle}]]</td> 
+                                        <th>작성일</th>                      
+                                        <td>[[${testAskOne.protestDate}]]</td>                                                                          
+                                    </tr>
+                                    <tr>
+                                        <th:block th:if="${testAskOne.protestGroupno!=0}">  
+                                            <th>성적정정 <br>결과</th>
+                                        </th:block>
+                                        <th:block th:if="${testAskOne.protestGroupno==0}">  
+                                            <th>신청사유</th>
+                                        </th:block>
+                                        <td colspan="5">[[${testAskOne.protestContent}]]</td>
+                                    </tr>
+                                </table>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                  
-                    <div class="col">
-                        <th:block th:if="${thTestAskList}==null and ${testAskOne.protestOrigino==0}">
-                            <input type="submit" class="btn btn-primary text-end"  value="수정">                          
-                        </th:block>
-                         <!-- 원글의 답글버튼(선생님) -->
-                       <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno==0}">
-                            <input type="button" class="btn btn-primary" th:onclick="goComment([[${testAskOne.protestNum}]])" value="답글">
-                       </th:block>
+                    <div class="row">
+                    
+                        <div class="col">
+                            <!-- 신청글 수정 버튼(학생) -->
+                            <th:block th:if="${thTestAskList}==null and ${testAskOne.protestOrigino==0}">
+                                <input type="button" class="btn btn-primary text-end"  value="신청수정" th:onclick="goUpdate([[${testAskOne.protestNum}]])">                          
+                            </th:block>
+                            <!-- 원글의 답글버튼(선생님) -->
+                            <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno==0}">
+                                    <input type="button" class="btn btn-primary" th:onclick="goComment([[${testAskOne.protestNum}]])" value="답글">
+                            </th:block>
+                            <!-- 답글 수정 버튼(선생님) -->
+                            <!-- <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno!=0}">
+                                <input type="submit" class="btn btn-primary text-end"  value="답글수정">   
+                            </th:block> -->
                         
+
+
+                        </div>
+
+
+
                     </div>
-
-
-
-                </div>
-            </form>  
-            
+                </form>  
+                
+            </div>
         </div>
-    </div>
 
 <script>
 function goComment(protestNum){
  location.href='/test/teacherComment?protestNum=' +protestNum;
+}
+function goUpdate(protestNum){
+    location.href='/stuTest/goUpdatePG?protestNum=' +protestNum;
 }
 
 </script>

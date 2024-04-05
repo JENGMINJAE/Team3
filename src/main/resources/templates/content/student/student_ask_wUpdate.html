@@ -10,65 +10,60 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드작성 -->
+    <style>
+        td ,th, tr{border: 2px solid rgba(58, 111, 228, 0.281); }
+        th{--bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center;}
+   </style>
+
+
+
 
     <div class="row">
         <div class="col">
+
 
             <div class="row">
                 <div class="col">
                     <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 20 20">
                         <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                         <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
-                    </svg> 이의신청 처리결과</strong></h4>
+                      </svg> 이의신청서</strong></h4>
                 </div>
-            </div>    
+            </div>
 
-
-            <form action="/test/insertThComment" method="post">
+            <form action="/stuTest/insertStuAsk" method="post">
                 <div class="row">
                     <div class="col">
-                        <input type="hidden" name="memberId" th:value="${testAskOne.memberId}" >
-                        <input type="hidden" name="classNum" th:value="${testAskOne.classNum}" >
-                        <input type="hidden" name="testNum" th:value="${testAskOne.testNum}" >
-                        <input type="hidden" name="protestWriter" th:value="${stuInfoService.memberName}" >
-                        <input type="hidden" name="protestN" th:value="${testAskOne.protestNum}" >
-                        
-                        <th:block th:if="${testAskOne.protestOrigino}==0"> 
-                        <input type="hidden" name="protestOrigino" th:value="${testAskOne.protestNum}" >  
-                        </th:block>
-                        
-                        <th:block th:if="${testAskOne.protestOrigino}!=0"> 
-                        <input type="hidden" name="protestOrigino" th:value="${testAskOne.protestOrigino}" >  
-                        </th:block>
+                         <input type="hidden" name="memberId" th:value="${testAskOne.memberId}" >
+                         <input type="hidden" name="protestWriter" th:value="${testAskOne.memberN}" >
 
-
-                        <input type="hidden" name="protestGroupno" th:value="${testAskOne.protestGroupno}+1" >  
-                
-                        
-                        <table class="table" style="width:900px">
+                            <table class="table" style="width:800px">
+                                    <colgroup>
+                                        <col width="20%">
+                                        <col width="30%">
+                                        <col width="20%">
+                                        <col width="30%">
+                                    </colgroup>
                                 <tr>
-                                <td>작성자</td>
-                                <td>[[${thTestAskList[0].teacherN}]]</td>
-
-                                
-                                    <td>신청자</td>
-                                    <td>[[${testAskOne.memberN}]] (<span>[[${testAskOne.memberId}]]</span>)</td>
-
-                                
-                                
+                                    
+                                    <th>신청자</th>
+                                    <td>[[${testAskOne.memberN}]]</td>
+                                    <th>아이디</th>
+                                    <td>[[${testAskOne.memberId}]]</td>
+                                    
                                 </tr>
                                 <tr>
-                                    <td>수강명</td>
+                                    <th>수강명</th>
                                     <td>[[${testAskOne.classN}]]</td>                                   
-                                    <td>시험명</td>
-                                    <td>[[${testAskOne.testN}]]</td>
-
+                                    <th>시험명</th>
+                                    <td>[[${testAskOne.testN}]]</td>  
+                                    
                                 </tr>
                                 <tr>
                                     
-                                    <td>제목</td>
-                                    <td>RE:<input type="text" name="protestTitle"></td>
-                                    <td>작성일</td>
+                                    <th>제목</th>
+                                    <td><input type="text" name="protestTitle" th:value="${testAskOne.protestTitle}"></td>
+                                    <th>작성일</th>
                                     <td>
                                         <script>
                                             let day=new Date();
@@ -77,8 +72,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>성적정정 <br>결과</td>
-                                    <td colspan="5"><textarea name="protestContent" id="protest" cols="30" rows="10"></textarea></td>
+                                    <th>신청사유</th>
+                                    <td colspan="5"><textarea name="protestContent" id="protest" cols="80" rows="10" style="resize: none;">[[${testAskOne.protestContent}]]</textarea></td>
                                 </tr>
                             </table>
                     </div>
@@ -88,7 +83,6 @@
                         <input type="submit" class="btn btn-primary text-end"  value="등록">
                         
                     </div>
-                    
                 </div>
             </form>  
             

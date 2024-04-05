@@ -200,25 +200,29 @@ public class StuTestController {
             model.addAttribute("thTestAskList", thTestAskList);
             System.out.println("0543678889"+thTestAskList);
         }
-
-//        if(testAskOne.getProtestOrigino()>0 && testAskOne.getProtestStepno()<2){
-//
-//            TestAskVO testAskO = stuTestService.stuAskDetail(testAskVO);
-//            model.addAttribute("testAskO",testAskO);
-//            System.out.println(testAskOne);
-//
-//            TeacherVO teacherI = stuTestService.askMemberId(memberId);
-//            System.out.println("999999"+teacherI);
-//
-//
-//            List<TestAskVO> thTestAskL = testService.selTeacherAsk(memberId);
-//            model.addAttribute("thTestAskL", thTestAskL);
-//            System.out.println("0543678889"+thTestAskL);
-//
-//            return "content/student/teacher_comm_detail";
-//        }
         return "content/student/student_ask_detail";
     }
+
+
+    //상세내용을 가지고 글 수정 페이지로 가기
+    @GetMapping("/goUpdatePG")
+    public String goUpdatePG(TestAskVO testAskVO ,Model model, Authentication authentication){
+
+
+        TestAskVO testAskOne = stuTestService.stuAskDetail(testAskVO);
+        model.addAttribute("testAskOne",testAskOne);
+        return "content/student/student_ask_wUpdate";
+    }
+
+//    //글 1개 수정하기
+//    @PostMapping("askUpdate")
+//    public String askUpdate(BoardVo boardVo){
+//        boardService.updateBoard(boardVo);
+//        return "redirect:/board/list";
+//    }
+
+
+
 
 
 

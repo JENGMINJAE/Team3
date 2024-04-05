@@ -11,61 +11,54 @@
 <th:block layout:fragment="contentFragment">
     <!-- html 코드작성 -->
     <style>
-        tr, td, .search{border: 1px solid black; }
-        .btn_line{    --bs-btn-color: #0e0e0ed4;
-    --bs-btn-bg: #b9c1cd4f;
-    --bs-btn-border-color:  #2f313561;
-    --bs-btn-font-weight: 600;
-    --bs-btn-border-width:2px;
-    --bs-btn-padding-y: 0.10rem;
-    --bs-btn-hover-bg: #2f313561;
-    --bs-btn-hover-border-color: #2f313561;}
+        .trLine,th {border: 2px solid rgba(58, 111, 228, 0.281); }
+        th{--bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center;}
    </style>
 
 
    <div class="row">
         <div class="col">
 
-            <div class="row">
-                <div class="col">
-                    <h3>성적 이의신청 처리</h3>
+            <div class="row mb-4" style="width:1000px;">
+                <div class="col" style="color: white; background-color:rgb(28, 28, 78); border-bottom: 10px solid rgb(23, 141, 156); font-size:25px;">
+                    <h4><strong>성적 이의신청 처리</strong></h4>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-5">
                 <div class="col">
-                    <table>
-                        <tr><td>이의신청을 하는 객관적이고 타당한 근거를 제시해주시기를 부탁드립니다.</td></tr>
-                        <tr><td>이의신청게사판 외 등록된 이의신청 내용은 반영되지 않습니다.</td></tr>
-                        <tr><td>단순히 성적을 올리기 위한 호소글은 성적 조정에 반영되지 않습니다.</td></tr>
-                        <tr><td>교.강사에 대한 인격모독, 비방글은 사전 공지 없이 삭제될 수 있습니다.</td></tr>
+                    <table style=" width: 900px; border: 2px solid rgb(156, 156, 156); background-color: rgb(247, 245, 245);">
+                        <tr><td>&nbsp;-부적절한 이의신청은 부정 청탁 및 금풍 등 수수의 금지에 관한 법률에 조촉되므로 불이익 처분을 받지 유의합니다.</td></tr>
+                        <tr><td>&nbsp;-이의신청게시판 외 등록된 이의신청 내용은 반영하지 않습니다.</td></tr>
+                        <tr><td>&nbsp;-단순히 성적을 올리기 위한 호소글은 성적 조정에 반영하지 않습니다.</td></tr>
+                        <tr><td>&nbsp;-교.강사에 대한 인격모독, 비방글은 사전 공지 없이 삭제할 수 있습니다.</td></tr>
                     </table>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <table class="table" style="width: 800px;">
-                        <tr>
-                            <td>번호</td>
-                            <td>제목</td>
-                            <td>신청자</td>
-                            <td>시험명</td>
-                            <td>수강명</td>
-                            <td>작성일</td>
+                        <tr class="trLine">
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>신청자</th>
+                            <th>시험명</th>
+                            <th>수강명</th>
+                            <th>작성일</th>
                         </tr>
-                        <tr th:each=" thTestAsk : ${thTestAskList}">
-                            <td>[[${thTestAsk.protestNum}]]</td> 
+                        <tr class="trLine" th:each=" thTestAsk : ${thTestAskList}">
+                            <td class="trLine" style="text-align: center;">[[${thTestAsk.protestNum}]]</td> 
                             
                             <th:block th:if="${thTestAsk.protestGroupno!=0}"> 
-                                <td> <strong style="color: red;">&nbsp; &nbsp; &nbsp; RE:</strong><span style="cursor: pointer;" th:onclick="goDetail([[${thTestAsk.protestNum}]],[[${thTestAsk.teacherId}]])">[[${thTestAsk.protestTitle}]]</span></td>
+                                <td class="trLine"> <strong style="color: red;">&nbsp; &nbsp; &nbsp; RE:</strong><span style="cursor: pointer;" th:onclick="goDetail([[${thTestAsk.protestNum}]],[[${thTestAsk.teacherId}]])">[[${thTestAsk.protestTitle}]]</span></td>
                             </th:block>
                             <th:block th:if="${thTestAsk.protestGroupno==0}">
-                                <td><span style="cursor: pointer;" th:onclick="goDetail([[${thTestAsk.protestNum}]],[[${thTestAsk.teacherId}]])">[[${thTestAsk.protestTitle}]]</span></td>
+                                <td class="trLine"><span style="cursor: pointer;" th:onclick="goDetail([[${thTestAsk.protestNum}]],[[${thTestAsk.teacherId}]])">[[${thTestAsk.protestTitle}]]</span></td>
                             </th:block>
 
-                            <td>[[${thTestAsk.memberN}]]</td>
-                            <td>[[${thTestAsk.testN}]]</td>
-                            <td>[[${thTestAsk.classN}]]</td>
-                            <td>[[${thTestAsk.protestDate}]]</td>
+                            <td class="trLine">[[${thTestAsk.memberN}]]</td>
+                            <td class="trLine">[[${thTestAsk.testN}]]</td>
+                            <td class="trLine">[[${thTestAsk.classN}]]</td>
+                            <td class="trLine" style="text-align: center;">[[${thTestAsk.protestDate}]]</td>
                         </tr>
                     </table>
                 </div>
@@ -76,12 +69,7 @@
                        삭제
                     </button>
                 </div>
-                <div class="col" > 
-                    <button class="btn btn-sm btn_line" type="button"> 
-                      조회
-                    </button>
-                </div>
-
+               
 
 
             </div>
