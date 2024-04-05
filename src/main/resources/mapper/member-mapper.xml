@@ -180,7 +180,14 @@
         FROM MEMBER
         WHERE MEMBER_ID = #{memberId}
     </select>
-
+    <select id="findMemberId" resultType="String">
+        SELECT
+            MEMBER_ID
+        FROM MEMBER
+        WHERE MEMBER_NAME = #{memberName}
+        AND MEMBER_TEL = #{memberTel}
+        AND MEMBER_BIRTH = #{memberBirth}
+    </select>
 </mapper>
 
 
