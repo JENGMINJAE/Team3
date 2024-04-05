@@ -55,10 +55,10 @@
                         <tr th:each=" thTestAsk : ${thTestAskList}">
                             <td>[[${thTestAsk.protestNum}]]</td> 
                             
-                            <th:block th:if="${thTestAsk.protestOrigino!=0}"> 
+                            <th:block th:if="${thTestAsk.protestGroupno!=0}"> 
                                 <td> <strong style="color: red;">&nbsp; &nbsp; &nbsp; RE:</strong><span style="cursor: pointer;" th:onclick="goDetail([[${thTestAsk.protestNum}]],[[${thTestAsk.teacherId}]])">[[${thTestAsk.protestTitle}]]</span></td>
                             </th:block>
-                            <th:block th:if="${thTestAsk.protestOrigino==0}">
+                            <th:block th:if="${thTestAsk.protestGroupno==0}">
                                 <td><span style="cursor: pointer;" th:onclick="goDetail([[${thTestAsk.protestNum}]],[[${thTestAsk.teacherId}]])">[[${thTestAsk.protestTitle}]]</span></td>
                             </th:block>
 

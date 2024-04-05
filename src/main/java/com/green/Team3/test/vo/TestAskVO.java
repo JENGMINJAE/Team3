@@ -17,7 +17,6 @@ public class TestAskVO {
     private String protestWriter;
     private int protestOrigino;
     private int protestGroupno;
-    private int protestStepno;
     private String memberId;
     private int classNum;
     private int teacherNum;

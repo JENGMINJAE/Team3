@@ -88,5 +88,11 @@ public class StuTestServiceImpl implements StuTestService {
                 return sqlSession.selectOne("testMapper.askMemberId",memberId);
             }
 
+            // 학생 원글 오리지널 번호 부여
+            @Override
+            public void updateOrigin(int protestNum) {
+               sqlSession.update("testMapper.updateOrigin",protestNum);
+            }
+
 
 }

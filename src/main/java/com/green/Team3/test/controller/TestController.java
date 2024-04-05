@@ -3,6 +3,7 @@ package com.green.Team3.test.controller;
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
+import com.green.Team3.test.service.StuTestService;
 import com.green.Team3.test.service.StuTestServiceImpl;
 import com.green.Team3.test.service.TestServiceImpl;
 import com.green.Team3.test.vo.*;
@@ -421,14 +422,15 @@ public class TestController {
             model.addAttribute("testAskOne",testAskOne);
 
 
+
             return "/content/test/teacher_ask_comment";
         }
 
     @PostMapping("/insertThComment")
-    public String insertThComment(TestAskVO testAskVO){
+    public String insertThComment(TestAskVO testAskVO, @RequestParam(name = "protestN")int protestN){
         testService.updateComm(testAskVO.getProtestOrigino());
         testService.insertCom(testAskVO);
-
+        stuTestService.updateOrigin(protestN);
 
         return "redirect:/test/teacherAskFirst?memberId="+testAskVO.getMemberId();
     }

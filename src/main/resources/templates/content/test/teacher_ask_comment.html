@@ -20,8 +20,9 @@
                          <input type="hidden" name="classNum" th:value="${testAskOne.classNum}" >
                          <input type="hidden" name="testNum" th:value="${testAskOne.testNum}" >
                          <input type="text" name="protestWriter" th:value="${stuInfoService.memberName}" >
-                         
-                        <th:block th:if="${testAskOne.protestOrigino}==0"> 
+                         <input type="text" name="protestN" th:value="${testAskOne.protestNum}" >
+                        
+                         <th:block th:if="${testAskOne.protestOrigino}==0"> 
                          <input type="text" name="protestOrigino" th:value="${testAskOne.protestNum}" >  
                         </th:block>
                          
@@ -31,7 +32,7 @@
 
                          
                          <input type="text" name="protestGroupno" th:value="${testAskOne.protestGroupno}+1" >  
-                         <input type="text" name="protestStepno" th:value="${testAskOne.protestStepno}+1" >
+                      
                          
                          <table class="table" style="width:900px">
                                 <tr>

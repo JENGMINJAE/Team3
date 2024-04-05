@@ -54,4 +54,7 @@ public interface StuTestService {
 
     //  답글 표시 구분하려고
     TeacherVO askMemberId(String memberId);
+
+    // 학생 원글 저장
+    void updateOrigin(int protestNum);
 }

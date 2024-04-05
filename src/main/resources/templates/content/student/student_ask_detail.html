@@ -22,7 +22,7 @@
                             <table class="table" style="width:900px">
                                 <tr>
                                     
-                                <th:block th:if="${testAskOne.protestStepno!=0}">
+                                <th:block th:if="${testAskOne.protestGroupno!=0}">
                                     <td>답변자</td>
                                     <td>[[${testAskOne.protestWriter}]] </td>
                                 </th:block>
@@ -30,7 +30,7 @@
                                     <td>신청자</td>
                                     <td>[[${testAskOne.memberN}]] </td>
                                 
-                                <th:block th:if="${thTestAskList}==null and ${testAskOne.protestStepno==0}">   
+                                <th:block th:if="${testAskOne.protestGroupno==0}">   
                                     <td>아이디</td>
                                     <td>[[${testAskOne.memberId}]]</td>
                                 </th:block>
@@ -49,10 +49,10 @@
                                     <td>[[${testAskOne.protestDate}]]</td>                                                                          
                                 </tr>
                                 <tr>
-                                    <th:block th:if="${testAskOne.protestStepno!=0}">  
+                                    <th:block th:if="${testAskOne.protestGroupno!=0}">  
                                         <td>성적정정 <br>결과</td>
                                     </th:block>
-                                    <th:block th:if="${thTestAskList}==null and ${testAskOne.protestStepno==0}">  
+                                    <th:block th:if="${testAskOne.protestGroupno==0}">  
                                         <td>신청사유</td>
                                     </th:block>
                                     <td colspan="5">[[${testAskOne.protestContent}]]</td>
@@ -63,11 +63,11 @@
                 <div class="row">
                   
                     <div class="col">
-                        <th:block th:if="${thTestAskList}==null and ${testAskOne.protestStepno==0}">
+                        <th:block th:if="${thTestAskList}==null and ${testAskOne.protestOrigino==0}">
                             <input type="submit" class="btn btn-primary text-end"  value="수정">                          
                         </th:block>
                          <!-- 원글의 답글버튼(선생님) -->
-                       <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestStepno==0}">
+                       <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno==0}">
                             <input type="button" class="btn btn-primary" th:onclick="goComment([[${testAskOne.protestNum}]])" value="답글">
                        </th:block>
                         

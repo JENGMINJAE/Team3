@@ -79,6 +79,7 @@ public class StuTestController {
         User user=(User) authentication.getPrincipal();
 
         List<TestSubjectVO> stuSubTest =stuTestService.selectStuSub(user.getUsername());
+        System.out.println("8888888888888888888888"+stuSubTest);
         return stuSubTest;
     }
 
@@ -178,6 +179,7 @@ public class StuTestController {
         User user=(User) authentication.getPrincipal();
 
         stuTestService.insertStuAsk(testAskVO);
+
         return "redirect:/stuTest/stuAskFirst?memberId=" + testAskVO.getMemberId();
     }
 
