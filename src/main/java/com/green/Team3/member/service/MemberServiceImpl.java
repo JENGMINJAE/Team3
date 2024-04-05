@@ -56,6 +56,11 @@ public class MemberServiceImpl implements MemberService{
         return sqlSession.selectOne("member.selectMyInformation",memberId);
     }
 
+    @Override
+    public String matchPassWord(String memberId) {
+        return sqlSession.selectOne("member.matchPassWord",memberId);
+    }
+
     //아이디 중복 확인
 //    @Override
 //    public int idCheck(MemberVO memberVO) {
