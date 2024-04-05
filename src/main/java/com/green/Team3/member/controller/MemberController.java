@@ -103,15 +103,19 @@ public class MemberController {
     }
 
     @GetMapping("/findIdForm")
-    public String findId(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg,Model model){
+    public String findIdForm(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg,Model model){
         model.addAttribute("errorMsg",errorMsg);
         return "/content/member/findId";
     }
+    @PostMapping("/findId")
+    public String findId(){
+        return "/content/member/findIdResult";
+    }
+
 
     @GetMapping("/findPasswordForm")
     public String findPw(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg,Model model){
         model.addAttribute("errorMsg",errorMsg);
-//        mailService.sendHTMLEmail();
         return "/content/member/findPassword";
     }
 
