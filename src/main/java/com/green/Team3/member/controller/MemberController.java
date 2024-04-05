@@ -109,6 +109,7 @@ public class MemberController {
     }
     @PostMapping("/findId")
     public String findId(){
+        System.out.println(1);
         return "/content/member/findIdResult";
     }
 
