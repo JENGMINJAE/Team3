@@ -18,7 +18,8 @@ public class MemberVO {
     private String memberName;
     private String memberTel;
     private String memberEmail;
-    private String memberBirth;
+    private String memberBrith;
+    private int memberAge; // 계산한 나이 활용
     private String memberGender;
     private int memberRoll;
     private String memberAddr;

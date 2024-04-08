@@ -49,7 +49,7 @@ function detailMember(memberId){
                             <input class="form-control" type="text" name="memberName" value="${data.memberName}"> 
                         </td>
                         <td class="table-active">나이</td>
-                        <td id="modal-memberAge">${data.memberAge}</td>
+                        <td id="modal-memberBrith">${data.memberAge}</td>
                     </tr>
                     <tr>
                         <td class="table-active">성별</td>
