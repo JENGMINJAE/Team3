@@ -90,7 +90,7 @@
             , MEMBER_NAME
             , MEMBER_TEL
             , MEMBER_EMAIL
-            , MEMBER_AGE
+            , MEMBER_BIRTH
             , MEMBER_ADDR
             , ADDR_DETAIL
             , MEMBER_GENDER
@@ -101,7 +101,7 @@
             , #{memberName}
             , #{memberTel}
             , #{memberEmail}
-            , #{memberAge}
+            , #{memberBirth}
             , #{memberAddr}
             , #{addrDetail}
             , #{memberGender}
