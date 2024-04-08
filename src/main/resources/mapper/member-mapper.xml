@@ -9,7 +9,7 @@
         <result column="MEMBER_NAME"    property="memberName"/>
         <result column="MEMBER_TEL"     property="memberTel"/>
         <result column="MEMBER_EMAIL"   property="memberEmail"/>
-        <result column="MEMBER_AGE"     property="memberAge"/>
+        <result column="MEMBER_BIRTH"     property="memberBrith"/>
         <result column="MEMBER_GENDER"  property="memberGender"/>
         <result column="MEMBER_ADDR"    property="memberAddr"/>
         <result column="ADDR_DETAIL"    property="addrDetail"/>
@@ -34,7 +34,7 @@
     <select id="selectMembers" resultMap="memberMap">
         SELECT M.MEMBER_ID
             , MEMBER_NAME
-            , MEMBER_AGE
+            , MEMBER_BIRTH
             , MEMBER_ROLL
             , LEFT(REG_DATE, 16) REG_DATE
             , CASE
@@ -64,7 +64,7 @@
     <select id="memberDetail" resultMap="memberMap">
         SELECT MEMBER_ID
             , MEMBER_NAME
-            , MEMBER_AGE
+            , MEMBER_BIRTH
             , MEMBER_TEL
             , MEMBER_ROLL
             , MEMBER_ADDR
@@ -90,7 +90,7 @@
             , MEMBER_NAME
             , MEMBER_TEL
             , MEMBER_EMAIL
-            , MEMBER_AGE
+            , MEMBER_BIRTH
             , MEMBER_ADDR
             , ADDR_DETAIL
             , MEMBER_GENDER
@@ -101,7 +101,7 @@
             , #{memberName}
             , #{memberTel}
             , #{memberEmail}
-            , #{memberAge}
+            , #{memberBirth}
             , #{memberAddr}
             , #{addrDetail}
             , #{memberGender}
@@ -168,7 +168,7 @@
             MEMBER_NAME,
             MEMBER_TEL,
             MEMBER_EMAIL,
-            MEMBER_AGE,
+            MEMBER_BIRTH,
             MEMBER_ADDR,
             ADDR_DETAIL
         FROM MEMBER
