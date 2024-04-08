@@ -14,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -86,24 +88,27 @@ public class MemberController {
 //        return "content/member/login_result";
 
 //    }
-    @GetMapping("/stuLogin")
-    public String stuLogin(){
-        return "/content/student/stu_list";
-    }
-    @GetMapping("/teaLogin")
-    public String teaLogin(){
-        return "/content/teacher/tea_list";
-    }
-
     @GetMapping("/logoClick")
     public String logoClick(){
         return "redirect:/";
     }
 
+    @GetMapping("/findIdForm")
+    public String findIdForm(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg,Model model){
+        model.addAttribute("errorMsg",errorMsg);
+        return "/content/member/findId";
+    }
+
+    @ResponseBody
+    @PostMapping("/findIdFetch")
+    public String findIdFetch(MemberVO memberVO){
+        return memberService.findMemberId(memberVO);
+    }
+
+
     @GetMapping("/findPasswordForm")
     public String findPw(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg,Model model){
         model.addAttribute("errorMsg",errorMsg);
-//        mailService.sendHTMLEmail();
         return "/content/member/findPassword";
     }
 
@@ -124,7 +129,7 @@ public class MemberController {
             MailVO mailVO = new MailVO();
             mailVO.setTitle("임시 비밀번호 발송");
             mailVO.setRecipient(memberEmail);
-            mailVO.setContent("임시 비밀번호 : "+imsiPw + "\n로그인 이후 비밀번호를 꼭 변경해 주세요.");
+            mailVO.setContent("임시 비밀번호 : "+imsiPw + "\n\n로그인 이후 비밀번호를 꼭 변경해 주세요.");
             mailService.sendSimpleEmail(mailVO);
 
         }
@@ -138,4 +143,19 @@ public class MemberController {
         return "/content/member/myInformation";
     }
 
+    @ResponseBody
+    @PostMapping("/pwCheck")
+    public boolean pwCheck(@RequestParam(name = "memberPw")String memberPw, Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        return encoder.matches(memberPw,memberService.matchPassWord(user.getUsername()));
+    }
+    @ResponseBody
+    @PostMapping("/updatePassword2")
+    public void updatePassword2(@RequestParam(name = "memberPw")String memberPw,Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        MemberVO memberVO = new MemberVO();
+        memberVO.setMemberPw(encoder.encode(memberPw));
+        memberVO.setMemberId(user.getUsername());
+        memberService.updateMemberPw(memberVO);
+    }
 }

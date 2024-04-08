@@ -110,7 +110,13 @@ public interface TestService {
 
 
 // ######################################### 선생님 이의신청 페이지  ##################################
-    //  선생님 이의신청 목록/////
+    //  선생님 이의신청 목록
     List<TestAskVO> selTeacherAsk(String memberId);
+    //  선생님 답글 저장(1)
+    void insertCom(TestAskVO testAskVO);
+    //  선생님 답글 저장(2) (그룹번호 업데이트)
+    void updateComm(int protestOrigino);
+
+
 
 }

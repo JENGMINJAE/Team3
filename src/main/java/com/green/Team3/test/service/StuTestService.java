@@ -44,6 +44,7 @@ public interface StuTestService {
 
 
 //############ 학생 성적 이의신청 페이지 #######################
+
     // [학생] 이의신청 글 적기
     void insertStuAsk(TestAskVO testAskVO);
     // [학생] 이의신청 글 목록
@@ -53,4 +54,7 @@ public interface StuTestService {
 
     //  답글 표시 구분하려고
     TeacherVO askMemberId(String memberId);
+
+    // 학생 원글 저장
+    void updateOrigin(int protestNum);
 }
