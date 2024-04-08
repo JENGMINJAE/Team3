@@ -67,6 +67,7 @@
         SELECT MEMBER_ID
             , MEMBER_NAME
             , MEMBER_BIRTH
+            , SUBSTRING(NOW(), 1, 4) - SUBSTRING(member_BIRTH, 1, 4) AS MEMBER_AGE
             , MEMBER_TEL
             , MEMBER_ROLL
             , MEMBER_ADDR
