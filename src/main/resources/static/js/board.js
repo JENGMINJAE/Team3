@@ -112,10 +112,31 @@ function goDeleteImg(button, imgNum, boardNum){
             //수정된 화면 갱신
             alert('첨부파일이 삭제되었습니다.');
 
-            // const deleteImgFile = document.querySelector('');
+            const deleteImgFile = document.querySelector('#deleteImgFile')
+
+            deleteImgFile.innerHTML = '';
+            deleteImgFile.replaceChild();
+
+            let str = '';
+
+            data.forEach(function (e, idx) {
+                str += `
+                        <th:block th:if="${notice.imgList[0].originFileName != null}">
+                            <th:block th:each="img, imgStat : ${notice.imgList}">
+                                <div>
+                                    [[${img.originFileName}]]
+                                    <input type="button" class="btn btn-secondary" value="삭제"
+                                        th:onclick="goDeleteImg(this, [[${img.imgNum}]], [[${notice.boardNum}]])"
+                                        data-img-num="[[${img.imgNum}]]" 
+                                        data-board-num="[[${notice.boardNum}]]">
+                                </div>
+                            </th:block>
+                        </th:block>`
+            });
+
+            deleteImgFile.insertAdjacentHTML('afterbegin', str);
 
         })
-        
         //fetch 통신 실패 시 실행 영역
         .catch(err=>{
             alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
