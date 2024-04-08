@@ -47,9 +47,9 @@
         <result column="PROTEST_TITLE"      property="protestTitle"/>
         <result column="PROTEST_CONTENT"    property="protestContent"/>
         <result column="PROTEST_DATE"       property="protestDate"/>
+        <result column="PROTEST_WRITER"       property="protestWriter"/>
         <result column="PROTEST_ORIGINO"    property="protestOrigino"/>
         <result column="PROTEST_GROUPNO"    property="protestGroupno"/>
-        <result column="PROTEST_STEPNO"     property="protestStepno"/>
         <result column="MEMBER_ID"          property="memberId"/>
         <result column="CLASS_NUM"          property="classNum"/>
         <result column="TEACHER_NUM"        property="teacherNum"/>
@@ -434,7 +434,7 @@
         ON TT.CLASS_NUM=CI.CLASS_NUM
         INNER JOIN operator OP
         ON CI.CLASS_NUM=OP.CLASS_NUM
-        WHERE OP.MEMBER_ID=#{memberId}
+        WHERE OP.MEMBER_ID=#{memberId} AND (SELECT SCORE FROM test_score WHERE MEMBER_ID=OP.MEMBER_ID AND test_NUM=TT.TEST_NUM)
         ORDER BY CLASS_NAME DESC
     </select>
 
@@ -452,7 +452,7 @@
         FROM test TT
         INNER JOIN operator OP
         ON TT.CLASS_NUM=OP.CLASS_NUM
-        WHERE OP.MEMBER_ID=#{memberId}
+        WHERE OP.MEMBER_ID=#{memberId} AND (SELECT SCORE FROM test_score WHERE MEMBER_ID=OP.MEMBER_ID AND test_NUM=TT.TEST_NUM)
         ORDER BY TEST_DATE  DESC
     </select>
 
@@ -470,25 +470,33 @@
         ON TS.TEST_NUM=TT.TEST_NUM
         INNER JOIN operator OP
         ON TT.CLASS_NUM=OP.CLASS_NUM
-        WHERE OP.MEMBER_ID=#{memberId}
+        WHERE OP.MEMBER_ID=#{memberId} AND (SELECT SCORE FROM test_score WHERE MEMBER_ID=OP.MEMBER_ID AND SUB_TEST_NUM=TS.SUB_TEST_NUM)
         ORDER BY TEST_NAME ASC
     </select>
+
 
     <!--  [학생] 전체 성적이수표 조회   -->
 
     <select id="totalSelectTest" resultMap="clsMapper.cls">
         SELECT
-        OP.CLASS_NUM
-        , CLASS_NAME
-        , CLASS_ENTER
-        , MEMBER_ID
-        , CLASS_SDATE
-        , CLASS_EDATE
-        FROM class_info CI
-        INNER JOIN operator OP
-        ON OP.CLASS_NUM=CI.CLASS_NUM
-        WHERE OP.MEMBER_ID=#{memberId}
+            CI.CLASS_NUM
+            , CLASS_NAME
+            , CLASS_ENTER
+            , MEMBER_ID
+            , CLASS_SDATE
+            , CLASS_EDATE
+        FROM test_score TS
+        INNER JOIN test TT
+        ON TS.TEST_NUM= TT.TEST_NUM
+        INNER JOIN class_info CI
+        ON CI.CLASS_NUM= TT.CLASS_NUM
+        WHERE TS.MEMBER_ID=#{memberId}
+        GROUP BY CI.CLASS_NUM
     </select>
+
+
+
+
 
     <!--  [학생]  과목 없을시   my 성적페이지 이동 & 조회 -->
     <select id="mainTestMyScore" resultMap="scoreResult">
@@ -544,6 +552,7 @@
 
     <!--  // //////////////////////////// 학생이 로그인해서 성적이의신청 페이지 ////////////////////////////////////////////-->
 
+
     <!--   [학생] 이의신청 글 적기   -->
     <insert id="insertStuAsk">
         INSERT INTO test_ask(
@@ -551,7 +560,7 @@
         , PROTEST_CONTENT
         , PROTEST_ORIGINO
         , PROTEST_GROUPNO
-        , PROTEST_STEPNO
+        , PROTEST_WRITER
         , MEMBER_ID
         , CLASS_NUM
         , TEST_NUM
@@ -560,8 +569,8 @@
         ,  #{protestContent}
         , 0
         , 0
-        , 0
-        ,  #{memberId}
+        , #{protestWriter}
+        , #{memberId}
         , #{classNum}
         , #{testNum}
         )
@@ -575,12 +584,15 @@
         , PROTEST_TITLE
         , PROTEST_DATE
         , PROTEST_CONTENT
+        , PROTEST_ORIGINO
+        , PROTEST_GROUPNO
         , MEMBER_ID
         , (SELECT MEMBER_NAME FROM MEMBER MEM WHERE MEM.MEMBER_ID= TA.MEMBER_ID)AS MEMBER_N
         , (SELECT TEST_NAME FROM TEST TT WHERE TT.TEST_NUM= TA.TEST_NUM) AS TEST_N
         , (SELECT CLASS_NAME FROM class_info CI WHERE CI.CLASS_NUM= TA.CLASS_NUM) AS CLASS_N
         FROM test_ask TA
         WHERE MEMBER_ID=#{memberId}
+        ORDER BY PROTEST_ORIGINO ASC, PROTEST_GROUPNO ASC
     </select>
 
     <!-- [학생] 이의신청 상세글 보기  -->
@@ -590,18 +602,26 @@
         , PROTEST_TITLE
         , PROTEST_DATE
         , PROTEST_CONTENT
+        , PROTEST_WRITER
         , MEMBER_ID
         , CLASS_NUM
         , TEST_NUM
         , PROTEST_ORIGINO
         , PROTEST_GROUPNO
-        , PROTEST_STEPNO
         , (SELECT MEMBER_NAME FROM MEMBER MEM WHERE MEM.MEMBER_ID= TA.MEMBER_ID)AS MEMBER_N
         , (SELECT TEST_NAME FROM TEST TT WHERE TT.TEST_NUM= TA.TEST_NUM) AS TEST_N
         , (SELECT CLASS_NAME FROM class_info CI WHERE CI.CLASS_NUM= TA.CLASS_NUM) AS CLASS_N
         FROM test_ask TA
         WHERE PROTEST_NUM= #{protestNum}
+
     </select>
+
+    <!-- [학생] 계단형 원글 저장하기 (3)   -->
+    <update id="updateOrigin">
+        UPDATE test_ask
+        SET PROTEST_ORIGINO= #{protestNum}
+        WHERE PROTEST_NUM=#{protestNum}
+    </update>
 
     <!--  답글 표시 구분하려고  -->
     <select id="askMemberId" resultMap="teacher.teacherInfo">
@@ -622,6 +642,8 @@
         , PROTEST_DATE
         , TA.CLASS_NUM
         , TA.MEMBER_ID
+        , PROTEST_ORIGINO
+        , PROTEST_GROUPNO
         , (SELECT MEMBER_NAME FROM MEMBER MEM WHERE MEM.MEMBER_ID= TA.MEMBER_ID)AS MEMBER_N
         , (SELECT TEST_NAME FROM TEST TT WHERE TT.TEST_NUM= TA.TEST_NUM) AS TEST_N
         , (SELECT CLASS_NAME FROM class_info CI WHERE CI.CLASS_NUM= TA.CLASS_NUM) AS CLASS_N
@@ -633,7 +655,40 @@
         INNER JOIN TEACHER TC
         ON TC.TEACHER_NUM = CI.TEACHER_NUM
         WHERE TC.MEMBER_ID =#{memberId}
+        ORDER BY PROTEST_ORIGINO ASC, PROTEST_GROUPNO ASC
     </select>
+
+    <!-- 선생님 답글 저장하기 (1)   -->
+    <insert id="insertCom">
+        INSERT INTO test_ask(
+        PROTEST_TITLE
+        , PROTEST_CONTENT
+        , PROTEST_ORIGINO
+        , PROTEST_GROUPNO
+        , PROTEST_WRITER
+        , MEMBER_ID
+        , CLASS_NUM
+        , TEST_NUM
+        )VALUES(
+        #{protestTitle}
+        , #{protestContent}
+        , #{protestOrigino}
+        , #{protestGroupno}
+        , #{protestWriter}
+        , #{memberId}
+        , #{classNum}
+        , #{testNum}
+        )
+    </insert>
+    <!-- 선생님 계단형 답글 저장하기 (2)   -->
+    <update id="updateComm">
+        UPDATE test_ask
+        SET PROTEST_GROUPNO= #{protestGroupno}
+        WHERE PROTEST_ORIGINO=#{protestOrigino} AND PROTEST_GROUPNO&gt;0
+    </update>
+
+
+
 
 </mapper>
 
