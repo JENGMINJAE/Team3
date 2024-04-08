@@ -183,11 +183,21 @@ public class TestServiceImpl implements TestService{
     }
 
     // ######################################### 선생님 이의신청 페이지  ##################################
+    //  선생님 이의신청 목록
     @Override
     public List<TestAskVO> selTeacherAsk(String memberId) {
         return sqlSession.selectList("testMapper.selTeacherAsk",memberId);
     }
-
+    //  선생님 답글 저장(1)
+    @Override
+    public void insertCom(TestAskVO testAskVO) {
+        sqlSession.insert("testMapper.insertCom",testAskVO);
+    }
+    //  선생님 답글 저장(2) (그룹번호 업데이트)
+    @Override
+    public void updateComm(int protestOrigino) {
+        sqlSession.update("testMapper.updateComm",protestOrigino);
+    }
 
 
 }
