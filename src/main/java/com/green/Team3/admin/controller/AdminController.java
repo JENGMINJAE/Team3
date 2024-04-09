@@ -273,4 +273,10 @@ public class AdminController {
         model.addAttribute("infoList", list);
         return "content/admin/payment_systems";
     }
+
+    // 매출 관리 페이지 이동
+    @GetMapping("/salesManage")
+    public String salesManage(){
+        return "content/admin/sales_manage";
+    }
 }

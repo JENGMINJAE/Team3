@@ -8,8 +8,7 @@
         <result column="OPER_PAY"               property="operPay" />
         <result column="IS_PAY"                 property="isPay" />
         <result column="MEMBER_ID"              property="memberId" />
-        <result column="PAY_YEAR"               property="payYear" />
-        <result column="PAY_MONTH"              property="payMonth" />
+        <result column="PAY_DAY"               property="payDay" />
         <result column="CLASS_NUM"              property="classNum" />
         <result column="OPER_NUM_CNT"           property="operNumCnt" />
     </resultMap>
@@ -113,8 +112,7 @@
     <insert id="insertOperator">
         INSERT INTO operator(
             OPER_PAY
-            , PAY_YEAR
-            , PAY_MONTH
+            , PAY_DAY
             , MEMBER_ID
             , CLASS_NUM
             , OPER_NUM
@@ -122,8 +120,7 @@
             (SELECT CLASS_PAYMENT
             FROM class_info
             WHERE CLASS_NUM = #{classNum})
-            , (SELECT REPLACE(FORMAT(YEAR(CURDATE()), 0), ',', ''))
-            , (SELECT MONTH(CURDATE()))
+            , (SELECT SUBSTRING(NOW(), 1, 10))
             , #{memberId}
             , #{classNum}
             , #{operNum}
@@ -133,8 +130,7 @@
     <!-- 결제 성공 시 update문 -->
     <update id="successPayment">
         UPDATE OPERATOR
-        SET PAY_YEAR = (SELECT REPLACE(FORMAT(YEAR(CURDATE()), 0), ',', ''))
-            , PAY_MONTH = (SELECT MONTH(CURDATE()))
+        SET PAY_DAY = (SELECT SUBSTRING(NOW(), 1, 10))
             , IS_PAY = 'Y'
         WHERE OPER_NUM = #{operNum}
     </update>
