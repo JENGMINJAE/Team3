@@ -3,9 +3,9 @@ function result(){
     const name = document.querySelector('#name').value;
     const tel = document.querySelector('#tel').value.replace(regex,"");
     const birth = document.querySelector('#birth').value;
+    const regexBirth = document.querySelector('#birth').value.replace(regex,"");
     let tell = '';
-    
-    if(tel.length == 11){
+    if(tel.length == 11 && regexBirth.length == 8){
         tell = tel.slice(0,3)+'-'+tel.slice(3,7)+'-'+tel.slice(7);
         fetch('/member/findIdFetch', { //요청경로
             method: 'POST',
@@ -63,6 +63,14 @@ function result(){
         });
     }
     else{
+        if(regexBirth.length != 8 && tel.length != 11){
+            alert('전화번호와 생년월일의 형식이 잘못되었습니다.')
+            return;
+        }
+        if(regexBirth.length != 8){
+            alert('생년월일의 형식이 잘못되었습니다.')
+            return;
+        }
         alert('전화번호 형식이 잘못되었습니다.')
     }
 
