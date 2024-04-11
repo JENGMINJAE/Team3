@@ -2,6 +2,7 @@ package com.green.Team3.admin.controller;
 
 import com.green.Team3.admin.service.AdminService;
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.admin.vo.SalesVO;
 import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.service.ClsService;
 import com.green.Team3.cls.vo.ClsVO;
@@ -274,9 +275,22 @@ public class AdminController {
         return "content/admin/payment_systems";
     }
 
-    // 매출 관리 페이지 이동
-    @GetMapping("/salesManage")
-    public String salesManage(){
+    // 매출 관리 페이지 이동을 위해 비동기 컨트롤러 이동용
+    @GetMapping("/goSales")
+    public String goSales(Model model){
+        System.out.println("지나가요~~");
+        model.addAttribute("total", adminService.totalSales());
+        model.addAttribute("years", adminService.findPayYear());
         return "content/admin/sales_manage";
+    }
+    // 매출 관리 페이지 이동
+    @RequestMapping("/salesManage")
+    public List<OperatorVO> salesManage(OperatorVO operatorVO){
+        System.out.println("비동기에요~");
+        SalesVO salesVO = new SalesVO();
+        int[] arr = new int[12];
+        operatorVO.setPayYear(2024);
+        List<OperatorVO> monthlySales = adminService.monthlySales(operatorVO);
+        return monthlySales;
     }
 }
