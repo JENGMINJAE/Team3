@@ -16,14 +16,14 @@
         .tr-row:hover {cursor:pointer;  background-color: rgb(251, 251, 255); }
         th, td{border: 1px solid black; }
         .listBtn{color: gray; --bs-btn-padding-y: .18rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; 
-             --bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(212, 217, 223);--bs-btn-hover-bg:rgb(212, 217, 223);}
+            --bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(212, 217, 223);--bs-btn-hover-bg:rgb(212, 217, 223);}
     </style>
     
     
     
     <div class="row mt-4">
     <div class="col">
-     
+
         <form action="/test/scoreTeacher" method="post">
             <input type="hidden" id="classNum" name="classNum" th:value="${onlyClassNum.classNum}"> 
     
@@ -34,7 +34,7 @@
                             <h4><strong>[[${onlyClassNum.className}]] 시험관리</strong></h4>
                         </div>
                     </div>
-                         
+
             </div>        
             <div class="row mt-5" style="width: 1000px; padding-left: 20px; margin: 20px; ">
                 <div class="col" >
@@ -117,7 +117,7 @@
                                         <td>
                                             <input type="button" class="btn btn-secondary btn-sm listBtn"  th:onclick="goSelectSub([[${seleOp.testNum}]], [[${seleOp.classNum}]], [[${seleOp.testMaxScore}]], this)" 
                                             value="등록" >
-                                           
+
                                             <input type="button"  class="btn btn-secondary btn-sm listBtn" th:onclick="goSelectScore([[${seleOp.testNum}]], this)" 
                                             value="조회" >
                                             

@@ -20,6 +20,9 @@ public class TestScoreVO {
 
     private int ranking;
     private double testAvg;
+    private double subAvg;
+    private double subSumAvg;
+    private int subSum;
     private String className;
     private String level;
     private MemberVO memberOneVO;

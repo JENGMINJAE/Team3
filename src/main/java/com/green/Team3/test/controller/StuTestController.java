@@ -42,7 +42,9 @@ public class StuTestController {
 
         MemberVO stuInfoService = stuTestService.selectStuTest(user.getUsername());
         model.addAttribute("stuInfoService",stuInfoService);
-        System.out.println(stuInfoService);
+
+        List<OperatorVO> clCnt = stuTestService.stuClCnt(user.getUsername());
+        model.addAttribute("clCnt",clCnt);
 
 
         return "content/student/student_test_search";
@@ -60,7 +62,7 @@ public class StuTestController {
         return stuCLTest;
     }
 
-    // 학생이 시험별 조회
+    // 학생이 기간별 조회
     @ResponseBody
     @PostMapping("/testListSearch")
     public List<TestVO> testListSearch(Authentication authentication) {
@@ -97,7 +99,7 @@ public class StuTestController {
 
     // ///////////////////////////////////////////////////
 
-    // 학생이 본인 성적 상세성적 조회
+    // 학생이 본인 단일 시험 성적 상세성적 조회
     @GetMapping("/goMyScore")
     public String goMyScore(TestScoreVO testScoreVO, Authentication authentication, Model model){
 
@@ -116,10 +118,15 @@ public class StuTestController {
 
     }
 
-
+    // 학생이 본인 과목시험 성적 상세성적 조회
     @GetMapping("/goMysubScore")
     public String goMysubScore(TestScoreVO testScoreVO, Authentication authentication,
                                @RequestParam(name = "testNum") int testNum, Model model){
+        User user=(User) authentication.getPrincipal();
+
+        MemberVO stuInfoService = stuTestService.selectStuTest(user.getUsername());
+        model.addAttribute("stuInfoService",stuInfoService);
+
 
         List<TestScoreVO> subMyScores= stuTestService.subTestMyScore(testScoreVO);
         model.addAttribute("subMyScores",subMyScores);

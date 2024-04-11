@@ -22,7 +22,8 @@ public interface StuTestService {
 
     // 학생정보조회
     MemberVO selectStuTest(String memberId);
-
+    // 학생 강좌수 조회
+    List<OperatorVO> stuClCnt(String memberId);
     // 학생 수강별 시험목록조회
     List<TestVO> selectStuCLTest(String memberId);
 

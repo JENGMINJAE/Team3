@@ -29,7 +29,13 @@ public class StuTestServiceImpl implements StuTestService {
             public MemberVO selectStuTest(String memberId) {
                 return sqlSession.selectOne("testMapper.selectStuTest", memberId);
             }
-            // 서치 학생 수강별 시험목록조회
+            // 학생 강좌수 조회
+            @Override
+            public List<OperatorVO> stuClCnt(String memberId) {
+                return sqlSession.selectList("testMapper.stuClCnt", memberId);
+            }
+
+    // 서치 학생 수강별 시험목록조회
             @Override
             public List<TestVO> selectStuCLTest(String memberId) {
                 return sqlSession.selectList("testMapper.selectStuCLTest", memberId);
