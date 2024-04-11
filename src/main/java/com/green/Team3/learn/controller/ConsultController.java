@@ -105,6 +105,7 @@ public class ConsultController {
         return map;
     }
 
+
     @PostMapping("/updateConsult")
     private String updateConsult(@RequestParam(name = "beforeTitle")String beforeTitle,ConsultVO consultVO){
         consultService.updateConsult(consultVO);

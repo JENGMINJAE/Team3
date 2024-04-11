@@ -88,42 +88,48 @@ public class MemberController {
 //        return "content/member/login_result";
 
 //    }
+    // 메인 로고 클릭 시 첫 화면
     @GetMapping("/logoClick")
     public String logoClick(){
         return "redirect:/";
     }
 
+    //아이디 찾으러 가기
     @GetMapping("/findIdForm")
     public String findIdForm(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg,Model model){
-        model.addAttribute("errorMsg",errorMsg);
+        model.addAttribute("errorMsg",errorMsg); // 에러코드 전송이유 : 로그인을 안하고 갈 수 있는 페이지로 갈 경우 모달이 뜸.
         return "/content/member/findId";
     }
 
+    // 아이디 찾기
     @ResponseBody
     @PostMapping("/findIdFetch")
     public String findIdFetch(MemberVO memberVO){
         return memberService.findMemberId(memberVO);
     }
 
-
+    // 비밀번호 찾으러 가기
     @GetMapping("/findPasswordForm")
     public String findPw(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg,Model model){
-        model.addAttribute("errorMsg",errorMsg);
+        model.addAttribute("errorMsg",errorMsg); //에러코드 전송이유 : 로그인을 안하고 갈 수 있는 페이지로 갈 경우 모달이 뜸.
         return "/content/member/findPassword";
     }
 
-
+    // 비밀번호 찾기
     @ResponseBody
     @PostMapping("/findPwFetch")
     public boolean findPwFetch(MemberVO memberVO){
         String memberEmail = memberService.getMemberEmail(memberVO);
+        // 쿼리가 정상 작동하여 이메일이 들어왔을 경우
         if(memberEmail != null){
             //비밀번호 변경
             //임시 비밀번호 생성
             String imsiPw = mailService.createRandomPw();
             //암호화
             String encodedPw = encoder.encode(imsiPw);
+            //vo에 담고
             memberVO.setMemberPw(encodedPw);
+            //암호화된 임시비밀번호를 업데이트
             memberService.updateMemberPw(memberVO);
             //메일 보내기
             MailVO mailVO = new MailVO();
@@ -136,19 +142,21 @@ public class MemberController {
         return memberEmail != null ? true : false;
     }
 
+    // 내정보 보러가기
     @GetMapping("/myInformationForm")
     public String myInformation(Authentication authentication,Model model){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("memberVO",memberService.selectMyInformation(user.getUsername()));
         return "/content/member/myInformation";
     }
-
+    // 비밀번호 체크
     @ResponseBody
     @PostMapping("/pwCheck")
     public boolean pwCheck(@RequestParam(name = "memberPw")String memberPw, Authentication authentication){
         User user = (User) authentication.getPrincipal();
         return encoder.matches(memberPw,memberService.matchPassWord(user.getUsername()));
     }
+    // 내가 설정한 비밀번호로 비밀번호 업데이트
     @ResponseBody
     @PostMapping("/updatePassword2")
     public void updatePassword2(@RequestParam(name = "memberPw")String memberPw,Authentication authentication){
