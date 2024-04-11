@@ -1,6 +1,11 @@
-function findPw(){
+function findPw(btn){
     const memberId = document.querySelector('#member_id').value;
     const memberName = document.querySelector('#member_name').value;
+    btn.disabled = true;
+    btn.innerHTML = '';
+    let btnstr = `<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span role="status">비밀번호 찾는 중...</span>`;
+    btn.insertAdjacentHTML("afterbegin",btnstr); 
     fetch('/member/findPwFetch', { //요청경로
         method: 'POST',
         cache: 'no-cache',
@@ -26,12 +31,19 @@ function findPw(){
     //fetch 통신 후 실행 영역
     .then((data) => {//data -> controller에서 리턴되는 데이터!
         if(data){
+            btn.innerHTML = '';
+            let btnstrr = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-lg" viewBox="3 4 11 11">
+            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+            </svg>`;
+            btn.insertAdjacentHTML("afterbegin",btnstrr);
             document.querySelector("#failChecker").innerHTML = '';
             let str = '';
             str += `가입하신 Email로 임시비밀번호를 전송했습니다.`;
             document.querySelector("#failChecker").insertAdjacentHTML('afterbegin',str);
         }
         else{
+            btn.innerHTML = '비밀번호 찾기';
+            btn.disabled = false;
             document.querySelector("#failChecker").innerHTML = '';
             let str = '';
             str += `아이디와 비밀번호를 확인해주세요.`;
