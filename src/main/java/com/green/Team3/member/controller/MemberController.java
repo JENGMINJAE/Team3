@@ -88,15 +88,6 @@ public class MemberController {
 //        return "content/member/login_result";
 
 //    }
-    @GetMapping("/stuLogin")
-    public String stuLogin(){
-        return "/content/student/stu_list";
-    }
-    @GetMapping("/teaLogin")
-    public String teaLogin(){
-        return "/content/teacher/tea_list";
-    }
-
     @GetMapping("/logoClick")
     public String logoClick(){
         return "redirect:/";
@@ -107,10 +98,11 @@ public class MemberController {
         model.addAttribute("errorMsg",errorMsg);
         return "/content/member/findId";
     }
-    @PostMapping("/findId")
-    public String findId(){
-        System.out.println(1);
-        return "/content/member/findIdResult";
+
+    @ResponseBody
+    @PostMapping("/findIdFetch")
+    public String findIdFetch(MemberVO memberVO){
+        return memberService.findMemberId(memberVO);
     }
 
 

@@ -9,7 +9,8 @@
         <result column="MEMBER_NAME"    property="memberName"/>
         <result column="MEMBER_TEL"     property="memberTel"/>
         <result column="MEMBER_EMAIL"   property="memberEmail"/>
-        <result column="MEMBER_BIRTH"     property="memberBirth"/>
+        <result column="MEMBER_BIRTH"   property="memberBirth"/>
+        <result column="MEMBER_AGE"     property="memberAge"/>
         <result column="MEMBER_GENDER"  property="memberGender"/>
         <result column="MEMBER_ADDR"    property="memberAddr"/>
         <result column="ADDR_DETAIL"    property="addrDetail"/>
@@ -35,6 +36,7 @@
         SELECT M.MEMBER_ID
             , MEMBER_NAME
             , MEMBER_BIRTH
+            , SUBSTRING(NOW(), 1, 4) - SUBSTRING(member_BIRTH, 1, 4) AS MEMBER_AGE
             , MEMBER_ROLL
             , LEFT(REG_DATE, 16) REG_DATE
             , CASE
@@ -65,6 +67,7 @@
         SELECT MEMBER_ID
             , MEMBER_NAME
             , MEMBER_BIRTH
+            , SUBSTRING(NOW(), 1, 4) - SUBSTRING(member_BIRTH, 1, 4) AS MEMBER_AGE
             , MEMBER_TEL
             , MEMBER_ROLL
             , MEMBER_ADDR
@@ -146,10 +149,11 @@
     </select>
 
     <!--  아이디찾기  -->
-    <select id="findId" resultType="String">
+    <select id="findMemberId" resultType="String">
         SELECT MEMBER_ID FROM member
         WHERE MEMBER_NAME = #{memberName}
         AND MEMBER_TEL = #{memberTel}
+        AND MEMBER_BIRTH = #{memberBirth}
     </select>
 
     <select id="getMemberEmail" resultType="String">
@@ -175,10 +179,9 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
     <select id="matchPassWord" resultType="String">
-        SELECT
-            MEMBER_PW
+        SELECT MEMBER_PW
         FROM MEMBER
-        WHERE MEMBER_ID = #{memberId}
+        WHERE MEMBER_ID = #{memberID}
     </select>
 
 </mapper>

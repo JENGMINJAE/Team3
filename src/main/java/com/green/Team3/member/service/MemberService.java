@@ -12,9 +12,6 @@ public interface MemberService {
     //로그인
     MemberVO login(String memberId);
 
-    //아이디 중복 확인
-//    int idCheck(MemberVO memberVO);
-
     // 회원 전체 목록 조회
     List<MemberVO> selectMembers(SearchVO searchVO);
 
@@ -31,4 +28,6 @@ public interface MemberService {
     MemberVO selectMyInformation(String memberId);
 
     String matchPassWord(String memberId);
+
+    String findMemberId(MemberVO memberVO);
 }

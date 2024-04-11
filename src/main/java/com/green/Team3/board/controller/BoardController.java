@@ -142,20 +142,8 @@ public class BoardController {
         return "content/common/notice_write_form";
     }
 
-//    공지사항 작성 원본
-//    // 공지사항 게시글 작성
-//    @PostMapping("/noticeWrite")
-//    public String noticeWrite(BoardVO boardVO, HttpSession session){
-//        //로그인 정보
-//        MemberVO loginInfo = (MemberVO) session.getAttribute("loginInfo");
-//        //공지사항 등록 쿼리
-//        boardVO.setMemberId(loginInfo.getMemberId());
-//        boardService.insertNotice(boardVO);
-//        return "redirect:/board/noticeList";
-//    }
 
-
-    // 공지사항 게시글 작성 + 이미지 첨부 기능 (관리자만)
+    // 공지사항 게시글 작성 + 이미지 첨부 기능
     @PostMapping("/noticeWrite")
     public String noticeWrite(BoardVO boardVO
                             , Authentication authentication
@@ -182,7 +170,11 @@ public class BoardController {
         //쿼리 실행
         boardService.insertNotice(boardVO);
 
-        return "redirect:/board/noticeList";
+        if(boardVO.getTypeNum() == 1){
+            return "redirect:/board/noticeListStu";}
+        else if(boardVO.getTypeNum() == 2){
+            return "redirect:/board/noticeListTea";}
+        else{return null;}
     }
 
 
@@ -223,13 +215,22 @@ public class BoardController {
         return "content/common/notice_detail";
     }
 
-
-    // 공지사항 게시글 삭제(첨부 파일 있을 때 / 없을 때 모두 가능)
+    // 공지사항 게시글 삭제(첨부 파일 있을 때 / 없을 때 모두 가능) //리턴페이지 어디로 감...
     @GetMapping("/deleteNotice")
     public String deleteNotice(BoardVO boardVO){
         boardService.deleteNotice(boardVO);
+
         return "redirect:/board/noticeList";
     }
+
+//    if(boardVO.getTypeNum() == 1){
+//        return "redirect:/board/noticeListStu";}
+//        else if(boardVO.getTypeNum() == 2){
+//        return "redirect:/board/noticeListTea";}
+//        else{return null;}
+
+
+
 
     // 공지사항 게시글 수정 양식 페이지 이동
     @GetMapping("/updateNotice")
@@ -252,9 +253,9 @@ public class BoardController {
     //공지사항 게시글 수정 시 첨부파일 이미지 삭제 ******************************* 비동기
     @ResponseBody
     @PostMapping("/deleteImgFile")
-    public String deleteImgFile(@RequestParam(name="imgNum") int imgNum, BoardVO boardVO){
+    public BoardVO deleteImgFile(@RequestParam(name="imgNum") int imgNum, BoardVO boardVO){
         boardService.deleteImgFile(imgNum);
-        return "redirect:/board/noticeDetail?boardNum=" + boardVO.getBoardNum();
+        return boardService.selectNoticeDetail(boardVO.getBoardNum());
     }
 
 
