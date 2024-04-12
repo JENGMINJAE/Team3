@@ -1,6 +1,7 @@
 package com.green.Team3.admin.service;
 
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
@@ -66,4 +67,16 @@ public interface AdminService {
 
     // updateClassEnter
     void updateClassEnter();
+
+    // 총 매출 계산
+    int totalSales();
+
+    // 매출 발생 연도 검색 쿼리
+    List<OperatorVO> findPayYear();
+
+    // 월별 매출
+    List<OperatorVO> monthlySales(OperatorVO operatorVO);
+
+    // 매출 검색
+    int searchSales(SearchVO searchVO);
 }
