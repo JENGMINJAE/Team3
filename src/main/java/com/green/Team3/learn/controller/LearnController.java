@@ -33,6 +33,7 @@ public class LearnController {
     @Resource(name = "consultService")
     private ConsultServiceImpl consultService;
 
+    //출결 뿌려주기
     @GetMapping("/atd")
     public String selectAtd(Model model, Authentication authentication){
         User user = (User)authentication.getPrincipal();
@@ -40,15 +41,15 @@ public class LearnController {
         model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
         return "/content/teacher/attendance";
     }
-
+    //출석부
     @ResponseBody
     @PostMapping("/changeStuOption")
     public Map<String, Object> changeModal(@RequestParam(name = "classNum")int classNum){
         Map<String,Object> map = new HashMap<>();
-        List<AttendanceTypeVO> atdList = learnService.selectAtd();
-        List<OperatorVO> studentList = consultService.selectClassNumAndStuNum(classNum);
-        List<MemberVO> fullAttendanceList = learnService.fullAttendance(classNum);
-        boolean nowCheckAttendance = learnService.nowCheckAttendance(classNum);
+        List<AttendanceTypeVO> atdList = learnService.selectAtd();//출결 항목
+        List<OperatorVO> studentList = consultService.selectClassNumAndStuNum(classNum);//반의 학생들 조회
+        List<MemberVO> fullAttendanceList = learnService.fullAttendance(classNum);//학생 개인별 출석률? 조회
+        boolean nowCheckAttendance = learnService.nowCheckAttendance(classNum);//오늘 출결체크를 했는지 확인
         map.put("atdList",atdList);
         map.put("studentList",studentList);
         map.put("fullAttendanceList",fullAttendanceList);
@@ -56,11 +57,16 @@ public class LearnController {
         return map;
     }
 
+    //출석 추가
     @ResponseBody
     @PostMapping("/insertAttendance")
     public void insertAttendance(@RequestBody ArrayList<AttendanceVO> atdList){
         InsertAtdListVO vo = new InsertAtdListVO();
         vo.setAtdList(atdList);
         learnService.insertAttendance(vo);
+    }
+    @GetMapping("/classPercent")
+    public String classPercent(){
+        return "/content/teacher/class_percent";
     }
 }
