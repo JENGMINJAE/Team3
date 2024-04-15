@@ -9,6 +9,9 @@ public interface MemberService {
     //회원가입
     void join(MemberVO memberVO);
 
+    //아이디 중복 확인
+    int idCheck(String memberId);
+
     //로그인
     MemberVO login(String memberId);
 

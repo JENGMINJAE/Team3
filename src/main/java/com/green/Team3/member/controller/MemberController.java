@@ -48,46 +48,12 @@ public class MemberController {
 
     //아이디 중복 확인
 //    public int idCheck(String memberId){
-//
-//    }
 
 
-    //로그인
-//    @PostMapping("/login")
-//    public String login(MemberVO memberVO, HttpSession session, Model model){
-//        MemberVO loginInfo = memberService.login(memberVO);
-//        System.out.println(loginInfo.getMemberRoll());
-//        //로그인 성공
-//        if(loginInfo != null){
-//            session.setAttribute("loginInfo", loginInfo);
-//            //memberRoll == 1 (학생)
-//            if (loginInfo.getMemberRoll() == 1){
-//                model.addAttribute("memberRoll",loginInfo.getMemberRoll());
-//                return "content/student/stu_list";
-//            }
-//            //memberRoll == 2 (강사)
-//            else if (loginInfo.getMemberRoll() == 2) {
-//                model.addAttribute("memberRoll",loginInfo.getMemberRoll());
-//                return "content/teacher/tea_list";
-//            }
-//            //memberRoll == 3 (관리자)
-//            else {
-//                model.addAttribute("memberRoll",loginInfo.getMemberRoll());
-//                return "content/admin/admin_list";
-//            }
-//        }
-//        System.out.println("일치하는 회원 정보가 없습니다.");
-//        session.setAttribute("loginInfo", null);
-//        System.out.println(memberVO);
-//
-//        return "redirect:/";
-
-//        if(loginInfo != null){
-//            session.setAttribute("loginInfo", loginInfo);
-//        }
-//        return "content/member/login_result";
 
 //    }
+
+
     // 메인 로고 클릭 시 첫 화면
     @GetMapping("/logoClick")
     public String logoClick(){
