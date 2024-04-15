@@ -12,58 +12,61 @@
     <!-- html 코드 작성 -->
     <div class="row">
         <div class="col">
+            <div class="offset-2 row">
+                <div class="col-2" style="font-size: 20px; font-weight: bold;">총 매출</div>
+                <div class="col-2 money-td" style="font-size: 18px;"></div>
+            </div>
+            <div class=" row">
+                <div class="col mt-3">
+                    <div class="row">
+                        <div class="col-9"></div>
+                        <div class="col-2" style="text-align: right;">
+                            <select name="payYear" onchange="eventYear()">
+                                <option th:each="year : ${years}" th:value="${year.payYear}">[[${year.payYear}]]년</option>
+                            </select>
+                        </div>
+                        <div class="col-1"></div>
+                    </div>
+                    <canvas class="bar-chart-div">
+                        <div></div>
+                    </canvas>
+                </div>
+            </div>
             <div class="row">
                 <div class="col">
-                    <div class="row">
+                    
+                    <div class="row mt-5">
                         <div class="offset-2 col-4">
                             시작일
                         </div>
-                        <div class="col-4 offset-2">
-
+                        <div class="col-4 ">
+                            마지막
                         </div>
                     </div>
-                    <div class="row">
+
+                    <div class="row mt-3">
                         <div class="offset-2 col-4">
                             <input type="date" name="searchType">
                         </div>
-                        <div class="col-4 offset-2">
+                        <div class="col-4 ">
                             <input type="date" name="searchValue">
                         </div>
+                        <div class="col-1 d-grid">
+                            <input type="button" class="btn btn-outline-primary" value="검색" onclick="searchSales()">
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col mt-3">
-                    <table class="table table-hover text-center">
-                        <colgroup>
-                            <col width="40%">
-                            <col width="40%">
-                            <col width="10%">
-                            <col width="10%">
-                        </colgroup>
-                    
-                        <tr>
-                            <td>
-                                총 매출
-                            </td>
-                            
-                            <td class="money-td">[[${total}]]</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col mt-3">
-                    <div>
-                        <select name="payYear">
-                            <option th:each="year : ${years}" th:value="${year.payYear}">[[${year.payYear}]] 년</option>
-                        </select>
+
+                    <div class="row mt-3">
+                        <div class="col">
+                            검색 결과
+                        </div>
                     </div>
-                    <canvas class="bar-chart-div"></canvas>
+
+
                 </div>
             </div>
+
+            
         </div>
     </div>
 </th:block>

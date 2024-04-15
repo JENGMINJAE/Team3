@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Name;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -278,19 +279,69 @@ public class AdminController {
     // 매출 관리 페이지 이동을 위해 비동기 컨트롤러 이동용
     @GetMapping("/goSales")
     public String goSales(Model model){
-        System.out.println("지나가요~~");
-        model.addAttribute("total", adminService.totalSales());
+//        model.addAttribute("total", adminService.totalSales());
         model.addAttribute("years", adminService.findPayYear());
         return "content/admin/sales_manage";
     }
+
     // 매출 관리 페이지 이동
-    @RequestMapping("/salesManage")
-    public List<OperatorVO> salesManage(OperatorVO operatorVO){
-        System.out.println("비동기에요~");
-        SalesVO salesVO = new SalesVO();
-        int[] arr = new int[12];
-        operatorVO.setPayYear(2024);
+    @ResponseBody
+    @RequestMapping("/showGraphic")
+    public List<SalesVO> showGraphic(@RequestBody OperatorVO operatorVO){
         List<OperatorVO> monthlySales = adminService.monthlySales(operatorVO);
-        return monthlySales;
+        List<SalesVO> list = new ArrayList<>();
+        double[] arr = new double[12]; // 월별 매출용 배열
+        double[] arr2 = new double[12]; // 월별 결제건 배열
+        for(int i = 0; i < arr.length; i++){
+            boolean found = false;
+            for (int j = 0; j < monthlySales.size(); j++) {
+                if(monthlySales.get(j).getPayMonth() == i+1) {
+                    arr[i] = monthlySales.get(j).getTotalSales();
+                    arr2[i] = monthlySales.get(j).getOperNumCnt();
+                    found = true;
+                }
+            }
+            if(!found){
+                arr[i] = 0;
+                arr2[i] = 0;
+            }
+        }
+
+        // arr의 값들을 천 단위로 절사
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (arr[i] / 10000);
+        }
+
+        SalesVO vo = new SalesVO();
+        vo.setData(arr);
+        list.add(vo);
+        SalesVO vo2 = new SalesVO();
+        vo2.setData(arr2);
+        list.add(vo2);
+        return list;
+    }
+
+    // 매출 검색
+    @ResponseBody
+    @PostMapping("/searchSales")
+    public void searchSales(@RequestBody SearchVO searchVO){
+        System.out.println("!!!!!!!!!!!!!");
+        System.out.println(searchVO);
+        List<OperatorVO> list = adminService.searchSales(searchVO);
+        List<SalesVO> result = new ArrayList<>();
+        double[] arr = new double[12]; // 일 담는 배열
+        double[] arr2 = new double[12]; // 월 담는 배열
+        double[] arr3 = new double[12]; // 년도 담는 배열
+        double[] money = new double[12]; // 돈 담는 배열
+        boolean isThere = false;
+        for(int i = 0 ; i < arr.length; i++){
+            if(list.get(i).getPayMonth() == i+1){
+                for(int j = 0; j < list.size(); j++){
+                    arr[i] = Double.parseDouble(list.get(j).getPayDay());
+                    arr2[i] = list.get(j).getPayMonth();
+                    arr3[i] = list.get(j).getPayYear();
+                }
+            }
+        }
     }
 }
