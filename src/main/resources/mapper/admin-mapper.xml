@@ -8,10 +8,13 @@
         <result column="OPER_PAY"               property="operPay" />
         <result column="IS_PAY"                 property="isPay" />
         <result column="MEMBER_ID"              property="memberId" />
-        <result column="PAY_DAY"               property="payDay" />
+        <result column="PAY_DAY"                property="payDay" />
         <result column="CLASS_NUM"              property="classNum" />
+        <result column="TOTAL_SALES"            property="totalSales" />
+        <result column="PAY_YEAR"               property="payYear" />
         <result column="OPER_NUM_CNT"           property="operNumCnt" />
     </resultMap>
+
     <!-- 회원 권한 수정 -->
     <update id="updateRoll">
         UPDATE MEMBER
@@ -211,35 +214,34 @@
         SELECT IFNULL(MAX(OPER_NUM), 0) + 1
         FROM OPERATOR
     </select>
+
+    <!-- 총 매출 계산 -->
+    <select id="totalSales" resultType="int">
+        SELECT SUM(OPER_PAY) AS TOTAL_SALES
+        FROM operator
+        WHERE SUBSTRING(PAY_DAY,1,4) = SUBSTRING(NOW(), 1, 4)
+    </select>
+
+    <!-- 매출 발생 연도 검색 쿼리 -->
+    <select id="findPayYear" resultMap="operator">
+        SELECT SUBSTRING(PAY_DAY, 1, 4) AS PAY_YEAR
+        FROM OPERATOR
+        GROUP BY SUBSTRING(PAY_DAY, 1, 4)
+        ORDER BY SUBSTRING(PAY_DAY, 1, 4) ASC
+    </select>
+    <!-- 월별 매출 (그래프용)-->
+    <select id="monthlySales" resultMap="operator">
+        SELECT SUM(OPER_PAY) AS TOTAL_SALES
+        FROM operator
+        WHERE SUBSTRING(PAY_DAY, 1, 4) = #{payYear}
+        GROUP BY SUBSTRING(PAY_DAY, 1, 7)
+        ORDER BY PAY_DAY ASC
+    </select>
+
+    <!-- 매출 검색 -->
+    <select id="searchSales" resultType="int">
+        SELECT SUM(OPER_PAY) AS TOTAL_SALES
+        FROM OPERATOR
+        WHERE PAY_DAY BETWEEN #{searchType} AND #{searchValue}
+    </select>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

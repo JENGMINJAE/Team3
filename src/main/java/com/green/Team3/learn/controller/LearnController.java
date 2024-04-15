@@ -1,12 +1,8 @@
 package com.green.Team3.learn.controller;
 
 import com.green.Team3.admin.vo.OperatorVO;
-import com.green.Team3.learn.service.ConsultServiceImpl;
-import com.green.Team3.learn.service.HomeworkServiceImpl;
-import com.green.Team3.learn.service.LearnServiceImpl;
-import com.green.Team3.learn.vo.AttendanceTypeVO;
-import com.green.Team3.learn.vo.AttendanceVO;
-import com.green.Team3.learn.vo.InsertAtdListVO;
+import com.green.Team3.learn.service.*;
+import com.green.Team3.learn.vo.*;
 import com.green.Team3.member.vo.MemberVO;
 import jakarta.annotation.Resource;
 import lombok.Getter;
@@ -32,7 +28,10 @@ public class LearnController {
     private HomeworkServiceImpl homeworkService;
     @Resource(name = "consultService")
     private ConsultServiceImpl consultService;
+    @Resource(name = "chartService")
+    private ChartService chartService;
 
+    //출결 뿌려주기
     @GetMapping("/atd")
     public String selectAtd(Model model, Authentication authentication){
         User user = (User)authentication.getPrincipal();
@@ -40,15 +39,15 @@ public class LearnController {
         model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
         return "/content/teacher/attendance";
     }
-
+    //출석부
     @ResponseBody
     @PostMapping("/changeStuOption")
     public Map<String, Object> changeModal(@RequestParam(name = "classNum")int classNum){
         Map<String,Object> map = new HashMap<>();
-        List<AttendanceTypeVO> atdList = learnService.selectAtd();
-        List<OperatorVO> studentList = consultService.selectClassNumAndStuNum(classNum);
-        List<MemberVO> fullAttendanceList = learnService.fullAttendance(classNum);
-        boolean nowCheckAttendance = learnService.nowCheckAttendance(classNum);
+        List<AttendanceTypeVO> atdList = learnService.selectAtd();//출결 항목
+        List<OperatorVO> studentList = consultService.selectClassNumAndStuNum(classNum);//반의 학생들 조회
+        List<MemberVO> fullAttendanceList = learnService.fullAttendance(classNum);//학생 개인별 출석률? 조회
+        boolean nowCheckAttendance = learnService.nowCheckAttendance(classNum);//오늘 출결체크를 했는지 확인
         map.put("atdList",atdList);
         map.put("studentList",studentList);
         map.put("fullAttendanceList",fullAttendanceList);
@@ -56,11 +55,41 @@ public class LearnController {
         return map;
     }
 
+    //출석 추가
     @ResponseBody
     @PostMapping("/insertAttendance")
     public void insertAttendance(@RequestBody ArrayList<AttendanceVO> atdList){
         InsertAtdListVO vo = new InsertAtdListVO();
         vo.setAtdList(atdList);
         learnService.insertAttendance(vo);
+    }
+    @GetMapping("/classPercentForm")
+    public String classPercentForm(){
+        return "/content/teacher/class_percent";
+    }
+
+    @ResponseBody
+    @PostMapping("/classPercentFetch")
+    public ChartVO classPercentFetch(Authentication authentication){
+        User user = (User)authentication.getPrincipal();
+        int teacherNum = consultService.selectTeacherNumOfMemberId(user.getUsername());
+        int loopCnt = learnService.selectLoopCnt(teacherNum);
+        List<Integer> totalList = learnService.selectTotalDayForClass(teacherNum);
+        List<Integer> ingList = learnService.selectIngDayForClass(teacherNum);
+        String[] labels = new String[loopCnt];
+        String[] randomColor = new String[loopCnt];
+        double[] datas = new double[loopCnt];
+        for (int i = 0 ; i < loopCnt; i++){
+            randomColor[i] = chartService.createRandomColor();
+            labels[i] = homeworkService.selectClassByThisTeacher(user.getUsername()).get(i).getClassName();
+            datas[i] = (double)ingList.get(i) / (double)totalList.get(i) * 100;
+        }
+        ChartVO chartVO = new ChartVO();
+        chartVO.setLabels(labels);
+        DataSetsVO dataSetsVO = new DataSetsVO();
+        dataSetsVO.setBackgroundColor(randomColor);
+        dataSetsVO.setData(datas);
+        chartVO.setDatasets(dataSetsVO);
+        return chartVO;
     }
 }

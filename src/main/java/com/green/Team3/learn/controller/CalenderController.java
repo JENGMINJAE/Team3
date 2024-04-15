@@ -28,6 +28,7 @@ public class CalenderController {
     @Resource(name = "consultService")
     private ConsultServiceImpl consultService;
 
+    //반 선택시 해당 반 학생 조회
     @ResponseBody
     @PostMapping("/changeStuOption")
     public List<OperatorVO> changeStuOption(@RequestParam(name = "classNum")int classNum){
@@ -35,6 +36,7 @@ public class CalenderController {
         return list;
     }
 
+    //달력 추가
     @PostMapping("/addCalender")
     public String addCalender(@RequestParam(name = "memberId")String memberId,
                               @RequestParam(name = "classNum")int classNum,
@@ -57,6 +59,7 @@ public class CalenderController {
         return "redirect:/consult/consultAddCalender";
     }
 
+    //달력에 스케줄 표시
     @ResponseBody
     @PostMapping("/addEventBar")
     public List<EventCalenderVO> addEventBar(){

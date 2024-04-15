@@ -1,6 +1,7 @@
 package com.green.Team3.admin.service;
 
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
@@ -137,6 +138,26 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public void updateClassEnter() {
         sqlSession.update("clsMapper.updateClassEnter");
+    }
+
+    @Override
+    public int totalSales() {
+        return sqlSession.selectOne("admin.totalSales");
+    }
+
+    @Override
+    public List<OperatorVO> findPayYear() {
+        return sqlSession.selectList("admin.findPayYear");
+    }
+
+    @Override
+    public List<OperatorVO> monthlySales(OperatorVO operatorVO) {
+        return sqlSession.selectList("admin.monthlySales", operatorVO);
+    }
+
+    @Override
+    public int searchSales(SearchVO searchVO) {
+        return sqlSession.selectOne("admin.searchSales", searchVO);
     }
 
 }

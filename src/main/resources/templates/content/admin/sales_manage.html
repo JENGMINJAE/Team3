@@ -5,20 +5,72 @@
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴때 같이 실행되는 css -->
-    <link rel="stylesheet" href="/">
+    <!-- <link rel="stylesheet" href="/"> -->
 </th:block>
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성 -->
     <div class="row">
         <div class="col">
-            매출 관리 페이지
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="offset-2 col-4">
+                            시작일
+                        </div>
+                        <div class="col-4 offset-2">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="offset-2 col-4">
+                            <input type="date" name="searchType">
+                        </div>
+                        <div class="col-4 offset-2">
+                            <input type="date" name="searchValue">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-3">
+                    <table class="table table-hover text-center">
+                        <colgroup>
+                            <col width="40%">
+                            <col width="40%">
+                            <col width="10%">
+                            <col width="10%">
+                        </colgroup>
+                    
+                        <tr>
+                            <td>
+                                총 매출
+                            </td>
+                            
+                            <td class="money-td">[[${total}]]</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mt-3">
+                    <div>
+                        <select name="payYear">
+                            <option th:each="year : ${years}" th:value="${year.payYear}">[[${year.payYear}]] 년</option>
+                        </select>
+                    </div>
+                    <canvas class="bar-chart-div"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </th:block>
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴때 같이 실행되는 js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/content/admin/sales_manage.js"></script>
 </th:block>
 </html>

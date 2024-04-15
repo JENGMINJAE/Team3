@@ -71,6 +71,9 @@ function pw_check(){
                     <col width="60%">
                 </colgroup>
                 <tr>
+                    <td colspan="2">비밀번호 변경</td>
+                </tr>
+                <tr>
                     <td>새 비밀번호</td>
                     <td><input type="password" id="newPw" class="form-control"></td>
                 </tr>

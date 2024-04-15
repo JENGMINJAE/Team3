@@ -21,13 +21,18 @@ public interface MemberService {
     // 학생 전체 목록 조회
     List<MemberVO> selectStudents();
 
+    // 회원 이메일 조회
     String getMemberEmail(MemberVO memberVO);
 
+    // 회원 비밀번호 업데이트
     void updateMemberPw(MemberVO memberVO);
 
+    // 회원 상세 정보 조회(자신)
     MemberVO selectMyInformation(String memberId);
 
+    // 패스워드 일치 확인
     String matchPassWord(String memberId);
 
+    // 아이디 찾기
     String findMemberId(MemberVO memberVO);
 }

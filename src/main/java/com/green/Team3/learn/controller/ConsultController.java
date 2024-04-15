@@ -105,10 +105,11 @@ public class ConsultController {
         return map;
     }
 
+    //상담 수정
     @PostMapping("/updateConsult")
     private String updateConsult(@RequestParam(name = "beforeTitle")String beforeTitle,ConsultVO consultVO){
-        consultService.updateConsult(consultVO);
-        calenderService.deleteCalender(beforeTitle);
+        consultService.updateConsult(consultVO);//상담 쿼리 업데이트
+        calenderService.deleteCalender(beforeTitle);//달력 테이블에서 삭제
         EventCalenderVO eVO = new EventCalenderVO();
         EventTypeVO eventTypeVO = calenderService.selectEventTypeForTeacherByConsult();
         eVO.setStart(consultVO.getConsultDate());
@@ -116,10 +117,11 @@ public class ConsultController {
         String tt = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(consultVO.getClassNum()) + "-" + consultVO.getMemberId() + "-" + consultVO.getConsultDate();
         eVO.setTitle(tt);
         eVO.setEventTypeNum(eventTypeVO.getEventTypeNum());
-        calenderService.insertEventCalender(eVO);
+        calenderService.insertEventCalender(eVO);//달력 추가
         return "redirect:/consult/consultList";
     }
 
+    //상담 삭제
     @PostMapping("/deleteConsult")
     private String deleteConsult(@RequestParam(name = "consultNum")int consultNum,
                                  @RequestParam(name = "title")String title){
