@@ -60,12 +60,11 @@
         FROM BOARD B
         INNER JOIN MEMBER M ON B.MEMBER_ID = M.MEMBER_ID
         LEFT JOIN BOARD_IMAGE I ON B.BOARD_NUM = I.BOARD_NUM
-        <where>
+        WHERE
             TYPE_NUM = 1
             <if test='searchValue != null and searchValue != ""'>
                 AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
-        </where>
         GROUP BY B.BOARD_NUM
         ORDER BY B.BOARD_NUM DESC
         LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}
@@ -86,12 +85,11 @@
         FROM BOARD B
         INNER JOIN MEMBER M ON B.MEMBER_ID = M.MEMBER_ID
         LEFT JOIN BOARD_IMAGE I ON B.BOARD_NUM = I.BOARD_NUM
-        <where>
+        WHERE
             TYPE_NUM = 2
             <if test='searchValue != null and searchValue != ""'>
                 AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
-        </where>
         GROUP BY B.BOARD_NUM
         ORDER BY B.BOARD_NUM DESC
         LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}
