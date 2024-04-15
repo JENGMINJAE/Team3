@@ -1,12 +1,8 @@
 package com.green.Team3.learn.controller;
 
 import com.green.Team3.admin.vo.OperatorVO;
-import com.green.Team3.learn.service.ConsultServiceImpl;
-import com.green.Team3.learn.service.HomeworkServiceImpl;
-import com.green.Team3.learn.service.LearnServiceImpl;
-import com.green.Team3.learn.vo.AttendanceTypeVO;
-import com.green.Team3.learn.vo.AttendanceVO;
-import com.green.Team3.learn.vo.InsertAtdListVO;
+import com.green.Team3.learn.service.*;
+import com.green.Team3.learn.vo.*;
 import com.green.Team3.member.vo.MemberVO;
 import jakarta.annotation.Resource;
 import lombok.Getter;
@@ -32,6 +28,8 @@ public class LearnController {
     private HomeworkServiceImpl homeworkService;
     @Resource(name = "consultService")
     private ConsultServiceImpl consultService;
+    @Resource(name = "chartService")
+    private ChartService chartService;
 
     //출결 뿌려주기
     @GetMapping("/atd")
@@ -65,8 +63,33 @@ public class LearnController {
         vo.setAtdList(atdList);
         learnService.insertAttendance(vo);
     }
-    @GetMapping("/classPercent")
-    public String classPercent(){
+    @GetMapping("/classPercentForm")
+    public String classPercentForm(){
         return "/content/teacher/class_percent";
+    }
+
+    @ResponseBody
+    @PostMapping("/classPercentFetch")
+    public ChartVO classPercentFetch(Authentication authentication){
+        User user = (User)authentication.getPrincipal();
+        int teacherNum = consultService.selectTeacherNumOfMemberId(user.getUsername());
+        int loopCnt = learnService.selectLoopCnt(teacherNum);
+        List<Integer> totalList = learnService.selectTotalDayForClass(teacherNum);
+        List<Integer> ingList = learnService.selectIngDayForClass(teacherNum);
+        String[] labels = new String[loopCnt];
+        String[] randomColor = new String[loopCnt];
+        double[] datas = new double[loopCnt];
+        for (int i = 0 ; i < loopCnt; i++){
+            randomColor[i] = chartService.createRandomColor();
+            labels[i] = homeworkService.selectClassByThisTeacher(user.getUsername()).get(i).getClassName();
+            datas[i] = (double)ingList.get(i) / (double)totalList.get(i) * 100;
+        }
+        ChartVO chartVO = new ChartVO();
+        chartVO.setLabels(labels);
+        DataSetsVO dataSetsVO = new DataSetsVO();
+        dataSetsVO.setBackgroundColor(randomColor);
+        dataSetsVO.setData(datas);
+        chartVO.setDatasets(dataSetsVO);
+        return chartVO;
     }
 }

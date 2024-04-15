@@ -338,6 +338,22 @@
         AND class_num = #{classNum}
         GROUP BY atd_date),'true','false')
     </select>
+    <!--  반복횟수를 위해 조회  -->
+    <select id="selectLoopCnt" resultType="int">
+        SELECT COUNT(CLASS_NUM) FROM class_info
+        WHERE TEACHER_NUM = #{teacherNum}
+    </select>
+
+    <!--  해당 반의 총 일수 계산  -->
+    <select id="selectTotalDayForClass" resultType="int">
+        SELECT DATEDIFF(CLASS_EDATE,CLASS_SDATE) FROM class_info
+        WHERE TEACHER_NUM = #{teacherNum}
+    </select>
+    <!--  해당 반의 진행 일수 계산  -->
+    <select id="selectIngDayForClass" resultType="int">
+        SELECT DATEDIFF(NOW(),CLASS_SDATE) FROM class_info
+        WHERE TEACHER_NUM = #{teacherNum}
+    </select>
 </mapper>
 
 

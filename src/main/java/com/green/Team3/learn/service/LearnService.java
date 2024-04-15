@@ -13,4 +13,7 @@ public interface LearnService {
     void insertAttendance(InsertAtdListVO vo);
     List<MemberVO> fullAttendance(int classNum);
     boolean nowCheckAttendance(int classNum);
+    int selectLoopCnt(int teacherNum);
+    List<Integer> selectTotalDayForClass(int teacherNum);
+    List<Integer> selectIngDayForClass(int teacherNum);
 }
