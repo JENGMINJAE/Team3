@@ -21,7 +21,7 @@
                         <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 20 20">
                             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                             <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
-                          </svg> 이의신청 상세내역</strong></h4>
+                            </svg> 이의신청 상세내역</strong></h4>
                     </div>
                 </div>
 
@@ -30,7 +30,7 @@
                 <form action="/stuTest/insertStuAsk" method="post">
                     <div class="row">
                         <div class="col">
-                                               
+                                            
                                 <table class="table" style="width:800px">
                                     <colgroup>
                                         <col width="20%">
@@ -83,16 +83,29 @@
                         <div class="col">
                             <!-- 신청글 수정 버튼(학생) -->
                             <th:block th:if="${thTestAskList}==null and ${testAskOne.protestOrigino==0}">
-                                <input type="button" class="btn btn-primary text-end"  value="신청수정" th:onclick="goUpdate([[${testAskOne.protestNum}]])">                          
+                                <input type="button" class="btn btn-primary text-end"  value="신청수정" th:onclick="goUpdate([[${testAskOne.protestNum}]])">  
+                                <input type="button" class="btn btn-primary text-end"  value="신청삭제" th:onclick="goDelete([[${testAskOne.protestNum}]])">                          
                             </th:block>
                             <!-- 원글의 답글버튼(선생님) -->
                             <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno==0}">
                                     <input type="button" class="btn btn-primary" th:onclick="goComment([[${testAskOne.protestNum}]])" value="답글">
+                            
+                                <!-- 삭제 버튼(선생님) -->
+                                    <th:block th:if="${testAskOne.protestOrigino==0}">
+                                        <input type="button" class="btn btn-primary text-end"  value="삭제" th:onclick="goThDelete1([[${testAskOne.protestNum}]])">
+                                    </th:block>
+                                    <th:block th:if="${testAskOne.protestOrigino!=0}">
+                                        <input type="button" class="btn btn-primary text-end"  value="삭제" th:onclick="goThDelete2([[${testAskOne.protestOrigino}]])">
+                                    </th:block>
+                                <!-- 목록 버튼(선생님) -->
+                                    <input type="button" class="btn btn-primary" th:onclick="goList()" value="목록">
+
+                                    <th:block th:if="${testAskOne.protestGroupno!=0}">
+                                        <input type="button" class="btn btn-primary" th:onclick="goList()" value="목록">
+                                    </th:block>
                             </th:block>
-                            <!-- 답글 수정 버튼(선생님) -->
-                            <!-- <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno!=0}">
-                                <input type="submit" class="btn btn-primary text-end"  value="답글수정">   
-                            </th:block> -->
+                        
+                        
                         
 
 
@@ -113,7 +126,21 @@ function goComment(protestNum){
 function goUpdate(protestNum){
     location.href='/stuTest/goUpdatePG?protestNum=' +protestNum;
 }
+function goDelete(protestNum){
+    location.href='/stuTest/goMyDelete?protestNum=' +protestNum;
+}
 
+function goThDelete1(protestNum){
+    location.href='/test/goThDelete1?protestNum=' +protestNum;
+}
+
+function goThDelete2(protestOrigino){
+    location.href='/test/goThDelete2?protestOrigino=' +protestOrigino;
+}
+
+function goList(){
+    location.href='/test/teacherAskFirst';
+}
 </script>
 
 

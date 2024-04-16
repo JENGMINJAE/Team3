@@ -62,7 +62,7 @@ function goUpdateScores(testNum){
                     }
 
                     else if(updateScorBtn.value=='저장'){
-                         goUpdate(); }
+                        goUpdate(); }
     
         })
 
@@ -78,8 +78,12 @@ function goUpdate(){
     document.querySelector("#myform").submit();
 }
 
+// function directScore(testNum){
 
-function directScore(testNum){
+//     location.href="/test/directScore?testNum="+ testNum;
+// }
 
-    location.href="/test/directScore?testNum="+ testNum;
+// 목록가기
+function goFirstList(classNum){
+    location.href="/test/scoreTeacher?classNum="+ classNum;
 }

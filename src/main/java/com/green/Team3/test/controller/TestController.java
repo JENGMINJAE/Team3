@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -247,12 +248,22 @@ public class TestController {
                     // 과목별시험 정보조회
                     List<TestSubjectVO> subsList = testService.subSelect(testNum);
                     model.addAttribute("subsList", subsList);
+                    System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" +subsList);
 
                     // 수강생 정보조회
                     List<MemberVO> stuCnt = testService.stuCnt(classNum);
                     model.addAttribute("stuCnt", stuCnt);
+                    System.out.println("***********************" +stuCnt);
 
-            // 만약 과목이 있는데 아직 설정을 안했다면 경고창 띄우기
+                    // 과목별 성적조회
+                    List<TestScoreVO> subScoreList =testService.selectSubScore(testNum);
+                    if(subScoreList!=null){
+                        model.addAttribute("subScoreList", subScoreList);
+                        System.out.println("@@@@@@@@@@@@@@@@@@" +subScoreList);
+                    }
+
+
+                    // 만약 과목이 있는데 아직 설정을 안했다면 경고창 띄우기
             if(subsList.size()==0){
 
                 List<MemberVO> stu = testService.stuCnt(classNum);
@@ -268,12 +279,12 @@ public class TestController {
 
 
     // ----------------  단일시험 성적 페이지 이동 ------------------------
-    @GetMapping("/goTestS")
-    public String goTestS(@RequestParam(name = "testNum") int testNum){
-
-        return "redirect:/test/goInputScore?testNum=" + testNum;
-
-    }
+//    @GetMapping("/goTestS")
+//    public String goTestS(@RequestParam(name = "testNum") int testNum){
+//
+//        return "redirect:/test/goInputScore?testNum=" + testNum;
+//
+//    }
 
 
 
@@ -295,7 +306,13 @@ public class TestController {
 
                 // 넘버로 받는 랭킹이 포함된 점수 조회
                 List<TestScoreVO> classScoresList = testService.selectTestScore(testNum);
-                model.addAttribute("classScoresList", classScoresList);
+                    model.addAttribute("classScoresList", classScoresList);
+                // 평균
+                TestScoreVO avgTest = testService.selectAvg(testNum);
+                if(avgTest!=null){
+                    model.addAttribute("avgTest", avgTest.getTestAvg());
+                }
+
 
         return "content/test/teacher_score";
     }
@@ -366,25 +383,17 @@ public class TestController {
 
     }
 
-    // ????????????? 진행중~~~~~~~~~
+
     // 입력한 과목 점수 저장
     @ResponseBody
-    @RequestMapping("/insertSubNtest")
-    public void insertSubNtest(@RequestParam(name = "score")int score,
-                               @RequestParam(name = "testNum")int testNum,
-                               @RequestParam(name = "memberId")String memberId,
-                               @RequestParam(name = "subTestNum")int subTestNum){
+    @PostMapping("/insertSubNtest")
+    public String insertSubNtest(@RequestBody TestScoreVO testScoreVO){
+        System.out.println("메서드 실행!!!!");
+        System.out.println(testScoreVO);
 
-        System.out.println(score);
+        testService.insertSubScore(testScoreVO);
 
-//        for(TestScoreVO TestScoreVo : testScoreVOList){
-//
-//            testService.insertSubScore(TestScoreVo);
-//
-//        }
-
-        //return  //"redirect:/test/goTestN?testNum="+ testScoreVOList.get(0).getTestNum()+"&classNum=" + testScoreVOList.get(0).getTestOneVo().getClassNum();
-        //getTestNum()+"&classNum="+ testScoreVO.getTestOneVo().getClassNum();
+        return "redirect:/test/goTestN?testNum="+ testScoreVO.getTestNum()+"&classNum="+testScoreVO.getTestOneVo().getClassNum();
 
     }
 
@@ -400,11 +409,10 @@ public class TestController {
             List<TestAskVO> thTestAskList = testService.selTeacherAsk(user.getUsername());
             model.addAttribute("thTestAskList", thTestAskList);
 
-
             return "/content/test/teacher_test_ask";
         }
 
-
+        // 선생님 이의신청 답글페이지 이동
         @GetMapping("/teacherComment")
         public String teacherComment(TestAskVO testAskVO, Model model, Authentication authentication){
             User user=(User) authentication.getPrincipal();
@@ -426,14 +434,30 @@ public class TestController {
             return "/content/test/teacher_ask_comment";
         }
 
-    @PostMapping("/insertThComment")
-    public String insertThComment(TestAskVO testAskVO, @RequestParam(name = "protestN")int protestN){
-        testService.updateComm(testAskVO.getProtestOrigino());
-        testService.insertCom(testAskVO);
-        stuTestService.updateOrigin(protestN);
+        // 선생님 이의신청 답글 저장
+        @PostMapping("/insertThComment")
+        public String insertThComment(TestAskVO testAskVO, @RequestParam(name = "protestN")int protestN){
+            testService.updateComm(testAskVO.getProtestOrigino());
+            testService.insertCom(testAskVO);
+            stuTestService.updateOrigin(protestN);
 
-        return "redirect:/test/teacherAskFirst?memberId="+testAskVO.getMemberId();
-    }
+            return "redirect:/test/teacherAskFirst?memberId="+testAskVO.getMemberId();
+        }
+
+        // 선생님이 학생글 1개 삭제(1)
+        @GetMapping("/goThDelete1")
+        public String goThDelete1(TestAskVO testAskVO){
+
+            stuTestService.deleteMyAsk(testAskVO.getProtestNum());
+            return "redirect:/test/teacherAskFirst";
+        }
+
+        // 선생님이 학생글과 답글 함께 삭제(2)
+        @GetMapping("/goThDelete2")
+        public String goThDelete2(TestAskVO testAskVO){
+            testService.deleteThAsk(testAskVO.getProtestOrigino());
+            return "redirect:/test/teacherAskFirst";
+        }
 
 
 }

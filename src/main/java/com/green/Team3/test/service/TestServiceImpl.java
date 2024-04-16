@@ -145,6 +145,11 @@ public class TestServiceImpl implements TestService{
     public List<TestScoreVO> selectTestScore(int testNum) {
         return sqlSession.selectList("testMapper.selectTestScore", testNum);
     }
+    // (단일시험 성적입력페이지) 평균구하기
+    @Override
+    public TestScoreVO selectAvg(int testNum) {
+        return sqlSession.selectOne("testMapper.selectAvg", testNum);
+    }
 
     // (단일시험 성적입력페이지) 점수등록버튼 클릭시 성적저장
     @Override
@@ -182,6 +187,12 @@ public class TestServiceImpl implements TestService{
         sqlSession.insert("testMapper.insertSubScore", testScoreVO);
     }
 
+    // [선생님] 과목별 점수 조회
+    @Override
+    public List<TestScoreVO> selectSubScore(int testNum) {
+        return sqlSession.selectList("testMapper.selectSubScore", testNum);
+    }
+
     // ######################################### 선생님 이의신청 페이지  ##################################
     //  선생님 이의신청 목록
     @Override
@@ -197,6 +208,12 @@ public class TestServiceImpl implements TestService{
     @Override
     public void updateComm(int protestOrigino) {
         sqlSession.update("testMapper.updateComm",protestOrigino);
+    }
+
+    // 선생님이 학생글 삭제(2)
+    @Override
+    public void deleteThAsk(int protestOrigino) {
+        sqlSession.delete("testMapper.deleteThAsk", protestOrigino);
     }
 
 

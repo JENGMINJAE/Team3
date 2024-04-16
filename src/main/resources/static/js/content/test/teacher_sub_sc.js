@@ -123,7 +123,7 @@ function goInsertSubNtest(){
             for(let i = 0 ; i < title_arr.length ; i++){
                     const each = {
                         score: tr_tag.children[i + 1].querySelector('input').value,
-                        testsNum : document.querySelector('#hidden_test_num').value,
+                        testNum : document.querySelector('#hidden_test_num').value,
                         memberId:tr_tag.querySelector('.score-member-id').textContent,
                         subTestNum:title_arr[i]
                     }
@@ -132,66 +132,63 @@ function goInsertSubNtest(){
         }
         console.log(scoreList);
         
-         goInsert(scoreList);
+        goInsert(scoreList);
 
 }
     
 
 function goInsert(scoreList){
-  
-     
+
         
-    // let tr={};
+    
     scoreList.forEach(function(scoreTr){
         console.log(scoreTr);
-       
-          // ------------------- 첫번째 방식 ---------------//
-        fetch('/test/insertSubNtest', { //요청경로
-            method: 'POST',
-            cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            },
-            //컨트롤러로 전달할 데이터
-            body: new URLSearchParams({
-            // 데이터명 : 데이터값
-                'testNum': scoreTr.testNum,
-                'memberId' : scoreTr.memberId,
-                'score' : scoreTr.score,
-                'subTestNum' : scoreTr.subTestNum
-
-            })
-        })
-        .then((response) => {
-            if(!response.ok){
-                alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
-                return ;
-            }
-
-            return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
-            //return response.json(); //나머지 경우에 사용
-        })
-        //fetch 통신 후 실행 영역
-        .then((data) => {//data -> controller에서 리턴되는 데이터!
-            
-        })
-        //fetch 통신 실패 시 실행 영역
-        .catch(err=>{
-            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-            console.log(err);
-        });     
-        
+    
+        // ------------------- 두번째 방식(가장 많이 쓰는 방식) ---------------//
+                fetch('/test/insertSubNtest', { //요청경로
+                    method: 'POST',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                    //컨트롤러로 전달할 데이터
+                    body: JSON.stringify({
+                    // 데이터명 : 데이터값
+                    'score': scoreTr.score ,
+                    'testNum': scoreTr.testNum,
+                    'memberId': scoreTr.memberId,
+                    'subTestNum': scoreTr.subTestNum
+                    })
+                })
+                .then((response) => {
+                    return response.text();
+                    //return response.json(); //나머지 경우에 사용
+                })
+                //fetch 통신 후 실행 영역
+                .then((data) => {//data -> controller에서 리턴되는 데이터!
+                    
+                })
+                //fetch 통신 실패 시 실행 영역
+                .catch(err=>{
+                    alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                    console.log(err);
+                });
 
 
     })
     // console.log(333333);
     // console.log(tr);
 
-        
-
-
-
-
+      
 
 
 }
+
+
+
+
+
+
+ 
+
+

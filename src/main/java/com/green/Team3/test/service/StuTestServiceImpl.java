@@ -67,6 +67,11 @@ public class StuTestServiceImpl implements StuTestService {
             public List<TestScoreVO> subTestMyScore(TestScoreVO testScoreVO) {
                 return sqlSession.selectList("testMapper.subTestMyScore", testScoreVO);
             }
+            // 학생 성적증명서 나의 총 성적 조회
+            @Override
+            public List<TestScoreVO> printMyGrade(TestScoreVO testScoreVO) {
+                return sqlSession.selectList("testMapper.printMyGrade", testScoreVO);
+            }
 
 
     //################# 학생 성적 이의신청 페이지 #######################
@@ -98,6 +103,17 @@ public class StuTestServiceImpl implements StuTestService {
             @Override
             public void updateOrigin(int protestNum) {
                sqlSession.update("testMapper.updateOrigin",protestNum);
+            }
+
+            // 학생 원글 수정
+            @Override
+            public void updateMyAsk(TestAskVO testAskVO) {
+               sqlSession.update("testMapper.updateMyAsk", testAskVO);
+            }
+            // 학생 원글 삭제
+            @Override
+            public void deleteMyAsk(int protestNum) {
+                sqlSession.delete("testMapper.deleteMyAsk", protestNum);
             }
 
 

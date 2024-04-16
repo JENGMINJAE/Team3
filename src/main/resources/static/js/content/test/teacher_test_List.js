@@ -1362,7 +1362,7 @@ function deleteSubSC(subTestNum, testNum){
 function goSelectSub(testNum, classNum, testMaxScore){
 
     if(testMaxScore==0){  location.href='/test/goTestN?testNum='+ testNum +'&classNum='+classNum;  }
-    else if(testMaxScore!=0){ location.href='/test/goTestS?testNum='+ testNum +'&classNum='+classNum; }
+    else if(testMaxScore!=0){ location.href='/test/goInputScore?testNum='+ testNum; }
         
 }
 

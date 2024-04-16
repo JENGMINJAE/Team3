@@ -24,7 +24,10 @@ public class TestScoreVO {
     private double subSumAvg;
     private int subSum;
     private String className;
+    private int classNum;
     private String level;
+    private String levelSub;
+    private String levelMain;
     private MemberVO memberOneVO;
     private TestVO testOneVo;
     private TestSubjectVO testSubOneVO;

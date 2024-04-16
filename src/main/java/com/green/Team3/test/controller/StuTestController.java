@@ -32,9 +32,10 @@ public class StuTestController {
     private TestServiceImpl testService;
 
 
-    // ??????????????? 진행중
+
     // /////////////////////////학생이 로그인 했을때 성적확인하기 ///////////////////////////////////////
 
+    // 성적 서치서비스 첫페이지
     @GetMapping("/stuTestFirst")
     public String stuTestFirst(Model model, Authentication authentication){
 
@@ -97,7 +98,7 @@ public class StuTestController {
 
 
 
-    // ///////////////////////////////////////////////////
+// //////////////////////////시험조회버튼 클릭시 나의 상세성적 확인하기 ///////////////////////////
 
     // 학생이 본인 단일 시험 성적 상세성적 조회
     @GetMapping("/goMyScore")
@@ -137,14 +138,21 @@ public class StuTestController {
 
 
 
-
-    // 학생이 본인 성적 모든성적 조회 프린트
+    // 학생이 본인 성적 모든성적 조회 프린트 //
 
     @GetMapping("totalStuPrint")
-    public String totalStuPrint(Authentication authentication){
-        User user=(User) authentication.getPrincipal();
+    public String totalStuPrint(Model model, TestScoreVO testScoreVO){
 
-        return "content/student/student_total_test";
+            List<TestScoreVO> printMyGrade = stuTestService.printMyGrade(testScoreVO);
+            model.addAttribute("printMyGrade", printMyGrade);
+
+            MemberVO memberInfo = stuTestService.selectStuTest(testScoreVO.getMemberId());
+            model.addAttribute("memberInfo", memberInfo);
+
+            ClsVO clsInfo = testService.onlyClassNum(testScoreVO.getClassNum());
+            model.addAttribute("clsInfo", clsInfo);
+
+            return "content/student/student_total_test";
     }
 
 
@@ -190,6 +198,7 @@ public class StuTestController {
         return "redirect:/stuTest/stuAskFirst?memberId=" + testAskVO.getMemberId();
     }
 
+    // 학생 이의신청 상세글보기
     @GetMapping("/stuAskDetail")
     public String stuAskDetail(TestAskVO testAskVO, Model model,Authentication authentication){
 
@@ -205,7 +214,6 @@ public class StuTestController {
         if(teacherID!=null){
             List<TestAskVO> thTestAskList = testService.selTeacherAsk(user.getUsername());
             model.addAttribute("thTestAskList", thTestAskList);
-            System.out.println("0543678889"+thTestAskList);
         }
         return "content/student/student_ask_detail";
     }
@@ -218,17 +226,23 @@ public class StuTestController {
 
         TestAskVO testAskOne = stuTestService.stuAskDetail(testAskVO);
         model.addAttribute("testAskOne",testAskOne);
+        System.out.println("%%%%%%%%%%%%%%%%%%"+ testAskOne);
         return "content/student/student_ask_wUpdate";
     }
 
-//    //글 1개 수정하기
-//    @PostMapping("askUpdate")
-//    public String askUpdate(BoardVo boardVo){
-//        boardService.updateBoard(boardVo);
-//        return "redirect:/board/list";
-//    }
+    //학생 신청글 1개 수정하기
+    @PostMapping("/askUpdate")
+    public String askUpdate(TestAskVO testAskVO){
+        stuTestService.updateMyAsk(testAskVO);
+        return "redirect:/stuTest/stuAskFirst";
+    }
 
-
+    //학생 신청글 1개 삭제
+    @GetMapping("/goMyDelete")
+    public String goMyDelete(TestAskVO testAskVO){
+        stuTestService.deleteMyAsk(testAskVO.getProtestNum());
+        return "redirect:/stuTest/stuAskFirst";
+    }
 
 
 
