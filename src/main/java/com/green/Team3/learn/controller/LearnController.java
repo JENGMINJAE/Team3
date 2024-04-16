@@ -63,11 +63,13 @@ public class LearnController {
         vo.setAtdList(atdList);
         learnService.insertAttendance(vo);
     }
+    //진도율 보러가기
     @GetMapping("/classPercentForm")
     public String classPercentForm(){
         return "/content/teacher/class_percent";
     }
 
+    //차트
     @ResponseBody
     @PostMapping("/classPercentFetch")
     public ChartVO classPercentFetch(Authentication authentication){
