@@ -47,12 +47,12 @@ public class MemberController {
     }
 
     //아이디 중복 확인
-//    public int idCheck(String memberId){
-
-
-
-//    }
-
+    @ResponseBody
+    @PostMapping("/idCheckFetch")
+    public int idCheck(@RequestParam(name = "memberId") String memberId){
+        int result = memberService.idCheck(memberId);
+        return result;
+    }
 
     // 메인 로고 클릭 시 첫 화면
     @GetMapping("/logoClick")

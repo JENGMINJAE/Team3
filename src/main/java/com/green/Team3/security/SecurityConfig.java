@@ -36,7 +36,8 @@ public class SecurityConfig {
                             new AntPathRequestMatcher("/member/findPasswordForm"),
                             new AntPathRequestMatcher("/member/findPwFetch"),
                             new AntPathRequestMatcher("/member/findIdForm"),
-                            new AntPathRequestMatcher("/member/findIdFetch")
+                            new AntPathRequestMatcher("/member/findIdFetch"),
+                            new AntPathRequestMatcher("/member/idCheckFetch")
                             ).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/admin")).hasRole("3")
                                 .requestMatchers(new AntPathRequestMatcher("/teacher")).hasRole("2")

@@ -21,7 +21,7 @@
                 <div class="row mb-5 mt-5">
                     <div class="col">
                         <div class="card">
-                            <h5 class="card-header" style="font-weight: bold; font-size: 18px;">
+                            <h5 class="card-header" style="font-weight: bold; font-size: 18px; padding: 10px">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
                                     class="bi bi-stop-fill text-success" viewBox="0 0 16 16">
                                     <path
@@ -151,7 +151,7 @@
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-1">
+                                            <div class="col-1" style="padding-top: 5px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
                                                     fill="currentColor" class="bi bi-person text-secondary"
                                                     viewBox="0 0 16 16">
@@ -159,9 +159,9 @@
                                                         d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
                                                 </svg>
                                             </div>
-                                            <div class="col-2" style="padding: 0;">아이디</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">아이디</div>
                                             <div class="col-9 d-flex">
-                                                <input type="text" class="form-control" name="memberId">
+                                                <input type="text" class="form-control" name="memberId" id="checkID" placeholder="아이디를 입력하세요." onchange="idMax()">
                                                 <span>&nbsp;</span>
                                                 <input type="button" value="중복 확인" class="btn btn-success" onclick="idCheck()">
                                             </div>
@@ -169,7 +169,7 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="row mb-2">
-                                            <div class="col-1">
+                                            <div class="col-1" style="padding-top: 5px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
                                                     fill="currentColor" class="bi bi-lock text-secondary"
                                                     viewBox="0 0 16 16">
@@ -177,16 +177,16 @@
                                                         d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1" />
                                                 </svg>
                                             </div>
-                                            <div class="col-2" style="padding: 0;">비밀번호</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">비밀번호</div>
                                             <div class="col-9">
-                                                <input type="password" class="form-control" neme="memberPw">
+                                                <input type="password" class="form-control" name="memberPw" id="newPw" placeholder="비밀번호를 입력하세요.">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-1"></div>
-                                            <div class="col-2" style="padding: 0;">비밀번호 확인</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">비밀번호 확인</div>
                                             <div class="col-9">
-                                                <input type="password" class="form-control" name="memberPw">
+                                                <input type="password" class="form-control" name="memberPw" id="chkPw" placeholder="비밀번호를 재입력하세요." onchange="pwCheck()">
                                             </div>
                                         </div>
                                     </li>
@@ -194,7 +194,7 @@
                                 <ul class="list-group mb-3">
                                     <li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-1">
+                                            <div class="col-1" style="padding-top: 5px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px"
                                                     fill="currentColor" class="bi bi-person text-secondary"
                                                     viewBox="0 0 16 16">
@@ -202,7 +202,7 @@
                                                         d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
                                                 </svg>
                                             </div>
-                                            <div class="col-2" style="padding: 0;">이름</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">이름</div>
                                             <div class="col-9">
                                                 <input type="text" class="form-control" name="memberName">
                                             </div>
@@ -210,12 +210,12 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-1">
+                                            <div class="col-1" style="padding-top: 5px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="currentColor" class="bi bi-gender-ambiguous text-secondary" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M11.5 1a.5.5 0 0 1 0-1h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V1.707l-3.45 3.45A4 4 0 0 1 8.5 10.97V13H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V14H6a.5.5 0 0 1 0-1h1.5v-2.03a4 4 0 1 1 3.471-6.648L14.293 1zm-.997 4.346a3 3 0 1 0-5.006 3.309 3 3 0 0 0 5.006-3.31z"/>
                                                 </svg>
                                             </div>
-                                            <div class="col-2" style="padding: 0;">성별</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">성별</div>
                                             <div class="col-9 d-flex">    
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="memberGender" value="남" checked>
@@ -230,54 +230,54 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-1">
+                                            <div class="col-1" style="padding-top: 5px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="23px" height="23px" fill="currentColor" class="bi bi-cake text-secondary" viewBox="0 0 16 16">
                                                     <path d="m7.994.013-.595.79a.747.747 0 0 0 .101 1.01V4H5a2 2 0 0 0-2 2v3H2a2 2 0 0 0-2 2v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a2 2 0 0 0-2-2h-1V6a2 2 0 0 0-2-2H8.5V1.806A.747.747 0 0 0 8.592.802zM4 6a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v.414a.9.9 0 0 1-.646-.268 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0A.9.9 0 0 1 4 6.414zm0 1.414c.49 0 .98-.187 1.354-.56a.914.914 0 0 1 1.292 0c.748.747 1.96.747 2.708 0a.914.914 0 0 1 1.292 0c.374.373.864.56 1.354.56V9H4zM1 11a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.793l-.354.354a.914.914 0 0 1-1.293 0 1.914 1.914 0 0 0-2.707 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0 1.914 1.914 0 0 0-2.708 0 .914.914 0 0 1-1.292 0L1 11.793zm11.646 1.854a1.915 1.915 0 0 0 2.354.279V15H1v-1.867c.737.452 1.715.36 2.354-.28a.914.914 0 0 1 1.292 0c.748.748 1.96.748 2.708 0a.914.914 0 0 1 1.292 0c.748.748 1.96.748 2.707 0a.914.914 0 0 1 1.293 0Z"/>
                                                 </svg>
                                             </div>
-                                            <div class="col-2" style="padding: 0;">생년월일</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">생년월일</div>
                                             <div class="col-9">
-                                                <input type="text" class="form-control" name="memberBirth">
+                                                <input type="date" class="form-control" name="memberBirth">
                                             </div>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-1">
+                                            <div class="col-1" style="padding-top: 5px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="currentColor" class="bi bi-phone text-secondary" viewBox="0 0 16 16">
                                                     <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                                                     <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
                                                   </svg>
                                             </div>
-                                            <div class="col-2" style="padding: 0;">전화번호</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">전화번호</div>
                                             <div class="col-9 d-flex">
                                                 <select class="form-select" name="memberTel">
                                                     <option value="010" selected>010</option>
                                                     <option value="011">011</option>
                                                 </select>
-                                                <div class="col">
+                                                <div class="col" style="padding-top: 5px;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-dash text-secondary" viewBox="0 0 16 16">
                                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
                                                     </svg>
                                                 </div>
-                                                <input type="text" class="form-control" name="memberTel">
-                                                <div class="col">
+                                                <input type="text" class="form-control" name="memberTel" id="phone1" onchange="phoneCheck1()">
+                                                <div class="col" style="padding-top: 5px;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-dash text-secondary" viewBox="0 0 16 16">
                                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
                                                     </svg>
                                                 </div>
-                                                <input type="text" class="form-control" name="memberTel">
+                                                <input type="text" class="form-control" name="memberTel" id="phone2" onchange="phoneCheck1()">
                                             </div>
                                         </div>
                                     </li>
                                     <li class="list-group-item">
                                         <div class="row">
-                                            <div class="col-1">
+                                            <div class="col-1" style="padding-top: 5px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="currentColor" class="bi bi-envelope text-secondary" viewBox="0 0 16 16">
                                                     <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
                                                 </svg>
                                             </div>
-                                            <div class="col-2" style="padding: 0;">E-mail</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">E-mail</div>
                                             <div class="col-9 d-flex">
                                                 <input type="text" class="form-control" name="memberEmail">
                                                 <span>&nbsp;</span>
@@ -290,12 +290,12 @@
                                     </li>
                                     <li class="list-group-item">
                                         <div class="row mb-2">
-                                            <div class="col-1">
+                                            <div class="col-1" style="padding-top: 5px;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" fill="currentColor" class="bi bi-house text-secondary" viewBox="0 0 16 16">
                                                     <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
                                                 </svg>
                                             </div>
-                                            <div class="col-2" style="padding: 0;">주소</div>
+                                            <div class="col-2" style="padding-left: 0; padding-top: 5px;">주소</div>
                                             <div class="col-9 d-flex">
                                                 <input type="text" class="form-control" id="postCode" name="postCode" readonly>
                                                 <span>&nbsp;</span>
@@ -314,88 +314,9 @@
                                     </li>
                                 </ul>
                             </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-success" onclick="join()">회원가입</button>
-                        </div>
-
-
-                            
-                            <!-- <div class="col-12">
-                                <label for="" class="form-label">아이디</label>
-                                <input type="text" class="form-control" name="memberId">
+                            <div class="text-center">
+                                <input type="button" class="btn btn-success" value="회원가입" onclick="join(); submitJoin();">
                             </div>
-                            <div class="col-4 d-grid">
-                                <label for="" class="form-label">&nbsp;</label>
-                                <input type="button" value="중복 확인" class="btn btn-primary" onclick="idCheck()">
-                            </div>
-                            <div class="col-12">
-                                <label for="" class="form-label">비밀번호</label>
-                                <input type="password" class="form-control" neme="memberPw">
-                            </div>
-                            <div class="col-12">
-                                <label for="" class="form-label">비밀번호 확인</label>
-                                <input type="password" class="form-control" name="memberPw">
-                            </div>
-                            <div class="col-12">
-                                <label for="" class="form-label">이름</label>
-                                <input type="text" class="form-control" name="memberName">
-                            </div>
-                            <div class="col-12">
-                                <label for="" class="form-label">생년월일</label>
-                                <input type="text" class="form-control" name="memberBirth">
-                            </div>
-                            <div class="col-4">
-                                <label for="" class="form-label">전화번호</label>
-                                <select class="form-select" name="memberTel">
-                                    <option value="010" selected>010</option>
-                                    <option value="011">011</option>
-                                </select>
-                            </div>
-                            <div class="col-4">
-                                <label for="" class="form-label">&nbsp;</label>
-                                <input type="text" class="form-control" name="memberTel">
-                            </div>
-                            <div class="col-4">
-                                <label for="" class="form-label">&nbsp;</label>
-                                <input type="text" class="form-control" name="memberTel">
-                            </div>
-                            <div class="col-6">
-                                <label for="" class="form-label">EMAIL</label>
-                                <input type="text" class="form-control" name="memberEmail">
-                            </div>
-                            <div class="col-6">
-                                <label for="" class="form-label">&nbsp;</label>
-                                <select id="" class="form-select" name="memberEmail">
-                                    <option value="@naver.com" selected>@naver.com</option>
-                                    <option value="@gmail.com">@gmail.com</option>
-                                </select>
-                            </div>
-                            <div class="col-8">
-                                <label for="" class="form-label">주소</label>
-                                <input type="text" class="form-control" id="postCode" name="postCode" readonly>
-                            </div>
-                            <div class="col-4 d-grid">
-                                <label for="" class="form-label">&nbsp;</label>
-                                <input type="button" value="검색" class="btn btn-primary" onclick="searchAddress()">
-                            </div>
-                            <div class="col-12">
-                                <input type="text" class="form-control" id="roadAddr" name="memberAddr" readonly>
-                            </div>
-                            <div class="col-12">
-                                <input type="text" class="form-control" name="addrDetail">
-                            </div>
-                            <div class="col-12">
-                                <label for="" class="form-label">성별</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="memberGender" value="남" checked>
-                                    <label class="form-check-label" for="">남</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="memberGender" value="여">
-                                    <label class="form-check-label" for="">여</label>
-                                </div>
-                            </div> -->
-
                         </form>
                     </div>
                 </div>
@@ -403,11 +324,11 @@
         </div>
     </div>
 
-    <script src="/js/join.js"></script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/join.js"></script>
 </body>
 
 </html>
