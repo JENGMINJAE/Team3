@@ -19,6 +19,12 @@ public class MemberServiceImpl implements MemberService{
         sqlSession.insert("member.join", memberVO);
     }
 
+    //아이디 중복 확인
+    @Override
+    public int idCheck(String memberId) {
+        return sqlSession.selectOne("member.idCheck", memberId);
+    }
+
     //로그인
     @Override
     public MemberVO login(String memberId) {

@@ -12,5 +12,5 @@ public class SalesVO {
     private String type;
     private String backgroundColor;
     private String borderColor;
-    private int[] data;
+    private double[] data;
 }

@@ -9,7 +9,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -141,11 +140,6 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public int totalSales() {
-        return sqlSession.selectOne("admin.totalSales");
-    }
-
-    @Override
     public List<OperatorVO> findPayYear() {
         return sqlSession.selectList("admin.findPayYear");
     }
@@ -156,7 +150,7 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public int searchSales(SearchVO searchVO) {
+    public List<OperatorVO> searchSales(SearchVO searchVO) {
         return sqlSession.selectOne("admin.searchSales", searchVO);
     }
 

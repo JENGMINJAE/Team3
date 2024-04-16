@@ -21,6 +21,7 @@ public class OperatorVO {
     private int operNumCnt;
     private int totalSales;
     private int payYear;
+    private int payMonth;
     private SearchVO searchVO;
     private List<Integer> operNumList;
 }
