@@ -278,17 +278,6 @@ public class TestController {
     }
 
 
-    // ----------------  단일시험 성적 페이지 이동 ------------------------
-//    @GetMapping("/goTestS")
-//    public String goTestS(@RequestParam(name = "testNum") int testNum){
-//
-//        return "redirect:/test/goInputScore?testNum=" + testNum;
-//
-//    }
-
-
-
-
 
 // ####################################  단일시험 페이지 기능 ~~~~##############################
 
@@ -331,13 +320,11 @@ public class TestController {
     // --------------(1.단일시험) 입력된 성적 수정 버튼 클릭시 성적조회 하여 input에 뿌려주기------------
     @ResponseBody
     @PostMapping("/selectMainList")
-    public List<TestScoreVO> selectMainList(TestScoreVO testScoreVO, Model model) {
+    public List<TestScoreVO> selectMainList(TestScoreVO testScoreVO) {
 
                 //시험명 클릭시 학생별 성적 조회
                 List<TestScoreVO> scoreSelectList = testService.selectTestScore(testScoreVO.getTestNum());
-                 model.addAttribute("scoreSelectList", scoreSelectList);
-
-        return scoreSelectList;
+         return scoreSelectList;
     }
 
 
@@ -387,17 +374,47 @@ public class TestController {
     // 입력한 과목 점수 저장
     @ResponseBody
     @PostMapping("/insertSubNtest")
-    public String insertSubNtest(@RequestBody TestScoreVO testScoreVO){
+    public void insertSubNtest(@RequestBody TestScoreVO testScoreVO){
         System.out.println("메서드 실행!!!!");
         System.out.println(testScoreVO);
 
         testService.insertSubScore(testScoreVO);
+    }
 
-        return "redirect:/test/goTestN?testNum="+ testScoreVO.getTestNum()+"&classNum="+testScoreVO.getTestOneVo().getClassNum();
+    // --------------과목별  입력된 성적 수정 버튼 클릭시 성적조회 하여 input에 뿌려주기------------
+    @ResponseBody
+    @PostMapping("/selectSubList")
+    public Map<String, Object> selectSubList(TestScoreVO testScoreVO, Model model) {
 
+        //시험명 클릭시 학생별 성적 조회
+        List<TestScoreVO> scoreSelectList = testService.selectTestScore(testScoreVO.getTestNum());
+        model.addAttribute("scoreSelectList", scoreSelectList);
+
+        // 과목조회
+        List<TestSubjectVO> subsList= testService.subSelect(testScoreVO.getTestNum());
+        model.addAttribute("subsList", subsList);
+
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("scoreSelectList",scoreSelectList);
+        map1.put("subsList", subsList);
+
+        return map1;
     }
 
 
+    // 입력한 과목 점수 수정
+    @PostMapping("/updateSubList")
+    public String updateSubList(@RequestParam(name = "score") List<Integer> scoreList
+            , @RequestParam(name = "scoreNum") List<Integer> scoreNumList ,TestScoreVO testScoreVO){
+        System.out.println("33333333333333333333333"+testScoreVO);
+        for(int i = 0 ; i < scoreNumList.size() ; i++){
+            TestScoreVO vo = new TestScoreVO();
+            vo.setScore(scoreList.get(i));
+            vo.setScoreNum(scoreNumList.get(i));
+            testService.updateScore(vo);
+        }
+        return "redirect:/test/goTestN?testNum="+ testScoreVO.getTestNum()+"&classNum="+testScoreVO.getClassNum();
+    }
 
 // ####################################  선생님 이의신청 페이지 기능 ~~~~##############################
 

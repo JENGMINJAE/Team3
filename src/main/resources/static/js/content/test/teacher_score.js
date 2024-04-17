@@ -7,6 +7,7 @@ const updateScorBtn= document.querySelector('#updateScorBtn');
 
 function goUpdateScores(testNum){
 
+
         // ------------------- 첫번째 방식 ---------------//
         fetch('/test/selectMainList', { //요청경로
             method: 'POST',

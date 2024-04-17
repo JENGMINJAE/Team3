@@ -13,7 +13,7 @@
     <style>
         td ,th, tr{border: 2px solid rgba(58, 111, 228, 0.281); }
         th{--bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center;}
-   </style>
+    </style>
         <div class="row">
             <div class="col">
                 <div class="row">
@@ -82,33 +82,25 @@
                     
                         <div class="col">
                             <!-- 신청글 수정 버튼(학생) -->
-                            <th:block th:if="${thTestAskList}==null and ${testAskOne.protestOrigino==0}">
+                            <th:block th:if="${thTestAskList}==null and ${testAskOne.protestOrigino}==0">
                                 <input type="button" class="btn btn-primary text-end"  value="신청수정" th:onclick="goUpdate([[${testAskOne.protestNum}]])">  
                                 <input type="button" class="btn btn-primary text-end"  value="신청삭제" th:onclick="goDelete([[${testAskOne.protestNum}]])">                          
                             </th:block>
                             <!-- 원글의 답글버튼(선생님) -->
-                            <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno==0}">
+                            <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno}==0">
                                     <input type="button" class="btn btn-primary" th:onclick="goComment([[${testAskOne.protestNum}]])" value="답글">
                             
                                 <!-- 삭제 버튼(선생님) -->
-                                    <th:block th:if="${testAskOne.protestOrigino==0}">
+                                    <th:block th:if="${testAskOne.protestOrigino}==0">
                                         <input type="button" class="btn btn-primary text-end"  value="삭제" th:onclick="goThDelete1([[${testAskOne.protestNum}]])">
                                     </th:block>
-                                    <th:block th:if="${testAskOne.protestOrigino!=0}">
+                                    <th:block th:if="${testAskOne.protestOrigino}!=0">
                                         <input type="button" class="btn btn-primary text-end"  value="삭제" th:onclick="goThDelete2([[${testAskOne.protestOrigino}]])">
-                                    </th:block>
-                                <!-- 목록 버튼(선생님) -->
-                                    <input type="button" class="btn btn-primary" th:onclick="goList()" value="목록">
-
-                                    <th:block th:if="${testAskOne.protestGroupno!=0}">
-                                        <input type="button" class="btn btn-primary" th:onclick="goList()" value="목록">
-                                    </th:block>
+                                    </th:block>                                                  
                             </th:block>
-                        
-                        
-                        
 
-
+                            <!-- 목록 버튼(선생님) -->
+                                <input type="button" class="btn btn-primary" th:onclick="goList([[${thTestAskList}]],[[${testAskOne.protestOrigino}]])" value="목록">                              
                         </div>
 
 
@@ -138,8 +130,14 @@ function goThDelete2(protestOrigino){
     location.href='/test/goThDelete2?protestOrigino=' +protestOrigino;
 }
 
-function goList(){
-    location.href='/test/teacherAskFirst';
+function goList(thTestAskList,protestOrigino ){
+    if(thTestAskList==null){
+        location.href='/stuTest/stuAskFirst';
+    }
+    else{
+        location.href='/test/teacherAskFirst';
+    }
+    
 }
 </script>
 

@@ -289,6 +289,7 @@
         , TEST_MAXSCORE
         , SCORE_NUM
         , CLASS_NUM
+        , SUB_TEST_NUM
         , DENSE_RANK()
         OVER (ORDER BY SCORE DESC) AS RANKING
         FROM test_score TS
@@ -381,6 +382,7 @@
         SUB_TEST_NUM
         , TEST_NUM
         , SUB_NAME
+        , SUB_MAXSCORE
         FROM test_subject
         WHERE test_NUM=#{testNum}
     </select>
@@ -578,7 +580,7 @@
             , (SELECT COUNT(SUB_NAME)  FROM test_subject WHERE TEST_NUM = TS.TEST_NUM) AS SUB_CNT
             , (SELECT SUM(SCORE) FROM test_score WHERE TEST_NUM= TS.TEST_NUM AND MEMBER_ID=TS.MEMBER_ID) AS SUB_SUM
             , (SELECT SUM(SUB_MAXSCORE) FROM test_subject WHERE TEST_NUM=TT.TEST_NUM) AS TOTAL_SUBMAX
-            , (SELECT SUM(SCORE) / COUNT(DISTINCT MEMBER_ID) FROM test_score  WHERE TEST_NUM= TT.TEST_NUM) AS SUB_SUM_AVG
+            , ROUND((SELECT SUM(SCORE) / COUNT(DISTINCT MEMBER_ID) FROM test_score  WHERE TEST_NUM= TT.TEST_NUM),1) AS SUB_SUM_AVG
             , (SELECT CLASS_NAME FROM CLASS_INFO WHERE CLASS_NUM=TT.CLASS_NUM) AS CLASS_NAME
             , CASE
                         WHEN TS.SCORE >SUB_MAXSCORE*0.90 THEN 'A'
