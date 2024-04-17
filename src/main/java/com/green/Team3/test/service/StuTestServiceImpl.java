@@ -29,7 +29,13 @@ public class StuTestServiceImpl implements StuTestService {
             public MemberVO selectStuTest(String memberId) {
                 return sqlSession.selectOne("testMapper.selectStuTest", memberId);
             }
-            // 서치 학생 수강별 시험목록조회
+            // 학생 강좌수 조회
+            @Override
+            public List<OperatorVO> stuClCnt(String memberId) {
+                return sqlSession.selectList("testMapper.stuClCnt", memberId);
+            }
+
+    // 서치 학생 수강별 시험목록조회
             @Override
             public List<TestVO> selectStuCLTest(String memberId) {
                 return sqlSession.selectList("testMapper.selectStuCLTest", memberId);
@@ -60,6 +66,11 @@ public class StuTestServiceImpl implements StuTestService {
             @Override
             public List<TestScoreVO> subTestMyScore(TestScoreVO testScoreVO) {
                 return sqlSession.selectList("testMapper.subTestMyScore", testScoreVO);
+            }
+            // 학생 성적증명서 나의 총 성적 조회
+            @Override
+            public List<TestScoreVO> printMyGrade(TestScoreVO testScoreVO) {
+                return sqlSession.selectList("testMapper.printMyGrade", testScoreVO);
             }
 
 
@@ -92,6 +103,17 @@ public class StuTestServiceImpl implements StuTestService {
             @Override
             public void updateOrigin(int protestNum) {
                sqlSession.update("testMapper.updateOrigin",protestNum);
+            }
+
+            // 학생 원글 수정
+            @Override
+            public void updateMyAsk(TestAskVO testAskVO) {
+               sqlSession.update("testMapper.updateMyAsk", testAskVO);
+            }
+            // 학생 원글 삭제
+            @Override
+            public void deleteMyAsk(int protestNum) {
+                sqlSession.delete("testMapper.deleteMyAsk", protestNum);
             }
 
 

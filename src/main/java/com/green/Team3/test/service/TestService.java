@@ -82,6 +82,8 @@ public interface TestService {
     //  (단일시험 성적입력페이지) 테스트 목록 등록버튼 클릭시 학생별 성적 조회
     List<TestScoreVO> selectTestScore(int testNum);
 
+    // (단일시험 성적입력페이지) 평균구하기
+    TestScoreVO selectAvg(int testNum);
 
     //  (단일시험 성적입력페이지) 성적입력시 학생이름 조회
     //List<MemberVO> selectStuName(int classNum);
@@ -107,6 +109,8 @@ public interface TestService {
     // (과목시험 성적입력페이지) 과목 저장   %%%%%%%%%%%%%%%%%%%%%%%%% 진행중
     void insertSubScore(TestScoreVO testScoreVO);
 
+    // [선생님] 과목별 점수 조회
+    List<TestScoreVO> selectSubScore(int testNum);
 
 
 // ######################################### 선생님 이의신청 페이지  ##################################
@@ -116,7 +120,8 @@ public interface TestService {
     void insertCom(TestAskVO testAskVO);
     //  선생님 답글 저장(2) (그룹번호 업데이트)
     void updateComm(int protestOrigino);
-
+    // 선생님이 학생글 삭제(2)
+    void deleteThAsk(int protestOrigino);
 
 
 }

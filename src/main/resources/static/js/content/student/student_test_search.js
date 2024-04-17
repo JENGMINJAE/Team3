@@ -330,7 +330,7 @@ function totalTest(memberId){
                                 <td>${totalTestStu.classEnter}</td> 
                                 <td>${totalTestStu.classSdate}</td>
                                 <td>${totalTestStu.classEdate}</td>
-                                <td><input type="button"  class="btn btn-secondary btn-sm listBtn" value="조회" id="btn" onclick="totalPrint()"></td>
+                                <td><input type="button"  class="btn btn-secondary btn-sm listBtn" value="조회" id="btn" onclick="totalPrint(${totalTestStu.classNum})"></td>
                                 
                             </tr>`;
                 })
@@ -362,8 +362,8 @@ function goStuScoreCheck(testNum, testMaxScore){
 }
 
 // ######################################## (서치 서비스) 이수표 확인페이지 이동 ############################# 
-function totalPrint(){
-    alert(memberId);
+function totalPrint(classNum){
+    alert(classNum);
     //location.href='/test/totalStuPrint'; 
-    location.href='/stuTest/totalStuPrint?memberId='+ memberId; 
+    location.href='/stuTest/totalStuPrint?memberId='+ memberId+'&classNum='+ classNum; 
 }
