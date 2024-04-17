@@ -13,37 +13,50 @@
 
 
     <style>
-        tr, td{border: 1px solid black; }
-        .thTd{text-align: center; font-weight: bolder;}
+        tr, td{border: 2px solid rgba(58, 111, 228, 0.281); }
+        .thTd{text-align: center; font-weight: bolder; --bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); }
+        
+
 
         @page {size:auto; margin : 0mm 11mm 0mm 10mm; }
-        @media print { .container{ width: 500px; font-size :15px; margin-top: 10mm; margin-left: 0mm; margin-right: 1mm; }
+        @media print {
+            .container{ width: 500px; font-size :15px; margin-top: 10mm; margin-left: 0mm; margin-right: 1mm; }
 
-         
+
         .buttonRow{display: none; }
         .ftable{width:800px;}
-        
+        .print-title{padding-right: 25%;}
+        .title{display: none;}
+        .accordion{display: none;}
         .loginFor{display: none;}
-        .printStu{display: none;}
-        }
+        *{-webkit-print-color-adjust:exact !important; print-color-adjust: exact !important;}
 
+
+        }
         
-   </style>
+        
+    </style>
 
     <div class="container">
         <div class="row mainBox">
             <div class="col">
-                        <div class="row buttonRow" >
-                            <div class="col" style="text-align: end;">
-                                <button onclick="printScPage();"><b>성적출력</b></button>
+                        
+
+                        <div class="row mb-4" style="width:1000px;">
+                            <div class="col title" style="color: white; background-color:rgb(28, 28, 78); border-bottom: 10px solid rgb(23, 141, 156); font-size:25px;">
+                                <strong>성적 증명서</strong>
                             </div>
                         </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <h1>성적증명서</h1>
+                        <div class="row buttonRow" style="width:1000px;" >
+                            <div class="col" style="text-align: end;">
+                                <button class="btn btn-primary" onclick="printScPage();"><b>성적출력</b></button>
+                            </div>
                         </div>
-                    </div>
+                        <div class="row" style="width:1000px;">
+                            <div class="col" >
+                                <div class="print-title" style="text-align:center; color: black; font-weight: 700; font-size: 50px;">성적 증명서</div>
+                            </div>
+                        </div>
                     <div class="row ftable">
                         <div class="col">
                             <table class="table" style="width: 100%;">
@@ -57,21 +70,21 @@
                                 </colgroup>
                                 <tr>
                                     <td class="thTd">수강반</td>
-                                    <td>스포츠지도사</td>
+                                    <td>[[${clsInfo.className}]]</td>
                                     <td class="thTd">생년월일</td>
-                                    <td>1981-07-11</td>
+                                    <td>[[${memberInfo.memberBirth}]]</td>
                                     <td class="thTd">입학일자</td>
-                                    <td>2024-03-05</td>
+                                    <td>[[${clsInfo.classSdate}]]</td>
                                 </tr>
                                 <tr>
                                     <td class="thTd">수강생번호</td>
-                                    <td>aaaaa</td>
+                                    <td>[[${memberInfo.memberId}]]</td>
                                     <td class="thTd">성명</td>
-                                    <td>홍길동</td>
+                                    <td>[[${memberInfo.memberName}]]</td>
                                     <td class="thTd">수료일자</td>
-                                    <td>2024-04-06</td>
+                                    <td>[[${clsInfo.classEdate}]]</td>
                                 </tr>
-                               
+
                             </table>
                         </div>
                     </div>
@@ -94,38 +107,38 @@
                                     <td>등급</td>
                                     <td>평점</td>
                                 </tr>
-                                <tr>
-                                    <td>1102</td>
-                                    <td>2월 중간고사</td>
-                                    <td>---</td>
-                                    <td>80</td>
-                                    <td>B</td>
-                                    <td>86.7</td>
+                                <tr th:each=" myGrade :${printMyGrade}">
+                                    <td>[[${myGrade.testNum}]]</td>
+                                    <td>[[${myGrade.testOneVo.testName}]]</td>
+                                    
+                                    <!-- 과목명 -->
+                                    <th:block th:if="${myGrade.subTestNum==0}">    
+                                        <td>---</td>
+                                    </th:block>
+                                    <th:block th:if="${myGrade.subTestNum!=0}">    
+                                        <td>[[${myGrade.testSubOneVO.subName}]]</td>
+                                    </th:block>
+                                    
+                                    <!-- 점수 -->
+                                    <td>[[${myGrade.score}]]</td>
+                                    
+                                    <!-- 등급 -->
+                                    <th:block th:if="${myGrade.subTestNum==0}">    
+                                        <td>[[${myGrade.levelMain}]]</td>
+                                    </th:block>
+                                    <th:block th:if="${myGrade.subTestNum!=0}">    
+                                        <td>[[${myGrade.levelSub}]]</td>
+                                    </th:block>
+                                                                
+                                    <!-- 평점 -->
+                                    <th:block th:if="${myGrade.subTestNum==0}">    
+                                        <td>[[${myGrade.testAvg}]]</td>
+                                    </th:block>
+                                    <th:block th:if="${myGrade.subTestNum!=0}">    
+                                        <td>[[${myGrade.subAvg}]]</td>
+                                    </th:block>
                                 </tr>
-                                <tr>
-                                    <td>1101</td>
-                                    <td>1월 중간고사</td>
-                                    <td>국어</td>
-                                    <td>88</td>
-                                    <td>B</td>
-                                    <td>76.7</td>
-                                </tr>
-                                <tr>
-                                    <td>1101</td>
-                                    <td>1월 중간고사</td>
-                                    <td>수학</td>
-                                    <td>60</td>
-                                    <td>c</td>
-                                    <td>66.7</td>
-                                </tr>
-                                <tr>
-                                    <td>1101</td>
-                                    <td>1월 중간고사</td>
-                                    <td>영아</td>
-                                    <td>60</td>
-                                    <td>c</td>
-                                    <td>56.7</td>
-                                </tr>
+                                
                             </table>
                         </div>
                     </div>
@@ -133,10 +146,10 @@
                         <div class="col">
 
                             <div class="row">
-                                <div class="col">
+                                <div class="col-6">
                                     <div class="row">
                                         <div class="col">
-                                            ** 성적등급
+                                            <strong>** 성적등급</strong>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -171,7 +184,7 @@
                                     </div>    
                                 </div>
 
-                                <div class="col">
+                                <div class="col-4" style="text-align: end;">
                                     <div class="row">
                                         <div class="col">
                                             위의 사실을 증명합니다
@@ -179,27 +192,26 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            2024년 5월 1일
+                                            <script>
+                                                date = new Date().toLocaleDateString();
+                                                document.write(date);
+                                            </script>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <h3>그린사이버대학교 교무처장</h3>
-                                        </div>
+                                            <h3>삼항아카데미 <br> 교무처장</h3>
+                                        </div>                                       
                                     </div>
+                                    
+                                </div>
+                                <div class="col-2">
+                                    <img src="/images/mark.jpg" width="150px">
                                 </div>
                             </div>
 
                         </div>
                     </div>
-
-
-
-
-
-
-
-
 
             </div>
         </div>
@@ -208,10 +220,7 @@
 
 
 <script>
-
-function printScPage(){window.print();}
-
-
+    function printScPage(){window.print();}
 </script>
 
 

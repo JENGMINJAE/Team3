@@ -8,19 +8,17 @@
 
 
 
- <th:blck th:each=" stu: ${stuList}">
-<input type="hidden" id="forAlert" th:value="${stu.operatorVOList[0].classNum}">
+   <th:blck th:each=" stu: ${stuList}">
+      <input type="hidden" id="forAlert" th:value="${stu.operatorVOList[0].classNum}">
 
- </th:blck>
-
-
-    <script>
-     const forAlert =document.querySelector('#forAlert').value;
-        alert("시험상세정보를 다시 확인해주세요!!");
-         location.href='/test/scoreTeacher?classNum='+forAlert;
-    </script>
+   </th:blck>
 
 
+      <script>
+         const forAlert =document.querySelector('#forAlert').value;
+            alert("시험상세정보를 다시 확인해주세요!!");
+               location.href='/test/scoreTeacher?classNum='+forAlert;
+      </script>
 
 </body>
 </html>

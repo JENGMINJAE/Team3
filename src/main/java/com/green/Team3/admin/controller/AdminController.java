@@ -46,7 +46,6 @@ public class AdminController {
     @GetMapping("/goAdminTeacher")
     public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum){
         List<TeacherVO> list = adminService.selectTeachers();
-        System.out.println(list);
         model.addAttribute("teacherList", list); // 강사 목록 조회
         model.addAttribute("updateTeacherNum", teacherNum);
         return "content/admin/admin_teacher";
@@ -113,8 +112,11 @@ public class AdminController {
 
     // 학급 생성 페이지 이동
     @GetMapping("/makeClassForm")
-    public String makeClassForm(Model model){
-        model.addAttribute("clsList", clsService.selectAllClass());
+    public String makeClassForm(Model model, SearchVO searchVO){
+        int totalDataCnt = adminService.classInfoCnt();
+        searchVO.setTotalDataCnt(totalDataCnt);
+        searchVO.setPageInfo();
+        model.addAttribute("clsList", clsService.selectAllClass(searchVO));
         model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/make_class_form";
     }
@@ -156,7 +158,6 @@ public class AdminController {
         return memberService.memberDetail(memberVO);
     }
 
-    //    ----------------------- 완료 ---------------------------
 
     // 반에 학생을 추가하기 위한 학생 목록 조회 페이지 이동
     @ResponseBody
@@ -178,11 +179,11 @@ public class AdminController {
     public int chkDuple(@RequestBody OperatorVO operatorVO){
         return adminService.chkDuple(operatorVO);
     }
+
     // 결제 중복 체크 (복수)
     @ResponseBody
     @PostMapping("/chkDuples")
     public int chkDuples(@RequestBody List<OperatorVO> list){
-        System.out.println(list);
         List<Integer> numList = new ArrayList<>();
         int sum = 0;
         for(OperatorVO e : list){
@@ -279,7 +280,6 @@ public class AdminController {
     // 매출 관리 페이지 이동을 위해 비동기 컨트롤러 이동용
     @GetMapping("/goSales")
     public String goSales(Model model){
-//        model.addAttribute("total", adminService.totalSales());
         model.addAttribute("years", adminService.findPayYear());
         return "content/admin/sales_manage";
     }
@@ -307,7 +307,7 @@ public class AdminController {
             }
         }
 
-        // arr의 값들을 천 단위로 절사
+        // arr의 값들을 만 단위로 절사
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (arr[i] / 10000);
         }
@@ -321,27 +321,4 @@ public class AdminController {
         return list;
     }
 
-    // 매출 검색
-    @ResponseBody
-    @PostMapping("/searchSales")
-    public void searchSales(@RequestBody SearchVO searchVO){
-        System.out.println("!!!!!!!!!!!!!");
-        System.out.println(searchVO);
-        List<OperatorVO> list = adminService.searchSales(searchVO);
-        List<SalesVO> result = new ArrayList<>();
-        double[] arr = new double[12]; // 일 담는 배열
-        double[] arr2 = new double[12]; // 월 담는 배열
-        double[] arr3 = new double[12]; // 년도 담는 배열
-        double[] money = new double[12]; // 돈 담는 배열
-        boolean isThere = false;
-        for(int i = 0 ; i < arr.length; i++){
-            if(list.get(i).getPayMonth() == i+1){
-                for(int j = 0; j < list.size(); j++){
-                    arr[i] = Double.parseDouble(list.get(j).getPayDay());
-                    arr2[i] = list.get(j).getPayMonth();
-                    arr3[i] = list.get(j).getPayYear();
-                }
-            }
-        }
-    }
 }

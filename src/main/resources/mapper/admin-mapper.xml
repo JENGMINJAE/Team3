@@ -248,4 +248,11 @@
         GROUP BY SUBSTRING(PAY_DAY, 1, 10)
         ORDER BY PAY_DAY ASC
     </select>
+    
+    <!-- class_info 데이터 수 -->
+    <select id="classInfoCnt" resultType="int">
+        SELECT COUNT(CLASS_NUM)
+        FROM CLASS_INFO
+        WHERE CLASS_EDATE > NOW()
+    </select>
 </mapper>

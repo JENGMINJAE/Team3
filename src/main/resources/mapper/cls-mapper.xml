@@ -64,13 +64,14 @@
                 FROM MEMBER
                 INNER JOIN TEACHER T
                 ON MEMBER.MEMBER_ID = T.MEMBER_ID
-                WHERE TEACHER_NUM = CI.TEACHER_NUM)	AS TEACHER_NAME
+                WHERE TEACHER_NUM = CI.TEACHER_NUM) AS TEACHER_NAME
         FROM CLASS_INFO CI INNER JOIN TEACHER T
         ON CI.TEACHER_NUM = T.TEACHER_NUM
         INNER JOIN MEMBER M
         ON T.MEMBER_ID = M.MEMBER_ID
-        WHERE CLASS_EDATE &gt;= NOW()
+        WHERE CLASS_EDATE >= NOW()
         ORDER BY CLASS_NUM DESC
+        LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}
     </select>
 
     <!-- 선택한 반의 상세 정보 조회하기 -->

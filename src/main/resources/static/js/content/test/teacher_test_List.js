@@ -11,7 +11,7 @@ const classNum = document.querySelector('#classNum').value;
 
 function happyBtn(classNum){
     
-     
+
         // 시험추가 버튼 생성하기
         const testAddBtn = document.querySelector('.testAddBtn');        
         testAddBtn.innerHTML=''; 
@@ -160,7 +160,7 @@ function happyBtn(classNum){
                                                         <input type="button"  class="btn btn-secondary btn-sm" value="시험당" id="btn insertTestNameBtn " onclick="insertScore()"
                                                         style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
                                                     </div>
-                                              </div>`
+                                            </div>`
                                 
                                             testAddBtn.insertAdjacentHTML('afterbegin',str);
                                     
@@ -286,7 +286,7 @@ function insertScore(){
 
 
 function insertSubSc(){
-   
+
                 const testName =document.querySelector('#testName').value;
                 const classNum = document.querySelector('#classNum').value;
                 const testDate= document.querySelector('#testDate').value;
@@ -1362,7 +1362,7 @@ function deleteSubSC(subTestNum, testNum){
 function goSelectSub(testNum, classNum, testMaxScore){
 
     if(testMaxScore==0){  location.href='/test/goTestN?testNum='+ testNum +'&classNum='+classNum;  }
-    else if(testMaxScore!=0){ location.href='/test/goTestS?testNum='+ testNum +'&classNum='+classNum; }
+    else if(testMaxScore!=0){ location.href='/test/goInputScore?testNum='+ testNum; }
         
 }
 

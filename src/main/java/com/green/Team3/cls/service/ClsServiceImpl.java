@@ -1,5 +1,6 @@
 package com.green.Team3.cls.service;
 
+import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -28,7 +29,7 @@ public class ClsServiceImpl implements ClsService{
     }
 
     @Override
-    public List<ClsVO> selectAllClass() {
-        return sqlSession.selectList("clsMapper.selectAllClass");
+    public List<ClsVO> selectAllClass(SearchVO searchVO) {
+        return sqlSession.selectList("clsMapper.selectAllClass", searchVO);
     }
 }
