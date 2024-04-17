@@ -81,9 +81,12 @@
                                 <td>상세보기</td>
                             </tr>
                         </thead>
-                        <tbody th:each="cls, state : ${clsList}">
-                            <tr>
-                                <td>[[${#lists.size(clsList) - state.index}]]</td>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(clsList)}">
+                                <td colspan="5">조회된 반 정보가 없습니다.</td> 
+                            </tr>
+                            <tr th:unless="${#lists.isEmpty(clsList)}" th:each="cls, state : ${clsList}">
+                                <td>[[${searchVO.totalDataCnt -(searchVO.displayDataCnt * (searchVO.nowPage - 1)) - state.index}]]</td>
                                 <td>[[${cls.className}]]</td>
                                 <td>[[${cls.classPersonnel}]]</td>
                                 <td>[[${cls.teacherVO.memberVO.memberName}]]</td>
@@ -95,6 +98,38 @@
                     </table>
                 </div>
             </div>
+            <!-- 페이징 코드 -->
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <th:block th:if="${searchVO.prev}">
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{/admin/makeClassForm(nowPage=${searchVO.beginPage - 1})}"  aria-label="Previous" style="color: rgb(116, 116, 116)">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                </th:block>
+                                <th:block th:each="i : ${#numbers.sequence(searchVO.beginPage, searchVO.endPage)}"> 
+                                    <!-- 공지사항 목록에서 선택한 페이지 + 조회한 검색 데이터 함께 가져옴 -->   
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{/admin/makeClassForm(nowPage=${i})}" style="color: rgb(116, 116, 116)">
+                                            [[${i}]]
+                                        </a>
+                                    </li>
+                                </th:block>
+                                <th:block th:if="${searchVO.next}">
+                                    <li class="page-item">
+                                        <a class="page-link" th:href="@{/admin/makeClassForm(nowPage=${searchVO.endPage + 1})}" aria-label="Next" style="color: rgb(116, 116, 116)">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
         </div>
     </div>
 </th:block>

@@ -113,8 +113,19 @@ public class AdminController {
 
     // 학급 생성 페이지 이동
     @GetMapping("/makeClassForm")
-    public String makeClassForm(Model model){
-        model.addAttribute("clsList", clsService.selectAllClass());
+    public String makeClassForm(Model model, SearchVO searchVO){
+        int totalDataCnt = adminService.classInfoCnt();
+        searchVO.setTotalDataCnt(totalDataCnt);
+        searchVO.setPageInfo();
+        System.out.println(searchVO.getTotalDataCnt());
+        System.out.println(searchVO.getBeginPage());
+        System.out.println(searchVO.getEndPage());
+        System.out.println(searchVO.getDisplayDataCnt());
+        System.out.println(searchVO.getDisplayPageCnt());
+        System.out.println(searchVO.getNowPage());
+        System.out.println(searchVO.getPrev());
+        System.out.println(searchVO.getNext());
+        model.addAttribute("clsList", clsService.selectAllClass(searchVO));
         model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/make_class_form";
     }
@@ -156,7 +167,6 @@ public class AdminController {
         return memberService.memberDetail(memberVO);
     }
 
-    //    ----------------------- 완료 ---------------------------
 
     // 반에 학생을 추가하기 위한 학생 목록 조회 페이지 이동
     @ResponseBody
@@ -178,6 +188,7 @@ public class AdminController {
     public int chkDuple(@RequestBody OperatorVO operatorVO){
         return adminService.chkDuple(operatorVO);
     }
+
     // 결제 중복 체크 (복수)
     @ResponseBody
     @PostMapping("/chkDuples")
@@ -321,27 +332,4 @@ public class AdminController {
         return list;
     }
 
-    // 매출 검색
-    @ResponseBody
-    @PostMapping("/searchSales")
-    public void searchSales(@RequestBody SearchVO searchVO){
-        System.out.println("!!!!!!!!!!!!!");
-        System.out.println(searchVO);
-        List<OperatorVO> list = adminService.searchSales(searchVO);
-        List<SalesVO> result = new ArrayList<>();
-        double[] arr = new double[12]; // 일 담는 배열
-        double[] arr2 = new double[12]; // 월 담는 배열
-        double[] arr3 = new double[12]; // 년도 담는 배열
-        double[] money = new double[12]; // 돈 담는 배열
-        boolean isThere = false;
-        for(int i = 0 ; i < arr.length; i++){
-            if(list.get(i).getPayMonth() == i+1){
-                for(int j = 0; j < list.size(); j++){
-                    arr[i] = Double.parseDouble(list.get(j).getPayDay());
-                    arr2[i] = list.get(j).getPayMonth();
-                    arr3[i] = list.get(j).getPayYear();
-                }
-            }
-        }
-    }
 }

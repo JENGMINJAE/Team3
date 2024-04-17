@@ -75,4 +75,8 @@ public interface AdminService {
 
     // 매출 검색
     List<OperatorVO> searchSales(SearchVO searchVO);
+
+    // class_Num 데이터 수
+    int classInfoCnt();
+
 }

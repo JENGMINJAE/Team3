@@ -1,5 +1,6 @@
 package com.green.Team3.cls.service;
 
+import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
 
@@ -14,7 +15,7 @@ public interface ClsService {
     ClsVO selectClassDetail(int classNum);
 
     // 전체 반 목록 조회
-    List<ClsVO> selectAllClass();
+    List<ClsVO> selectAllClass(SearchVO searchVO);
 
 
 }

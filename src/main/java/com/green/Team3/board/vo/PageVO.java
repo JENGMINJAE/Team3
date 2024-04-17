@@ -44,7 +44,7 @@ public class PageVO {
     public void setPageInfo(){
         //화면에 보이는 마지막 페이지 번호 세팅
         //올림(현재 페이지/한 페이지에 보이는 페이지수)*한 페이지에 보이는 페이지수
-        endPage = (int)Math.ceil(nowPage / (double)displayPageCnt) * displayPageCnt;
+        endPage = (int)Math.ceil((double)nowPage / displayPageCnt) * displayPageCnt;
 
         //화면에 보이는 첫번째 페이지 번호 세팅
         beginPage = endPage - displayPageCnt + 1;
