@@ -46,7 +46,6 @@ public class AdminController {
     @GetMapping("/goAdminTeacher")
     public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum){
         List<TeacherVO> list = adminService.selectTeachers();
-        System.out.println(list);
         model.addAttribute("teacherList", list); // 강사 목록 조회
         model.addAttribute("updateTeacherNum", teacherNum);
         return "content/admin/admin_teacher";
@@ -117,14 +116,6 @@ public class AdminController {
         int totalDataCnt = adminService.classInfoCnt();
         searchVO.setTotalDataCnt(totalDataCnt);
         searchVO.setPageInfo();
-        System.out.println(searchVO.getTotalDataCnt());
-        System.out.println(searchVO.getBeginPage());
-        System.out.println(searchVO.getEndPage());
-        System.out.println(searchVO.getDisplayDataCnt());
-        System.out.println(searchVO.getDisplayPageCnt());
-        System.out.println(searchVO.getNowPage());
-        System.out.println(searchVO.getPrev());
-        System.out.println(searchVO.getNext());
         model.addAttribute("clsList", clsService.selectAllClass(searchVO));
         model.addAttribute("teachers", adminService.selectTeacherName());
         return "content/admin/make_class_form";
@@ -193,7 +184,6 @@ public class AdminController {
     @ResponseBody
     @PostMapping("/chkDuples")
     public int chkDuples(@RequestBody List<OperatorVO> list){
-        System.out.println(list);
         List<Integer> numList = new ArrayList<>();
         int sum = 0;
         for(OperatorVO e : list){
@@ -290,7 +280,6 @@ public class AdminController {
     // 매출 관리 페이지 이동을 위해 비동기 컨트롤러 이동용
     @GetMapping("/goSales")
     public String goSales(Model model){
-//        model.addAttribute("total", adminService.totalSales());
         model.addAttribute("years", adminService.findPayYear());
         return "content/admin/sales_manage";
     }
@@ -318,7 +307,7 @@ public class AdminController {
             }
         }
 
-        // arr의 값들을 천 단위로 절사
+        // arr의 값들을 만 단위로 절사
         for (int i = 0; i < arr.length; i++) {
             arr[i] = (arr[i] / 10000);
         }
