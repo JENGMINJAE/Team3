@@ -273,12 +273,12 @@ function showClasses(memberId, memberRoll){
                         <td>${e.teacherVO.teacherName}</td>
                         <td>${e.classSdate} ~ ${e.classEdate}</td>`;
             if(memberRoll == 1){
-                str += `<td>
+                str += `
                 <input type="hidden" name="classNum" value="${e.classNum}">
-                            <input type="hidden" name="memberId" value="${e.teacherVO.memberVO.memberId}">`;
+                <input type="hidden" name="memberId" value="${e.teacherVO.memberVO.memberId}">`;
 
             } else {
-                str += `  </td>`;
+                str += `  `;
             }           
             str += `</tr>`;
         });

@@ -79,4 +79,6 @@ public interface AdminService {
     // class_Num 데이터 수
     int classInfoCnt();
 
+    // 멤버 데이터 수
+    int memberCnt();
 }
