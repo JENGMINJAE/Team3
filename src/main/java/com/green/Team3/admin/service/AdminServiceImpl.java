@@ -159,4 +159,9 @@ public class AdminServiceImpl implements AdminService{
         return sqlSession.selectOne("admin.classInfoCnt");
     }
 
+    @Override
+    public int memberCnt() {
+        return sqlSession.selectOne("admin.memberCnt");
+    }
+
 }
