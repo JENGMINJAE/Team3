@@ -477,4 +477,26 @@ public class TestController {
         }
 
 
+
+    // ####################################  운영자 학생 성적 조회 기능 ~~~~##############################
+
+            // 성적 서치서비스 첫페이지 이동
+            @GetMapping("/stuTestAdmin")
+            public String stuTestFirst(Model model, @RequestParam(name = "memberId") String memberId){
+
+                MemberVO stuInfoService = stuTestService.selectStuTest(memberId);
+                model.addAttribute("stuInfoService",stuInfoService);
+
+                List<OperatorVO> clCnt = stuTestService.stuClCnt(memberId);
+                model.addAttribute("clCnt",clCnt);
+
+                return "content/student/student_test_search";
+            }
+
+
+
+
+
+
+
 }
