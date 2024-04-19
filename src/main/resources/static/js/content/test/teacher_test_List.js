@@ -2,7 +2,9 @@
 
 
 const test_detail_modal = new bootstrap.Modal('#testJoin-form');
-
+const chTest  = document.querySelector('.chTest');
+const upBtn = document.querySelector('.upBtn');
+const downBtn = document.querySelector('.downBtn');
 
 // #######################################(모달)  시험설정 버튼 클릭시 모달 창 오픈!!!!!#########################################
 
@@ -18,7 +20,7 @@ function happyBtn(classNum){
 
                 let str= `<div class="row" style="margin-top: 5px;">
                                 <div class="col-2">
-                                    <input type="button"  class="btn btn-secondary btn-sm" value="시험등" id="btn" onclick="insertScore()"
+                                    <input type="button"  class="btn btn-secondary btn-sm" value="시험등록" id="btn" onclick="insertScore()"
                                     style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
                                 </div>            
                             </div>`         
@@ -39,6 +41,8 @@ function happyBtn(classNum){
 
                         // 과목있음 선택시
                         if(current.value == 2){
+                                    // 셀렉트 선택 해제
+                                    chTest.value='';  
                                                                 
                                     // 만점입력하는 칸 사라지게 함
                                     hiddenPerfect.innerHTML=``;
@@ -125,7 +129,7 @@ function happyBtn(classNum){
                                                                         <div class="row mt-1">
                                                                             <div class="col" id="addSubBtn">
                                                                     
-                                                                                <input type="button"  class="btn btn-secondary btn-sm" id="subNameAdd" value="과목추가" onclick="goInsertSub()"
+                                                                                <input type="button"  class="btn btn-secondary btn-sm" id="subNameAdd" value="과목추가" )"
                                                                                 style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
                                                                             </div>       
                                                                         </div>                   
@@ -134,8 +138,11 @@ function happyBtn(classNum){
                                                                             
                                                 </div>   
                                             </div>`   
-                                                                     
+
                                 classGoSub.insertAdjacentHTML('afterbegin',stj);
+
+                                
+                        
                                         
                         }
 
@@ -210,11 +217,48 @@ function happyBtn(classNum){
                 let std=``;
             
                 data.forEach(function(testOne, idx){
-                    std+=`<option value=${testOne.testNum}>${testOne.testName}</option>`;     
+                    std+=`<option  value=${testOne.testNum} id='optionNum'>${testOne.testName}</option>`;     
                     });
             
                     sel.insertAdjacentHTML('afterbegin',std); 
                     test_detail_modal.show();
+                
+                    // 오름차순 클릭
+                    upBtn.addEventListener("click", function () {
+                        let upTestName = data.sort((a,b) => {
+                            if(a.testName > b.testName) return 1;
+                            if(a.testName < b.testName) return -1;
+                            return 0;
+                        });                        
+                        console.log(upTestName);
+                                const sel = document.querySelector('#sel');           
+                                sel.innerHTML=``; 
+                                let std=``;
+                                upTestName.forEach(function(testOne, idx){
+                                    std+=`<option  value=${testOne.testNum} id='optionNum'>${testOne.testName}</option>`;     
+                                    });
+                            
+                                    sel.insertAdjacentHTML('afterbegin',std); 
+                                    test_detail_modal.show();
+
+                    });
+
+                    // 내림차순 클릭
+                    downBtn.addEventListener("click", function () {
+                        let downTestName = data.sort(function (a, b) {
+                            return b.testName.localeCompare(a.testName);
+                        });
+                        console.log(downTestName);
+                            const sel = document.querySelector('#sel');           
+                            sel.innerHTML=``; 
+                            let std=``;
+                            downTestName.forEach(function(testOne, idx){
+                                std+=`<option  value=${testOne.testNum} id='optionNum'>${testOne.testName}</option>`;     
+                                });
+                        
+                                sel.insertAdjacentHTML('afterbegin',std); 
+                                test_detail_modal.show();
+                    });
         
         })
         //fetch 통신 실패 시 실행 영역
@@ -223,17 +267,19 @@ function happyBtn(classNum){
             console.log(err);
         });
         
+    
+
         
 }
 
 
 
 
-
-
-
-
 // ####################################(모달) (과목없음)모달내의 시험등록 버튼 클릭시 insert되고 목록조회   ########################################
+
+
+const regex = /[^0-9]/g;
+
 
 function insertScore(){
     
@@ -241,6 +287,24 @@ function insertScore(){
                 const classNum = document.querySelector('#classNum').value;
                 const testMaxScore = document.querySelector('#testMaxScore').value;
                 const testDate= document.querySelector('#testDate').value;
+
+
+
+
+                if(testName == '' 
+                || testMaxScore == ''
+                || testDate == ''    
+                ){
+                    alert('입력창을 재확인해주세요!');                    
+                    return;
+                }
+                else if(testMaxScore.replace(regex,'') == ''
+                    ){
+                    alert('입력창을 다시 확인해주세요!');
+                    return;
+                    }
+
+
                 
             fetch('/test/insertTest', { //요청경로
                     method: 'POST',
@@ -270,7 +334,8 @@ function insertScore(){
                 })
                 //fetch 통신 후 실행 영역
                 .then((data) => {//data -> controller에서 리턴되는 데이터!                   
-                    
+                                        
+
                     InfoTestInput();
                     happyBtn(classNum);                
                 })
@@ -290,6 +355,16 @@ function insertSubSc(){
                 const testName =document.querySelector('#testName').value;
                 const classNum = document.querySelector('#classNum').value;
                 const testDate= document.querySelector('#testDate').value;
+
+                if(testName == '' 
+                || testDate == ''    
+                ){
+                    alert('입력창을 재확인해주세요!');
+                    testName='';
+                    testDate='';                  
+                    return;
+                }
+            
 
                     // ------------------- 첫번째 방식 ---------------//
                 fetch('/test/insertSubSc', { //요청경로
@@ -390,24 +465,30 @@ function insertSubSc(){
 
 function changeTest(){
 
-    const sel = document.querySelector('#sel');    
-    console.log(44444);
-    let sel_value  = parseInt(sel.options[sel.selectedIndex].value);
-    console.log(sel_value);
-    document.querySelector('#testNumForSub').value= sel_value;
-    chooseSub();
+    
+    const chTestValue = (chTest.options[chTest.selectedIndex].value);
+    console.log(9999999);
+    console.log(chTestValue);
 
+    if(document.querySelector('input[value="1"]:checked')){
+        console.log(12222);    
+    }
+
+    else if(document.querySelector('input[value="2"]:checked')) {
+        console.log(344444);
+        chooseSub(chTestValue);    
+    }
+    
 }   
 
 
 
 // ##########################################(모달)과목있음 선택시, // 과목 목록 + 총점 구하기 // (메인, 과목시험 구분) ####################################
- 
-function chooseSub(){  
 
+function chooseSub(testNumForSub){  
+    //const testNumForSub = document.querySelector('#testNumForSub').value;
 
-    const testNumForSub = document.querySelector('#testNumForSub').value;
-
+        
             // ------------------- 첫번째 방식 ---------------//
             fetch('/test/selectSubTest', { //요청경로
                 method: 'POST',
@@ -432,7 +513,7 @@ function chooseSub(){
             })
             //fetch 통신 후 실행 영역
             .then((data) => {//data -> controller에서 리턴되는 데이터!                
-                console.log('44444'+data.testNum2[0].testMaxScore);
+                console.log('44444'+data.testNum2[0].testNum);
                 
                 // 만약 메인테스트가 0 일때
                 if(data.testNum2[0].testMaxScore ==0){
@@ -458,9 +539,9 @@ function chooseSub(){
                             // 과목추가버튼 그리기        
                                 const addSubBtn = document.querySelector('#addSubBtn');
                                 addSubBtn.innerHTML=``;
-                                let stt=``;
-                                stt=` <input type="button" class="btn btn-secondary btn-sm" id="subNameAdd" value="과목추가" onclick="goInsertSub()"
-                                style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">`;  
+                                let stt='';
+                                stt=` <input type="button" class="btn btn-secondary btn-sm" id="subNameAdd" value="과목추가" onclick="goInsertSub(`+testNumForSub+`)"
+                                style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180)">` 
                             
                                 addSubBtn.insertAdjacentHTML('afterbegin',stt);
                 } 
@@ -503,8 +584,8 @@ function chooseSub(){
                 alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
                 console.log(err);
             });
- 
- }
+
+}
 
 
 
@@ -514,52 +595,80 @@ function chooseSub(){
 // ###########################(모달) 모달내 과목 저장######################################
 
 
-function goInsertSub(){
+function goInsertSub(testNumForSub){
     
                 const subName = document.querySelector('#subName').value;
                 const subMaxScore = document.querySelector('#subMaxScore').value;
-                const testNumForSub = document.querySelector('#testNumForSub').value;
 
-                        // ------------------- 첫번째 방식 ---------------//
-                    fetch('/test/goInsertSub', { //요청경로
-                        method: 'POST',
-                        cache: 'no-cache',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-                        },
-                        //컨트롤러로 전달할 데이터
-                        body: new URLSearchParams({
-                        // 데이터명 : 데이터값
+
+                console.log(55555555556778);
+                console.log(subName);    
+                console.log(subMaxScore);
+                console.log(testNumForSub);
+                
+                
+                if(subName == '' 
+                || subMaxScore == '' 
+                ){
+                    alert('과목입력창을 재확인해주세요!');
+                    chTest.value='';
+                    return;
+                }
+                else if(subMaxScore.replace(regex,'') == ''                            
+                    ){
+                    alert('입력창을 재확인해주세요!');
+                    return;
+                    }
+                
+
                         
-                        'subName': subName,
-                        'subMaxScore': subMaxScore,
-                        'testNum': testNumForSub
+                                    // ------------------- 첫번째 방식 ---------------//
+                        fetch('/test/insertSub', { //요청경로
+                            method: 'POST',
+                            cache: 'no-cache',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                            },
+                            //컨트롤러로 전달할 데이터
+                            body: new URLSearchParams({
+                            // 데이터명 : 데이터값
+                            
+                            'subName': subName,
+                            'subMaxScore': subMaxScore,
+                            'testNum': testNumForSub
 
+                            })
                         })
-                    })
-                    .then((response) => {
-                        if(!response.ok){
-                            alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
-                            return ;
-                        }
+                        .then((response) => {
+                            if(!response.ok){
+                                alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                                return ;
+                            }
 
-                        return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
-                        //return response.json(); //나머지 경우에 사용
-                    })
-                    //fetch 통신 후 실행 영역
-                    .then((data) => {//data -> controller에서 리턴되는 데이터!
-                                           
-                        // 과목+총점조회
-                        chooseSub(); 
-                        document.querySelector('#subName').value="";
-                        document.querySelector('#subMaxScore').value="";
-                    })
-                    //fetch 통신 실패 시 실행 영역
-                    .catch(err=>{
-                        alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-                        console.log(err);
-                    });
+                            return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+                            //return response.json(); //나머지 경우에 사용
+                        })
+                        //fetch 통신 후 실행 영역
+                        .then((data) => {//data -> controller에서 리턴되는 데이터!
 
+                            
+
+                            // 과목+총점조회
+                                chooseSub(testNumForSub); 
+                                document.querySelector('#subName').value="";
+                                document.querySelector('#subMaxScore').value="";  
+                        
+                                                
+                            
+                        })
+                        //fetch 통신 실패 시 실행 영역
+                        .catch(err=>{
+                            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+                            console.log(err);
+                        });
+
+                    
+                
 }
 
 
@@ -567,7 +676,7 @@ function goInsertSub(){
 // #########################################(모달)모달 내, 등록버튼 클릭시 input 태그 리셋(1) #########################################
 
 function InfoTestInput(){
-   
+
 
             const values = ['#testName', '#testMaxScore', '#testDate']
 
@@ -818,9 +927,9 @@ function mainTestChange(testNum, testBtn){
                                 console.log(err);
                             });
     }
-   
-   
-   
+
+
+
     else if(testBtn.value=='저장'){
 
                             // ------------------- 첫번째 방식 ---------------//
