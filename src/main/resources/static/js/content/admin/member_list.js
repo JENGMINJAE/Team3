@@ -679,3 +679,8 @@ function reqSomePay(){
     }
   
 }
+
+// 성적조회 페이지 이동
+function goSearch(memberId){
+    location.href="/test/stuTestAdmin?memberId="+ memberId;
+}
