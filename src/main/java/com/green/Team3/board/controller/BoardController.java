@@ -217,13 +217,12 @@ public class BoardController {
     @GetMapping("/deleteNotice")
     public String deleteNotice(BoardVO boardVO){
         boardService.deleteNotice(boardVO);
-        return "redirect:/board/noticeList";
-
-//        if(boardVO.getTypeNum() == 1){
-//            return "redirect:/board/noticeListStu";}
-//        else if(boardVO.getTypeNum() == 2){
-//            return "redirect:/board/noticeListTea";}
-//        else{return null;}
+        //return "redirect:/board/noticeList";
+        if(boardVO.getTypeNum() == 1){
+            return "redirect:/board/noticeListStu";}
+        else if(boardVO.getTypeNum() == 2){
+            return "redirect:/board/noticeListTea";}
+        else{return null;}
 
     }
 

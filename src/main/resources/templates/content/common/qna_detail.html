@@ -58,12 +58,12 @@
     <!-- 문의사항 댓글 작성폼 -->
     <div class="mb-5">
         <h4>댓글 작성</h4>
-        <form action="/reply/replyReg" method="post">
+        <form action="/reply/replyReg" method="post" id="reply_reg">
             <div class="row">
                 <div class="col text-end">
                     <input type="hidden" name="boardNum" th:value="${qna.boardNum}">
                     <textarea class="form-control mb-2" id="replyContent" name="replyContent" cols="100" rows="5"></textarea>
-                    <input type="submit" class="btn btn-primary" value="등 록" onclick="goReplyReg()">
+                    <input type="button" class="btn btn-primary" value="등 록" onclick="goReplyReg()">
                 </div>
             </div>
         </form>

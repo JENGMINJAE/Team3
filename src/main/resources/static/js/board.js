@@ -20,9 +20,9 @@ function goUpdateNotice(boardNum){
 }
 
 // 공지사항 게시글 삭제(*관리자만)
-function goDeleteNotice(boardNum){
+function goDeleteNotice(boardNum, typeNum){
     if(confirm('공지사항을 삭제하시겠습니까?')){
-        location.href=`/board/deleteNotice?boardNum=${boardNum}`;
+        location.href=`/board/deleteNotice?boardNum=${boardNum}&typeNum=${typeNum}`;
     }
 }
 
@@ -30,46 +30,34 @@ function goDeleteNotice(boardNum){
 function noticeReg() {
     // 제목 빈칸 시
     const boardTitle = document.querySelector('#boardTitle');
-    if (boardTitle.value == '') {
+    if (boardTitle.value.trim() == '') {
         alert('공지사항 제목을 입력하세요.');
-        return false;
+        return ;
     }
 
     // 열람대상 빈칸 시
     const typeNum = document.querySelector('input[name="typeNum"]:checked');
     if (!typeNum) {
         alert('공지사항 열람대상을 선택하세요.');
-        return false;
+        return ;
     }
 
     // 내용 빈칸 시
     const boardContent = document.querySelector('#boardContent');
-    if (boardContent.value == '') {
+    if (boardContent.value.trim() == '') {
         alert('공지사항 내용을 입력하세요.');
-        return false;
+        return ;
     }
+
+    document.querySelector('#notice_reg').submit();
 
     // 유효성 검사 모두 만족 시 true
     return true;
-}
 
-// 게시글 등록 버튼 클릭 시 유효성 검사 후 제출
-function submitNotice() {
-    if (noticeReg()) {
-        const post = document.querySelector('form');
-        post.submit();
-    }
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
-//게시글 수정 시 첨부파일 삭제
-// function goDeleteImg(imgNum, boardNum) {
-//     if (confirm('첨부파일을 삭제하시겠습니까?')) {
-//         document.getElementById("deletedImgNum").value = imgNum;
-//         document.getElementById("updateForm").submit();
-//     }
-// }
 
 // 수정 완료 버튼 클릭 시
 function submitForm() {
@@ -206,35 +194,29 @@ function goDeleteQna(boardNum){
 function qnaReg() {
     // 제목 빈칸 시
     const boardTitle = document.querySelector('#boardTitle');
-    if (boardTitle.value == '') {
+    if (boardTitle.value.trim() == '') {
         alert('문의사항 제목을 입력하세요.');
         return false;
     }
 
     // 열람대상 빈칸 시
-    const typeNum = document.querySelector('input[name="typeNum"]:checked');
-    if (!typeNum) {
-        alert('문의사항 열람대상을 선택하세요.');
-        return false;
-    }
+    // const typeNum = document.querySelector('input[name="typeNum"]:checked');
+    // if (!typeNum) {
+    //     alert('문의사항 열람대상을 선택하세요.');
+    //     return false;
+    // }
 
     // 내용 빈칸 시
     const boardContent = document.querySelector('#boardContent');
-    if (boardContent.value == '') {
+    if (boardContent.value.trim() == '') {
         alert('문의사항 내용을 입력하세요.');
         return false;
     }
 
+    document.querySelector('#qna_reg').submit();
+
     // 유효성 검사 모두 만족 시 true
     return true;
-}
-
-// 게시글 등록 버튼 클릭 시 유효성 검사 후 제출
-function submitQna() {
-    if (qnaReg()) {
-        const post = document.querySelector('form');
-        post.submit();
-    }
 }
 
 
@@ -242,10 +224,11 @@ function submitQna() {
 function goReplyReg(){
     // 댓글 내용 빈칸 시
     const replyContent = document.querySelector('#replyContent');
-    if (replyContent.value == '') {
+    if (replyContent.value.trim() == '') {
         alert('댓글 내용을 입력하세요.');
-        return false;
+        return ;
     }
+    document.querySelector('#reply_reg').submit();
 
     // 유효성 검사 모두 만족 시 true
     return true;
