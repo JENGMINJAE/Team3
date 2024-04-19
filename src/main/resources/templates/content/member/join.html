@@ -130,21 +130,31 @@
                                 <div class="row ">
                                     <div class="col-8">
                                         <h6>개인정보 수집 및 이용에 동의 하시겠습니까?</h6>
-                                        <p style="font-size: 11px; color:crimson">개인정보 수집 및 이용에 동의하지 않을 시, 회원가입 및 이용이
+                                        <p style="font-size: 12px; color:crimson">개인정보 수집 및 이용에 동의하지 않을 시, 회원가입 및 이용이
                                             제한될 수 있습니다.</p>
                                     </div>
-                                    <div class="col-2 text-end">
-                                        <input type="radio">동의
+
+                                    <!-- <div class="col-4 d-flex align-items-center justify-content-end">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onchange="toggleRegistrationForm()">
+                                            <label class="form-check-label" for="flexSwitchCheckDefault">동의</label>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-2 text-end" style="padding-top: 15px;">
+                                        <input type="radio" onclick="agree()" name="agreeDisagree"> 동의
                                     </div>
-                                    <div class="col-2">
-                                        <input type="radio">비동의
+                                    <div class="col-2" style="padding-top: 15px;">
+                                        <input type="radio" onclick="disAgree()" name="agreeDisagree" checked> 비동의
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row mb-5 mt-5">
+
+                <div class="row mb-5 mt-5" id="registrationForm" style="display: none;">
                     <div class="col">
                         <form class="row" action="/member/join" method="post">
                             <div class="col align-middle">
@@ -161,7 +171,7 @@
                                             </div>
                                             <div class="col-2" style="padding-left: 0; padding-top: 5px;">아이디</div>
                                             <div class="col-9 d-flex">
-                                                <input type="text" class="form-control" name="memberId" id="checkID" placeholder="아이디를 입력하세요." onchange="idMax()">
+                                                <input type="text" class="form-control" name="memberId" id="checkID" placeholder="아이디를 입력하세요." onchange="idMax(); result()">
                                                 <span>&nbsp;</span>
                                                 <input type="button" value="중복 확인" class="btn btn-success" onclick="idCheck()">
                                             </div>
@@ -179,14 +189,14 @@
                                             </div>
                                             <div class="col-2" style="padding-left: 0; padding-top: 5px;">비밀번호</div>
                                             <div class="col-9">
-                                                <input type="password" class="form-control" name="memberPw" id="newPw" placeholder="비밀번호를 입력하세요.">
+                                                <input type="password" class="form-control" name="memberPw" id="newPw" placeholder="비밀번호를 입력하세요." onchange="result()">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-1"></div>
                                             <div class="col-2" style="padding-left: 0; padding-top: 5px;">비밀번호 확인</div>
                                             <div class="col-9">
-                                                <input type="password" class="form-control" name="memberPw" id="chkPw" placeholder="비밀번호를 재입력하세요." onchange="pwCheck()">
+                                                <input type="password" class="form-control" id="chkPw" placeholder="비밀번호를 재입력하세요." onchange="pwCheck()">
                                             </div>
                                         </div>
                                     </li>
@@ -204,7 +214,7 @@
                                             </div>
                                             <div class="col-2" style="padding-left: 0; padding-top: 5px;">이름</div>
                                             <div class="col-9">
-                                                <input type="text" class="form-control" name="memberName">
+                                                <input type="text" class="form-control" name="memberName" id="name" onchange="result()">
                                             </div>
                                         </div>
                                     </li>
@@ -237,7 +247,7 @@
                                             </div>
                                             <div class="col-2" style="padding-left: 0; padding-top: 5px;">생년월일</div>
                                             <div class="col-9">
-                                                <input type="date" class="form-control" name="memberBirth">
+                                                <input type="date" class="form-control" name="memberBirth" id="birth">
                                             </div>
                                         </div>
                                     </li>
@@ -260,13 +270,13 @@
                                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
                                                     </svg>
                                                 </div>
-                                                <input type="text" class="form-control" name="memberTel" id="phone1" onchange="phoneCheck1()">
+                                                <input type="text" class="form-control" name="memberTel" id="phone1" onchange="phoneCheck1(); result()">
                                                 <div class="col" style="padding-top: 5px;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-dash text-secondary" viewBox="0 0 16 16">
                                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
                                                     </svg>
                                                 </div>
-                                                <input type="text" class="form-control" name="memberTel" id="phone2" onchange="phoneCheck1()">
+                                                <input type="text" class="form-control" name="memberTel" id="phone2" onchange="phoneCheck1(); result()">
                                             </div>
                                         </div>
                                     </li>
@@ -279,7 +289,7 @@
                                             </div>
                                             <div class="col-2" style="padding-left: 0; padding-top: 5px;">E-mail</div>
                                             <div class="col-9 d-flex">
-                                                <input type="text" class="form-control" name="memberEmail">
+                                                <input type="text" class="form-control" name="memberEmail" id="email" onchange="result()">
                                                 <span>&nbsp;</span>
                                                 <select id="" class="form-select" name="memberEmail">
                                                     <option value="@naver.com" selected>@naver.com</option>

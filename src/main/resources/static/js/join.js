@@ -1,36 +1,125 @@
-//유효성 검사 1. 아이디 길이 제한
+
+//약관 동의 시 회원가입 양식 나타남
+function agree() {
+  document.getElementById("registrationForm").style.display = "block";
+}
+
+//약관 비동의 시 회원가입 양식 사라짐
+function disAgree() {
+  document.getElementById("registrationForm").style.display = "none";
+}
+
+// function toggleRegistrationForm() {
+//   var registrationForm = document.getElementById('registrationForm');
+//   var agreementCheckbox = document.getElementById('flexSwitchCheckDefault');
+
+//   //약관 동의 시 회원가입 양식 나타남
+//   if (agreementCheckbox.checked) {
+//       registrationForm.style.display = 'block';
+//   //약관 비동의 시 회원가입 양식 사라짐
+//   } else {
+//       registrationForm.style.display = 'none';
+//   }
+// }
+
+
+
+//회원가입 유효성 검사(1)
+function result(){
+  const check1 = /[^a-zA-Z0-9]/g; //영어, 숫자만
+  const check2 = /[가-힣]/g; //한글만
+  const check3 = /\d/g; //숫자만
+  const check4 = /[@#$%]/; //특수문자 포함
+
+  const id = document.querySelector('#checkID').value;
+  const pw = document.querySelector('#newPw').value;
+  const name = document.querySelector('#name').value;
+  const phone1 = document.querySelector('#phone1').value;
+  const phone2 = document.querySelector('#phone2').value;
+  const email = document.querySelector('#email').value;
+
+  // ID 검사 (영어, 숫자만)
+  if (id != '' && id != null && check1.test(id)) {
+    alert('ID는 영어와 숫자만 사용할 수 있습니다.');
+    return;
+  }
+
+  // 이메일 검사 (영어, 숫자만)
+  if (email != null && email != '' && check1.test(email)) {
+    alert('이메일은 영어와 숫자만 사용할 수 있습니다.');
+    return;
+  }
+
+  //비밀번호 (영어, 숫자만) + 특수문자 포함
+  if (pw != null && pw != '' && (!check1.test(pw) || !check4.test(pw))) {
+    alert('비밀번호는 영어, 숫자, 특수문자(@, #, $, %)를 최소 하나씩 포함해야 합니다.');
+    return;
+  }
+
+  // 이름 검사 (한글만)
+  if (name != null && name != '' && !check2.test(name)) {
+    alert('이름은 한글만 입력해야 합니다.');
+    return;
+  }
+
+  // 전화번호 검사 (숫자만)
+  if (phone1 != null && phone1 != '' && !check3.test(phone1)) {
+    alert('전화번호는 숫자만 입력해야 합니다.');
+    return;
+  }
+  if (phone2 != null && phone2 != '' && !check3.test(phone2)) {
+    alert('전화번호는 숫자만 입력해야 합니다.');
+    return;
+  }
+  
+}
+
+
+//회원가입 유효성 검사(2) 아이디 길이 제한
 function idMax(){
   const idDiv = document.querySelector('#checkID');
   const memberId = document.querySelector('#checkID').value;
   if(memberId.length > 20){
-    alert('아이디를 20자 이내로 입력해주세요.')
+    alert('ID를 20자 이내로 입력해주세요.')
     idDiv.value = '';
+  }
+  else if(memberId.length < 5){
+    alert('ID를 5자 이상 입력해주세요.')
   }
 }
 
-//유효성 검사 2. 비밀번호 확인
+//회원가입 유효성 검사(3) 비밀번호 확인
 function pwCheck(){
   const pwDiv = document.querySelector('#chkPw');
   const aPw = document.querySelector("#newPw").value;
   const bPw = document.querySelector("#chkPw").value;
   if(aPw != bPw){
-    alert("두 비밀번호가 일치하지 않습니다. 다시 입력해 주십시오.")
+    alert('두 비밀번호가 일치하지 않습니다. 다시 입력해 주십시오.')
     pwDiv.value = '';
   }
 }
 
-//유효성 검사 3. 전화번호 길이 제한
+//회원가입 유효성 검사(4) 전화번호 길이 제한
 function phoneCheck1(){
-  const phone1 = document.querySelector('#phone');
-  
-
+  const phone1Div = document.querySelector('#phone1');
+  const phone1 = document.querySelector('#phone1').value;
+  if(phone1.length != 4){
+    alert('전화번호를 올바르게 입력해주세요.')
+    phone1Div.value = '';
+  }
 }
-
+function phoneCheck2(){
+  const phone2Div = document.querySelector('#phone2');
+  const phone2 = document.querySelector('#phone2').value;
+  if(phone1.length != 4){
+    alert('전화번호를 올바르게 입력해주세요.')
+    phone2Div.value = '';
+  }
+}
 
 //아이디 중복 확인
 function idCheck(){
   const memberId = document.querySelector('#checkID').value;
-
   fetch('/member/idCheckFetch', { //요청경로
     method: 'POST',
     cache: 'no-cache',
@@ -77,33 +166,55 @@ function searchAddress(){
     }).open();
   }
 
-  // 회원 가입
+// 회원가입 유효성 검사(5) - 필수 입력사항 확인
 function join(){
-    //0. submit 전에 유효성 검사 
-    //1. ID 입력했는지 확인
-    const memberId = document.querySelector('#checkID');
-    if(memberId.value == ''){
-      alert('아이디는 필수 입력 사항입니다. \n 아이디를 입력하세요.');  
+    const id = document.querySelector('#checkID').value;
+    const pw = document.querySelector('#newPw').value;
+    const name = document.querySelector('#name').value;
+    const phone1 = document.querySelector('#phone1').value;
+    const phone2 = document.querySelector('#phone2').value;
+    const email = document.querySelector('#email').value;
+    const birth = document.querySelector('#birth').value;
+
+    if(id == '' && id == null){
+      alert('ID는 필수 입력 사항입니다. \n ID를 입력하세요.');  
       return false;
     }
 
-    //2. id 입력 문자의 길이가 20을 초과하는지 검사
-    // if(memberId.value.length > 20){
-    //   alert('아이디는 20글자 내로 작성하세요.');  
-    //   return false;
-    // }
-    
-    //3. pw 두 개 입력
-    // const aPw = document.querySelector("#newPw");
-    // const bPw = document.querySelector("#chkPw");
-    // if(aPw.value != bPw.value){
-    //   alert("두 비밀번호가 일치하지 않습니다. 다시 입력해 주십시오.");
-    //   return false;
-    // }
+    if(pw == '' && pw == null){
+      alert('비밀번호는 필수 입력 사항입니다. \n 비밀번호를 입력하세요.');  
+      return false;
+    }
 
-    //모든 유효성 검사를 통과한 경우 true
+    if(name == '' && name == null){
+      alert('이름은 필수 입력 사항입니다. \n 이름을 입력하세요.');  
+      return false;
+    }
+
+    if(phone1 == '' && phone1 == null){
+      alert('전화번호는 필수 입력 사항입니다. \n 전화번호를 입력하세요.');  
+      return false;
+    }
+
+    if(phone2 == '' && phone2 == null){
+      alert('전화번호는 필수 입력 사항입니다. \n 전화번호를 입력하세요.');  
+      return false;
+    }
+
+    if(email == '' && email == null){
+      alert('E-mail은 필수 입력 사항입니다. \n E-mail을 입력하세요.');  
+      return false;
+    }
+
+    if(birth == ''){
+      alert('생년월일은 필수 입력 사항입니다. \n 생년월일을 입력하세요.');  
+      return false;
+    }
+
+
     return true;
 }
+
 
 //유효성 검사 통과 후 회원가입 완료 처리
 function submitJoin() {

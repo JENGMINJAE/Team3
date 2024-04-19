@@ -12,7 +12,7 @@
     <!-- html 코드작성 -->
 
     <style>
-         .trTitle {  height: 10px; font-size: 16px; --bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center; padding: 2px;} 
+        .trTitle {  height: 10px; font-size: 16px; --bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center; padding: 2px;} 
         th, tr, td, .avgDiv {border: 2px solid rgba(58, 111, 228, 0.281);}
         
         .table>:not(caption)>*>*{padding: 5px 5px;}
@@ -30,8 +30,8 @@
                                 <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 20 20">
                                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                                     <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
-                                  </svg> [[${testNumInfo.testName}]] 성적관리</strong></h4>
-                               
+                                </svg> [[${testNumInfo.testName}]] 성적관리</strong></h4>
+                            
                             </div>                           
                         </div>
                         <div class="row" style="width: 500px;">
@@ -65,7 +65,7 @@
                                 </select>
                             </div>
                             <div class="col-4">
-                               
+                            
                                 <input type="text" name="score" class="form-control form-control-lg" style="width:300px; font-size: 16px; "  placeholder="점수를 입력하세요.">
                             </div>
                             
@@ -89,7 +89,7 @@
                                         <h4><strong><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-caret-right-square" viewBox="0 0 20 20">
                                             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
                                             <path d="M5.795 12.456A.5.5 0 0 1 5.5 12V4a.5.5 0 0 1 .832-.374l4.5 4a.5.5 0 0 1 0 .748l-4.5 4a.5.5 0 0 1-.537.082"/>
-                                          </svg> 성적 상세정보</strong></h4>
+                                            </svg> 성적 상세정보</strong></h4>
                                         
                                     </div>
                                     <div class="col" id="changeBtnDiv">
@@ -102,7 +102,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                     
+                                    
                                         <div class="row">
                                             <div class="col">
 
@@ -123,6 +123,7 @@
                                                             <th>석차</th>
                                                         </thead>
                                                     
+                                                
                                                         <tbody class="upScoreTbody" style="text-align: center;">
                                                             <tr th:each=" classScore : ${classScoresList}">
                                                                 <td>
@@ -139,46 +140,51 @@
                                                                 </td>
                                                             </tr>
                                                         
-                                                        </tbody>    
+                                                        </tbody>
+                                                    
+                                                    
                                                     </table> 
                                                 </form>
 
                                             </div>
                                         </div>
 
-                                        <div class="row" style="width:300px;">
-                                            <div class="col">
+                                        <div class="row" style="width:700px;">
+                                            <div class="col-6">
                                                 
-                                               <table class="table">
+                                                <table class="table">
                                                     <colgroup>
                                                         <col width="50%">
                                                         <col width="50%">
                                                     </colgroup>
 
                                                     <tr>
-                                                        <td class="trTitle"><strong>반평균</strong></td>
-                                                        <td>[[${classScoresList[0].testAvg}]]</td>
+                                                        <td class="trTitle"><strong>반평균</strong></td>                                                   
+                                                        <th:block th:if="${avgTest!=0}">     
+                                                            <td>[[${avgTest}]]</td> 
+                                                        </th:block>                                                               
                                                     </tr>
-                                               </table>
+                                                </table>
                                             </div>
-                                            
+                                            <div class="col-6" style="text-align: end;">
+                                                <input type="button" class="btn btn-primary" th:onclick="goFirstList([[${testNumInfo.classNum}]])" value="목록가기">
+                                            </div>
                                         </div>
-
-
-
-
-
-
+                                        
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
-
-
-
-
+                        
         </div>
     </div>
+
+        
+    
+
+
+
 </th:block>
 
 <th:block layout:fragment="content_js">

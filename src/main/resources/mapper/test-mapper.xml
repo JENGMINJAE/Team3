@@ -26,8 +26,14 @@
         <result column="RANKING"            property="ranking"/>
         <result column="SUB_TEST_NUM"       property="subTestNum"/>
         <result column="TEST_AVG"           property="testAvg"/>
+        <result column="SUB_AVG"           property="subAvg"/>
+        <result column="SUB_SUM_AVG"           property="subSumAvg"/>
+        <result column="SUB_SUM"           property="subSum"/>
         <result column="CLASS_NAME"         property="className"/>
+        <result column="CLASS_NUM"         property="classNum"/>
         <result column="LEVEL"              property="level"/>
+        <result column="LEVEL_SUB"              property="levelSub"/>
+        <result column="LEVEL_MAIN"              property="levelMain"/>
         <association property="memberOneVO" resultMap="member.memberMap"/>
         <association property="testOneVo"    resultMap="testResult"/>
         <association property="testSubOneVO" resultMap="subResult"/>
@@ -137,6 +143,8 @@
         SELECT
         CLASS_NUM
         , CLASS_NAME
+        , CLASS_SDATE
+        , CLASS_EDATE
         FROM CLASS_INFO
         WHERE CLASS_NUM=#{classNum}
     </select>
@@ -281,7 +289,7 @@
         , TEST_MAXSCORE
         , SCORE_NUM
         , CLASS_NUM
-        , (SELECT AVG(SCORE) FROM test_score WHERE TEST_NUM=TT.TEST_NUM)AS TEST_AVG
+        , SUB_TEST_NUM
         , DENSE_RANK()
         OVER (ORDER BY SCORE DESC) AS RANKING
         FROM test_score TS
@@ -290,7 +298,12 @@
         INNER JOIN member MEM
         ON MEM.MEMBER_ID=TS.MEMBER_ID
         WHERE TS.TEST_NUM= #{testNum}
-
+    </select>
+    <select id="selectAvg" resultMap="scoreResult" >
+        SELECT
+            ROUND(AVG(SCORE),1) AS TEST_AVG
+            FROM test_score
+            WHERE TEST_NUM= #{testNum}
     </select>
 
     <!-- [선생님] (단일시험 학생 성적 입력시) 성적 등록 버튼 틀릭 시 저장 -->
@@ -369,6 +382,7 @@
         SUB_TEST_NUM
         , TEST_NUM
         , SUB_NAME
+        , SUB_MAXSCORE
         FROM test_subject
         WHERE test_NUM=#{testNum}
     </select>
@@ -378,31 +392,43 @@
         SELECT
             MEM.MEMBER_ID,
             MEMBER_NAME,
-            CLASS_NUM,
-            MEM.MEMBER_ID
+            CLASS_NUM
         FROM member MEM
         INNER JOIN operator OP
         ON MEM.MEMBER_ID=OP.MEMBER_ID
         WHERE OP.CLASS_NUM= #{classNum}
+        ORDER BY MEMBER_NAME
     </select>
 
 
     <!-- [선생님] 과목있을시 과목별 성적, 등록 버튼 틀릭 시 저장 -->
-    <insert id="insertSubScore" parameterType="java.util.List">
+    <insert id="insertSubScore" parameterType="java.util.List" >
         INSERT INTO TEST_SCORE(
         SCORE
         , TEST_NUM
         , MEMBER_ID
         , SUB_TEST_NUM
-        )VALUES(
-        #{score}
-        , #{testNum}
-        , #{memberId}
-        , #{subTestNum}
-        )
+        )VALUES
+
+            (
+            #{score}
+            , #{testNum}
+            , #{memberId}
+            , #{subTestNum}
+            )
+
     </insert>
 
-
+        <!-- [선생님] 과목별 점수 조회   -->
+    <select id="selectSubScore" resultMap="scoreResult">
+        SELECT
+            MEMBER_ID
+            , SUB_TEST_NUM
+            ,SCORE
+        FROM test_score
+        WHERE test_NUM=#{testNum}
+        ORDER BY MEMBER_ID, SUB_TEST_NUM
+    </select>
 
 
     <!--  // //////////////////////////// 학생이 로그인해서 본인 성적 조회 ////////////////////////////////////////////-->
@@ -412,8 +438,17 @@
         MEM.MEMBER_ID
         , MEMBER_NAME
         , MEMBER_ROLL
+        , MEMBER_BIRTH
         FROM member MEM
         WHERE MEM.MEMBER_ID= #{memberId}
+    </select>
+
+<!--  [학생] 본인 강좌수 조회  -->
+    <select id="stuClCnt" resultMap="admin.operator">
+        SELECT
+        CLASS_NUM
+        FROM operator
+        WHERE MEMBER_ID=#{memberId}
     </select>
 
     <!-- [학생] 수강별조회 서비스-->
@@ -434,7 +469,7 @@
         ON TT.CLASS_NUM=CI.CLASS_NUM
         INNER JOIN operator OP
         ON CI.CLASS_NUM=OP.CLASS_NUM
-        WHERE OP.MEMBER_ID=#{memberId} AND (SELECT SCORE FROM test_score WHERE MEMBER_ID=OP.MEMBER_ID AND test_NUM=TT.TEST_NUM)
+        WHERE OP.MEMBER_ID=#{memberId} AND (SELECT SUM(SCORE) FROM test_score WHERE MEMBER_ID=OP.MEMBER_ID and TEST_NUM=TT.TEST_NUM) IS NOT NULL
         ORDER BY CLASS_NAME DESC
     </select>
 
@@ -452,7 +487,7 @@
         FROM test TT
         INNER JOIN operator OP
         ON TT.CLASS_NUM=OP.CLASS_NUM
-        WHERE OP.MEMBER_ID=#{memberId} AND (SELECT SCORE FROM test_score WHERE MEMBER_ID=OP.MEMBER_ID AND test_NUM=TT.TEST_NUM)
+        WHERE OP.MEMBER_ID=#{memberId} AND (SELECT SUM(SCORE) FROM test_score WHERE MEMBER_ID=#{memberId} and TEST_NUM=TT.TEST_NUM) IS NOT NULL
         ORDER BY TEST_DATE  DESC
     </select>
 
@@ -518,7 +553,7 @@
                         WHEN TS.SCORE >TEST_MAXSCORE*0.70 AND TS.SCORE <TEST_MAXSCORE*0.81  THEN 'C'
                         WHEN TS.SCORE >TEST_MAXSCORE*0.60 AND TS.SCORE <TEST_MAXSCORE*0.71  THEN 'D'
                         WHEN TS.SCORE >TEST_MAXSCORE*0.50 AND TS.SCORE <TEST_MAXSCORE*0.61  THEN 'E'
-                        WHEN TS.SCORE <TEST_MAXSCORE*0.51 THEN 'F'
+                        WHEN TS.SCORE <TEST_MAXSCORE*0.59 THEN 'F'
                 END AS 'LEVEL'
                 FROM test_score TS
                 INNER JOIN test TT
@@ -529,25 +564,89 @@
 
     <!--  [학생]  과목 있을시   my 성적페이지 이동 & 조회 -->
     <select id="subTestMyScore" resultMap="scoreResult">
-        SELECT
-        TB.TEST_NUM
-        ,TEST_NAME
-        , TEST_DATE
-        , SCORE
-        , TS.MEMBER_ID
-        , TEST_MAXSCORE
-        , SCORE_NUM
-        , TB.SUB_TEST_NUM
-        , SUB_NAME
-        , SUB_MAXSCORE
-        , (SELECT AVG (SCORE) FROM test_score TS WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM )AS SUB_AVG
-        , (SELECT COUNT(SUB_NAME)  FROM test_subject WHERE TEST_NUM = TS.TEST_NUM) AS SUB_CNT
-        FROM test_score TS
-        INNER JOIN test TT
-        ON TS.TEST_NUM= TT.TEST_NUM
-        INNER JOIN test_subject TB
-        ON TB.SUB_TEST_NUM=TS.SUB_TEST_NUM
-        WHERE TS.TEST_NUM= #{testNum} AND TS.MEMBER_ID=#{memberId}
+        <![CDATA[
+            SELECT
+            TB.TEST_NUM
+            ,TEST_NAME
+            , TEST_DATE
+            , SCORE
+            , TS.MEMBER_ID
+            , TEST_MAXSCORE
+            , SCORE_NUM
+            , TB.SUB_TEST_NUM
+            , SUB_NAME
+            , SUB_MAXSCORE
+            , ROUND((SELECT AVG (SCORE) FROM test_score TS WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM ),1) AS SUB_AVG
+            , (SELECT COUNT(SUB_NAME)  FROM test_subject WHERE TEST_NUM = TS.TEST_NUM) AS SUB_CNT
+            , (SELECT SUM(SCORE) FROM test_score WHERE TEST_NUM= TS.TEST_NUM AND MEMBER_ID=TS.MEMBER_ID) AS SUB_SUM
+            , (SELECT SUM(SUB_MAXSCORE) FROM test_subject WHERE TEST_NUM=TT.TEST_NUM) AS TOTAL_SUBMAX
+            , ROUND((SELECT SUM(SCORE) / COUNT(DISTINCT MEMBER_ID) FROM test_score  WHERE TEST_NUM= TT.TEST_NUM),1) AS SUB_SUM_AVG
+            , (SELECT CLASS_NAME FROM CLASS_INFO WHERE CLASS_NUM=TT.CLASS_NUM) AS CLASS_NAME
+            , CASE
+                        WHEN TS.SCORE >SUB_MAXSCORE*0.90 THEN 'A'
+                        WHEN TS.SCORE >SUB_MAXSCORE*0.80 AND TS.SCORE <SUB_MAXSCORE*0.91  THEN 'B'
+                        WHEN TS.SCORE >SUB_MAXSCORE*0.70 AND TS.SCORE <SUB_MAXSCORE*0.81  THEN 'C'
+                        WHEN TS.SCORE >SUB_MAXSCORE*0.60 AND TS.SCORE <SUB_MAXSCORE*0.71  THEN 'D'
+                        WHEN TS.SCORE >SUB_MAXSCORE*0.50 AND TS.SCORE <SUB_MAXSCORE*0.61  THEN 'E'
+                        WHEN TS.SCORE <SUB_MAXSCORE*0.59 THEN 'F'
+                END AS 'LEVEL'
+            FROM test_score TS
+            INNER JOIN test TT
+            ON TS.TEST_NUM= TT.TEST_NUM
+            INNER JOIN test_subject TB
+            ON TB.SUB_TEST_NUM=TS.SUB_TEST_NUM
+            WHERE TS.TEST_NUM= #{testNum} AND TS.MEMBER_ID=#{memberId}
+        ]]>
+    </select>
+
+    <!--  [학생]  전체 성적증명서 출력 -->
+    <select id="printMyGrade" resultMap="scoreResult">
+        <![CDATA[
+                SELECT
+                TEST_NAME
+                , SCORE
+                , TS.TEST_NUM
+                , MEMBER_ID
+                , CI.CLASS_NUM
+                , IFNULL(TS.SUB_TEST_NUM, 0) AS SUB_TEST_NUM
+                , CASE
+                        WHEN TS.SUB_TEST_NUM IS NOT NULL
+                        THEN (SELECT SUB_NAME FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)
+                        END AS SUB_NAME
+
+                , CASE
+                        WHEN TS.SUB_TEST_NUM IS NOT NULL
+                        THEN ROUND((SELECT AVG (SCORE) FROM test_score T  INNER JOIN test_subject TB ON TB.SUB_TEST_NUM=T.SUB_TEST_NUM
+                        WHERE TB.SUB_TEST_NUM=TS.SUB_TEST_NUM),1)
+                        END AS SUB_AVG
+
+                , CASE
+                        WHEN TS.SUB_TEST_NUM IS NULL
+                        THEN ROUND((SELECT AVG (SCORE) FROM test_score WHERE TEST_NUM=TS.TEST_NUM),1)
+                        END AS TEST_AVG
+                , CASE
+                        WHEN TS.SCORE >(SELECT SUB_MAXSCORE FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)*0.90 THEN 'A'
+                        WHEN TS.SCORE >(SELECT SUB_MAXSCORE FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)*0.80 AND TS.SCORE <(SELECT SUB_MAXSCORE FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)*0.91  THEN 'B'
+                        WHEN TS.SCORE >(SELECT SUB_MAXSCORE FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)*0.70 AND TS.SCORE <(SELECT SUB_MAXSCORE FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)*0.81  THEN 'C'
+                        WHEN TS.SCORE >(SELECT SUB_MAXSCORE FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)*0.60 AND TS.SCORE <(SELECT SUB_MAXSCORE FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)*0.71  THEN 'D'
+                        WHEN TS.SCORE <=(SELECT SUB_MAXSCORE FROM test_subject TB WHERE TS.SUB_TEST_NUM=TB.SUB_TEST_NUM)*0.59 THEN 'F'
+                        END AS LEVEL_SUB
+                , CASE
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.90 THEN 'A'
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.80 AND TS.SCORE <TEST_MAXSCORE*0.91  THEN 'B'
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.70 AND TS.SCORE <TEST_MAXSCORE*0.81  THEN 'C'
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.60 AND TS.SCORE <TEST_MAXSCORE*0.71  THEN 'D'
+                        WHEN TS.SCORE >TEST_MAXSCORE*0.50 AND TS.SCORE <TEST_MAXSCORE*0.61  THEN 'E'
+                        WHEN TS.SCORE <TEST_MAXSCORE*0.59 THEN 'F'
+                        END AS LEVEL_MAIN
+                FROM test_score TS
+                INNER JOIN test TT
+                ON TS.TEST_NUM= TT.TEST_NUM
+                INNER JOIN class_info CI
+                ON TT.CLASS_NUM = CI.CLASS_NUM
+                WHERE MEMBER_ID=#{memberId} AND CI.CLASS_NUM =#{classNum}
+                ORDER BY TEST_NUM ASC
+         ]]>
     </select>
 
     <!--  // //////////////////////////// 학생이 로그인해서 성적이의신청 페이지 ////////////////////////////////////////////-->
@@ -623,7 +722,7 @@
         WHERE PROTEST_NUM=#{protestNum}
     </update>
 
-    <!--  답글 표시 구분하려고  -->
+    <!--  답글 버튼 표시 구분하려고  -->
     <select id="askMemberId" resultMap="teacher.teacherInfo">
         SELECT
         MEMBER_ID
@@ -632,6 +731,25 @@
         WHERE MEMBER_ID=#{memberId}
     </select>
 
+    <!-- 학생 신청글 수정   -->
+    <update id="updateMyAsk">
+        UPDATE test_ask
+        SET PROTEST_TITLE =#{protestTitle},
+        PROTEST_CONTENT=#{protestContent}
+        WHERE PROTEST_NUM=#{protestNum}
+    </update>
+
+    <!--학생 글삭제-->
+    <delete id="deleteMyAsk">
+        DElETE FROM test_ask
+        WHERE PROTEST_NUM=#{protestNum}
+    </delete>
+
+    <!--선생님이 학생글삭제-->
+    <delete id="deleteThAsk">
+        DElETE FROM test_ask
+        WHERE protest_origino=#{protestOrigino}
+    </delete>
 
 <!--  // //////////////////////////// 선생님 성적이의신청 페이지 ////////////////////////////////////////////-->
     <!--  선생님 이의신청 목록   -->
@@ -686,7 +804,6 @@
         SET PROTEST_GROUPNO= #{protestGroupno}
         WHERE PROTEST_ORIGINO=#{protestOrigino} AND PROTEST_GROUPNO&gt;0
     </update>
-
 
 
 
