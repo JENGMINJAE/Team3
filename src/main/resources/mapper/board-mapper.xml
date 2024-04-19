@@ -130,7 +130,7 @@
         INNER JOIN MEMBER M
         ON B.MEMBER_ID = M.MEMBER_ID
         <where>
-            TYPE_NUM = 3 OR TYPE_NUM = 4
+            TYPE_NUM = 3
             <if test='searchValue != null and !searchValue.equals("")'>
                 AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
