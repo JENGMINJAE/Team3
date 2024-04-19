@@ -37,7 +37,7 @@ public class StuTestController {
 
     // 성적 서치서비스 첫페이지
     @GetMapping("/stuTestFirst")
-    public String stuTestFirst(Model model, Authentication authentication,@RequestParam(name = "memberId") String memberId){
+    public String stuTestFirst(Model model, Authentication authentication){
 
         User user=(User) authentication.getPrincipal();
 
