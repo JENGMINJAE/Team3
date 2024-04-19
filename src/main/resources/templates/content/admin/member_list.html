@@ -98,6 +98,8 @@
                                     <button th:if="${member.memberRoll == 1}" type="button" class="btn btn-outline-secondary"
                                     th:onclick="insertClass([[${member.memberId}]])">강의신청</button>
                                     
+                                    <button th:if="${member.memberRoll == 1}" type="button" class="btn btn-outline-secondary"
+                                    th:onclick="goSearch([[${member.memberId}]])">성적조회</button>
                                 </td>
                             </tr>
                         </tbody>
