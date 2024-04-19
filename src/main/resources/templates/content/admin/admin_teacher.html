@@ -26,7 +26,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <table class="text-center thead-div">
+                    <table class="text-center thead-div" style="width: 100%;">
                         <colgroup>
                             <col width="15%">
                             <col width="20%">
@@ -42,13 +42,13 @@
                             </tr>
                         </thead>
                     </table>
-                    <table class="table-div">
-                        <colgroup>
-                            <col width="15%">
+                    <table class="table-div table" style="width: 100%;">
+                        <!-- <colgroup>
+                            <col width="30%">
                             <col width="20%">
                             <col width="40%">
-                            <col width="25%">
-                        </colgroup>
+                            <col width="*%">
+                        </colgroup> -->
                         <!-- <thead>
                             <tr style="padding-left: 2rem;">
                                 <td >No</td>
@@ -58,12 +58,12 @@
                             </tr>
                         </thead> -->
                         <tbody class="scroll-div">
+                            
                             <tr th:each="teacher, state : ${teacherList}" class="pointer-span" th:onclick="teacherInfo([[${teacher.teacherNum}]])">
-
-                                <td >[[${#lists.size(teacherList) - state.index}]]</td>
-                                <td >[[${teacher.memberVO.memberName}]]</td>
-                                <td >[[${teacher.memberVO.regDate}]]</td>
-                                <td >[[${teacher.strWork}]]</td>
+                                <td style="width: 15%">[[${#lists.size(teacherList) - state.index}]]</td>
+                                <td style="width: 20%">[[${teacher.memberVO.memberName}]]</td>
+                                <td style="width: 40%">[[${teacher.memberVO.regDate}]]</td>
+                                <td style="width: 25%">[[${teacher.strWork}]]</td>
                             </tr>
                         </tbody>
                     </table>
