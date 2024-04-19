@@ -79,10 +79,6 @@ function goUpdate(){
     document.querySelector("#myform").submit();
 }
 
-// function directScore(testNum){
-
-//     location.href="/test/directScore?testNum="+ testNum;
-// }
 
 // 목록가기
 function goFirstList(classNum){

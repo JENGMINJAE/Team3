@@ -1,3 +1,5 @@
+
+
 // ##########################(과목별 시험)입력생성버튼 클릭시, 학생정보, 과목별 테이블 그리기 ##########################
 
 const regex = /[^0-9]/g;
@@ -161,11 +163,9 @@ function goInsertSubNtest(testNum, classNum){
 
 }
     
-
+// ####################################################(과목시험) 성적 업데이트 ####################################################
 function goInsert(scoreList, testNum, classNum){
 
-
-    
     scoreList.forEach(function(scoreTr){
         console.log(scoreTr);
     
@@ -278,13 +278,10 @@ function goSubListUp(testNum, stuCnt, subsList){
                                                             if(subMax.subTestNum === subScore.subTestNum){
                                                                 str += "<td><input id='scoreId' name='score' min='0' type='number' value='" + subScore.score+ "'max='"+subMax.subMaxScore+"' onkeyup='golimit("+subMax.subMaxScore+", this)'>";
                                                                 str+="</td><input type='hidden' value='"+ subScore.scoreNum +"' name='scoreNum'>";
-                                                            }
-
-                                                        
+                                                            }                                                        
                                                         })
 
-                                                        
-                                                        
+                                                                                                
                                                     } else {
                                                         str += "<td></td>";
                                                     }
