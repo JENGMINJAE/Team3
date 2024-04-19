@@ -463,9 +463,7 @@ function insertSubSc(){
 
 //#################################(모달) 과목 입력시 메인테스트명 선택하여 value 값 꺼내기 ###########################
 
-function changeTest(){
-
-    
+function changeTest(){    
     const chTestValue = (chTest.options[chTest.selectedIndex].value);
     console.log(9999999);
     console.log(chTestValue);
@@ -486,9 +484,7 @@ function changeTest(){
 // ##########################################(모달)과목있음 선택시, // 과목 목록 + 총점 구하기 // (메인, 과목시험 구분) ####################################
 
 function chooseSub(testNumForSub){  
-    //const testNumForSub = document.querySelector('#testNumForSub').value;
-
-        
+            
             // ------------------- 첫번째 방식 ---------------//
             fetch('/test/selectSubTest', { //요청경로
                 method: 'POST',
@@ -657,9 +653,7 @@ function goInsertSub(testNumForSub){
                                 chooseSub(testNumForSub); 
                                 document.querySelector('#subName').value="";
                                 document.querySelector('#subMaxScore').value="";  
-                        
-                                                
-                            
+                                                    
                         })
                         //fetch 통신 실패 시 실행 영역
                         .catch(err=>{
@@ -1107,7 +1101,7 @@ function showNewMain(testNum, testBtn){
         .then((data) => {//data -> controller에서 리턴되는 데이터!
             console.log(data);
                 testNameInput.innerHTML=`<td>${data.testName}</td>`;
-                                                                       
+
                 if(data.testMaxScore !=0){
                     testMaxInput.innerHTML=`<td>${data.testMaxScore}</td>`;
                 }                                    
@@ -1277,7 +1271,7 @@ function showNewSub(subTestNum, suBtn){
 
 function  showUpSubMax(testNum){
 
- 
+
             // ------------------- 첫번째 방식 ---------------//
             fetch('/test/selectScoreList', { //요청경로
                 method: 'POST',
@@ -1454,16 +1448,6 @@ function deleteSubSC(subTestNum, testNum){
 	}    
     else{ alert("삭제실패하였습니다."); }
 }
-
-
-
-// ####################################  (단일 시험) 성적페이지 이동 컨트롤러 #################################### 
-
-// function goInputScore(testNum){
-//     location.href='/test/goInputScore?testNum='+testNum;
-// };
-
-
 
 
 
