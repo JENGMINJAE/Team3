@@ -51,7 +51,9 @@
         <if test="searchType != null and !searchType.equals('')">
             WHERE MEMBER_ROLL = ${searchType}
         </if>
+        GROUP BY M.MEMBER_ID
         ORDER BY MEMBER_NAME
+        LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}
     </select>
 
     <!-- memberRoll 리스트 보기 -->

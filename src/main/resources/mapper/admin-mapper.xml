@@ -255,4 +255,10 @@
         FROM CLASS_INFO
         WHERE CLASS_EDATE > NOW()
     </select>
+
+    <!-- member 데이터 수 -->
+    <select id="memberCnt" resultType="int">
+        SELECT COUNT(MEMBER_ID)
+        FROM MEMBER
+    </select>
 </mapper>

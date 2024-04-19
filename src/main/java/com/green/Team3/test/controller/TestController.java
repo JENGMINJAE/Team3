@@ -105,8 +105,8 @@ public class TestController {
 
     //--------------- (선생님 모달) 과목저장 ------------------
     @ResponseBody
-    @PostMapping("/goInsertSub")
-    public void goInsertSub(TestSubjectVO testSubjectVO){
+    @PostMapping("/insertSub")
+    public void insertSub(TestSubjectVO testSubjectVO){
 
                 testService.insertSub(testSubjectVO);
 

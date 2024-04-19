@@ -1,5 +1,7 @@
 // ##########################(과목별 시험)입력생성버튼 클릭시, 학생정보, 과목별 테이블 그리기 ##########################
 
+const regex = /[^0-9]/g;
+
 function inputDirectSc(testNum, classNum){
     
     const rowStuCnt  = parseInt(document.querySelector('#rowStuCnt').value);
@@ -67,12 +69,13 @@ function inputDirectSc(testNum, classNum){
                                             <td>                                               
                                             ${stuSub.memberName} [<span class="score-member-id">${stuSub.memberId}</span>]                                           
                                             </td>`;
-                                                
-                                                for(let k =0; k<colSubCnt; ++k){
+                                            
+                                                data.subsList.forEach(function(subN){
                                                     str+= ` <td>                                               
-                                                                <input class="form-control" type="text" class="score-input" onkeyup="keyevent(this);">                                                               
-                                                            </td>`;
-                                                }
+                                                        <input min='0' max='${subN.subMaxScore}' type="number" class="form-control score-input" onkeyup="keyevent(${subN.subMaxScore},this);">                                                               
+                                                    </td>`;                                                    
+                                                })    
+                                        
                                             str+= `</tr>`
                                         });                                                                              
                                     str+=  `</tbody>
@@ -88,15 +91,28 @@ function inputDirectSc(testNum, classNum){
 }
     
 
+function keyevent(subMaxScore, subInput){
 
+    if (subInput.value > subMaxScore) {
+        alert('다시 입력해주세요!');
+        let input = document.querySelector('#scoreId');
+                input.value='';
+    }
+
+}
 
 
     
     
 // ##########################(과목별 시험) 입력된 성적 저장버튼 ##########################    
-function goInsertSubNtest(){
+function goInsertSubNtest(testNum, classNum){
     
+    if(document.querySelector('.score-input').value==''){
+        alert('점수 입력해주세요!');
+        return;
+    }
 
+    
         //전체 데이터를 가져가기 위한 통
         const scoreList = [];
 
@@ -125,6 +141,11 @@ function goInsertSubNtest(){
             
             //학생의 과목 수만큼 만큼(열 갯수만큼)
             for(let i = 0 ; i < title_arr.length ; i++){
+
+                if(tr_tag.children[i + 1].querySelector('input').value.replace(regex,'') == ''){
+                    alert('점수입력창을 확인해주세요!');
+                    return;
+                }
                     const each = {
                         score: tr_tag.children[i + 1].querySelector('input').value,
                         testNum : document.querySelector('#hidden_test_num').value,
@@ -136,14 +157,14 @@ function goInsertSubNtest(){
         }
         console.log(scoreList);
         
-        goInsert(scoreList);
+        goInsert(scoreList,testNum, classNum);
 
 }
     
 
-function goInsert(scoreList){
+function goInsert(scoreList, testNum, classNum){
 
-        
+
     
     scoreList.forEach(function(scoreTr){
         console.log(scoreTr);
@@ -180,7 +201,8 @@ function goInsert(scoreList){
 
 
     })
-    location.href = location.href;
+    location.href = "/test/goTestN?testNum="+testNum+"&classNum="+classNum;
+
     
 
 }
@@ -189,9 +211,9 @@ function goInsert(scoreList){
 
 const updateScorBtn= document.querySelector('#updateScorBtn');
 
-function goSubListUp(testNum, stuCnt){
+function goSubListUp(testNum, stuCnt, subsList){
 
-    console.log(stuCnt);
+    console.log(subsList);
 
     // ------------------- 첫번째 방식 ---------------//
     fetch('/test/selectSubList', { //요청경로
@@ -250,9 +272,19 @@ function goSubListUp(testNum, stuCnt){
                                                 const subScore = data.scoreSelectList.find(function(grade) {
                                                 return  grade.memberId === stu.memberId && grade.subTestNum === sub.subTestNum;
                                                 });
-                                                    if (subScore) {                                                   
-                                                        str += "<td><input name='score' type='text' value='" + subScore.score+ "'>";
-                                                        str+="</td><input type='hidden' value='"+ subScore.scoreNum +"' name='scoreNum'>";
+                                                    if (subScore) {
+                                                        
+                                                        subsList.forEach(function(subMax){
+                                                            if(subMax.subTestNum === subScore.subTestNum){
+                                                                str += "<td><input id='scoreId' name='score' min='0' type='number' value='" + subScore.score+ "'max='"+subMax.subMaxScore+"' onkeyup='golimit("+subMax.subMaxScore+", this)'>";
+                                                                str+="</td><input type='hidden' value='"+ subScore.scoreNum +"' name='scoreNum'>";
+                                                            }
+
+                                                        
+                                                        })
+
+                                                        
+                                                        
                                                     } else {
                                                         str += "<td></td>";
                                                     }
@@ -265,11 +297,22 @@ function goSubListUp(testNum, stuCnt){
                                                 </table> `
                                         
                         upScoreTbody.insertAdjacentHTML('afterbegin',str);
-                        document.querySelector('#updateScorBtn').value='저장';                             
+                        
+                        document.querySelector('#updateScorBtn').value='저장';
+                        
+                        
+
                 }
 
                 else if(updateScorBtn.value=='저장'){
-                    goSubUpdate(); }
+                    
+                    if(document.querySelector('#scoreId').value==''){
+                        alert('점수 입력해주세요!');
+                        return;
+                    }
+
+                    goSubUpdate();
+                }  
 
     })
 
@@ -278,6 +321,21 @@ function goSubListUp(testNum, stuCnt){
         alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
         console.log(err);
     });
+
+}
+
+function golimit(subMaxScore, subInput){
+    if (subInput.value > subMaxScore) {
+        alert('다시 입력해주세요!');
+        subInput.value='';
+        return
+    }
+
+    else if(subInput.value.replace(regex,'') == '' ){
+        alert('숫자를 입력해주세요!');
+        subInput.value='';
+        return;
+    }
 
 }
 

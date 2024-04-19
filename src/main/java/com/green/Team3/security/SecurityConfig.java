@@ -76,6 +76,7 @@ public class SecurityConfig {
         return web -> web.ignoring().requestMatchers(
                 new AntPathRequestMatcher("/css/**"),
                 new AntPathRequestMatcher("/js/**"),
+                new AntPathRequestMatcher("/images/**"),
                 new AntPathRequestMatcher("/favicon.ico"),
                 new AntPathRequestMatcher("/error")
         );
