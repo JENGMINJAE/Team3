@@ -2,13 +2,10 @@
   color: red;
 }
 
-table {
-  width: 100%;
-}
+
 .thead-div {
   font-size: .9em;
   box-shadow: 0 0 3px rgba(0, 0, 0, .25);
-  width: 100%;
   border-collapse: collapse;
   border-radius: 5px 5px 0px 0px;
   display: table;
@@ -19,59 +16,56 @@ table {
   border: 1px #a39485 solid;
   font-size: .9em;
   box-shadow: 0 1px 5px rgba(0, 0, 0, .25);
-  width: 100%;
   border-collapse: collapse;
   overflow: hidden;
   display: table;
   border-radius: 0px 0px 5px 5px;
-}
-
-.table-div > thead, .table-div tbody{
   text-align: center;
 }
 
-body{
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-
-.thead-div thead {
+.thead-div {
   font-weight: bold;
   color: #fff;
   background: #73685d;
 
 }
-
-.table-div tbody{
+body{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.table-div .tbody{
   display: block;
-  width: 100%;
-  max-height: 150px;
+  /* width: 100%; */
+  height: 150px;
   overflow-y: auto;
   overflow-x: hidden;
-
 }
 
-.table-div tbody::-webkit-scrollbar{
+/* .table-div thead{
+  display: table;
+  display: block;
+  width: 425px;
+} */
+/* .table-div tbody > tr{
+  width: 100%;
+}  */
+
+
+.scroll-div{
+  text-align: center;
+}
+
+/* .scroll-div::-webkit-scrollbar{
   display: none;
-}
+} */
 
-.table-div tbody::-webkit-scrollbar-thumb{
+.scroll-div::-webkit-scrollbar-thumb{
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-.table-div thead, .table-div tbody tr {
-  display: table;
-  width: 425px;
-}
-
-.table-div td, .table-div tr, .thead-div td, .thead-div td{
+.thead-div, .thead-div{
   padding: 1em .5em;
   vertical-align: middle;
   text-align: unset;
-}
+} 
 
-
-/* .table-div td{
-  border: 1px solid rgba(0, 0, 0, .1);
-} */
