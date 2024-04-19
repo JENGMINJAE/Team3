@@ -303,7 +303,7 @@
         SELECT BOARD_NUM
             , BOARD_TITLE
         FROM BOARD
-        WHERE ${currentBoardNum} > BOARD_NUM
+        WHERE ${currentBoardNum} > BOARD_NUM AND TYPE_NUM = #{typeNum}
         ORDER BY BOARD_NUM DESC
         LIMIT 1;
     </select>
@@ -313,7 +313,7 @@
         SELECT BOARD_NUM
                 , BOARD_TITLE
         FROM BOARD
-        WHERE BOARD_NUM > #{currentBoardNum}
+        WHERE BOARD_NUM > #{currentBoardNum} AND TYPE_NUM = #{typeNum}
         ORDER BY BOARD_NUM ASC
         LIMIT 1;
     </select>
