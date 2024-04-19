@@ -26,47 +26,18 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <table class="text-center thead-div" style="width: 100%;">
-                        <colgroup>
-                            <col width="15%">
-                            <col width="20%">
-                            <col width="40%">
-                            <col width="25%">
-                        </colgroup>
-                        <thead >
-                            <tr >
-                                <td >No</td>
-                                <td >이름</td>
-                                <td >근무시작일</td>
-                                <td>근무 현황</td>
-                            </tr>
-                        </thead>
-                    </table>
-                    <table class="table-div table" style="width: 100%;">
-                        <!-- <colgroup>
-                            <col width="30%">
-                            <col width="20%">
-                            <col width="40%">
-                            <col width="*%">
-                        </colgroup> -->
-                        <!-- <thead>
-                            <tr style="padding-left: 2rem;">
-                                <td >No</td>
-                                <td >이름</td>
-                                <td >근무시작일</td>
-                                <td>근무 현황</td>
-                            </tr>
-                        </thead> -->
-                        <tbody class="scroll-div">
-                            
-                            <tr th:each="teacher, state : ${teacherList}" class="pointer-span" th:onclick="teacherInfo([[${teacher.teacherNum}]])">
-                                <td style="width: 15%">[[${#lists.size(teacherList) - state.index}]]</td>
-                                <td style="width: 20%">[[${teacher.memberVO.memberName}]]</td>
-                                <td style="width: 40%">[[${teacher.memberVO.regDate}]]</td>
-                                <td style="width: 25%">[[${teacher.strWork}]]</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="row text-center thead-div" style="width: 100%;">
+                        <div class="col-2">No</div>
+                        <div class="col-2">이름</div>
+                        <div class="col-4">근무시작일</div>
+                        <div class="col-4">근무 현황</div>
+                    </div>
+                    <div class="row table-div scroll-div pointer-span" style="width: 100%;" th:each="teacher, state : ${teacherList}" th:onclick="teacherInfo([[${teacher.teacherNum}]])">
+                        <div class="col-2 tbody">[[${#lists.size(teacherList) - state.index}]]</div>
+                        <div class="col-2 tbody">[[${teacher.memberVO.memberName}]]</div>
+                        <div class="col-4 tbody">[[${teacher.memberVO.regDate}]]</div>
+                        <div class="col-4 tbody">[[${teacher.strWork}]]</div>
+                    </div>
                 </div>
             </div>
 
