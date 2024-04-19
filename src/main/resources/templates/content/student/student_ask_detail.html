@@ -5,7 +5,7 @@
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴때 같이 실행되는 css -->
-    <link rel="stylesheet" href="/">
+    <!-- <link rel="stylesheet" href="/"> -->
 </th:block>
 
 <th:block layout:fragment="contentFragment">
@@ -112,24 +112,28 @@
         </div>
 
 <script>
+// ##########################  선생님 답글페이지 이동 ########################## 
 function goComment(protestNum){
- location.href='/test/teacherComment?protestNum=' +protestNum;
+    location.href='/test/teacherComment?protestNum=' +protestNum;
 }
+// ##########################  학생 수정페이지 이동 ########################## 
 function goUpdate(protestNum){
     location.href='/stuTest/goUpdatePG?protestNum=' +protestNum;
 }
+
+// ##########################  학생 글 삭제 ########################## 
 function goDelete(protestNum){
     location.href='/stuTest/goMyDelete?protestNum=' +protestNum;
 }
-
+// ##########################  선생님 글 삭제(1) ########################## 
 function goThDelete1(protestNum){
     location.href='/test/goThDelete1?protestNum=' +protestNum;
 }
-
+// ##########################  선생님 답글 삭제(2) ########################## 
 function goThDelete2(protestOrigino){
     location.href='/test/goThDelete2?protestOrigino=' +protestOrigino;
 }
-
+// ##########################  학생 / 선생님 글목록 창 이동 ########################## 
 function goList(thTestAskList,protestOrigino ){
     if(thTestAskList==null){
         location.href='/stuTest/stuAskFirst';
@@ -137,7 +141,6 @@ function goList(thTestAskList,protestOrigino ){
     else{
         location.href='/test/teacherAskFirst';
     }
-    
 }
 </script>
 
