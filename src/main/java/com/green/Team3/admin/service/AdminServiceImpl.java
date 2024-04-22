@@ -20,8 +20,8 @@ public class AdminServiceImpl implements AdminService{
 
     // 강사 전체 목록 조회 (완료)
     @Override
-    public List<TeacherVO> selectTeachers() {
-        return sqlSession.selectList("teacher.selectTeachers");
+    public List<TeacherVO> selectTeachers(SearchVO searchVO) {
+        return sqlSession.selectList("teacher.selectTeachers", searchVO);
     }
 
     // 강사 상세 정보 조회 (완료)
@@ -162,6 +162,22 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public int memberCnt() {
         return sqlSession.selectOne("admin.memberCnt");
+    }
+
+    // 강사 수 count
+    @Override
+    public int teacherCnt() {
+        return sqlSession.selectOne("admin.teacherCnt");
+    }
+
+    @Override
+    public List<ClsVO> findTeacher(MemberVO memberVO) {
+        return sqlSession.selectList("teacher.findTeacher", memberVO);
+    }
+
+    @Override
+    public MemberVO selectMemberInfo(MemberVO memberVO) {
+        return sqlSession.selectOne("admin.selectMemberInfo", memberVO);
     }
 
 }

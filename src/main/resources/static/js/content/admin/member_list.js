@@ -189,8 +189,9 @@ function changeRoll(selectedTag, memberId){
         })
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
-
             selectedTag.innerHTML = '';
+            let button_tag = selectedTag.parentElement.parentElement.parentElement.nextElementSibling;
+            button_tag.innerHTML = '';
             let str2 = ``;
             if (data.memberRoll == 1){
                 str2 = `
@@ -214,9 +215,29 @@ function changeRoll(selectedTag, memberId){
                 `;
             }
             
+            let str3 = '';
+            if(data.memberRoll == 1){
+                str3 += `
+                    <button type="button" class="btn btn-outline-primary"
+                    onclick="memberDetail(${data.memberId})">인적사항</button>
+                    <button type="button" class="btn btn-outline-success"
+                    onclick="showClasses(${data.memberId}, ${data.memberRoll})">수강목록</button>
+                    <button th:if="${data.memberRoll == 1}" type="button" class="btn btn-outline-secondary"
+                    th:onclick="insertClass([[${data.memberId}]])">강의신청</button>
+                    <button th:if="${data.memberRoll == 1}" type="button" class="btn btn-outline-secondary"
+                    th:onclick="goSearch([[${data.memberId}]])">성적조회</button>
+                        `;
+            }
+            else{
+                str3 += `
+                    <button type="button" class="btn btn-outline-primary"
+                    onclick="memberDetail(${data.memberId})">인적사항</button>
+                    <button type="button" class="btn btn-outline-success"
+                    onclick="showClasses(${data.memberId}, ${data.memberRoll})">강의목록</button>
+                    `;
+            }
             selectedTag.insertAdjacentHTML("afterbegin", str2);
-            
-
+            button_tag.insertAdjacentHTML("afterbegin", str3);
         })
         //fetch 통신 실패 시 실행 영역
         .catch(err=>{
@@ -327,7 +348,6 @@ function insertClass(memberId){
         modal_tbodyy.innerHTML = '';
         modal_tbodyy.replaceChildren();
 
-        // console.log(data);
         let str = '';
         
         str += `<input type="hidden" name="memberId" id="memberId" value="${selectMemberId}">
@@ -406,7 +426,6 @@ function chkDuples(){
     const chkArr = [];
     if(checks.length > 0){
         for(const chk of checks){
-            console.log(chk.checked);
             if(chk.checked == true){
                 a = {
                     classNum : chk.value,
@@ -416,7 +435,6 @@ function chkDuples(){
 
             }
         }
-        console.log(chkArr);
 
         fetch('/admin/chkDuples', { //요청경로
             method: 'POST',
@@ -435,7 +453,6 @@ function chkDuples(){
         })
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
-            console.log(data);
             if(data == 0){
                 reqSomePay();
             } else {
@@ -551,7 +568,6 @@ function reqSomePay(){
     const classNum = 0;
     const chkArr = [];
     for(const chk of checks){
-        console.log(chk.checked);
         if(chk.checked == true){
             a = {
                 classNum : chk.value,

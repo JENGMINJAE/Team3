@@ -24,7 +24,33 @@
             ELSE '퇴직'
             END AS STR_WORK
         FROM TEACHER T
-        INNER JOIN MEMBER M ON M.MEMBER_ID = T.MEMBER_ID;
+        INNER JOIN MEMBER M ON M.MEMBER_ID = T.MEMBER_ID
+        LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)} ;
+    </select>
+
+    <!-- 선생님 이름 검색 시 -->
+    <select id="findTeacher" resultMap="clsMapper.cls">
+        SELECT T.MEMBER_ID
+            , MEMBER_NAME
+            , T.TEACHER_NUM
+            , CLASS_NAME
+            , CLS.CLASS_NUM
+            , TEACHER_WORK
+            , (SELECT COUNT(O.MEMBER_ID)
+                FROM operator O
+                INNER JOIN MEMBER
+                ON MEMBER.MEMBER_ID = O.MEMBER_ID
+                WHERE CLASS_NUM = CLS.CLASS_NUM) AS STU_CNT
+            , CLASS_PERSONNEL
+            , CASE
+                WHEN CLASS_EDATE &gt;= NOW() THEN '강의 중'
+                ELSE '종료'
+                END AS STR_WORK
+        FROM CLASS_INFO CLS INNER JOIN TEACHER T
+        ON CLS.TEACHER_NUM = T.TEACHER_NUM
+        INNER JOIN MEMBER M
+        ON T.MEMBER_ID = M.MEMBER_ID
+        WHERE MEMBER_NAME = #{memberName}
     </select>
 
     <!--  선생님 상세 정보 조회  -->

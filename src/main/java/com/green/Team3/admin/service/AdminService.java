@@ -11,7 +11,7 @@ import java.util.List;
 public interface AdminService {
 
     // 선생님 전체 목록 조회
-    List<TeacherVO> selectTeachers();
+    List<TeacherVO> selectTeachers(SearchVO searchVO);
 
     // 선생님 상세 목록 조회
     List<ClsVO> detailTeacher(int teacherNum);
@@ -81,4 +81,8 @@ public interface AdminService {
 
     // 멤버 데이터 수
     int memberCnt();
+
+    int teacherCnt();
+    List<ClsVO> findTeacher(MemberVO memberVO);
+    MemberVO selectMemberInfo(MemberVO memberVO);
 }
