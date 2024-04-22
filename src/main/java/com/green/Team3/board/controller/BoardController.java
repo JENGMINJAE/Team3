@@ -441,39 +441,7 @@ public class BoardController {
         return "redirect:/board/qnaDetail?boardNum=" + boardNum;
     }
 
-    //퍼스트페이지 학사공지 조회
-    @RequestMapping("/noticeListFirstPage")
-    public String List3(SearchVO searchVO, Model model
-            , @RequestParam(name = "searchValue" ,required = false) String searchValue
-            , @RequestParam(name = "searchType" ,required = false) String searchType
-            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
 
-        // 공지사항 전체 데이터 수
-        System.out.println(searchVO);
-        int totalDataCnt = boardService.selectNoticeCnt(searchVO);
-        searchVO.setTotalDataCnt(totalDataCnt);
-        // 페이지 정보 세팅
-        searchVO.setPageInfo();
-        System.out.println(searchVO);
-        // 공지사항 검색 시 페이징코드 정리
-        List<BoardVO> noticeList = boardService.selectNoticeListStu(searchVO);
-//        if(isSearch == 1){
-//            searchVO.setTotalDataCnt(noticeList.size());
-//            searchVO.setPageInfo();
-//            if(searchVO.getTotalDataCnt() == 0){
-//                isSearch = 2;
-//            }
-//        }
-        model.addAttribute("isSearch", isSearch);
-        // 공지사항 목록 조회
-        model.addAttribute("noticeList", noticeList);
-        // 공지사항 내 전체 데이터 목록
-        model.addAttribute("totalDataCnt", totalDataCnt);
-        // 공지사항 목록에서 검색한 데이터
-//        model.addAttribute("searchValue", searchValue);
-//        model.addAttribute("searchType", searchType);
-        return "content/member/firstPage";
-    }
 
 
 }

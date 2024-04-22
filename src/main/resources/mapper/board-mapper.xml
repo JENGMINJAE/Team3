@@ -319,10 +319,29 @@
         LIMIT 1;
     </select>
 
+    <!-- 메인 페이지 게시물 목록 조회 - 학사공지 -->
+    <select id="selectNoticeListFirst" resultMap="boardMap">
+        SELECT B.BOARD_NUM,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        B.MEMBER_ID,
+        TYPE_NUM,
+        M.MEMBER_ROLL,
+        I.ORIGIN_FILE_NAME
+        FROM BOARD B
+        INNER JOIN MEMBER M ON B.MEMBER_ID = M.MEMBER_ID
+        LEFT JOIN BOARD_IMAGE I ON B.BOARD_NUM = I.BOARD_NUM
+        WHERE
+        TYPE_NUM = 1
+        <if test='searchValue != null and searchValue != ""'>
+            AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
+        </if>
+        GROUP BY B.BOARD_NUM
+        ORDER BY B.BOARD_NUM DESC
+        LIMIT 5 OFFSET ${displayDataCnt * (nowPage - 1)}
+    </select>
 
-
-
-
+<!--    LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}-->
 </mapper>
 
 
