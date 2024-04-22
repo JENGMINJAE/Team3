@@ -299,11 +299,12 @@
     </select>
 
     <!-- 게시글 상세 - 이전글 조회 -->
-    <select id="prevPage" resultMap="boardMap" resultType="int">
+    <select id="prevPage" resultMap="boardMap">
         SELECT BOARD_NUM
             , BOARD_TITLE
         FROM BOARD
-        WHERE ${currentBoardNum} > BOARD_NUM AND TYPE_NUM = #{typeNum}
+        WHERE ${currentBoardNum} > BOARD_NUM
+        AND TYPE_NUM = #{typeNum}
         ORDER BY BOARD_NUM DESC
         LIMIT 1;
     </select>

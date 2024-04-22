@@ -64,7 +64,6 @@ public class BoardController {
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
 
-
         return "content/common/notice_list_stu";
     }
 
@@ -179,20 +178,20 @@ public class BoardController {
 
     // 공지사항 상세 조회
     @GetMapping("/noticeDetail")
-    public String noticeDetail(@RequestParam(name = "boardNum") int boardNum
+    public String noticeDetail(BoardVO boardVO
                                 , Model model){
         //조회수 증가
-        boardService.updateBoardCnt(boardNum);
+        boardService.updateBoardCnt(boardVO.getBoardNum());
 
         //상세 조회
-        BoardVO vo = boardService.selectNoticeDetail(boardNum);
+        BoardVO vo = boardService.selectNoticeDetail(boardVO.getBoardNum());
         System.out.println(vo);
         model.addAttribute("notice", vo);
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(boardNum);
+        BoardVO prevPage = boardService.prevPage(boardVO);
         if (prevPage != null){
-            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("currentBoardNum", boardVO.getBoardNum());
             model.addAttribute("prevPage", prevPage);
         }
         //이전 글이 없을 때
@@ -201,9 +200,9 @@ public class BoardController {
         }
 
         // 다음글 조회
-        BoardVO nextPage = boardService.nextPage(boardNum);
+        BoardVO nextPage = boardService.nextPage(boardVO.getBoardNum());
         if(nextPage != null){
-            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("currentBoardNum", boardVO.getBoardNum());
             model.addAttribute("nextPage", nextPage);
         }
         //다음 글이 없을 때
@@ -223,16 +222,7 @@ public class BoardController {
         else if(boardVO.getTypeNum() == 2){
             return "redirect:/board/noticeListTea";}
         else{return null;}
-
     }
-
-//    if(boardVO.getTypeNum() == 1){
-//        return "redirect:/board/noticeListStu";}
-//        else if(boardVO.getTypeNum() == 2){
-//        return "redirect:/board/noticeListTea";}
-//        else{return null;}
-
-
 
 
     // 공지사항 게시글 수정 양식 페이지 이동
@@ -241,8 +231,6 @@ public class BoardController {
         model.addAttribute("notice", boardService.selectNoticeDetail(boardNum));
         return "content/common/notice_update";
     }
-
-
 
 
     //공지사항 게시글 수정 ***********************************
@@ -407,7 +395,7 @@ public class BoardController {
         model.addAttribute("replyList", replyList);
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(boardNum);
+        BoardVO prevPage = boardService.prevPage(vo);
         if (prevPage != null){
             model.addAttribute("currentBoardNum", boardNum);
             model.addAttribute("prevPage", prevPage);
@@ -459,6 +447,7 @@ public class BoardController {
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
             , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
+
         // 공지사항 전체 데이터 수
         System.out.println(searchVO);
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
@@ -468,28 +457,23 @@ public class BoardController {
         System.out.println(searchVO);
         // 공지사항 검색 시 페이징코드 정리
         List<BoardVO> noticeList = boardService.selectNoticeListStu(searchVO);
-        if(isSearch == 1){
-            searchVO.setTotalDataCnt(noticeList.size());
-            searchVO.setPageInfo();
-            if(searchVO.getTotalDataCnt() == 0){
-                isSearch = 2;
-            }
-        }
+//        if(isSearch == 1){
+//            searchVO.setTotalDataCnt(noticeList.size());
+//            searchVO.setPageInfo();
+//            if(searchVO.getTotalDataCnt() == 0){
+//                isSearch = 2;
+//            }
+//        }
         model.addAttribute("isSearch", isSearch);
         // 공지사항 목록 조회
         model.addAttribute("noticeList", noticeList);
         // 공지사항 내 전체 데이터 목록
         model.addAttribute("totalDataCnt", totalDataCnt);
         // 공지사항 목록에서 검색한 데이터
-        model.addAttribute("searchValue", searchValue);
-        model.addAttribute("searchType", searchType);
-
+//        model.addAttribute("searchValue", searchValue);
+//        model.addAttribute("searchType", searchType);
         return "content/member/firstPage";
     }
-
-
-
-
 
 
 }

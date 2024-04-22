@@ -300,4 +300,8 @@ function goUpdateReply(selectedTd ,boardNum, replyNum, replyContent){
     
 }
 
+function prev(){
+    
+}
+
 

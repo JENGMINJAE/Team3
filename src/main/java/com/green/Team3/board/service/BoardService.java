@@ -66,7 +66,7 @@ public interface BoardService {
     int selectNoticeCnt(SearchVO searchVO);
 
     //게시글 상세 - 이전글 조회
-    BoardVO prevPage(int boardNum);
+    BoardVO prevPage(BoardVO boardNum);
 
     //게시글 상세 - 다음글 조회
     BoardVO nextPage(int boardNum);

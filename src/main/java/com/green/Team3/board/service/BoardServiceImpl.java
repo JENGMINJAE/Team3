@@ -149,7 +149,7 @@ public class BoardServiceImpl implements BoardService {
 
     //게시글 상세 - 이전글 조회
     @Override
-    public BoardVO prevPage(int boardNum) {
+    public BoardVO prevPage(BoardVO boardNum) {
         return sqlSession.selectOne("board.prevPage", boardNum);
     }
 

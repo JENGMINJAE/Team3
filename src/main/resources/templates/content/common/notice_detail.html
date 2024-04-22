@@ -96,16 +96,9 @@
                     <tr th:if="${prevPage != null}">
                         <td>이전글</td>
                         <td>
-                            <th:block th:if="${notice.typeNum == 1}">
-                                <a th:href="@{/board/noticeDetail?typeNum=1(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
-                                    이전글 제목
-                                </a>
-                            </th:block>
-                            <th:block th:if="${notice.typeNum == 2}">
-                                <a th:href="@{/board/noticeDetail?typeNum=2(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
-                                    이전글 제목
-                                </a>
-                            </th:block>
+                            <a th:href="@{/board/noticeDetail(boardNum=${prevPage.boardNum}, typeNum=${prevPage.typeNum})}" th:text="${prevPage.boardTitle}">
+                                이전글 제목
+                            </a>
                         </td>
                     <tr th:if="${prevPageNotFound}">
                         <td>이전글</td>
@@ -115,16 +108,9 @@
                     <tr th:if="${nextPage != null}">
                         <td>다음글</td>
                         <td>
-                            <th:block th:if="${notice.typeNum == 1}">
-                                <a th:href="@{/board/noticeDetail?typeNum=1(boardNum=${nextPage.boardNum})}" th:text="${nextPage.boardTitle}">
-                                    다음글 제목
-                                </a>
-                            </th:block>
-                            <th:block th:if="${notice.typeNum == 2}">
-                                <a th:href="@{/board/noticeDetail?typeNum=2(boardNum=${nextPage.boardNum})}" th:text="${nextPage.boardTitle}">
-                                    다음글 제목
-                                </a>
-                            </th:block>
+                            <a th:href="@{/board/noticeDetail?(boardNum=${nextPage.boardNum}, typeNum=${nextPage.typeNum})}" th:text="${nextPage.boardTitle}" >
+                                다음글 제목
+                            </a>
                         </td>
                     </tr>
                     <tr th:if="${nextPageNotFound}">
