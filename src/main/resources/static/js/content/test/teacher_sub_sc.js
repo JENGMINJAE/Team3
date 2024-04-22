@@ -74,7 +74,7 @@ function inputDirectSc(testNum, classNum){
                                             
                                                 data.subsList.forEach(function(subN){
                                                     str+= ` <td>                                               
-                                                        <input min='0' max='${subN.subMaxScore}' type="number" class="form-control score-input" onkeyup="keyevent(${subN.subMaxScore},this);">                                                               
+                                                        <input min='0' max='${subN.subMaxScore}' type="number" class="form-control score-input" onkeyup="keyevent();" onchange="maxKey(${subN.subMaxScore},this);">                                                               
                                                     </td>`;                                                    
                                                 })    
                                         
@@ -93,7 +93,7 @@ function inputDirectSc(testNum, classNum){
 }
     
 
-function keyevent(subMaxScore, subInput){
+function maxKey(subMaxScore, subInput){
 
     if (subInput.value > subMaxScore) {
         alert('다시다시 입력해주세요!')
@@ -277,7 +277,7 @@ function goSubListUp(testNum, stuCnt, subsList){
                                                         
                                                         subsList.forEach(function(subMax){
                                                             if(subMax.subTestNum === subScore.subTestNum){
-                                                                str += "<td><input id='scoreId' name='score' min='0' type='number' value='" + subScore.score+ "'max='"+subMax.subMaxScore+"' onkeyup='golimit("+subMax.subMaxScore+", this)'>";
+                                                                str += "<td><input id='scoreId' name='score' min='0' type='number' value='" + subScore.score+ "'max='"+subMax.subMaxScore+"' onchange='golimit("+subMax.subMaxScore+", this)'>";
                                                                 str+="</td><input type='hidden' value='"+ subScore.scoreNum +"' name='scoreNum'>";
                                                             }                                                        
                                                         })
@@ -324,7 +324,7 @@ function goSubListUp(testNum, stuCnt, subsList){
 
 function golimit(subMaxScore, subInput){
     if (subInput.value > subMaxScore) {
-        alert('다시 입력해주세요!')
+        alert('점수 입력란을 다시 확인해주세요!')
         subInput.value='';    
         return;
     }
