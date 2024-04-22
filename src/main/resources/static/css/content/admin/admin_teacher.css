@@ -8,7 +8,6 @@
   box-shadow: 0 0 3px rgba(0, 0, 0, .25);
   border-collapse: collapse;
   border-radius: 5px 5px 0px 0px;
-  display: table;
 
 }
 
@@ -18,7 +17,6 @@
   box-shadow: 0 1px 5px rgba(0, 0, 0, .25);
   border-collapse: collapse;
   overflow: hidden;
-  display: table;
   border-radius: 0px 0px 5px 5px;
   text-align: center;
 }
@@ -34,9 +32,8 @@ body{
   scrollbar-width: none;
 }
 .table-div .tbody{
-  display: block;
   /* width: 100%; */
-  height: 150px;
+  height: 50px;
   overflow-y: auto;
   overflow-x: hidden;
 }

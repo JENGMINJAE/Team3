@@ -96,9 +96,10 @@ function inputDirectSc(testNum, classNum){
 function keyevent(subMaxScore, subInput){
 
     if (subInput.value > subMaxScore) {
-        alert('다시 입력해주세요!');
-        let input = document.querySelector('#scoreId');
-                input.value='';
+        alert('다시다시 입력해주세요!')
+            subInput.value='';
+        
+        return;
     }
 
 }
@@ -191,7 +192,7 @@ function goInsert(scoreList, testNum, classNum){
                 })
                 //fetch 통신 후 실행 영역
                 .then((data) => {//data -> controller에서 리턴되는 데이터!
-                    
+                    location.href = "/test/goTestN?testNum="+testNum+"&classNum="+classNum;
                 })
                 //fetch 통신 실패 시 실행 영역
                 .catch(err=>{
@@ -201,7 +202,7 @@ function goInsert(scoreList, testNum, classNum){
 
 
     })
-    location.href = "/test/goTestN?testNum="+testNum+"&classNum="+classNum;
+    
 
     
 
@@ -323,9 +324,9 @@ function goSubListUp(testNum, stuCnt, subsList){
 
 function golimit(subMaxScore, subInput){
     if (subInput.value > subMaxScore) {
-        alert('다시 입력해주세요!');
-        subInput.value='';
-        return
+        alert('다시 입력해주세요!')
+        subInput.value='';    
+        return;
     }
 
     else if(subInput.value.replace(regex,'') == '' ){
