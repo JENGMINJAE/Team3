@@ -44,13 +44,25 @@ public class AdminController {
 
     // 강사 관리 페이지 이동
     @GetMapping("/goAdminTeacher")
-    public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum){
-        List<TeacherVO> list = adminService.selectTeachers();
+    public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum, SearchVO searchVO){
+        int totalTeachers = adminService.teacherCnt();
+        searchVO.setTotalDataCnt(totalTeachers);
+//        searchVO.setDisplayDataCnt(10);
+        searchVO.setPageInfo();
+        List<TeacherVO> list = adminService.selectTeachers(searchVO);
         model.addAttribute("teacherList", list); // 강사 목록 조회
         model.addAttribute("updateTeacherNum", teacherNum);
+        model.addAttribute("teacherCnt", totalTeachers);
         return "content/admin/admin_teacher";
     }
 
+    // 관리 페이지에서 강사 검색
+    @ResponseBody
+    @PostMapping("/findTeacher")
+    public List<ClsVO> findTeacher(@RequestBody MemberVO memberVO){
+        List<ClsVO> list = adminService.findTeacher(memberVO);
+        return list;
+    }
     // 강사 정보 상세 조회
     @ResponseBody
     @PostMapping("/selectTeacher")
@@ -106,7 +118,8 @@ public class AdminController {
     @PostMapping("/updateRoll")
     public MemberVO updateRoll(@RequestBody MemberVO memberVO){
         adminService.updateRoll(memberVO);
-         return memberVO;
+        MemberVO vo = adminService.selectMemberInfo(memberVO);
+        return vo;
     }
     // 해당 회원의 수강 목록 페이지 이동 (모달)
     @ResponseBody

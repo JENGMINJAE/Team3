@@ -261,4 +261,18 @@
         SELECT COUNT(MEMBER_ID)
         FROM MEMBER
     </select>
+
+    <!-- 선생님 총 인원 수 -->
+    <select id="teacherCnt" resultType="int">
+        SELECT COUNT(TEACHER_NUM)
+        FROM TEACHER
+    </select>
+
+    <!-- updateRoll 진행 시 실행되는 쿼리 -->
+    <select id="selectMemberInfo" resultMap="member.memberMap">
+        SELECT MEMBER_ID
+            , MEMBER_ROLL
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
 </mapper>
