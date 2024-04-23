@@ -20,5 +20,6 @@ public class BoardVO {
     private List<ReplyVO> replyVO;
     private List<ImgVO> imgList;
     private int imgNum;
+    private int currentBoardNum;
 
 }

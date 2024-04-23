@@ -43,7 +43,9 @@
     </div>
     <div class="row mb-5">
         <div class="col d-grid">
-            <input type="button" value="목 록" class="btn btn-primary" onclick="location.href='/board/qnaList'">
+            <th:block th:if="${qna.typeNum == 3}">
+                <input type="button" value="목 록" class="btn btn-primary" onclick="location.href='/board/qnaList?typeNum=3'">
+            </th:block>
         </div>
         <div class="col  d-grid">
             <input type="button" value="수 정" class="btn btn-primary" th:onclick="goUpdateQna([[${qna.boardNum}]])" th:if="${#authentication.principal.username eq qna.memberId}">
@@ -56,12 +58,12 @@
     <!-- 문의사항 댓글 작성폼 -->
     <div class="mb-5">
         <h4>댓글 작성</h4>
-        <form action="/reply/replyReg" method="post">
+        <form action="/reply/replyReg" method="post" id="reply_reg">
             <div class="row">
                 <div class="col text-end">
                     <input type="hidden" name="boardNum" th:value="${qna.boardNum}">
                     <textarea class="form-control mb-2" id="replyContent" name="replyContent" cols="100" rows="5"></textarea>
-                    <input type="submit" class="btn btn-primary" value="등 록" onclick="goReplyReg()">
+                    <input type="button" class="btn btn-primary" value="등 록" onclick="goReplyReg()">
                 </div>
             </div>
         </form>
@@ -99,9 +101,11 @@
             <tr th:if="${prevPage != null}">
                 <td>이전글</td>
                 <td>
-                    <a th:href="@{/board/qnaDetail(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
-                        이전글 제목
-                    </a>
+                    <th:block th:if="${qna.typeNum == 3}">
+                        <a th:href="@{/board/qnaDetail?typeNum=3(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
+                            이전글 제목
+                        </a>
+                    </th:block>
                 </td>
             <tr th:if="${prevPageNotFound}">
                 <td>이전글</td>
@@ -111,9 +115,12 @@
             <tr th:if="${nextPage != null}">
                 <td>다음글</td>
                 <td>
-                    <a th:href="@{/board/qnaDetail(boardNum=${nextPage.boardNum})}" th:text="${nextPage.boardTitle}">
-                        다음글 제목
-                    </a>
+                    <th:block th:if="${qna.typeNum == 3}">
+                        <a th:href="@{/board/qnaDetail?typeNum=3(boardNum=${nextPage.boardNum})}" th:text="${nextPage.boardTitle}">
+                            다음글 제목
+                        </a>
+                    </th:block>
+                    
                 </td>
             </tr>
             <tr th:if="${nextPageNotFound}">

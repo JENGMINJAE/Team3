@@ -31,7 +31,6 @@ public class BoardController {
     @Resource(name = "replyService")
     private ReplyServiceImpl replyService;
 
-
     ///////////////////////////////// 공지 사항 /////////////////////////////////////
 
     // 공지사항 - 학사공지 목록 페이지
@@ -41,6 +40,7 @@ public class BoardController {
             , @RequestParam(name = "searchType" ,required = false) String searchType
             , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
         // 공지사항 전체 데이터 수
+        System.out.println(searchVO);
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
         // 페이지 정보 세팅
@@ -99,7 +99,6 @@ public class BoardController {
         return "content/common/notice_list_tea";
     }
 
-
     //////////////////////////////////////////////////////////////////////////////////////////////////
     // 공지사항 목록 페이지
 //    @RequestMapping("/noticeList")
@@ -142,7 +141,6 @@ public class BoardController {
         return "content/common/notice_write_form";
     }
 
-
     // 공지사항 게시글 작성 + 이미지 첨부 기능
     @PostMapping("/noticeWrite")
     public String noticeWrite(BoardVO boardVO
@@ -180,20 +178,20 @@ public class BoardController {
 
     // 공지사항 상세 조회
     @GetMapping("/noticeDetail")
-    public String noticeDetail(@RequestParam(name = "boardNum") int boardNum
+    public String noticeDetail(BoardVO boardVO
                                 , Model model){
         //조회수 증가
-        boardService.updateBoardCnt(boardNum);
+        boardService.updateBoardCnt(boardVO.getBoardNum());
 
         //상세 조회
-        BoardVO vo = boardService.selectNoticeDetail(boardNum);
+        BoardVO vo = boardService.selectNoticeDetail(boardVO.getBoardNum());
         System.out.println(vo);
         model.addAttribute("notice", vo);
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(boardNum);
+        BoardVO prevPage = boardService.prevPage(boardVO);
         if (prevPage != null){
-            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("currentBoardNum", boardVO.getBoardNum());
             model.addAttribute("prevPage", prevPage);
         }
         //이전 글이 없을 때
@@ -202,16 +200,15 @@ public class BoardController {
         }
 
         // 다음글 조회
-        BoardVO nextPage = boardService.nextPage(boardNum);
+        BoardVO nextPage = boardService.nextPage(boardVO.getBoardNum());
         if(nextPage != null){
-            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("currentBoardNum", boardVO.getBoardNum());
             model.addAttribute("nextPage", nextPage);
         }
         //다음 글이 없을 때
         else {
             model.addAttribute("nextPageNotFound", true);
         }
-
         return "content/common/notice_detail";
     }
 
@@ -219,17 +216,13 @@ public class BoardController {
     @GetMapping("/deleteNotice")
     public String deleteNotice(BoardVO boardVO){
         boardService.deleteNotice(boardVO);
-
-        return "redirect:/board/noticeList";
+        //return "redirect:/board/noticeList";
+        if(boardVO.getTypeNum() == 1){
+            return "redirect:/board/noticeListStu";}
+        else if(boardVO.getTypeNum() == 2){
+            return "redirect:/board/noticeListTea";}
+        else{return null;}
     }
-
-//    if(boardVO.getTypeNum() == 1){
-//        return "redirect:/board/noticeListStu";}
-//        else if(boardVO.getTypeNum() == 2){
-//        return "redirect:/board/noticeListTea";}
-//        else{return null;}
-
-
 
 
     // 공지사항 게시글 수정 양식 페이지 이동
@@ -238,8 +231,6 @@ public class BoardController {
         model.addAttribute("notice", boardService.selectNoticeDetail(boardNum));
         return "content/common/notice_update";
     }
-
-
 
 
     //공지사항 게시글 수정 ***********************************
@@ -332,35 +323,7 @@ public class BoardController {
 //        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
 //    }
 
-
-
     ///////////////////////////////// 문의 사항 /////////////////////////////////////
-
-    // 문의사항 페이지 - 원본
-//    @RequestMapping("/qnaList")
-//    public String qnaList(SearchVO searchVO, Model model
-//            , @RequestParam(name = "searchValue" ,required = false) String searchValue
-//            , @RequestParam(name = "searchType" ,required = false) String searchType){
-//        // 문의사항 전체 데이터 수
-//        int totalDataCnt = boardService.selectNoticeCnt(searchVO);
-//        searchVO.setTotalDataCnt(totalDataCnt);
-//
-//        // 페이지 정보 세팅
-//        searchVO.setPageInfo();
-//        System.out.println(searchVO);
-//
-//        // 문의사항 목록 조회
-//        List<BoardVO> qnaList = boardService.selectQnaList(searchVO);
-//        model.addAttribute("qnaList", qnaList);
-//        // 문의사항 내 전체 데이터 목록
-//        model.addAttribute("totalDataCnt", totalDataCnt);
-//        // 문의사항 목록에서 검색한 데이터
-//        model.addAttribute("searchValue", searchValue);
-//        model.addAttribute("searchType", searchType);
-//
-//        return "content/common/qna_list";
-//    }
-    
 
     // 문의사항 페이지 - 공지사항이랑 분리
     @RequestMapping("/qnaList")
@@ -432,7 +395,7 @@ public class BoardController {
         model.addAttribute("replyList", replyList);
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(boardNum);
+        BoardVO prevPage = boardService.prevPage(vo);
         if (prevPage != null){
             model.addAttribute("currentBoardNum", boardNum);
             model.addAttribute("prevPage", prevPage);
@@ -477,8 +440,6 @@ public class BoardController {
         boardService.updateBoard(boardVO);
         return "redirect:/board/qnaDetail?boardNum=" + boardNum;
     }
-
-
 
 
 

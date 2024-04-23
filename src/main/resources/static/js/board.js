@@ -20,9 +20,9 @@ function goUpdateNotice(boardNum){
 }
 
 // 공지사항 게시글 삭제(*관리자만)
-function goDeleteNotice(boardNum){
+function goDeleteNotice(boardNum, typeNum){
     if(confirm('공지사항을 삭제하시겠습니까?')){
-        location.href=`/board/deleteNotice?boardNum=${boardNum}`;
+        location.href=`/board/deleteNotice?boardNum=${boardNum}&typeNum=${typeNum}`;
     }
 }
 
@@ -30,46 +30,34 @@ function goDeleteNotice(boardNum){
 function noticeReg() {
     // 제목 빈칸 시
     const boardTitle = document.querySelector('#boardTitle');
-    if (boardTitle.value == '') {
+    if (boardTitle.value.trim() == '') {
         alert('공지사항 제목을 입력하세요.');
-        return false;
+        return ;
     }
 
     // 열람대상 빈칸 시
     const typeNum = document.querySelector('input[name="typeNum"]:checked');
     if (!typeNum) {
         alert('공지사항 열람대상을 선택하세요.');
-        return false;
+        return ;
     }
 
     // 내용 빈칸 시
     const boardContent = document.querySelector('#boardContent');
-    if (boardContent.value == '') {
+    if (boardContent.value.trim() == '') {
         alert('공지사항 내용을 입력하세요.');
-        return false;
+        return ;
     }
+
+    document.querySelector('#notice_reg').submit();
 
     // 유효성 검사 모두 만족 시 true
     return true;
-}
 
-// 게시글 등록 버튼 클릭 시 유효성 검사 후 제출
-function submitNotice() {
-    if (noticeReg()) {
-        const post = document.querySelector('form');
-        post.submit();
-    }
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
-//게시글 수정 시 첨부파일 삭제
-// function goDeleteImg(imgNum, boardNum) {
-//     if (confirm('첨부파일을 삭제하시겠습니까?')) {
-//         document.getElementById("deletedImgNum").value = imgNum;
-//         document.getElementById("updateForm").submit();
-//     }
-// }
 
 // 수정 완료 버튼 클릭 시
 function submitForm() {
@@ -83,7 +71,6 @@ function submitForm() {
 function goDeleteImg(button, imgNum, boardNum){
     const imgNumber = button.getAttribute('data-img-num');
     const boardNumer = button.getAttribute('data-board-num');
-
         fetch('/board/deleteImgFile', { //요청경로
             method: 'POST',
             cache: 'no-cache',
@@ -102,39 +89,31 @@ function goDeleteImg(button, imgNum, boardNum){
                 alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
                 return ;
             }
-        
-            return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
-            //return response.json(); //나머지 경우에 사용
+            //return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
+            return response.json(); //나머지 경우에 사용
         })
         //fetch 통신 후 실행 영역
-    
         .then((data) => {//data -> controller에서 리턴되는 데이터!
             //수정된 화면 갱신
             alert('첨부파일이 삭제되었습니다.');
-
             const deleteImgFile = document.querySelector('#deleteImgFile')
-
             deleteImgFile.innerHTML = '';
-            deleteImgFile.replaceChild();
-
             let str = '';
-
-            data.forEach(function (e, idx) {
                 str += `
-                        <th:block th:if="${notice.imgList[0].originFileName != null}">
-                            <th:block th:each="img, imgStat : ${notice.imgList}">
+                        <th:block th:if="${data.imgList[0].originFileName != null}">
+                            <th:block th:each="img, imgStat : ${data.imgList}">
                                 <div>
-                                    [[${img.originFileName}]]
+                                    ${img.originFileName}
                                     <input type="button" class="btn btn-secondary" value="삭제"
-                                        th:onclick="goDeleteImg(this, [[${img.imgNum}]], [[${notice.boardNum}]])"
-                                        data-img-num="[[${img.imgNum}]]" 
-                                        data-board-num="[[${notice.boardNum}]]">
+                                        onclick="goDeleteImg(this,${img.imgNum}, ${data.boardNum})"
+                                        data-img-num="${img.imgNum}" 
+                                        data-board-num="${data.boardNum}">
                                 </div>
                             </th:block>
                         </th:block>`
-            });
-
+            ;
             deleteImgFile.insertAdjacentHTML('afterbegin', str);
+
 
         })
         //fetch 통신 실패 시 실행 영역
@@ -206,35 +185,29 @@ function goDeleteQna(boardNum){
 function qnaReg() {
     // 제목 빈칸 시
     const boardTitle = document.querySelector('#boardTitle');
-    if (boardTitle.value == '') {
+    if (boardTitle.value.trim() == '') {
         alert('문의사항 제목을 입력하세요.');
         return false;
     }
 
     // 열람대상 빈칸 시
-    const typeNum = document.querySelector('input[name="typeNum"]:checked');
-    if (!typeNum) {
-        alert('문의사항 열람대상을 선택하세요.');
-        return false;
-    }
+    // const typeNum = document.querySelector('input[name="typeNum"]:checked');
+    // if (!typeNum) {
+    //     alert('문의사항 열람대상을 선택하세요.');
+    //     return false;
+    // }
 
     // 내용 빈칸 시
     const boardContent = document.querySelector('#boardContent');
-    if (boardContent.value == '') {
+    if (boardContent.value.trim() == '') {
         alert('문의사항 내용을 입력하세요.');
         return false;
     }
 
+    document.querySelector('#qna_reg').submit();
+
     // 유효성 검사 모두 만족 시 true
     return true;
-}
-
-// 게시글 등록 버튼 클릭 시 유효성 검사 후 제출
-function submitQna() {
-    if (qnaReg()) {
-        const post = document.querySelector('form');
-        post.submit();
-    }
 }
 
 
@@ -242,10 +215,11 @@ function submitQna() {
 function goReplyReg(){
     // 댓글 내용 빈칸 시
     const replyContent = document.querySelector('#replyContent');
-    if (replyContent.value == '') {
+    if (replyContent.value.trim() == '') {
         alert('댓글 내용을 입력하세요.');
-        return false;
+        return ;
     }
+    document.querySelector('#reply_reg').submit();
 
     // 유효성 검사 모두 만족 시 true
     return true;
@@ -314,6 +288,10 @@ function goUpdateReply(selectedTd ,boardNum, replyNum, replyContent){
     // if (!newReplyContent) {
     //     return; // 사용자가 입력을 취소하거나 아무것도 입력하지 않은 경우
     // }
+    
+}
+
+function prev(){
     
 }
 
