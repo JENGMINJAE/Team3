@@ -5,54 +5,64 @@
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴 때 같이 실행 되는 css -->
-    <link rel="stylesheet" href="/">
+    <!-- <link rel="stylesheet" href="/"> -->
 </th:block>
 
 <th:block layout:fragment="contentFragment">
+
+
+<style>
+    td ,th, tr{border: 2px solid rgba(58, 111, 228, 0.281); }
+    th{--bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center;}
+</style>
     <!-- html 코드 작성-->
     <div class="row">
         <div class="col-8">
-            <table class="table table-striped-columns">
-                <colgroup>
-                    <col width="16%">
-                    <col width="29%">
-                    <col width="16%">
-                    <col width="*%">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <td colspan="4">
-                            <div class="row" style="width:700px;">
-                                <div class="col" style="color: white; background-color:rgb(28, 28, 78); border-bottom: 10px solid rgb(23, 141, 156); font-size:25px;">
-                                    <h4><strong>나의 개인정보</strong></h4>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>이름</td>
-                        <td>[[${memberVO.memberName}]]</td>
-                        <td>아이디</td>
-                        <td>[[${memberVO.memberId}]]</td>
-                    </tr>
-                    <tr>
-                        <td>전화번호</td>
-                        <td id="memTel">[[${memberVO.memberTel}]]</td>
-                        <td>@email</td>
-                        <td id="memEmail">[[${memberVO.memberEmail}]]</td>
-                    </tr>
-                    <tr>
-                        <td>주소</td>
-                        <td colspan="3">[[${memberVO.memberAddr}]]</td>
-                    </tr>
-                    <tr>
-                        <td>상세 주소</td>
-                        <td colspan="3">[[${memberVO.addrDetail}]]</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row">
+                <div class="col">
+                    <div class="row" style="width:700px; margin-left: 1px;">
+                        <div class="col" style="color: white; background-color:rgb(28, 28, 78); border-bottom: 10px solid rgb(23, 141, 156); font-size:25px;">
+                            <h4><strong>나의 개인정보</strong></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <table class="table" style="height: 200px;">
+                        <colgroup>
+                            <col width="16%">
+                            <col width="29%">
+                            <col width="16%">
+                            <col width="*%">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th>이름</th>
+                                <td>[[${memberVO.memberName}]]</td>
+                                <th>아이디</th>
+                                <td>[[${memberVO.memberId}]]</td>
+                            </tr>
+                            <tr>
+                                <th>전화번호</th>
+                                <td id="memTel">[[${memberVO.memberTel}]]</td>
+                                <th>이메일</th>
+                                <td id="memEmail">[[${memberVO.memberEmail}]]</td>
+                            </tr>
+                            <tr>
+                                <th>주소</th>
+                                <td colspan="3">[[${memberVO.memberAddr}]]</td>
+                            </tr>
+                            <tr>
+                                <th>상세 주소</th>
+                                <td colspan="3">[[${memberVO.addrDetail}]]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
             <div class="row mb-2" id="passwordInput">
                 <div class="col-3">
                     <input type="button" value="개인정보 변경" class="btn btn-outline-secondary" onclick="passwordInput()">
