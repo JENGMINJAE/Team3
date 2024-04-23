@@ -36,8 +36,8 @@
                             </tr>
                             <tr>
                                 <td>첨부파일</td>
-                                <td class="text-start">
-                                    <th:block th:if="${notice.imgList[0].originFileName != null}" id="deleteImgFile">
+                                <td class="text-start" id="deleteImgFile">
+                                    <th:block th:if="${notice.imgList[0].originFileName != null}" >
                                         <th:block th:each="img, imgStat : ${notice.imgList}">
                                             <div>
                                                 [[${img.originFileName}]]
@@ -61,7 +61,12 @@
             <div class="row mb-5">
                 <div class="col"></div>
                 <div class="col d-grid">
-                    <input type="button" value="뒤로가기" class="btn btn-primary" onclick="location.href='/board/noticeList'">
+                    <th:block th:if="${notice.typeNum == 1}">
+                        <input type="button" value="뒤로가기" class="btn btn-success" th:onclick="|location.href='@{/board/noticeDetail(boardNum=${notice.boardNum})}'|">
+                    </th:block>
+                    <th:block th:if="${notice.typeNum == 2}">
+                        <input type="button" value="뒤로가기" class="btn btn-success" th:onclick="|location.href='@{/board/noticeDetail(boardNum=${notice.boardNum})}'|">
+                    </th:block>
                 </div>
                 <div class="col"></div>
                 <div class="col d-grid">

@@ -149,7 +149,7 @@ public class BoardServiceImpl implements BoardService {
 
     //게시글 상세 - 이전글 조회
     @Override
-    public BoardVO prevPage(int boardNum) {
+    public BoardVO prevPage(BoardVO boardNum) {
         return sqlSession.selectOne("board.prevPage", boardNum);
     }
 
@@ -163,4 +163,12 @@ public class BoardServiceImpl implements BoardService {
     public List<BoardTypeVO> selectType() {
         return sqlSession.selectList("board.selectTypeNum");
     }
+
+    //메인 페이지 게시물 목록 조회 - 학사공지
+    @Override
+    public List<BoardVO> selectNoticeListFirst(SearchVO searchVO) {
+        List<BoardVO> list = sqlSession.selectList("board.selectNoticeListFirst", searchVO);
+        return list;
+    }
+
 }

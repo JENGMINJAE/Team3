@@ -38,7 +38,9 @@
         <div class="row mb-5">
             <div class="col"></div>
             <div class="col d-grid">
-                <input type="button" value="뒤로가기" class="btn btn-primary" onclick="location.href='/board/qnaList'">
+                <th:block th:if="${qna.typeNum == 3}">
+                    <input type="button" value="뒤로가기" class="btn btn-primary" th:onclick="|location.href='@{/board/qnaDetail(boardNum=${qna.boardNum})}'|">
+                </th:block>
             </div>
             <div class="col"></div>
             <div class="col d-grid">

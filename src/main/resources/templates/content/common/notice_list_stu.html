@@ -36,7 +36,7 @@
                             <div class="input-group">
                                 <input type="hidden" name="typeNum" value="1">
                                 <select class="form-select" name="searchType">
-                                    <option value="BOARD_TITLE" th:selected="${searchVO.searchType == NULL or searchVO.searchType == 'BOARD_TITLE'}">제목</option>
+                                    <option value="BOARD_TITLE" th:selected="${searchVO.searchType == 'BOARD_TITLE' or searchVO.searchType == NULL}">제목</option>
                                     <option value="BOARD_CONTENT" th:selected="${searchVO.searchType == BOARD_CONTENT}">내용</option>
                                 </select>
                                 <input type="hidden" name="isSearch" value="1">
@@ -72,8 +72,6 @@
                                 <td colspan="4" > 조회된 게시글이 없습니다. </td>
                             </tr>
                         </th:block>
-                        <!-- typeNum 1 : 학생/공지 -->
-                        <!-- typeNum 2 : 강사/공지 -->
                         <!-- 게시글이 있을 때 조회 -->
                         <th:block th:unless="${#lists.isEmpty(noticeList)}">
                             <tr th:each="notice, state : ${noticeList}" >

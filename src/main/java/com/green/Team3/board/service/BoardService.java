@@ -13,18 +13,11 @@ public interface BoardService {
     //다음에 INSERT 할 BOARD_NUM 조회
     int selectNextNoticeCode();
 
-    ////////////////////////////////////////////////////
-
     //게시글 목록 조회 - 공지사항 - 학사공지
     List<BoardVO> selectNoticeListStu(SearchVO searchVO);
 
     //게시글 목록 조회 - 공지사항 - 강사공지
     List<BoardVO> selectNoticeListTea(SearchVO searchVO);
-
-    //게시글 목록 조회 - 공지사항
-//    List<BoardVO> selectNoticeList(SearchVO searchVO);
-
-    /////////////////////////////////////////////////////////////
 
     //게시글 목록 조회 - 문의사항
     List<BoardVO> selectQnaList(SearchVO searchVO);
@@ -66,12 +59,14 @@ public interface BoardService {
     int selectNoticeCnt(SearchVO searchVO);
 
     //게시글 상세 - 이전글 조회
-    BoardVO prevPage(int boardNum);
+    BoardVO prevPage(BoardVO boardNum);
 
     //게시글 상세 - 다음글 조회
     BoardVO nextPage(int boardNum);
 
-    //
     List<BoardTypeVO> selectType();
+
+    //메인 페이지 게시물 목록 조회 - 학사공지
+    List<BoardVO> selectNoticeListFirst(SearchVO searchVO);
 
 }

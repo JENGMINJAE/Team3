@@ -10,9 +10,10 @@
 </head>
 
 <body>
-    <div class="container" style="width: 40%;">
+    <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col-2"></div>
+            <div class="col-8">
                 <div class="row mb-5 mt-5">
                     <div class="col" style="border-bottom: 1px;">
                         <h3 class="text-center" style="font-weight: bold;">회원가입</h3>
@@ -147,15 +148,20 @@
                                     <div class="col-2" style="padding-top: 15px;">
                                         <input type="radio" onclick="disAgree()" name="agreeDisagree" checked> 비동의
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
 
-                <div class="row mb-5 mt-5" id="registrationForm" style="display: none;">
-                    <div class="col">
+        <div class="row" id="registrationForm" style="display: none;">
+            <div class="col">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-8">
                         <form class="row" action="/member/join" method="post">
                             <div class="col align-middle">
                                 <ul class="list-group mb-3">
@@ -329,8 +335,12 @@
                             </div>
                         </form>
                     </div>
+                    <div class="col-2"></div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col" style="height: 400px;"></div>
         </div>
     </div>
 
