@@ -132,4 +132,10 @@ public class MemberController {
         memberVO.setMemberId(user.getUsername());
         memberService.updateMemberPw(memberVO);
     }
+
+    @GetMapping("/stuInfoForm")
+    public String stuInfoForm(){
+        return "/content/student/stu_info";
+    }
+
 }

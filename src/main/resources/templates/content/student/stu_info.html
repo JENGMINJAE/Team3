@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{fragment/integrated_layout}">
+
+<th:block layout:fragment="content_css">
+  <!-- html 파일이 열릴 때 같이 실행 되는 css -->
+  <link rel="stylesheet" href="/">
+</th:block>
+
+<th:block layout:fragment="contentFragment">
+  <!-- html 코드 작성-->
+    <div class="row" style="border: 1px solid black; border-collapse: collapse;">
+      <div class="col-9" style="border: 1px solid black; border-collapse: collapse;">
+        <div class="row">
+          <div class="col-6">이름</div>
+          <div class="col-6">전화번호</div>
+        </div>
+        <div class="row">
+          <div class="col-4">a</div>
+          <div class="col-4">b</div>
+          <div class="col-4">c</div>
+        </div>
+      </div>
+      <div class="col-3" style="border: 1px solid black; border-collapse: collapse;">
+        <div class="row" style="height: 400px;">
+          <div class="col">
+
+          </div>
+        </div>
+      </div>
+    </div>
+</th:block>
+
+<th:block layout:fragment="content_js">
+  <!-- html 파일이 열릴 때 같이 실행 되는 js-->
+  <script src="/"></script>
+</th:block>
+
+</html>
