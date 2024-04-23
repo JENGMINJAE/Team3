@@ -54,11 +54,9 @@ public class StuTestController {
     // 학생이 수강별 조회
     @ResponseBody
     @PostMapping("/classListSearch")
-    public List<TestVO> classListSearch(Authentication authentication){
+    public List<TestVO> classListSearch(@RequestParam(name = "memberId") String memberId){
 
-        User user=(User) authentication.getPrincipal();
-
-        List<TestVO> stuCLTest =stuTestService.selectStuCLTest(user.getUsername());
+        List<TestVO> stuCLTest =stuTestService.selectStuCLTest(memberId);
         System.out.println("$$$$$$$$$$$$$$$"+ stuCLTest);
         return stuCLTest;
     }
@@ -66,22 +64,18 @@ public class StuTestController {
     // 학생이 기간별 조회
     @ResponseBody
     @PostMapping("/testListSearch")
-    public List<TestVO> testListSearch(Authentication authentication) {
+    public List<TestVO> testListSearch(@RequestParam(name = "memberId") String memberId) {
 
-        User user=(User) authentication.getPrincipal();
-
-        List<TestVO> stuTest = stuTestService.selectStuTestDetail(user.getUsername());
+        List<TestVO> stuTest = stuTestService.selectStuTestDetail(memberId);
         return stuTest;
     }
 
     // 학생이 과목별 조회
     @ResponseBody
     @PostMapping("/subListSearch")
-    public List<TestSubjectVO> subListSearch(Authentication authentication){
+    public List<TestSubjectVO> subListSearch(@RequestParam(name = "memberId") String memberId){
 
-        User user=(User) authentication.getPrincipal();
-
-        List<TestSubjectVO> stuSubTest =stuTestService.selectStuSub(user.getUsername());
+        List<TestSubjectVO> stuSubTest =stuTestService.selectStuSub(memberId);
         System.out.println("8888888888888888888888"+stuSubTest);
         return stuSubTest;
     }
@@ -89,10 +83,9 @@ public class StuTestController {
     // 학생이 전체이수표 조회
     @ResponseBody
     @PostMapping("/totalListSearch")
-    public List<ClsVO> totalListSearch(Authentication authentication){
+    public List<ClsVO> totalListSearch(@RequestParam(name = "memberId") String memberId){
 
-        User user=(User) authentication.getPrincipal();
-        List<ClsVO> totalStuTest =stuTestService.totalSelectTest(user.getUsername());
+        List<ClsVO> totalStuTest =stuTestService.totalSelectTest(memberId);
         return totalStuTest;
     }
 
@@ -102,11 +95,10 @@ public class StuTestController {
 
     // 학생이 본인 단일 시험 성적 상세성적 조회
     @GetMapping("/goMyScore")
-    public String goMyScore(TestScoreVO testScoreVO, Authentication authentication, Model model){
+    public String goMyScore(TestScoreVO testScoreVO, @RequestParam(name = "memberId")String memberId, Model model){
 
-        User user=(User) authentication.getPrincipal();
 
-        MemberVO stuInfoService = stuTestService.selectStuTest(user.getUsername());
+        MemberVO stuInfoService = stuTestService.selectStuTest(memberId);
         model.addAttribute("stuInfoService",stuInfoService);
         System.out.println(stuInfoService);
 
@@ -121,11 +113,11 @@ public class StuTestController {
 
     // 학생이 본인 과목시험 성적 상세성적 조회
     @GetMapping("/goMysubScore")
-    public String goMysubScore(TestScoreVO testScoreVO, Authentication authentication,
-                               @RequestParam(name = "testNum") int testNum, Model model){
-        User user=(User) authentication.getPrincipal();
+    public String goMysubScore(TestScoreVO testScoreVO, @RequestParam(name = "memberId")String memberId,
+                                Model model){
 
-        MemberVO stuInfoService = stuTestService.selectStuTest(user.getUsername());
+
+        MemberVO stuInfoService = stuTestService.selectStuTest(memberId);
         model.addAttribute("stuInfoService",stuInfoService);
 
 

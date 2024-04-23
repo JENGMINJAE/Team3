@@ -154,7 +154,7 @@
                                 
                                     <tr th:each="stu:${stuCnt}">
                                     
-                                            <th>[[${stu.memberName}]]</th>
+                                            <th>[[${stu.memberName}]] [<span>[[${stu.memberId}]]</span>]</th>
                                         <th:block th:each="subScore:${subScoreList}">
                                             <th:block th:if="${stu.memberId}==${subScore.memberId}">                                      
                                                 <th:block th:each="sub:${subsList}">

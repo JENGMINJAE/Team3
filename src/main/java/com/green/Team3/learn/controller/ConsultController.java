@@ -129,4 +129,7 @@ public class ConsultController {
         calenderService.deleteCalender(title);
         return "redirect:/consult/consultList";
     }
+
+
+
 }
