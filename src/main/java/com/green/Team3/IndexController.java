@@ -31,8 +31,8 @@ public class IndexController {
     private AdminService adminService;
     @GetMapping("/")
     public String firstPage(@RequestParam(value = "errorMsg",required = false,defaultValue = "success")String errorMsg, Model model
-                            , HttpSession session
-                            , SearchVO searchVO, @RequestParam(name = "searchValue" ,required = false) String searchValue
+                            , HttpSession session, SearchVO searchVO
+                            , @RequestParam(name = "searchValue" ,required = false) String searchValue
                             , @RequestParam(name = "searchType" ,required = false) String searchType
                             , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch) {
         model.addAttribute("errorMsg",errorMsg);
@@ -43,7 +43,6 @@ public class IndexController {
         session.setAttribute("boardTypes", boardType);
 
         //메인화면 학사공지 조회
-        System.out.println(searchVO);
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
         // 페이지 정보 세팅
@@ -51,13 +50,6 @@ public class IndexController {
         System.out.println(searchVO);
         // 공지사항 검색 시 페이징코드 정리
         List<BoardVO> noticeList = boardService.selectNoticeListFirst(searchVO);
-        if(isSearch == 1){
-            searchVO.setTotalDataCnt(noticeList.size());
-            searchVO.setPageInfo();
-            if(searchVO.getTotalDataCnt() == 0){
-                isSearch = 2;
-            }
-        }
         model.addAttribute("isSearch", isSearch);
         // 공지사항 목록 조회
         model.addAttribute("noticeList", noticeList);

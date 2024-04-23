@@ -326,6 +326,7 @@
         BOARD_CONTENT,
         B.MEMBER_ID,
         TYPE_NUM,
+        BOARD_CNT,
         M.MEMBER_ROLL,
         I.ORIGIN_FILE_NAME
         FROM BOARD B
@@ -341,7 +342,6 @@
         LIMIT 5 OFFSET ${displayDataCnt * (nowPage - 1)}
     </select>
 
-<!--    LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}-->
 </mapper>
 
 
