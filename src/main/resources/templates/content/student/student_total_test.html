@@ -50,7 +50,7 @@
                         <div class="row buttonRow" style="width:1000px;" >
                             <div class="col" style="text-align: end;">
                                 <button class="btn btn-primary" onclick="printScPage();"><b>성적출력</b></button>
-                                <input type="button" class="btn btn-primary" value="목록가기" onclick="location.href='/stuTest/stuTestFirst'">
+                                <input type="button" class="btn btn-primary" value="목록가기" th:onclick="goSearchList([[${memberInfo.memberId}]])">
                             </div>
                         </div>
                         <div class="row" style="width:1000px;">
@@ -93,12 +93,12 @@
                         <div class="col">
                             <table class="table" style="width: 100%;">
                                 <colgroup>
+                                    <col width="11%">
+                                    <col width="21%">
+                                    <col width="18%">
+                                    <col width="16%">
                                     <col width="13%">
-                                    <col width="19%">
-                                    <col width="13%">
-                                    <col width="19%">
-                                    <col width="13%">
-                                    <col width="19%">
+                                    <col width="17%">
                                 </colgroup>
                                 <tr class="thTd">
                                     <td>구분</td>
@@ -222,10 +222,11 @@
 
 <script>
     function printScPage(){window.print();}
+
+    function goSearchList(memberId){
+        location.href='/test/stuTestAdmin?memberId='+memberId;
+    }
 </script>
-
-
-
 
 
 </th:block>
