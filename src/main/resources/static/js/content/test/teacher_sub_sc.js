@@ -268,7 +268,7 @@ function goSubListUp(testNum, stuCnt, subsList){
                             </thead>
                             <tbody>`;
                             stuCnt.forEach(function(stu){ 
-                                str+= "<tr><th>" + stu.memberName + "</th>";                            
+                                str+= "<tr><th>" + stu.memberName +"["+ stu.memberId +"]</th>";                            
                                             data.subsList.forEach(function(sub) {
                                                 const subScore = data.scoreSelectList.find(function(grade) {
                                                 return  grade.memberId === stu.memberId && grade.subTestNum === sub.subTestNum;
