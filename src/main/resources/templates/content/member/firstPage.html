@@ -75,7 +75,7 @@
                     <tr th:each="notice, state : ${noticeList}">
                       <td>[[${searchVO.displayDataCnt - state.index}]]</td>
                       <!-- <td>[[${totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1) ) - state.index}]]</td> -->
-                      <td class="border-end border border-success">
+                      <td class="border-end border border-success text-start">
                         <a style="text-decoration: none; color: black;"
                           th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
                           [[${notice.boardTitle}]]

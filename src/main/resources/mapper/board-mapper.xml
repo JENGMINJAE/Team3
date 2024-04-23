@@ -280,11 +280,6 @@
         WHERE IMG_NUM = #{imgNum}
     </delete>
 
-
-
-
-
-
     <!-- 게시글 갯수 조회 -->
     <!--  *****공지/문의 분리해서 조회해야함  -->
     <select id="selectNoticeCnt" resultType="int">

@@ -36,8 +36,8 @@
                             </tr>
                             <tr>
                                 <td>첨부파일</td>
-                                <td class="text-start">
-                                    <th:block th:if="${notice.imgList[0].originFileName != null}" id="deleteImgFile">
+                                <td class="text-start" id="deleteImgFile">
+                                    <th:block th:if="${notice.imgList[0].originFileName != null}" >
                                         <th:block th:each="img, imgStat : ${notice.imgList}">
                                             <div>
                                                 [[${img.originFileName}]]
