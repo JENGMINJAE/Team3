@@ -80,7 +80,7 @@ public interface AdminService {
     int classInfoCnt();
 
     // 멤버 데이터 수
-    int memberCnt();
+    int memberCnt(SearchVO searchVO);
 
     int teacherCnt();
     List<ClsVO> findTeacher(MemberVO memberVO);

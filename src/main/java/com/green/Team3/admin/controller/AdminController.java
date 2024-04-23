@@ -75,14 +75,15 @@ public class AdminController {
     @RequestMapping("/goMemberList")
     public String memberList(Model model, SearchVO searchVO,
                              @RequestParam(name = "memberId", required = false, defaultValue = "")String updateMemberId){
-        int totalDataCnt = adminService.memberCnt();
+        System.out.println(searchVO.getSearchType());
+        int totalDataCnt = adminService.memberCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
+        System.out.println("@@@@@@@@@@@@@@@@@@@");
+        System.out.println(totalDataCnt);
         searchVO.setDisplayDataCnt(10);
         searchVO.setPageInfo();
         // 전체 회원 목록 조회
         List<MemberVO> list = memberService.selectMembers(searchVO);
-        System.out.println(list);
-        System.out.println(totalDataCnt);
         model.addAttribute("memberList", list);
         // MEMBER_ROLL 목록 조회 (관리, 강사, 회원)
         model.addAttribute("rollList", adminService.rollList());

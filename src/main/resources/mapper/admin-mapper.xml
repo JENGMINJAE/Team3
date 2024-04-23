@@ -260,6 +260,9 @@
     <select id="memberCnt" resultType="int">
         SELECT COUNT(MEMBER_ID)
         FROM MEMBER
+        <if test="searchType != null and !searchType.equals('')">
+            WHERE MEMBER_ROLL = ${searchType}
+        </if>
     </select>
 
     <!-- 선생님 총 인원 수 -->

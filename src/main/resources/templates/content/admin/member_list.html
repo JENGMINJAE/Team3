@@ -27,17 +27,14 @@
                         <div class="row">
                             <div class="col-2 d-grid">
                                 <select name="searchType">
-                                    <option value="" th:selected="${searchVO.searchType == NULL}">선택</option>
+                                    <option value="" th:selected="${searchVO.searchType == null}">선택</option>
                                     <option value="1" th:selected="${searchVO.searchType == '1'}">학생</option>
                                     <option value="2" th:selected="${searchVO.searchType == '2'}">강사</option>
                                     <option value="3" th:selected="${searchVO.searchType == '3'}">관리</option>
                                 </select>
                             </div>
-                            <!-- <div class="col-3 d-grid">
-                                <input type="text" name="searchValue" th:value="${searchVO.searchValue}">
-                            </div> -->
                             <div class="col-1">
-                                <input class="btn btn-outline-primary" type="submit" value="검색">
+                                <input class="btn btn-outline-success" type="submit" value="검색">
                             </div>
                         </div>
                     </form>
@@ -54,7 +51,7 @@
                             <col width="20%">
                             <col width="45%">
                         </colgroup>
-                        <thead class="table-primary">
+                        <thead class="table-success">
                             <tr>
                                 <td>No.</td>
                                 <td>이름</td>
@@ -65,8 +62,7 @@
                         </thead>
                         <tbody>
                             <tr th:each="member, state : ${memberList}" class="pointer-span align-middle">
-
-                                <td>[[${#lists.size(memberList) - state.index}]]</td>
+                                <td>[[${searchVO.totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1)) - state.index}]]</td>
                                 <td><input type="hidden" name="updateMemberId"
                                         th:value="${updateMemberId}">[[${member.memberName}]] ([[${member.memberId}]])</td>
                                 <td>[[${member.memberAge}]]</td>
@@ -98,7 +94,7 @@
                                     <button th:if="${member.memberRoll == 1}" type="button" class="btn btn-outline-secondary"
                                     th:onclick="insertClass([[${member.memberId}]])">강의신청</button>
                                     
-                                    <button th:if="${member.memberRoll == 1}" type="button" class="btn btn-outline-secondary"
+                                    <button th:if="${member.memberRoll == 1}" type="button" class="btn btn-outline-primary"
                                     th:onclick="goSearch([[${member.memberId}]])">성적조회</button>
                                 </td>
                             </tr>
@@ -168,7 +164,7 @@
                                                 <col width="10%">
                                                 <col width="*">
                                             </colgroup>
-                                            <thead class="table-primary">
+                                            <thead class="table-success">
                                                 <tr>
                                                     <td>
                                                         <input type="checkbox" name="select" disabled>
@@ -234,7 +230,7 @@
                                 <div class="row">
                                     <div class="col-10"></div>
                                     <div class="col-2 d-grid">
-                                        <input type="button" value="변경" class="btn btn-primary"
+                                        <input type="button" value="변경" class="btn btn-success"
                                             onclick="updateMemberInfo()">
                                     </div>
                                 </div>
@@ -283,7 +279,7 @@
                             <!-- <div class="row">
                                 <div class="col-8"></div>
                                 <div class="offset-2 col">
-                                    <input type="button" class="btn btn-outline-primary" value="선택 결제">
+                                    <input type="button" class="btn btn-outline-success" value="선택 결제">
                                 </div>
                             </div> -->
                         </div>

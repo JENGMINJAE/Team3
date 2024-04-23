@@ -16,7 +16,7 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService{
 
     @Autowired
-    SqlSessionTemplate sqlSession;
+    private SqlSessionTemplate sqlSession;
 
     // 강사 전체 목록 조회 (완료)
     @Override
@@ -160,8 +160,8 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public int memberCnt() {
-        return sqlSession.selectOne("admin.memberCnt");
+    public int memberCnt(SearchVO searchVO) {
+        return sqlSession.selectOne("admin.memberCnt", searchVO);
     }
 
     // 강사 수 count
