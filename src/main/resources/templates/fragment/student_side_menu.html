@@ -14,7 +14,7 @@
               학원 일정
             </button>
           </h2>
-          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse">
+          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" th:classappend="${accorNum == 1 ? ' show' : ''}">
             <div class="accordion-body">
               공지사항
               <ul>
@@ -33,11 +33,11 @@
               학급
             </button>
           </h2>
-          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" th:classappend="${accorNum == 3 ? ' show' : ''}">
             <div class="accordion-body">
               나의 정보
               <ul>
-                <li><a href="/member/stuInfoForm?accorNum=2">내 정보 조회</a></li>
+                <li><a href="/member/stuInfoForm?accorNum=3">내 정보 조회</a></li>
                 <li>출결 조회</li>
                 <li>진도 / 수업율</li>
               </ul>
@@ -50,12 +50,12 @@
               나의 성적관리
             </button>
           </h2>
-          <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse">
+          <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" th:classappend="${accorNum == 4 ? ' show' : ''}">
             <div class="accordion-body">
                 성적
                 <ul>
-                  <li><a href="/stuTest/stuTestFirst?accorNum=3">전체 성적 조회</a></li>
-                  <li><a href="/stuTest/stuAskFirst?accorNum=3">성적 이의 신청</a> </li>
+                  <li><a href="/stuTest/stuTestFirst?accorNum=4">전체 성적 조회</a></li>
+                  <li><a href="/stuTest/stuAskFirst?accorNum=4">성적 이의 신청</a> </li>
                 </ul>
             </div>
           </div>
@@ -66,7 +66,7 @@
              학생 업무
             </button>
           </h2>
-            <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse">
+            <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" th:classappend="${accorNum == 5 ? ' show' : ''}">
               <div class="accordion-body">
                 과제
                 <ul>
