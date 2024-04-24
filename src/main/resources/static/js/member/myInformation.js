@@ -43,7 +43,7 @@ function pw_check(){
         //컨트롤러로 전달할 데이터
         body: new URLSearchParams({
            // 데이터명 : 데이터값
-           memberPw : pwvalue
+            memberPw : pwvalue
         })
     })
     .then((response) => {
@@ -64,21 +64,26 @@ function pw_check(){
             pwiDiv.innerHTML = '';
             let str = '';
             str +=`
-            
+            <div class="row mb-2" style="margin-top: 20px;">
+                <div class="col" style="margin-top: 25px; font-size:20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-text-fill text-success" viewBox="0 0 16 16">
+                    <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z"/>
+                    <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
+                    </svg> <strong>비밀번호 변경 </strong>
+                </div>
+            </div>
             <table class="table">
                 <colgroup>
                     <col width="40%">
                     <col width="60%">
                 </colgroup>
+                
                 <tr>
-                    <td colspan="2">비밀번호 변경</td>
-                </tr>
-                <tr>
-                    <td>새 비밀번호</td>
+                    <th>새 비밀번호</th>
                     <td><input type="password" id="newPw" class="form-control"></td>
                 </tr>
                 <tr>
-                    <td>비밀번호 확인</td>
+                    <th>비밀번호 확인</th>
                     <td><input type="password" id="chkPw" class="form-control"></td>
                 </tr>
                 <tr>
@@ -133,7 +138,7 @@ function realChange(){
             //컨트롤러로 전달할 데이터
             body: new URLSearchParams({
                // 데이터명 : 데이터값
-               memberPw : Pw
+                memberPw : Pw
             })
         })
         .then((response) => {

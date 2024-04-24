@@ -1,7 +1,10 @@
 package com.green.Team3.member.service;
 
 import com.green.Team3.board.vo.SearchVO;
+import com.green.Team3.learn.vo.ConsultVO;
+import com.green.Team3.learn.vo.HomeworkVO;
 import com.green.Team3.member.vo.MemberVO;
+import com.green.Team3.test.vo.TestVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +73,26 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public String findMemberId(MemberVO memberVO) {
         return sqlSession.selectOne("member.findMemberId",memberVO);
+    }
+
+    @Override
+    public List<ConsultVO> selectMyConsult(String memberId) {
+        return sqlSession.selectList("member.selectMyConsult",memberId);
+    }
+
+    @Override
+    public List<HomeworkVO> selectMyHomework(String memberId) {
+        return sqlSession.selectList("member.selectMyHomework",memberId);
+    }
+
+    @Override
+    public List<TestVO> selectMyTest(String memberId) {
+        return sqlSession.selectList("member.selectMyTest",memberId);
+    }
+
+    @Override
+    public String selectMemberName(String memberId) {
+        return sqlSession.selectOne("member.selectMemberName",memberId);
     }
 
 

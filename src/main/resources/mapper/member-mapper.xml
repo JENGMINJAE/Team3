@@ -31,6 +31,12 @@
         <result column="ROLL_NAME" property="rollName"/>
     </resultMap>
 
+    <select id="selectMemberName" resultType="String">
+        SELECT MEMBER_NAME
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
     <!-- 전체 회원 목록 조회 -->
     <select id="selectMembers" resultMap="memberMap">
         SELECT M.MEMBER_ID
@@ -193,6 +199,38 @@
         FROM MEMBER
         WHERE MEMBER_ID = #{memberID}
     </select>
+
+    <select id="selectMyConsult" resultMap="learnMapper.consult">
+        SELECT *
+        FROM consult C
+        INNER JOIN class_info CI
+        ON C.CLASS_NUM = CI.CLASS_NUM
+        WHERE MEMBER_ID = #{memberId}
+        AND CONSULT_DATE > NOW()
+    </select>
+    <select id="selectMyHomework" resultMap="learnMapper.homework">
+        SELECT *
+        FROM homework H
+        INNER JOIN class_info C
+        ON C.CLASS_NUM = H.CLASS_NUM
+        WHERE H.CLASS_NUM =
+            (SELECT CLASS_NUM
+            FROM operator
+            WHERE MEMBER_ID = 'STUDENT' LIMIT 1)
+        and HW_EDATE > NOW();
+    </select>
+    <select id="selectMyTest" resultMap="testMapper.testResult">
+        SELECT *
+        FROM test T
+        INNER JOIN class_info C
+        ON C.CLASS_NUM = T.CLASS_NUM
+        WHERE C.CLASS_NUM =
+            (SELECT CLASS_NUM
+            FROM operator
+            WHERE MEMBER_ID=#{memberId} limit 1)
+        AND TEST_DATE >= NOW();
+    </select>
+
 
 </mapper>
 
