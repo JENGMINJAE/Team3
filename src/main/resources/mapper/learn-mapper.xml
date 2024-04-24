@@ -321,11 +321,11 @@
     <!--  해당 반의 학생 출석현황 조회  -->
     <select id="fullAttendance" resultMap="member.memberMap">
         SELECT MEMBER_NAME
-        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 1 AND member_id = m.member_id) 'check'
-        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 2 AND member_id = m.member_id) 'absent'
-        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 3 AND member_id = m.member_id) 'tardy'
-        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 4 AND member_id = m.member_id) 'early'
-        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 5 AND member_id = m.member_id) 'supple'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 1 AND member_id = m.member_id AND CLASS_NUM = #{classNum}) 'check'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 2 AND member_id = m.member_id AND CLASS_NUM = #{classNum}) 'absent'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 3 AND member_id = m.member_id AND CLASS_NUM = #{classNum}) 'tardy'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 4 AND member_id = m.member_id AND CLASS_NUM = #{classNum}) 'early'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 5 AND member_id = m.member_id AND CLASS_NUM = #{classNum}) 'supple'
         from member m
         INNER JOIN operator o
         ON m.member_id = o.MEMBER_ID

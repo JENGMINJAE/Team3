@@ -11,14 +11,57 @@
   <!-- html 코드 작성-->
     <div class="row" style="border: 1px solid black; border-collapse: collapse;">
       <div class="col-9" style="border: 1px solid black; border-collapse: collapse;">
-        <div class="row">
-          <div class="col-6">이름</div>
-          <div class="col-6">전화번호</div>
+        <div class="row mb-3" style="text-align: center;">
+          <div class="col-4">이름</div>
+          <div class="col-4">이메일</div>
+          <div class="col-4">전화번호</div>
         </div>
-        <div class="row">
-          <div class="col-4">a</div>
-          <div class="col-4">b</div>
-          <div class="col-4">c</div>
+        <div class="row mb-3" style="text-align: right;">
+          <div class="col-4">[[${member.memberName}]]</div>
+          <div class="col-4">[[${member.memberEmail}]]</div>
+          <div class="col-4">[[${member.memberTel}]]</div>
+        </div>
+        <div class="row mb-3" style="text-align: center;">
+          <div class="col">스&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;케&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;줄</div>
+        </div>
+        <div class="row" style="text-align: center;">
+          <div class="col-4">예정 상담</div>
+          <div class="col-4">예정 과제</div>
+          <div class="col-4">예정 시험</div>
+        </div>
+        <div class="row" style="text-align: center;">
+          <div class="col-4">
+            <th:block th:if="${consult.size == 0}">
+              예정된 상담이 없습니다.
+            </th:block>
+            <th:block th:unless="${consult.size == 0}">
+              <th:block th:each="cs : ${consult}">
+                [[${cs.consultDate}]] / [[${cs.clsVO.className}]]<br>
+              </th:block>
+            </th:block>
+          </div>
+          <div class="col-4">
+            <th:block th:if="${homework.size == 0}">
+              예정된 과제가 없습니다.
+            </th:block>
+            <th:block th:unless="${homework.size == 0}">
+              <th:block th:each="hw : ${homework}">
+                [[${hw.hwName}]] / [[${hw.clsVO.className}]]<br>
+                [[${hw.hwSdate}]] ~ [[${hw.hwEdate}]]<br>
+              </th:block>
+            </th:block>
+          </div>
+          <div class="col-4">
+            <th:block th:if="${test.size == 0}">
+              예정된 시험이 없습니다.
+            </th:block>
+            <th:block th:unless="${test.size == 0}">
+              <th:block th:each="ts : ${test}">
+                [[${ts.testName}]] / [[${ts.classOneVo.className}]]<br>
+                [[${ts.testDate}]]
+              </th:block>
+            </th:block>
+          </div>
         </div>
       </div>
       <div class="col-3" style="border: 1px solid black; border-collapse: collapse;">

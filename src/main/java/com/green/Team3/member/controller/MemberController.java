@@ -134,7 +134,12 @@ public class MemberController {
     }
 
     @GetMapping("/stuInfoForm")
-    public String stuInfoForm(){
+    public String stuInfo(Authentication authentication,Model model){
+        User user = (User) authentication.getPrincipal();
+        model.addAttribute("member",memberService.selectMyInformation(user.getUsername()));
+        model.addAttribute("homework",memberService.selectMyHomework(user.getUsername()));
+        model.addAttribute("consult",memberService.selectMyConsult(user.getUsername()));
+        model.addAttribute("test",memberService.selectMyTest(user.getUsername()));
         return "/content/student/stu_info";
     }
 
