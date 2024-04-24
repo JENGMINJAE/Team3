@@ -1,7 +1,10 @@
 package com.green.Team3.member.service;
 
 import com.green.Team3.board.vo.SearchVO;
+import com.green.Team3.learn.vo.ConsultVO;
+import com.green.Team3.learn.vo.HomeworkVO;
 import com.green.Team3.member.vo.MemberVO;
+import com.green.Team3.test.vo.TestVO;
 
 import java.util.List;
 
@@ -38,4 +41,12 @@ public interface MemberService {
 
     // 아이디 찾기
     String findMemberId(MemberVO memberVO);
+
+    List<ConsultVO> selectMyConsult(String memberId);
+
+    List<HomeworkVO> selectMyHomework(String memberId);
+
+    List<TestVO> selectMyTest(String memberId);
+
+    String selectMemberName(String memberId);
 }
