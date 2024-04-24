@@ -70,7 +70,7 @@ function submitForm() {
 //공지사항 게시글 수정 시 첨부파일 삭제 - 비동기
 function goDeleteImg(button, imgNum, boardNum) {
     const imgNumber = button.getAttribute('data-img-num');
-    const boardNumer = button.getAttribute('data-board-num');
+    const boardNumber = button.getAttribute('data-board-num');
     fetch('/board/deleteImgFile', { //요청경로
         method: 'POST',
         cache: 'no-cache',
@@ -109,21 +109,14 @@ function goDeleteImg(button, imgNum, boardNum) {
                                 data-board-num="${data.boardNum}">
                             </div>`
                 });
-                // str += `
-                //         <th:block th:if="${data.imgList[0].originFileName != null}">
-                //             <th:block th:each="img, imgStat : ${data.imgList}">
-                //                 <div>
-                //                     ${img.originFileName}
-                //                     <input type="button" class="btn btn-secondary" value="삭제"
-                //                         onclick="goDeleteImg(this,${img.imgNum}, ${data.boardNum})"
-                //                         data-img-num="${img.imgNum}" 
-                //                         data-board-num="${data.boardNum}">
-                //                 </div>
-                //             </th:block>
-                //         </th:block>`
             }
-            deleteImgFile.insertAdjacentHTML('afterbegin', str);
+            // '새로운 첨부파일' 영역에 새로운 파일 선택을 위한 input 태그를 추가
+            str += `<div>
+                        새로운 첨부파일
+                    <input type="file" id="file-input" class="form-control" name="subImgs" multiple>
+                </div>`;
 
+            deleteImgFile.insertAdjacentHTML('afterbegin', str);
         })
         //fetch 통신 실패 시 실행 영역
         .catch(err => {
@@ -131,42 +124,6 @@ function goDeleteImg(button, imgNum, boardNum) {
             console.log(err);
         });
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-// 공지사항 게시글 수정 - 첨부파일 첨부 - 비동기
-// document.getElementById('upload-btn').addEventListener('click', function() {
-//     const input = document.getElementById('file-input'); // 수정: 'file-upload-input' -> 'file-input'
-//     const files = input.files;
-//     const formData = new FormData();
-
-//     for (let i = 0; i < files.length; i++) {
-//         formData.append('subImgs', files[i]);
-//     }
-
-//     fetch('/insertImgFile', { // 수정: '/your-server-endpoint' -> '/insertImgFile'
-//         method: 'POST',
-//         body: formData,
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log(data); 
-//         alert('파일이 성공적으로 업로드되었습니다.');
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//         alert('파일 업로드 중 오류가 발생했습니다.');
-//     });
-// });
-
-
-
-
-
-
-
-
-
 
 //////////////////////////////////////[문의사항 관련]////////////////////////////////////////
 

@@ -11,7 +11,7 @@
 <th:block layout:fragment="contentFragment">
     <!-- 공지사항 게시글 수정 -->
     <div>
-        <form id="updateForm" action="/board/updateNotice" method="post">
+        <form id="updateForm" action="/board/updateNotice" method="post" enctype="multipart/form-data">
             <input type="hidden" name="boardNum" th:value="${notice.boardNum}">
             <input type="hidden" name="deletedImgNum" id="deletedImgNum">
             <div class="row">

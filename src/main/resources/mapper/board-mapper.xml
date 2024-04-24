@@ -145,7 +145,7 @@
             #{img.originFileName}
             , #{img.attachedFileName}
             , #{img.isMain}
-            , (SELECT LAST_INSERT_ID())
+            , #{boardNum}
             )
         </foreach>
     </insert>
