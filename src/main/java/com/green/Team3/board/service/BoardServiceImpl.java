@@ -23,7 +23,6 @@ public class BoardServiceImpl implements BoardService {
         return sqlSession.selectOne("board.selectNextNoticeCode");
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////
     //게시글 목록 조회 - 공지사항 - 학사공지
     @Override
     public List<BoardVO> selectNoticeListStu(SearchVO searchVO) {
@@ -37,14 +36,6 @@ public class BoardServiceImpl implements BoardService {
         List<BoardVO> list = sqlSession.selectList("board.selectNoticeListTea", searchVO);
         return list;
     }
-    /////////////////////////////////////////////////////////////////////////////////////
-
-    //게시글 목록 조회 - 공지사항
-//    @Override
-//    public List<BoardVO> selectNoticeList(SearchVO searchVO) {
-//        List<BoardVO> list = sqlSession.selectList("board.selectNoticeList", searchVO);
-//        return list;
-//    }
 
     //게시글 목록 조회 - 문의사항
     @Override
@@ -127,19 +118,22 @@ public class BoardServiceImpl implements BoardService {
         return false;
     }
 
-
     //문의사항 게시글 수정
     @Override
     public void updateBoard(BoardVO boardVO) {
         sqlSession.update("board.updateBoard", boardVO);
     }
 
-    //공지사항 게시글 수정 - 첨부파일 수정까지 ************************************(구현중) 트랜젝션?
-//    @Override
-//    public void updateImgFile(BoardVO boardVO, int imgNum) {
-//        sqlSession.update("board.updateImgFile", boardVO);
-//    }
-
+    //공지사항 게시글 수정 + 이미지 첨부 - 트랜젝션 ******************************************
+    //제목 / 내용 / 첨부파일
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateNotice(BoardVO boardVO) {
+        sqlSession.update("board.updateBoard", boardVO);
+        if(!boardVO.getImgList().isEmpty()){
+            sqlSession.insert("board.insertImgs", boardVO);
+        };
+    }
 
     //게시글 수 조회
     @Override

@@ -229,16 +229,25 @@
         WHERE BOARD_NUM = #{boardNum}
     </delete>
 
-    <!-- 게시글 수정 -->
+    <!-- 게시글 수정 - 문의사항 -->
     <update id="updateBoard">
         UPDATE BOARD
         SET
-            BOARD_TITLE = #{boardTitle}
-            , BOARD_CONTENT = #{boardContent}
+        BOARD_TITLE = #{boardTitle}
+        , BOARD_CONTENT = #{boardContent}
         WHERE BOARD_NUM = #{boardNum}
     </update>
 
-    <!-- 공지사항 게시글 수정 ************************************(구현중) 일단 대기 ...-->
+    <!-- 게시글 수정 - 공지사항 -->
+    <update id="updateNotice">
+        UPDATE BOARD
+        SET
+        BOARD_TITLE = #{boardTitle}
+        , BOARD_CONTENT = #{boardContent}
+        WHERE BOARD_NUM = #{boardNum}
+    </update>
+
+    <!-- 공지사항 게시글 수정(이미지 파일 첨부 기능) *******************************************************(구현중) -->
 <!--    <update id="updateImgFile">-->
 <!--        UPDATE BOARD B-->
 <!--        JOIN BOARD_IMAGE BI ON B.BOARD_NUM = BI.BOARD_NUM-->

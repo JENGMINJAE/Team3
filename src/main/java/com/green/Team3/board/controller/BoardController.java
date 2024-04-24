@@ -188,7 +188,6 @@ public class BoardController {
         else{return null;}
     }
 
-
     // 공지사항 게시글 수정 양식 페이지 이동
     @GetMapping("/updateNotice")
     public String update(@RequestParam(name = "boardNum", required=false) int boardNum, Model model){
@@ -197,41 +196,14 @@ public class BoardController {
     }
 
     //공지사항 게시글 수정 ***********************************
-//    @PostMapping("/updateNotice")
-//    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
-//        boardVO.setBoardNum(boardNum);
-//        boardService.updateBoard(boardVO);
-//        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
-//    }
-
-    // 공지사항 게시글 수정 + 이미지 첨부 기능 *********************************************
     @PostMapping("/updateNotice")
-    public String noticeWrite(BoardVO boardVO, @RequestParam("boardNum") int boardNum
-                            , Authentication authentication
-                            , @RequestParam(name = "subImgs") MultipartFile[] subImgs){
-
-        //----------------------- 파일 첨부 기능 -----------------------
-        //첨부 이미지들 업로드
-        List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
-
-//        //다음에 들어갈 boardNum 조회
-//        int boardNum = boardService.selectNextNoticeCode();
-
-        //------------------------ 공지사항 등록 ------------------------
+    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
         boardVO.setBoardNum(boardNum);
-
-        //------------------------ 파일 첨부 등록 -----------------------
-        boardVO.setImgList(imgList);
-;
-        //쿼리 실행
-        boardService.updateBoard(boardVO);
-
+        boardService.updateNotice(boardVO);
         return "redirect:/board/noticeDetail?boardNum=" + boardNum;
     }
 
-
-
-    //공지사항 게시글 수정 시 첨부파일 이미지 삭제
+    //공지사항 게시글 수정 시 첨부파일 이미지 삭제(비동기)
     @ResponseBody
     @PostMapping("/deleteImgFile")
     public BoardVO deleteImgFile(@RequestParam(name="imgNum") int imgNum, BoardVO boardVO){
@@ -239,57 +211,39 @@ public class BoardController {
         return boardService.selectNoticeDetail(boardVO.getBoardNum());
     }
 
-    //공지사항 게시글 수정 시 첨부파일 이미지 첨부 ******************************* 비동기
-//    @ResponseBody
-//    @PostMapping("/insertImgFile")
-//    public String insertImgFile(BoardVO boardVO
-//                                , @RequestParam(name = "subImgs") MultipartFile[] subImgs){
-//        //첨부 이미지들 업로드
-//        List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
-//        //다음에 들어갈 boardNum 조회
-//        int boardNum = boardService.selectNextNoticeCode();
-//
-//        boardVO.setBoardNum(boardNum);
-//        boardVO.setImgList(imgList);
-//        boardService.insertImgs(boardVO);
-//        return "redirect:/board/noticeList";
-//    }
 
-    // 공지사항 게시글 수정 시 첨부파일 이미지 첨부 ******************************* 비동기
-    @ResponseBody
-    @PostMapping("/insertImgFile")
-    public ResponseEntity<String> insertImgFile(BoardVO boardVO, @RequestParam(name = "subImgs") MultipartFile[] subImgs) {
-        try {
-            // 첨부 이미지들 업로드
-            List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
-            // 다음에 들어갈 boardNum 조회
-            int boardNum = boardService.selectNextNoticeCode();
+    // 공지사항 게시글 수정 + 이미지 첨부 기능 *******************************************************구현중
+    @PostMapping("/updateNotice")
+    public String updateNotice(BoardVO boardVO
+                            , @RequestParam(name="imgNum") int imgNum
+                            , @RequestParam(name="boardNum") int boardNum
+                            , @RequestParam(name = "subImgs") MultipartFile[] subImgs
+                            , Authentication authentication){
+        //----------------------- 파일 첨부 기능 -----------------------
+        //첨부 이미지들 업로드
+        List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
 
-            boardVO.setBoardNum(boardNum);
-            boardVO.setImgList(imgList);
-            boardService.insertImgs(boardVO);
+        //글번호 세팅
+        boardVO.setBoardNum(boardNum);
 
-            // JSON 형식의 응답 반환
-            return new ResponseEntity<>("파일이 성공적으로 업로드되었습니다.", HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 오류 발생 시 JSON 형식의 응답 반환
-            return new ResponseEntity<>("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        //------------------------ 파일 첨부 등록 -----------------------
+        // 새로운 첨부파일이 있는 경우
+        if (subImgs != null && subImgs.length > 0) {
+            // 새로운 첨부 파일 업로드
+            List<ImgVO> newImgList = UploadUtil.multiUploadFile(subImgs);
+            // 기존 첨부파일 삭제 + 새로운 첨부 파일 추가
+            boardVO.setImgList(newImgList);
         }
+
+        boardVO.setImgList(imgList);
+        System.out.println(boardVO);
+
+        //-------------------------공지사항 수정 쿼리 실행
+        boardService.updateNotice(boardVO);
+
+        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
     }
 
-    // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
-//    @PostMapping("/updateNotice")
-//    public String update(BoardVO boardVO,
-//                         @RequestParam(name="imgNum") int imgNum,
-//                         @RequestParam("boardNum") int boardNum,
-//                         @RequestParam(name = "subImgs", required = false) MultipartFile[] subImgs){
-//        //글번호 세팅
-//        boardVO.setBoardNum(boardNum);
-//        //업데이트 쿼리 실행
-//        boardService.updateImgFile(boardVO, imgNum);
-//        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
-//    }
 
 
     // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
