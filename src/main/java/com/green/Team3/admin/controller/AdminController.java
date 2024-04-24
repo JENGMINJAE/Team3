@@ -44,7 +44,8 @@ public class AdminController {
 
     // 강사 관리 페이지 이동
     @GetMapping("/goAdminTeacher")
-    public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum, SearchVO searchVO){
+    public String goAdminTeacher(Model model, @RequestParam(name = "teacherNum", required = false, defaultValue = "0")int teacherNum, SearchVO searchVO
+                                , @RequestParam(name = "accorNum", required = false, defaultValue = "5") int accorNum){
         int totalTeachers = adminService.teacherCnt();
         searchVO.setTotalDataCnt(totalTeachers);
 //        searchVO.setDisplayDataCnt(10);
@@ -53,6 +54,7 @@ public class AdminController {
         model.addAttribute("teacherList", list); // 강사 목록 조회
         model.addAttribute("updateTeacherNum", teacherNum);
         model.addAttribute("teacherCnt", totalTeachers);
+        model.addAttribute("accorNum", accorNum);
         return "content/admin/admin_teacher";
     }
 
@@ -132,12 +134,13 @@ public class AdminController {
 
     // 학급 생성 페이지 이동
     @GetMapping("/makeClassForm")
-    public String makeClassForm(Model model, SearchVO searchVO){
+    public String makeClassForm(Model model, SearchVO searchVO, @RequestParam(name = "accorNum") int accorNum){
         int totalDataCnt = adminService.classInfoCnt();
         searchVO.setTotalDataCnt(totalDataCnt);
         searchVO.setPageInfo();
         model.addAttribute("clsList", clsService.selectAllClass(searchVO));
         model.addAttribute("teachers", adminService.selectTeacherName());
+        model.addAttribute("accorNum", accorNum);
         return "content/admin/make_class_form";
     }
 
