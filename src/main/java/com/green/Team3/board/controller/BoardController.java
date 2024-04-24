@@ -38,7 +38,8 @@ public class BoardController {
     public String List1(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
-            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
+            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch
+            , @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum){
         // 공지사항 전체 데이터 수
         System.out.println(searchVO);
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
@@ -63,7 +64,7 @@ public class BoardController {
         // 공지사항 목록에서 검색한 데이터
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
-
+        model.addAttribute("accorNum", accorNum);
         return "content/common/notice_list_stu";
     }
 
@@ -72,7 +73,8 @@ public class BoardController {
     public String List2(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
-            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
+            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch
+            , @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum){
         // 공지사항 전체 데이터 수
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
@@ -96,6 +98,7 @@ public class BoardController {
         // 공지사항 목록에서 검색한 데이터
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
+        model.addAttribute("accorNum", accorNum);
         return "content/common/notice_list_tea";
     }
 
@@ -271,7 +274,8 @@ public class BoardController {
     public String qnaList(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
-            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
+            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch
+            , @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum){
         // 문의사항 전체 데이터 수
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
@@ -298,7 +302,7 @@ public class BoardController {
         // 문의사항 목록에서 검색한 데이터
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
-
+        model.addAttribute("accorNum", accorNum);
         return "content/common/qna_list";
     }
 
