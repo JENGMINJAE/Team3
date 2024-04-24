@@ -31,7 +31,6 @@ public class BoardController {
     @Resource(name = "replyService")
     private ReplyServiceImpl replyService;
 
-
     ///////////////////////////////// 공지 사항 /////////////////////////////////////
 
     // 공지사항 - 학사공지 목록 페이지
@@ -39,8 +38,10 @@ public class BoardController {
     public String List1(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
-            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
+            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch
+            , @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum){
         // 공지사항 전체 데이터 수
+        System.out.println(searchVO);
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
         // 페이지 정보 세팅
@@ -63,7 +64,7 @@ public class BoardController {
         // 공지사항 목록에서 검색한 데이터
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
-
+        model.addAttribute("accorNum", accorNum);
         return "content/common/notice_list_stu";
     }
 
@@ -72,7 +73,8 @@ public class BoardController {
     public String List2(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
-            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
+            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch
+            , @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum){
         // 공지사항 전체 데이터 수
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
@@ -96,52 +98,15 @@ public class BoardController {
         // 공지사항 목록에서 검색한 데이터
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
+        model.addAttribute("accorNum", accorNum);
         return "content/common/notice_list_tea";
     }
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    // 공지사항 목록 페이지
-//    @RequestMapping("/noticeList")
-//    public String List(SearchVO searchVO, Model model
-//                    , @RequestParam(name = "searchValue" ,required = false) String searchValue
-//                    , @RequestParam(name = "searchType" ,required = false) String searchType
-//                    , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
-//        // 공지사항 전체 데이터 수
-//        int totalDataCnt = boardService.selectNoticeCnt(searchVO);
-//        searchVO.setTotalDataCnt(totalDataCnt);
-//
-//        // 페이지 정보 세팅
-//        searchVO.setPageInfo();
-//        System.out.println(searchVO);
-//
-//        // 공지사항 목록 조회
-//        List<BoardVO> noticeList = boardService.selectNoticeList(searchVO);
-//            if(isSearch == 1){
-//                searchVO.setTotalDataCnt(noticeList.size());
-//                searchVO.setPageInfo();
-//                if(searchVO.getTotalDataCnt() == 0){
-//                    isSearch = 2;
-//                }
-//            }
-//        model.addAttribute("isSearch", isSearch);
-//        model.addAttribute("noticeList", noticeList);
-//        // 공지사항 내 전체 데이터 목록
-//        model.addAttribute("totalDataCnt", totalDataCnt);
-//        // 공지사항 목록에서 검색한 데이터
-//        model.addAttribute("searchValue", searchValue);
-//        model.addAttribute("searchType", searchType);
-//
-//        return "content/common/notice_list";
-//    }
-    ////////////////////////////////////////////////
 
     // 공지사항 작성 페이지로 이동
     @GetMapping("/noticeWriteForm")
     public String noticeWriteForm(){
         return "content/common/notice_write_form";
     }
-
 
     // 공지사항 게시글 작성 + 이미지 첨부 기능
     @PostMapping("/noticeWrite")
@@ -180,20 +145,20 @@ public class BoardController {
 
     // 공지사항 상세 조회
     @GetMapping("/noticeDetail")
-    public String noticeDetail(@RequestParam(name = "boardNum") int boardNum
+    public String noticeDetail(BoardVO boardVO
                                 , Model model){
         //조회수 증가
-        boardService.updateBoardCnt(boardNum);
+        boardService.updateBoardCnt(boardVO.getBoardNum());
 
         //상세 조회
-        BoardVO vo = boardService.selectNoticeDetail(boardNum);
+        BoardVO vo = boardService.selectNoticeDetail(boardVO.getBoardNum());
         System.out.println(vo);
         model.addAttribute("notice", vo);
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(boardNum);
+        BoardVO prevPage = boardService.prevPage(boardVO);
         if (prevPage != null){
-            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("currentBoardNum", boardVO.getBoardNum());
             model.addAttribute("prevPage", prevPage);
         }
         //이전 글이 없을 때
@@ -202,16 +167,15 @@ public class BoardController {
         }
 
         // 다음글 조회
-        BoardVO nextPage = boardService.nextPage(boardNum);
+        BoardVO nextPage = boardService.nextPage(boardVO.getBoardNum());
         if(nextPage != null){
-            model.addAttribute("currentBoardNum", boardNum);
+            model.addAttribute("currentBoardNum", boardVO.getBoardNum());
             model.addAttribute("nextPage", nextPage);
         }
         //다음 글이 없을 때
         else {
             model.addAttribute("nextPageNotFound", true);
         }
-
         return "content/common/notice_detail";
     }
 
@@ -219,18 +183,13 @@ public class BoardController {
     @GetMapping("/deleteNotice")
     public String deleteNotice(BoardVO boardVO){
         boardService.deleteNotice(boardVO);
-
-        return "redirect:/board/noticeList";
+        //return "redirect:/board/noticeList";
+        if(boardVO.getTypeNum() == 1){
+            return "redirect:/board/noticeListStu";}
+        else if(boardVO.getTypeNum() == 2){
+            return "redirect:/board/noticeListTea";}
+        else{return null;}
     }
-
-//    if(boardVO.getTypeNum() == 1){
-//        return "redirect:/board/noticeListStu";}
-//        else if(boardVO.getTypeNum() == 2){
-//        return "redirect:/board/noticeListTea";}
-//        else{return null;}
-
-
-
 
     // 공지사항 게시글 수정 양식 페이지 이동
     @GetMapping("/updateNotice")
@@ -239,18 +198,15 @@ public class BoardController {
         return "content/common/notice_update";
     }
 
-
-
-
     //공지사항 게시글 수정 ***********************************
     @PostMapping("/updateNotice")
     public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
         boardVO.setBoardNum(boardNum);
-        boardService.updateBoard(boardVO);
+        boardService.updateNotice(boardVO);
         return "redirect:/board/noticeDetail?boardNum=" + boardNum;
     }
 
-    //공지사항 게시글 수정 시 첨부파일 이미지 삭제 ******************************* 비동기
+    //공지사항 게시글 수정 시 첨부파일 이미지 삭제(비동기)
     @ResponseBody
     @PostMapping("/deleteImgFile")
     public BoardVO deleteImgFile(@RequestParam(name="imgNum") int imgNum, BoardVO boardVO){
@@ -259,58 +215,37 @@ public class BoardController {
     }
 
 
-    //공지사항 게시글 수정 시 첨부파일 이미지 첨부 ******************************* 비동기
-//    @ResponseBody
-//    @PostMapping("/insertImgFile")
-//    public String insertImgFile(BoardVO boardVO
-//                                , @RequestParam(name = "subImgs") MultipartFile[] subImgs){
+    // 공지사항 게시글 수정 + 이미지 첨부 기능 *******************************************************구현중
+//    @PostMapping("/updateNotice")
+//    public String updateNotice(BoardVO boardVO
+//                            , @RequestParam(name="imgNum") int imgNum
+//                            , @RequestParam(name="boardNum") int boardNum
+//                            , @RequestParam(name = "subImgs") MultipartFile[] subImgs
+//                            , Authentication authentication){
+//        //----------------------- 파일 첨부 기능 -----------------------
 //        //첨부 이미지들 업로드
 //        List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
-//        //다음에 들어갈 boardNum 조회
-//        int boardNum = boardService.selectNextNoticeCode();
 //
-//        boardVO.setBoardNum(boardNum);
-//        boardVO.setImgList(imgList);
-//        boardService.insertImgs(boardVO);
-//        return "redirect:/board/noticeList";
-//    }
-
-    // 공지사항 게시글 수정 시 첨부파일 이미지 첨부 ******************************* 비동기
-    @ResponseBody
-    @PostMapping("/insertImgFile")
-    public ResponseEntity<String> insertImgFile(BoardVO boardVO, @RequestParam(name = "subImgs") MultipartFile[] subImgs) {
-        try {
-            // 첨부 이미지들 업로드
-            List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
-            // 다음에 들어갈 boardNum 조회
-            int boardNum = boardService.selectNextNoticeCode();
-
-            boardVO.setBoardNum(boardNum);
-            boardVO.setImgList(imgList);
-            boardService.insertImgs(boardVO);
-
-            // JSON 형식의 응답 반환
-            return new ResponseEntity<>("파일이 성공적으로 업로드되었습니다.", HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 오류 발생 시 JSON 형식의 응답 반환
-            return new ResponseEntity<>("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
-    // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
-//    @PostMapping("/updateNotice")
-//    public String update(BoardVO boardVO,
-//                         @RequestParam(name="imgNum") int imgNum,
-//                         @RequestParam("boardNum") int boardNum,
-//                         @RequestParam(name = "subImgs", required = false) MultipartFile[] subImgs){
 //        //글번호 세팅
 //        boardVO.setBoardNum(boardNum);
-//        //업데이트 쿼리 실행
-//        boardService.updateImgFile(boardVO, imgNum);
+//
+//        //------------------------ 파일 첨부 등록 -----------------------
+//        // 새로운 첨부파일이 있는 경우
+//        if (subImgs != null && subImgs.length > 0) {
+//            // 새로운 첨부 파일 업로드
+//            List<ImgVO> newImgList = UploadUtil.multiUploadFile(subImgs);
+//            // 기존 첨부파일 삭제 + 새로운 첨부 파일 추가
+//            boardVO.setImgList(newImgList);
+//        }
+//
+//        boardVO.setImgList(imgList);
+//        System.out.println(boardVO);
+//
+//        //-------------------------공지사항 수정 쿼리 실행
+//        boardService.updateNotice(boardVO);
 //        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
 //    }
+
 
 
     // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
@@ -332,42 +267,15 @@ public class BoardController {
 //        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
 //    }
 
-
-
     ///////////////////////////////// 문의 사항 /////////////////////////////////////
-
-    // 문의사항 페이지 - 원본
-//    @RequestMapping("/qnaList")
-//    public String qnaList(SearchVO searchVO, Model model
-//            , @RequestParam(name = "searchValue" ,required = false) String searchValue
-//            , @RequestParam(name = "searchType" ,required = false) String searchType){
-//        // 문의사항 전체 데이터 수
-//        int totalDataCnt = boardService.selectNoticeCnt(searchVO);
-//        searchVO.setTotalDataCnt(totalDataCnt);
-//
-//        // 페이지 정보 세팅
-//        searchVO.setPageInfo();
-//        System.out.println(searchVO);
-//
-//        // 문의사항 목록 조회
-//        List<BoardVO> qnaList = boardService.selectQnaList(searchVO);
-//        model.addAttribute("qnaList", qnaList);
-//        // 문의사항 내 전체 데이터 목록
-//        model.addAttribute("totalDataCnt", totalDataCnt);
-//        // 문의사항 목록에서 검색한 데이터
-//        model.addAttribute("searchValue", searchValue);
-//        model.addAttribute("searchType", searchType);
-//
-//        return "content/common/qna_list";
-//    }
-    
 
     // 문의사항 페이지 - 공지사항이랑 분리
     @RequestMapping("/qnaList")
     public String qnaList(SearchVO searchVO, Model model
             , @RequestParam(name = "searchValue" ,required = false) String searchValue
             , @RequestParam(name = "searchType" ,required = false) String searchType
-            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
+            , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch
+            , @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum){
         // 문의사항 전체 데이터 수
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
@@ -394,7 +302,7 @@ public class BoardController {
         // 문의사항 목록에서 검색한 데이터
         model.addAttribute("searchValue", searchValue);
         model.addAttribute("searchType", searchType);
-
+        model.addAttribute("accorNum", accorNum);
         return "content/common/qna_list";
     }
 
@@ -432,7 +340,7 @@ public class BoardController {
         model.addAttribute("replyList", replyList);
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(boardNum);
+        BoardVO prevPage = boardService.prevPage(vo);
         if (prevPage != null){
             model.addAttribute("currentBoardNum", boardNum);
             model.addAttribute("prevPage", prevPage);
@@ -477,8 +385,6 @@ public class BoardController {
         boardService.updateBoard(boardVO);
         return "redirect:/board/qnaDetail?boardNum=" + boardNum;
     }
-
-
 
 
 

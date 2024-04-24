@@ -94,29 +94,6 @@
         LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}
     </select>
 
-    <!--    ///////////////////////////////////////////////////////////////////////////////////// -->
-
-    <!-- 게시물 목록 조회 - 공지사항 - 원본 -->
-<!--    <select id="selectNoticeList" resultMap="boardMap">-->
-<!--        SELECT B.BOARD_NUM,-->
-<!--        BOARD_TITLE,-->
-<!--        BOARD_CONTENT,-->
-<!--        B.MEMBER_ID,-->
-<!--        TYPE_NUM,-->
-<!--        BOARD_CNT,-->
-<!--        MEMBER_ROLL,-->
-<!--        I.ORIGIN_FILE_NAME-->
-<!--        FROM BOARD B-->
-<!--        INNER JOIN MEMBER M ON B.MEMBER_ID = M.MEMBER_ID-->
-<!--        LEFT JOIN BOARD_IMAGE I ON B.BOARD_NUM = I.BOARD_NUM-->
-<!--        <if test='searchValue != null and !searchValue.equals("")'>-->
-<!--            WHERE ${searchType} LIKE CONCAT('%', #{searchValue}, '%')-->
-<!--        </if>-->
-<!--        GROUP BY BOARD_NUM-->
-<!--        ORDER BY BOARD_NUM DESC-->
-<!--        LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}-->
-<!--    </select>-->
-
     <!-- 게시물 목록 조회 - 문의사항 -->
     <select id="selectQnaList" resultMap="boardMap">
         SELECT BOARD_NUM
@@ -130,7 +107,7 @@
         INNER JOIN MEMBER M
         ON B.MEMBER_ID = M.MEMBER_ID
         <where>
-            TYPE_NUM = 3 OR TYPE_NUM = 4
+            TYPE_NUM = 3
             <if test='searchValue != null and !searchValue.equals("")'>
                 AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
             </if>
@@ -138,7 +115,6 @@
         ORDER BY BOARD_NUM DESC
         LIMIT ${displayDataCnt} OFFSET ${displayDataCnt * (nowPage - 1)}
     </select>
-
 
 
     <!-- 게시글 작성 - 공지사항 -->
@@ -253,16 +229,25 @@
         WHERE BOARD_NUM = #{boardNum}
     </delete>
 
-    <!-- 게시글 수정 -->
+    <!-- 게시글 수정 - 문의사항 -->
     <update id="updateBoard">
         UPDATE BOARD
         SET
-            BOARD_TITLE = #{boardTitle}
-            , BOARD_CONTENT = #{boardContent}
+        BOARD_TITLE = #{boardTitle}
+        , BOARD_CONTENT = #{boardContent}
         WHERE BOARD_NUM = #{boardNum}
     </update>
 
-    <!-- 공지사항 게시글 수정 ************************************(구현중) 일단 대기 ...-->
+    <!-- 게시글 수정 - 공지사항 -->
+    <update id="updateNotice">
+        UPDATE BOARD
+        SET
+        BOARD_TITLE = #{boardTitle}
+        , BOARD_CONTENT = #{boardContent}
+        WHERE BOARD_NUM = #{boardNum}
+    </update>
+
+    <!-- 공지사항 게시글 수정(이미지 파일 첨부 기능) *******************************************************(구현중) -->
 <!--    <update id="updateImgFile">-->
 <!--        UPDATE BOARD B-->
 <!--        JOIN BOARD_IMAGE BI ON B.BOARD_NUM = BI.BOARD_NUM-->
@@ -274,16 +259,11 @@
 <!--        WHERE B.BOARD_NUM = #{boardNum} AND BI.IMG_NUM = #{imgNum};-->
 <!--    </update>-->
 
-    <!-- 공지사항 첨부파일 이미지 삭제(수정 시) 트랜젝션 할까...? ********************-->
+    <!-- 공지사항 첨부파일 이미지 삭제(수정 시) -->
     <delete id="deleteImgFile">
         DELETE FROM BOARD_IMAGE
         WHERE IMG_NUM = #{imgNum}
     </delete>
-
-
-
-
-
 
     <!-- 게시글 갯수 조회 -->
     <!--  *****공지/문의 분리해서 조회해야함  -->
@@ -299,11 +279,12 @@
     </select>
 
     <!-- 게시글 상세 - 이전글 조회 -->
-    <select id="prevPage" resultMap="boardMap" resultType="int">
+    <select id="prevPage" resultMap="boardMap">
         SELECT BOARD_NUM
             , BOARD_TITLE
         FROM BOARD
         WHERE ${currentBoardNum} > BOARD_NUM
+        AND TYPE_NUM = #{typeNum}
         ORDER BY BOARD_NUM DESC
         LIMIT 1;
     </select>
@@ -313,14 +294,33 @@
         SELECT BOARD_NUM
                 , BOARD_TITLE
         FROM BOARD
-        WHERE BOARD_NUM > #{currentBoardNum}
+        WHERE BOARD_NUM > #{currentBoardNum} AND TYPE_NUM = #{typeNum}
         ORDER BY BOARD_NUM ASC
         LIMIT 1;
     </select>
 
-
-
-
+    <!-- 메인 페이지 게시물 목록 조회 - 학사공지 -->
+    <select id="selectNoticeListFirst" resultMap="boardMap">
+        SELECT B.BOARD_NUM,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        B.MEMBER_ID,
+        TYPE_NUM,
+        BOARD_CNT,
+        M.MEMBER_ROLL,
+        I.ORIGIN_FILE_NAME
+        FROM BOARD B
+        INNER JOIN MEMBER M ON B.MEMBER_ID = M.MEMBER_ID
+        LEFT JOIN BOARD_IMAGE I ON B.BOARD_NUM = I.BOARD_NUM
+        WHERE
+        TYPE_NUM = 1
+        <if test='searchValue != null and searchValue != ""'>
+            AND ${searchType} LIKE CONCAT('%', #{searchValue}, '%')
+        </if>
+        GROUP BY B.BOARD_NUM
+        ORDER BY B.BOARD_NUM DESC
+        LIMIT 5 OFFSET ${displayDataCnt * (nowPage - 1)}
+    </select>
 
 </mapper>
 

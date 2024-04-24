@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <th:block th:fragment="StudentSideMenuFragment">
+      <style>
+        li{
+          line-height: 30px;
+        }
+      </style>
 
     <div class="accordion" id="accordionPanelsStayOpenExample">
         <div class="accordion-item">
@@ -13,22 +18,11 @@
             <div class="accordion-body">
               공지사항
               <ul>
-                <li><span class="pointer-span" onclick="location.href='/board/noticeListStu?typeNum=1'">학사 공지</span></li>
+                <li><span class="pointer-span" onclick="location.href='/board/noticeListStu?typeNum=1&accorNum=1'">학사 공지</span></li>
               </ul>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-              게시판
-            </button>
-          </h2>
-          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
-            <div class="accordion-body">
-              문의사항
+              <span>문의사항</span>
               <ul>
-                <li><span class="pointer-span" onclick="location.href='/board/qnaList?typeNum=3&typeNum=4'">Q&A</span></li>
+                <li><span class="pointer-span" onclick="location.href='/board/qnaList?typeNum=3&typeNum=4&accorNum=1'">Q&A</span></li>
               </ul>
             </div>
           </div>
@@ -43,7 +37,7 @@
             <div class="accordion-body">
               나의 정보
               <ul>
-                <li><a href="/member/stuInfoForm">내 정보 조회</a></li>
+                <li><a href="/member/stuInfoForm?accorNum=2">내 정보 조회</a></li>
                 <li>출결 조회</li>
                 <li>진도 / 수업율</li>
               </ul>
@@ -60,8 +54,8 @@
             <div class="accordion-body">
                 성적
                 <ul>
-                  <li><a href="/stuTest/stuTestFirst">전체 성적 조회</a></li>
-                  <li><a href="/stuTest/stuAskFirst">성적 이의 신청</a> </li>
+                  <li><a href="/stuTest/stuTestFirst?accorNum=3">전체 성적 조회</a></li>
+                  <li><a href="/stuTest/stuAskFirst?accorNum=3">성적 이의 신청</a> </li>
                 </ul>
             </div>
           </div>

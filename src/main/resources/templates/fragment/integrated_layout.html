@@ -58,6 +58,9 @@
             <script src="/js/header.js"></script>             
         </th:block>
     </th:block>
+    <th:block th:if="${accorNum != 0 && accorNum != null}">
+        <script scr="/js/side.js"></script>
+    </th:block>
     <th:block layout:fragment="content_js">
         
     </th:block>

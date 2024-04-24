@@ -6,9 +6,19 @@
             <th:block sec:authorize="isAnonymous()">
                 
                 <div class="col-9" style="vertical-align: middle; text-align: center; font-size: 40px; padding-left: 5px; " onclick="location.href='/'">
-                    <span style="margin-right: 18px;"><img src="/images/small_logo.png" style="width: 120px; height: 50px; align-items: start; padding-left: 15px;"></span>
-                    <span style="color: #25ac30; font-weight: bold; padding-right: 10px; font-size:40px;" >GREEN GENERAL ACADEMY</span>
+                        <div class="row">
+                            <div class="col">
+                                <span style="margin-right: 18px;"><img src="/images/small_logo.png" style="width: 120px; height: 50px; align-items: start; padding-left: 15px;"></span>
+                                <span style="color: #25ac30; font-weight: bold; padding-right: 10px; font-size:40px;" >GREEN GENERAL ACADEMY</span>
+                            </div>
+                        </div>
+                        <div class="row" style="vertical-align: top; width: 900px;">
+                            <div class="col" style="color: rgb(23, 141, 156); font-weight: bold; font-size:20px; text-align: end;">
+                                미래를 향해 길을 열어가는 울산 대표 아카데미    
+                            </div>
+                        </div>
                 </div>
+                
                 <div class="col-3">
                             <table class="table" style="border-bottom: white; text-align: center;">
                                 <colgroup>
@@ -78,36 +88,60 @@
 </div>
 
             </th:block>
-       
+
             <th:block sec:authorize="isAuthenticated()">
                 <div class="col-3">
                     <span style="margin-left: 32px;"><img src="/images/small_logo.png" style="width: 120px; height: 50px; align-items: start; padding-left: 15px;"></span>
                 </div>
                 <div class="col-6" style="text-align: center;" onclick="location.href='/'">
                     <span style="color: #25ac30; font-weight: bold; font-size:40px;" >GREEN GENERAL ACADEMY</span>
+                
                 </div>
                 <div class="col-3">
                     <div class="row" style="height: 105px;">
                         <th:block sec:authorize="hasRole('ROLE_1')">
-                            <div class="col-7" style="text-align: right; padding: 14.5px 10px 0px 0px;">
-                                <span>내정보</span>[[${#authentication.name}]] 학생
+                            <div class="col-7" style="text-align: right;">                               
+                                <div class="row">
+                                        <div class="col-12" style="padding-top:5px; cursor:pointer;" onclick="location.href='/member/myInformationForm'">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                            </svg>개인 정보
+                                        </div>
+                                        <div class="col-12">
+                                            <strong>[[${#authentication.name}]] 학생</strong>
+                                        </div>
+                                </div>
                             </div>
                         </th:block>
                         <th:block sec:authorize="hasRole('ROLE_2')">
                             <div class="col-7" style="text-align: right;">
                                 <div class="row">
-                                    <div class="col-12" style="padding-top:5px" onclick="location.href='/member/myInformationForm'">
-                                        개인 정보
+                                    <div class="col-12" style="padding-top:5px; cursor:pointer;" onclick="location.href='/member/myInformationForm'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                        </svg>개인 정보
                                     </div>
                                     <div class="col-12">
-                                        [[${#authentication.name}]] 선생님
+                                        <strong>[[${#authentication.name}]] 선생님</strong>
                                     </div>
                                 </div>
                             </div>
                         </th:block>
                         <th:block sec:authorize="hasRole('ROLE_3')">
-                            <div class="col-7" style="text-align: right; padding: 14.5px 10px 0px 0px;">
-                                <span>내정보</span>[[${#authentication.name}]] 원장님
+                            <div class="col-7" style="text-align: right;">                           
+                                <div class="row">
+                                    <div class="col-12" style="padding-top:5px; cursor:pointer;" onclick="location.href='/member/myInformationForm'">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                        </svg>개인 정보
+                                    </div>
+                                    <div class="col-12">
+                                        <strong>[[${#authentication.name}]] 원장님 </strong>
+                                    </div>
+                                </div>
                             </div>
                         </th:block>
                         <div class="col-5" style="padding: 8.2px 0px;">

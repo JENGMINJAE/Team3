@@ -9,27 +9,12 @@ function disAgree() {
   document.getElementById("registrationForm").style.display = "none";
 }
 
-// function toggleRegistrationForm() {
-//   var registrationForm = document.getElementById('registrationForm');
-//   var agreementCheckbox = document.getElementById('flexSwitchCheckDefault');
-
-//   //약관 동의 시 회원가입 양식 나타남
-//   if (agreementCheckbox.checked) {
-//       registrationForm.style.display = 'block';
-//   //약관 비동의 시 회원가입 양식 사라짐
-//   } else {
-//       registrationForm.style.display = 'none';
-//   }
-// }
-
-
-
 //회원가입 유효성 검사(1)
 function result(){
   const check1 = /[^a-zA-Z0-9]/g; //영어, 숫자만
   const check2 = /[가-힣]/g; //한글만
   const check3 = /\d/g; //숫자만
-  const check4 = /[@#$%]/; //특수문자 포함
+  const check4 = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
 
   const id = document.querySelector('#checkID').value;
   const pw = document.querySelector('#newPw').value;
