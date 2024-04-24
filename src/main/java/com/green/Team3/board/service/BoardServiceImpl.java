@@ -125,7 +125,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     //공지사항 게시글 수정 + 이미지 첨부 - 트랜젝션 ******************************************
-    //제목 / 내용 / 첨부파일
+    //제목/내용 수정 + 첨부파일 추가
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateNotice(BoardVO boardVO) {

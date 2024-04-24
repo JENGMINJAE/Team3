@@ -55,7 +55,7 @@ public interface BoardService {
     //게시글 수정 - 문의사항
     void updateBoard(BoardVO boardVO);
 
-    //게시글 수정 - 공지사항
+    //게시글 수정 - 공지사항( 게시글 수정 + 이미지 추가) - 트랜젝션
     void updateNotice(BoardVO boardVO);
 
     //게시글 수 조회
