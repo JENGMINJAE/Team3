@@ -99,42 +99,6 @@ public class BoardController {
         return "content/common/notice_list_tea";
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    // 공지사항 목록 페이지
-//    @RequestMapping("/noticeList")
-//    public String List(SearchVO searchVO, Model model
-//                    , @RequestParam(name = "searchValue" ,required = false) String searchValue
-//                    , @RequestParam(name = "searchType" ,required = false) String searchType
-//                    , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch){
-//        // 공지사항 전체 데이터 수
-//        int totalDataCnt = boardService.selectNoticeCnt(searchVO);
-//        searchVO.setTotalDataCnt(totalDataCnt);
-//
-//        // 페이지 정보 세팅
-//        searchVO.setPageInfo();
-//        System.out.println(searchVO);
-//
-//        // 공지사항 목록 조회
-//        List<BoardVO> noticeList = boardService.selectNoticeList(searchVO);
-//            if(isSearch == 1){
-//                searchVO.setTotalDataCnt(noticeList.size());
-//                searchVO.setPageInfo();
-//                if(searchVO.getTotalDataCnt() == 0){
-//                    isSearch = 2;
-//                }
-//            }
-//        model.addAttribute("isSearch", isSearch);
-//        model.addAttribute("noticeList", noticeList);
-//        // 공지사항 내 전체 데이터 목록
-//        model.addAttribute("totalDataCnt", totalDataCnt);
-//        // 공지사항 목록에서 검색한 데이터
-//        model.addAttribute("searchValue", searchValue);
-//        model.addAttribute("searchType", searchType);
-//
-//        return "content/common/notice_list";
-//    }
-    ////////////////////////////////////////////////
-
     // 공지사항 작성 페이지로 이동
     @GetMapping("/noticeWriteForm")
     public String noticeWriteForm(){
@@ -232,23 +196,48 @@ public class BoardController {
         return "content/common/notice_update";
     }
 
-
     //공지사항 게시글 수정 ***********************************
+//    @PostMapping("/updateNotice")
+//    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
+//        boardVO.setBoardNum(boardNum);
+//        boardService.updateBoard(boardVO);
+//        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
+//    }
+
+    // 공지사항 게시글 수정 + 이미지 첨부 기능 *********************************************
     @PostMapping("/updateNotice")
-    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
+    public String noticeWrite(BoardVO boardVO, @RequestParam("boardNum") int boardNum
+                            , Authentication authentication
+                            , @RequestParam(name = "subImgs") MultipartFile[] subImgs){
+
+        //----------------------- 파일 첨부 기능 -----------------------
+        //첨부 이미지들 업로드
+        List<ImgVO> imgList = UploadUtil.multiUploadFile(subImgs);
+
+//        //다음에 들어갈 boardNum 조회
+//        int boardNum = boardService.selectNextNoticeCode();
+
+        //------------------------ 공지사항 등록 ------------------------
         boardVO.setBoardNum(boardNum);
+
+        //------------------------ 파일 첨부 등록 -----------------------
+        boardVO.setImgList(imgList);
+;
+        //쿼리 실행
         boardService.updateBoard(boardVO);
+
         return "redirect:/board/noticeDetail?boardNum=" + boardNum;
     }
 
-    //공지사항 게시글 수정 시 첨부파일 이미지 삭제 ******************************* 비동기
+
+
+    //공지사항 게시글 수정 시 첨부파일 이미지 삭제
     @ResponseBody
     @PostMapping("/deleteImgFile")
     public BoardVO deleteImgFile(@RequestParam(name="imgNum") int imgNum, BoardVO boardVO){
         boardService.deleteImgFile(imgNum);
         return boardService.selectNoticeDetail(boardVO.getBoardNum());
     }
-
 
     //공지사항 게시글 수정 시 첨부파일 이미지 첨부 ******************************* 비동기
 //    @ResponseBody
@@ -288,7 +277,6 @@ public class BoardController {
             return new ResponseEntity<>("파일 업로드 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     // 공지사항 게시글 수정 - 첨부파일 수정 구현 중 ******************************* 비동기?
 //    @PostMapping("/updateNotice")

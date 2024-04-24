@@ -109,7 +109,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
 
-    //공지사항 게시글 수정 시 첨부파일 이미지 삭제 *******************************
+    //공지사항 게시글 수정 시 첨부파일 이미지 삭제
     @Override
     public void deleteImgFile(int imgNum) {
         sqlSession.delete("board.deleteImgFile", imgNum);
@@ -128,18 +128,18 @@ public class BoardServiceImpl implements BoardService {
     }
 
 
-
     //문의사항 게시글 수정
     @Override
     public void updateBoard(BoardVO boardVO) {
         sqlSession.update("board.updateBoard", boardVO);
     }
 
-    //공지사항 게시글 수정 - 첨부파일 수정까지 ************************************(구현중)
+    //공지사항 게시글 수정 - 첨부파일 수정까지 ************************************(구현중) 트랜젝션?
 //    @Override
 //    public void updateImgFile(BoardVO boardVO, int imgNum) {
 //        sqlSession.update("board.updateImgFile", boardVO);
 //    }
+
 
     //게시글 수 조회
     @Override

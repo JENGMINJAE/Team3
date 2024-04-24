@@ -43,7 +43,7 @@ public interface BoardService {
     //이미지 첨부파일 있는지 여부 확인
     boolean hasImg(int boardNum);
 
-    //공지사항 첨부파일 이미지 삭제(수정 시) *************************************
+    //공지사항 첨부파일 이미지 삭제(수정 시)
     void deleteImgFile(int imgNum);
 
     //게시글 수정 - 공지사항(첨부파일 수정) ************************************(구현중)
