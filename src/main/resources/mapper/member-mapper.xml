@@ -213,10 +213,10 @@
         FROM homework H
         INNER JOIN class_info C
         ON C.CLASS_NUM = H.CLASS_NUM
-        WHERE H.CLASS_NUM =
+        WHERE H.CLASS_NUM in
             (SELECT CLASS_NUM
             FROM operator
-            WHERE MEMBER_ID = 'STUDENT' LIMIT 1)
+            WHERE MEMBER_ID = 'STUDENT')
         and HW_EDATE > NOW();
     </select>
     <select id="selectMyTest" resultMap="testMapper.testResult">
@@ -224,11 +224,12 @@
         FROM test T
         INNER JOIN class_info C
         ON C.CLASS_NUM = T.CLASS_NUM
-        WHERE C.CLASS_NUM =
+        WHERE C.CLASS_NUM in
             (SELECT CLASS_NUM
             FROM operator
-            WHERE MEMBER_ID=#{memberId} limit 1)
-        AND TEST_DATE >= NOW();
+            WHERE MEMBER_ID=#{memberId})
+        AND TEST_DATE >= NOW()
+        ORDER BY TEST_DATE ASC
     </select>
 
 
