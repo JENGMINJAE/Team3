@@ -21,5 +21,7 @@ public class BoardVO {
     private List<ImgVO> imgList;
     private int imgNum;
     private int currentBoardNum;
+    private String memberName;
+    private String createDate;
 
 }

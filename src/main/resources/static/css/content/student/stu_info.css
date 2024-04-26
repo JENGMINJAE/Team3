@@ -1,0 +1,21 @@
+.stu_info_main_dev div{
+  padding: 3px;
+}
+.green{
+  background-color: #25ac3033;
+}
+.text_right{
+  text-align: right;
+}
+.text_center{
+  text-align: center;
+}
+.radius{
+  border-radius: 10px 10px 0 0;
+}
+.border_bottom{
+  border-bottom: 1px solid #25ac30;
+}
+.height60{
+  height: 60px;
+}

@@ -10,7 +10,9 @@
         <result column="MEMBER_ID"               property="memberId"/>
         <result column="TYPE_NUM"                property="typeNum"/>
         <result column="BOARD_CNT"               property="boardCnt"/>
-        <result column="IMG_NUM"               property="imgNum"/>
+        <result column="IMG_NUM"                 property="imgNum"/>
+        <result column="MEMBER_NAME"             property="memberName"/>
+        <result column="CREATE_DATE"             property="createDate"/>
         <collection property="imgList"           resultMap="img"/>
     </resultMap>
 
@@ -54,6 +56,7 @@
         BOARD_CONTENT,
         B.MEMBER_ID,
         TYPE_NUM,
+        CREATE_DATE,
         BOARD_CNT,
         M.MEMBER_ROLL,
         I.ORIGIN_FILE_NAME
@@ -78,6 +81,7 @@
         BOARD_CONTENT,
         B.MEMBER_ID,
         TYPE_NUM,
+        CREATE_DATE,
         BOARD_CNT,
         M.MEMBER_ROLL,
         I.ORIGIN_FILE_NAME
@@ -101,6 +105,7 @@
         , BOARD_CONTENT
         , B.MEMBER_ID
         , TYPE_NUM
+        , CREATE_DATE
         , BOARD_CNT
         , MEMBER_ROLL
         FROM BOARD B
@@ -124,11 +129,13 @@
             , BOARD_CONTENT
             , MEMBER_ID
             , TYPE_NUM
+            , CREATE_DATE
         ) VALUES (
             #{boardTitle}
             , #{boardContent}
             , #{memberId}
             , #{typeNum}
+            , #{createDate}
         )
     </insert>
 
@@ -170,9 +177,10 @@
         SELECT B.BOARD_NUM
         , BOARD_TITLE
         , BOARD_CONTENT
-        , MEMBER_ID
+        , M.MEMBER_ID
         , TYPE_NUM
         , BOARD_CNT
+        , MEMBER_NAME
         , I.ATTACHED_FILE_NAME
         , I.ORIGIN_FILE_NAME
         , I.IS_MAIN
@@ -180,6 +188,8 @@
         FROM BOARD B
         LEFT JOIN BOARD_IMAGE I
         ON B.BOARD_NUM = I.BOARD_NUM
+        INNER JOIN MEMBER M
+        ON B.MEMBER_ID = M.MEMBER_ID
         WHERE B.BOARD_NUM = #{boardNum}
     </select>
 
@@ -188,10 +198,14 @@
         SELECT BOARD_NUM
         , BOARD_TITLE
         , BOARD_CONTENT
-        , MEMBER_ID
+        , M.MEMBER_ID
         , TYPE_NUM
         , BOARD_CNT
-        FROM BOARD
+        , CREATE_DATE
+        , MEMBER_NAME
+        FROM BOARD B
+        INNER JOIN MEMBER M
+        ON B.MEMBER_ID = M.MEMBER_ID
         WHERE BOARD_NUM = #{boardNum}
     </select>
 
@@ -246,18 +260,6 @@
         , BOARD_CONTENT = #{boardContent}
         WHERE BOARD_NUM = #{boardNum}
     </update>
-
-    <!-- 공지사항 게시글 수정(이미지 파일 첨부 기능) *******************************************************(구현중) -->
-<!--    <update id="updateImgFile">-->
-<!--        UPDATE BOARD B-->
-<!--        JOIN BOARD_IMAGE BI ON B.BOARD_NUM = BI.BOARD_NUM-->
-<!--        SET-->
-<!--            B.BOARD_TITLE = #{boardTitle}-->
-<!--            , B.BOARD_CONTENT = #{boardContent}-->
-<!--            , BI.ORIGIN_FILE_NAME = #{originFileName}-->
-<!--            , BI.ATTACHED_FILE_NAME = #{attachedFileName}-->
-<!--        WHERE B.BOARD_NUM = #{boardNum} AND BI.IMG_NUM = #{imgNum};-->
-<!--    </update>-->
 
     <!-- 공지사항 첨부파일 이미지 삭제(수정 시) -->
     <delete id="deleteImgFile">
