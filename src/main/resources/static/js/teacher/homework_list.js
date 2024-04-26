@@ -40,15 +40,15 @@ function homework_crystal(thishc){
                     </colgroup>
             <tr>
                 <td>
-                    과목명
+                <strong>수강명</strong>
                 </td>
                 <td>
-                    과제명
+                <strong>과제명</strong>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <select name = "classNum" class="form-select" style="text-align: center;">`;
+                    <select name = "classNum" class="form-select" style="text-align: center; border: 1px solid rgb(23, 141, 156);">`;
                 
                     data.classList.forEach(function(e,idx){
                         str+=`<option value=${e.classNum} `
@@ -62,23 +62,23 @@ function homework_crystal(thishc){
                     </select>
                 </td>
                 <td>
-                    <input type="text" name="hwName" class="form-control" style="text-align: center;" value="${data.homeworkVO.hwName}">
+                    <input type="text" name="hwName" class="form-control" style="text-align: center; border: 1px solid rgb(23, 141, 156);" value="${data.homeworkVO.hwName}">
                 </td>
             </tr>
             <tr>
                 <td>
-                    시작 일
+                    <strong>시작일</strong>
                 </td>
                 <td>
-                    종료 일
+                    <strong>종료일</strong>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <input type="date" name="hwSdate" class="form-control" style="text-align: center;" value="${data.homeworkVO.hwSdate}">
+                    <input type="date" name="hwSdate" class="form-control" style="text-align: center; border: 1px solid rgb(23, 141, 156);" value="${data.homeworkVO.hwSdate}">
                 </td>
                 <td>
-                    <input type="date" name="hwEdate" class="form-control" style="text-align: center;" value="${data.homeworkVO.hwEdate}">
+                    <input type="date" name="hwEdate" class="form-control" style="text-align: center; border: 1px solid rgb(23, 141, 156);" value="${data.homeworkVO.hwEdate}">
                 </td>
             </tr>
         </table>

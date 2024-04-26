@@ -54,34 +54,45 @@
                             <th>수강명</th>
                             <th>작성일</th>
                         </tr>
-                        <tr th:each=" testAsk : ${testAskList}" class="trLine">
-                            <td style="text-align: center;">[[${testAsk.protestNum}]]</td>
-                        
-                        <th:block th:if="${testAsk.protestGroupno!=0}">     
-                            <td class="trLine"> <strong style="color: red;">
-                                &nbsp; &nbsp; &nbsp; 
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-90deg-up" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708z"/>
-                                    </svg>
-                                RE:</strong><span style="cursor: pointer;" th:onclick="goDetail([[${testAsk.protestNum}]], [[${testAsk.memberId}]])">[[${testAsk.protestTitle}]]</span></td>
-                        </th:block>
-                        <th:block th:if="${testAsk.protestGroupno==0}"> 
-                            <td class="trLine" style="text-align: start;"><span style="cursor: pointer;" th:onclick="goDetail([[${testAsk.protestNum}]], [[${testAsk.memberId}]])">[[${testAsk.protestTitle}]]</span></td>
-                        </th:block>
-                            <td class="trLine">[[${testAsk.testN}]]</td>
-                            <td class="trLine">[[${testAsk.classN}]]</td>
-                            <td class="trLine" style="text-align: center;" >[[${testAsk.protestDate}]]</td>
-                        </tr>
+                        <th:block th:if="${testAskList.size==0}">   
+                            <tr>
+                                <td colspan="5" class="trLine" style="color: rgba(71, 70, 70, 0.76);">------------ 이의신청서가 없습니다. -----------------</td>
+                            </tr>
+                        </th:block>       
+                        <th:block th:if="${testAskList.size!=0}">    
+                            <tr th:each=" testAsk : ${testAskList}" class="trLine">
+                                    
+                                    <td style="text-align: center;">[[${testAsk.protestNum}]]</td>
+                                
+                                <th:block th:if="${testAsk.protestGroupno!=0}">     
+                                    <td class="trLine"> <strong style="color: red;">
+                                        &nbsp; &nbsp; &nbsp; 
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-90deg-up" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M4.854 1.146a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L4 2.707V12.5A2.5 2.5 0 0 0 6.5 15h8a.5.5 0 0 0 0-1h-8A1.5 1.5 0 0 1 5 12.5V2.707l3.146 3.147a.5.5 0 1 0 .708-.708z"/>
+                                            </svg>
+                                        RE:</strong><span style="cursor: pointer;" th:onclick="goDetail([[${testAsk.protestNum}]], [[${testAsk.memberId}]])">[[${testAsk.protestTitle}]]</span>
+                                    </td>
+                                </th:block>
+                                <th:block th:if="${testAsk.protestGroupno==0}"> 
+                                    <td class="trLine" style="text-align: start;"><span style="cursor: pointer;" th:onclick="goDetail([[${testAsk.protestNum}]], [[${testAsk.memberId}]])">[[${testAsk.protestTitle}]]</span></td>
+                                </th:block>
+                                    <td class="trLine">[[${testAsk.testN}]]</td>
+                                    <td class="trLine">[[${testAsk.classN}]]</td>
+                                    <td class="trLine" style="text-align: center;" >[[${testAsk.protestDate}]]</td>
+                            </tr>
+                        </th:block>    
                     </table>
                 </div>
             </div>
-            <div class="row">
-                <div class="col" > 
-                    <button class="btn btn-primary" type="button" onclick="location.href='/stuTest/stuAskWrite'"> 
-                        글쓰기
-                    </button>
-                </div>
-                
+
+            <th:block th:if="${testAskList.size!=0}">
+                <div class="row">
+                    <div class="col" >                         
+                            <button class="btn btn-primary" type="button" onclick="location.href='/stuTest/stuAskWrite'"> 
+                                글쓰기
+                            </button>
+                    </div>
+            </th:block>    
 
 
 

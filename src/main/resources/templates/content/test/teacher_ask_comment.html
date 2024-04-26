@@ -5,11 +5,15 @@
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴때 같이 실행되는 css -->
-    <!-- <link rel="stylesheet" href="/"> -->
+    
 </th:block>
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드작성 -->
+    <style>
+        td ,th, tr{border: 1px solid rgba(22, 121, 55, 0.438); border-collapse: collapse; }
+        th{--bs-table-bg:  #36ad6442; text-align: center;}
+    </style>
 
     <div class="row">
         <div class="col">
@@ -45,30 +49,34 @@
                         <input type="hidden" name="protestGroupno" th:value="${testAskOne.protestGroupno}+1" >  
                 
                         
-                        <table class="table" style="width:900px">
+                        <table class="table" style="width:800px">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="30%">
+                                <col width="20%">
+                                <col width="30%">
+                            </colgroup>
                                 <tr>
-                                <td>작성자</td>
-                                <td>[[${thTestAskList[0].teacherN}]]</td>
-
-                                
-                                    <td>신청자</td>
+                                    <th>작성자</th>
+                                    <td>[[${thTestAskList[0].teacherN}]]</td>                               
+                                    <th>신청자</th>
                                     <td>[[${testAskOne.memberN}]] (<span>[[${testAskOne.memberId}]]</span>)</td>
 
                                 
                                 
                                 </tr>
                                 <tr>
-                                    <td>수강명</td>
+                                    <th>수강명</th>
                                     <td>[[${testAskOne.classN}]]</td>                                   
-                                    <td>시험명</td>
+                                    <th>시험명</th>
                                     <td>[[${testAskOne.testN}]]</td>
 
                                 </tr>
                                 <tr>
                                     
-                                    <td>제목</td>
+                                    <th>제목</th>
                                     <td>RE:<input type="text" name="protestTitle"></td>
-                                    <td>작성일</td>
+                                    <th>작성일</th>
                                     <td>
                                         <script>
                                             let day=new Date();
@@ -77,8 +85,8 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>성적정정 <br>결과</td>
-                                    <td colspan="5"><textarea name="protestContent" id="protest" cols="30" rows="10"></textarea></td>
+                                    <th>성적정정 <br>결과</th>
+                                    <td colspan="5"><textarea name="protestContent" id="protest" cols="80" rows="10" style="resize: none;"></textarea></td>
                                 </tr>
                             </table>
                     </div>
@@ -86,7 +94,7 @@
                 <div class="row">
                     <div class="col">
                         <input type="submit" class="btn btn-primary text-end"  value="등록">
-                        
+                        <input type="button" class="btn btn-primary text-end"  value="취소" onclick="goAskThList()"> 
                     </div>
                     
                 </div>
@@ -94,7 +102,11 @@
             
         </div>
     </div>
-
+    <script>
+        function goAskThList(){
+            location.href='/test/teacherAskFirst';
+        }
+    </script>
 
 
 </th:block>

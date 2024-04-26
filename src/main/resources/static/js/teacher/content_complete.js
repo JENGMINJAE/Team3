@@ -16,17 +16,17 @@ function look(thisDetail,content){
     const plusHere = document.querySelector(".here");
     let str = '';
     plusHere.innerHTML = '';
-    str+=`<table class="table table-striped table-bordered" id="detail" style="text-align: center; vertical-align: middle;">
+    str+=`<table class="table table-striped table-bordered trLine" id="detail" style="text-align: center; vertical-align: middle;">
             <colgroup>
-                <col width="30%">
-                <col width="30%">
                 <col width="40%">
+                <col width="25%">
+                <col width="35%">
             </colgroup>
             <thead>
                 <tr>
-                    <td>소속</td>
-                    <td>이름</td>
-                    <td>상담일</td>
+                    <td><strong>소속</strong></td>
+                    <td><strong>이름</strong></td>
+                    <td><strong>상담일</strong></td>
                 </tr>
             </thead>
             <tbody>
