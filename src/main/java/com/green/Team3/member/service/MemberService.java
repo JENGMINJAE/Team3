@@ -49,4 +49,6 @@ public interface MemberService {
     List<TestVO> selectMyTest(String memberId);
 
     String selectMemberName(String memberId);
+
+    List<MemberVO> selectMyAttendance(String memberId);
 }

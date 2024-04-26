@@ -140,6 +140,7 @@ public class MemberController {
         model.addAttribute("homework",memberService.selectMyHomework(user.getUsername()));
         model.addAttribute("consult",memberService.selectMyConsult(user.getUsername()));
         model.addAttribute("test",memberService.selectMyTest(user.getUsername()));
+        model.addAttribute("atd",memberService.selectMyAttendance(user.getUsername()));
         return "/content/student/stu_info";
     }
 

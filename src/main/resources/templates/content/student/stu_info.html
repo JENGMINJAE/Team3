@@ -9,93 +9,126 @@
 
 <th:block layout:fragment="contentFragment">
   <!-- html 코드 작성-->
-    <div class="row stu_info_main_dev">
-      <div class="col-9">
-        <div class="row green text_center radius border_bottom">
-          <div class="col-4">이름</div>
-          <div class="col-4">이메일</div>
-          <div class="col-4">전화번호</div>
-        </div>
-        <div class="row text_center border_bottom">
-          <div class="col-4">[[${member.memberName}]]</div>
-          <div class="col-4">[[${member.memberEmail}]]</div>
-          <div class="col-4">[[${member.memberTel}]]</div>
-        </div>
-        <div class="row text_center green border_bottom">
-          <div class="col">스&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;케&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;줄</div>
-        </div>
-        <div class="row green text_center border_bottom">
-          <div class="col-4">예정 상담</div>
-          <div class="col-4">예정 과제</div>
-          <div class="col-4">예정 시험</div>
-        </div>
-        <div class="row text_center">
-          <div class="col-4">
-            <th:block th:if="${consult.size == 0}">
+  <div class="row stu_info_main_dev">
+    <div class="col-9">
+      <div class="row green text_center radius border_bottom font_heavy">
+        <div class="col-4 border_right">이 름</div>
+        <div class="col-4 border_right">이 메 일</div>
+        <div class="col-4">전 화 번 호</div>
+      </div>
+      <div class="row text_center border_bottom">
+        <div class="col-4 brr">[[${member.memberName}]]</div>
+        <div class="col-4 brr">[[${member.memberEmail}]]</div>
+        <div class="col-4">[[${member.memberTel}]]</div>
+      </div>
+      <div class="row text_center green border_bottom font_heavy">
+        <div class="col">
+          스&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;케&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;줄</div>
+      </div>
+      <div class="row yeon_green text_center border_bottom">
+        <div class="col-4 border_right">예정 상담</div>
+        <div class="col-4 border_right">예정 과제</div>
+        <div class="col-4">예정 시험</div>
+      </div>
+      <div class="row text_center border_bottom">
+        <div class="col-4">
+          <th:block th:if="${consult.size == 0}">
+            <div class="row height60">
+              <div class="col">
+                예정된 상담이 없습니다.
+              </div>
+            </div>
+          </th:block>
+          <th:block th:unless="${consult.size == 0}">
+            <th:block th:each="cs : ${consult}">
               <div class="row height60">
                 <div class="col">
-                  예정된 상담이 없습니다.
+                  [[${cs.consultDate}]] / [[${cs.clsVO.className}]]
                 </div>
               </div>
             </th:block>
-            <th:block th:unless="${consult.size == 0}">
-              <th:block th:each="cs : ${consult}">
-                <div class="row height60">
-                  <div class="col">
-                    [[${cs.consultDate}]] / [[${cs.clsVO.className}]]
-                  </div>
-                </div>
-              </th:block>
-            </th:block>
-          </div>
-          <div class="col-4">
-            <th:block th:if="${homework.size == 0}">
+          </th:block>
+        </div>
+        <div class="col-4">
+          <th:block th:if="${homework.size == 0}">
+            <div class="row height60">
+              <div class="col">
+                예정된 과제가 없습니다.
+              </div>
+            </div>
+          </th:block>
+          <th:block th:unless="${homework.size == 0}">
+            <th:block th:each="hw : ${homework}">
               <div class="row height60">
                 <div class="col">
-                  예정된 과제가 없습니다.
+                  [[${hw.hwName}]] / [[${hw.clsVO.className}]]<br>
+                  [[${hw.hwSdate}]] ~ [[${hw.hwEdate}]]
                 </div>
               </div>
             </th:block>
-            <th:block th:unless="${homework.size == 0}">
-              <th:block th:each="hw : ${homework}">
-                <div class="row height60">
-                  <div class="col">
-                    [[${hw.hwName}]] / [[${hw.clsVO.className}]]<br>
-                    [[${hw.hwSdate}]] ~ [[${hw.hwEdate}]]
-                  </div>
-                </div>
-              </th:block>
-            </th:block>
-          </div>
-          <div class="col-4">
-            <th:block th:if="${test.size == 0}">
+          </th:block>
+        </div>
+        <div class="col-4">
+          <th:block th:if="${test.size == 0}">
+            <div class="row height60">
+              <div class="col">
+                예정된 시험이 없습니다.
+              </div>
+            </div>
+          </th:block>
+          <th:block th:unless="${test.size == 0}">
+            <th:block th:each="ts : ${test}">
               <div class="row height60">
                 <div class="col">
-                  예정된 시험이 없습니다.
+                  [[${ts.testName}]] / [[${ts.classOneVo.className}]]<br>
+                  [[${ts.testDate}]]
                 </div>
               </div>
             </th:block>
-            <th:block th:unless="${test.size == 0}">
-              <th:block th:each="ts : ${test}">
-                <div class="row height60">
-                  <div class="col">
-                    [[${ts.testName}]] / [[${ts.classOneVo.className}]]<br>
-                    [[${ts.testDate}]]
-                  </div>
-                </div>
-              </th:block>
-            </th:block>
-          </div>
+          </th:block>
         </div>
       </div>
-      <div class="col-3">
-        <div class="row">
+      <div class="row green text_center border_bottom font_heavy">
+        <div class="col">
+          출결 현황
+        </div>
+      </div>
+      <th:block th:if="${atd.size == 0}">
+        <div class="row text_center border_bottom">
           <div class="col">
-
+            진행중인 수업이 없습니다.
           </div>
+        </div>
+      </th:block>
+      <th:block th:unless="${atd.size == 0}">
+        <div class="row text_center border_bottom yeon_green">
+          <div class="col-2 brr">학급</div>
+          <div class="col-2 brr">출석</div>
+          <div class="col-2 brr">결석</div>
+          <div class="col-2 brr">지각</div>
+          <div class="col-2 brr">조퇴</div>
+          <div class="col-2">보강</div>
+        </div>
+        <th:block th:each="at:${atd}">
+          <div class="row text_center border_bottom">
+            <div class="col-2 brr">[[${at.className}]]</div>
+            <div class="col-2 brr">[[${at.check}]]</div>
+            <div class="col-2 brr">[[${at.absent}]]</div>
+            <div class="col-2 brr">[[${at.tardy}]]</div>
+            <div class="col-2 brr">[[${at.early}]]</div>
+            <div class="col-2">[[${at.supple}]]</div>
+          </div>
+        </th:block>
+      </th:block>
+    </div>
+    <div class="col-3">
+      <div class="row">
+        <div class="col">
+
         </div>
       </div>
     </div>
+  </div>
 </th:block>
 
 <th:block layout:fragment="content_js">

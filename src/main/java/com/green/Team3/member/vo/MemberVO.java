@@ -36,4 +36,5 @@ public class MemberVO {
     private int tardy;//지각
     private int early;//조퇴
     private int supple;//보강
+    private String className;
 }
