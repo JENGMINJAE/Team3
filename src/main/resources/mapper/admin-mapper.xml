@@ -278,4 +278,42 @@
         FROM MEMBER
         WHERE MEMBER_ID = #{memberId}
     </select>
+
+    <!--  boardType 게시판 관리 리스트  -->
+    <select id="findBoardTypes" resultMap="board.boardTypeMap">
+        SELECT TYPE_NUM
+            , TYPE_NAME
+        FROM BOARD_TYPE
+        ORDER BY TYPE_NUM ASC
+    </select>
+
+    <!-- boardType 게시판 테이블 데이터 입력 -->
+    <insert id="setBoardType">
+        INSERT INTO BOARD_TYPE (
+            TYPE_NUM
+            , TYPE_NAME
+        ) VALUES (
+            #{typeNum}
+            , #{typeName}
+        )
+    </insert>
+
+    <!-- boardType 테이블 가장 큰 typeNum 찾기 -->
+    <select id="findMaxTypeNum" resultType="int">
+        SELECT IFNULL(MAX(TYPE_NUM), 0) + 1
+        FROM BOARD_TYPE
+    </select>
+
+    <!-- boardType 게시판 분류 수정 -->
+    <update id="regBoardType">
+        UPDATE BOARD_TYPE
+        SET TYPE_NAME = #{typeName}
+        WHERE TYPE_NUM = #{typeNum}
+    </update>
+
+    <!-- boardType 게시판 분류 삭제 -->
+    <delete id="delBoardType">;
+        DELETE FROM BOARD_TYPE
+        WHERE TYPE_NUM = #{typeNum}
+    </delete>
 </mapper>

@@ -1,6 +1,7 @@
 package com.green.Team3.admin.service;
 
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.board.vo.BoardTypeVO;
 import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
@@ -178,6 +179,31 @@ public class AdminServiceImpl implements AdminService{
     @Override
     public MemberVO selectMemberInfo(MemberVO memberVO) {
         return sqlSession.selectOne("admin.selectMemberInfo", memberVO);
+    }
+
+    @Override
+    public int findMaxTypeNum() {
+        return sqlSession.selectOne("admin.findMaxTypeNum");
+    }
+
+    @Override
+    public List<BoardTypeVO> findBoardTypes() {
+        return sqlSession.selectList("admin.findBoardTypes");
+    }
+
+    @Override
+    public void setBoardType(BoardTypeVO boardTypeVO) {
+        sqlSession.insert("admin.setBoardType", boardTypeVO);
+    }
+
+    @Override
+    public void regBoardType(BoardTypeVO boardTypeVO) {
+        sqlSession.update("admin.regBoardType", boardTypeVO);
+    }
+
+    @Override
+    public void delBoardType(BoardTypeVO boardTypeVO) {
+        sqlSession.delete("admin.delBoardType", boardTypeVO);
     }
 
 }

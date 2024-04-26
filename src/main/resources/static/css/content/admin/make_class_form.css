@@ -1,0 +1,12 @@
+h2{
+  font-weight: bold; 
+  margin-top: 8px;
+}
+
+.td-point{
+  background-color: #25ac302f;
+}
+
+.form-control::placeholder{
+  color: rgb(185, 185, 185);
+}

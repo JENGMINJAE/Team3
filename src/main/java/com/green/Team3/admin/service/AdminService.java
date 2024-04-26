@@ -1,6 +1,7 @@
 package com.green.Team3.admin.service;
 
 import com.green.Team3.admin.vo.OperatorVO;
+import com.green.Team3.board.vo.BoardTypeVO;
 import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.vo.ClsVO;
 import com.green.Team3.member.vo.MemberVO;
@@ -85,4 +86,9 @@ public interface AdminService {
     int teacherCnt();
     List<ClsVO> findTeacher(MemberVO memberVO);
     MemberVO selectMemberInfo(MemberVO memberVO);
+    int findMaxTypeNum();
+    List<BoardTypeVO> findBoardTypes();
+    void setBoardType(BoardTypeVO boardTypeVO);
+    void regBoardType(BoardTypeVO boardTypeVO);
+    void delBoardType(BoardTypeVO boardTypeVO);
 }

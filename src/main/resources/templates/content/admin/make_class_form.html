@@ -5,7 +5,7 @@
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴때 같이 실행되는 css -->
-    <!-- <link rel="stylesheet" href="/"> -->
+    <link rel="stylesheet" href="/css/content/admin/make_class_form.css">
 </th:block>
 
 <th:block layout:fragment="contentFragment">
@@ -17,53 +17,76 @@
                     <div class="col">
                         <div class="row mb-2">
                             <div class="col">
-
-                                <h2 style="font-weight: bold; margin-top: 8px;" >학급생성</h2>
+                                <h2>학급생성</h2>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">반 이름</div>
+                        <div class="row" style="height: 70%; text-align: center;" >
                             <div class="col">
-                                <input type="text" name="className">
+                                <table class="table align-middle table-bordered border-success" style="height: 200px; width: 80%; margin-left: 10%;">
+                                    <colgroup>
+                                        <col width="20%">
+                                        <col width="25%">
+                                        <col width="20%">
+                                        <col width="25%">
+                                    </colgroup>
+                                    <tr>
+                                        <td class="td-point">반이름</td>
+                                        <td colspan="3">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <input type="text" name="className" class="form-control" placeholder="반명을 입력하세요.">
+                                                </div>
+                                                <div class="col-8"></div>
+                                            </div>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-point">수강료</td>
+                                        <td colspan="3">
+                                            <div class="row">
+                                                <div class="col-4"><input type="number" name="classPayment" class="form-control" placeholder="예 200,000"></div>
+                                                <div class="col-8"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-point">정원</td>
+                                        <td colspan="3">
+                                            <div class="row">
+                                                <div class="col-4"><input type="number" min="0" max="20" name="classPersonnel" placeholder="최대 20명" class="form-control"></div>
+                                                <div class="col-8"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-point">시작일</td>
+                                        <td style="width: 280px;">
+                                            <input type="date" name="classSdate" class="form-control">
+                                        </td>
+                                        <td class="td-point">종료일</td>
+                                        <td><input type="date" name="classEdate" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-point">담당 강사</td>
+                                        <td colspan="3">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <select name="teacherNum" class="form-select">
+                                                        <option  th:each="teacher : ${teachers}" th:value="${teacher.teacherNum}">[[${teacher.memberVO.memberName}]]</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-8"></div>
+                                            </div> 
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">학급 수강료</div>
-                            <div class="col">
-                                <input type="number" name="classPayment">
+                            <div class="col d-grid" style="margin-bottom: 20px;">
+                                <input type="submit" class="btn btn-outline-success" value="생성" style="width: 10%; margin-left: 80%;">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">학급 정원</div>
-                            <div class="col">
-                                <input type="number" min="0" max="20" name="classPersonnel">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">시작일</div>
-                            <div class="col">
-                                <input type="date" name="classSdate">
-                            </div>
-                            <div class="col">종료일</div>
-                            <div class="col">
-                                <input type="date" name="classEdate">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-5">담당 강사</div>
-                            <div class="col-5">
-                                <select name="teacherNum">
-                                    <option  th:each="teacher : ${teachers}" th:value="${teacher.teacherNum}">[[${teacher.memberVO.memberName}]]</option>
-                                </select>
-                            </div>
-                            
-                        </div>
-                        <div class="row">
-                            <div class="col-9"></div>
-                            <div class="col-2 d-grid">
-                                <input type="submit" class="btn btn-outline-success" value="생성">
-                            </div>
-                            <div class="col-1"></div>
                         </div>
                     </div>
                 </div>

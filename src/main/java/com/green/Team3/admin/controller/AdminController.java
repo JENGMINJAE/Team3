@@ -3,6 +3,7 @@ package com.green.Team3.admin.controller;
 import com.green.Team3.admin.service.AdminService;
 import com.green.Team3.admin.vo.OperatorVO;
 import com.green.Team3.admin.vo.SalesVO;
+import com.green.Team3.board.vo.BoardTypeVO;
 import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.service.ClsService;
 import com.green.Team3.cls.vo.ClsVO;
@@ -342,6 +343,40 @@ public class AdminController {
         vo2.setData(arr2);
         list.add(vo2);
         return list;
+    }
+
+    // 게시판 관리 페이지 이동
+    @GetMapping("/boardControll")
+    public String boardControll(@RequestParam(name = "accorNum", defaultValue = "1", required = false) int accorNum, Model model){
+        model.addAttribute("accorNum", accorNum);
+        model.addAttribute("types", adminService.findBoardTypes());
+        return "content/admin/board_controll";
+    }
+
+    // 보드 Type 데이터 입력
+    @ResponseBody
+    @PostMapping("/setBoardType")
+    public int setBoardType(@RequestBody BoardTypeVO boardTypeVO){
+        boardTypeVO.setTypeNum(adminService.findMaxTypeNum());
+        System.out.println(boardTypeVO);
+        adminService.setBoardType(boardTypeVO);
+        return boardTypeVO.getTypeNum();
+    }
+
+    // 보드타입 데이터 수정
+    @ResponseBody
+    @PostMapping("/regBoardType")
+    public BoardTypeVO regBoardType(@RequestBody BoardTypeVO boardTypeVO){
+        adminService.regBoardType(boardTypeVO);
+        System.out.println(boardTypeVO);
+        return boardTypeVO;
+    }
+
+    // 보드타입 데이터 삭제
+    @ResponseBody
+    @PostMapping("/delBoardType")
+    public void delBoardType(@RequestBody BoardTypeVO boardTypeVO){
+        adminService.delBoardType(boardTypeVO);
     }
 
 }

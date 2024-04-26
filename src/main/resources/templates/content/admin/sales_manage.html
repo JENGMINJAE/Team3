@@ -12,26 +12,37 @@
     <!-- html 코드 작성 -->
     <div class="row">
         <div class="col">
-            <div class="offset-2 row">
-                <div class="col-2" style="font-size: 20px; font-weight: bold;">총 매출</div>
-                <div class="col-2 money-td" style="font-size: 18px;"></div>
+            <div class="row mb-2">
+                <div class="col">
+                    <h2 style="font-weight: bold; margin-top: 8px;" >매출관리</h2>
+                </div>
             </div>
-            <div class=" row">
-                <div class="col mt-3">
-                    <div class="row">
-                        <div class="col-9"></div>
-                        <div class="col-2" style="text-align: right;">
-                            <select name="payYear" onchange="eventYear()">
+            <div class="row" style="height: 95%;">
+                <div class="col" >
+                    <div class="row" >
+                        <div class="offset-1 col-2" style="font-size: 20px; font-weight: bold; padding-top: 20px;">총 매출</div>
+                        <div class="col-2 money-td" style="font-size: 18px; padding-top: 20px;"></div>
+                        <div class="offset-4 col-2" style="text-align: right; padding-top: 18px;">
+                            <select name="payYear" class="form-select" onchange="eventYear()">
                                 <option th:each="year : ${years}" th:value="${year.payYear}">[[${year.payYear}]]년</option>
                             </select>
                         </div>
-                        <div class="col-1"></div>
                     </div>
-                    <canvas class="bar-chart-div">
-                        <div></div>
-                    </canvas>
+                    <div class=" row">
+                        <div class="col mt-3">
+                            <div class="row">
+                                <div class="col-9"></div>
+        
+                                <div class="col-1"></div>
+                            </div>
+                            <canvas class="bar-chart-div" >
+                                <div></div>
+                            </canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
 
             
         </div>
