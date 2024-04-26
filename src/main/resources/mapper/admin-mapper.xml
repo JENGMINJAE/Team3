@@ -312,7 +312,7 @@
     </update>
 
     <!-- boardType 게시판 분류 삭제 -->
-    <delete id="delBoardType">;
+    <delete id="delBoardType">
         DELETE FROM BOARD_TYPE
         WHERE TYPE_NUM = #{typeNum}
     </delete>
