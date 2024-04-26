@@ -17,13 +17,16 @@ function passwordInput(){
 </div>
 <div class="col-3">
     <div class="row">
-        <div class="col">
+        <div class="col-4">
             <input type="button" value="확인" class="btn btn-outline-success" onclick="pw_check()">
+        </div>
+        <div class="col-7" style="text-align: start;">
+            <input type="button" value="취소" class="btn btn-outline-secondary" onclick="goLoad()">
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            &nbsp;
+        <div class="col" style="text-align: start;">
+    
         </div>
     </div>
 </div>
@@ -31,6 +34,11 @@ function passwordInput(){
     `;
     pwiDiv.insertAdjacentHTML("afterbegin",str);
 }
+
+function goLoad(){
+    location.reload(true);
+}
+
 
 function pw_check(){
     const pwvalue = document.querySelector("#pwvalue").value;
@@ -89,6 +97,7 @@ function pw_check(){
                 <tr>
                     <td colspan="2" id="readyToNextButton" style="text-align: center;">
                         <input type="button" value="일치 확인" class="btn btn-outline-secondary" onclick="passwordEqualsCheck()">
+                        <input type="button" value="취소" class="btn btn-outline-secondary" onclick="goLoad()">
                     </td>
                 </tr>
             </table>

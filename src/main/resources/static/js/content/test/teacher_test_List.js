@@ -745,9 +745,11 @@ function goSelectScore(testNum, tag){
                         const rowthree = document.querySelector('.rowthree');
                         rowthree.innerHTML='';
                         let str=``;
-                        str+= `<div class="row>
+                        str+= `
+                        <div class="col">
+                            <div class="row>
                                     <div class="col-10 scoreList-div">                                                                         
-                                        <table class="table-blank text-center align-middle tr-rowTwo" style="width:83%; margin-left:10px; ">
+                                        <table class="table-blank text-center align-middle tr-rowTwo" style="width:83%; margin-left:10px;">
                                                     <colgroup>
                                                             <col width="10%">
                                                             <col width="30%">
@@ -755,17 +757,18 @@ function goSelectScore(testNum, tag){
                                                             <col width="20%">
                                                             <col width="20%">
                                                     </colgroup>
-                                                <tr style="font-size: 16px;">
-                                                    <td><strong>시험번호</strong></td>
-                                                    <td><strong>시험명</strong></td>
-                                                    <td><strong>시험만점</strong></td>
-                                                    <td><strong>시험일자</strong></td>  
-                                                    <td><strong>시험관리</strong></td>                
-                                                </tr>`                                           
+                                                    <tr style="font-size: 16px;" class="th-noback">  
+                                                        <th>시험번호</th>
+                                                        <th>시험명</th>
+                                                        <th>시험만점</th>
+                                                        <th>시험일자</th>
+                                                        <th>시험관리</th>                                                        
+                                                    </tr>`                                           
                             data.testSelectList.forEach(function(scoreStu, idx){
-                                    str+=`<tr style="font-size: 15px;">
-                                                    <td>${scoreStu.testNum}</td>
-                                                    <td>${scoreStu.testName}</td>`;
+                                    str+=`<tr style="font-size: 15px;" class="tr-line yyy">
+                                                    <td class="td-line">${scoreStu.testNum}</td>
+                                                    <td class="td-line">${scoreStu.testName}</td>
+                                                    `;
                                             
                                         
                                             if(scoreStu.testMaxScore ==0){
@@ -777,20 +780,20 @@ function goSelectScore(testNum, tag){
                                                 for(let i =0; i <subCount; i++){
                                                     subSum+=parseInt(data.subDetailList[i].subMaxScore);
                                                     console.log(subSum); }                                                                                          
-                                                str+=`<td id="subTotalD"> ${subSum}</td>`                                                                                                                          
+                                                str+=`<td class="td-line" id="subTotalD"> ${subSum}</td>`                                                                                                                          
                                             }
 
                                             else if(scoreStu.testMaxScore !=0){
-                                                str+=`<td>${scoreStu.testMaxScore}</td>`;
+                                                str+=`<td class="td-line">${scoreStu.testMaxScore}</td>`;
                                             }
                                             
-                                            str+=`<td>${scoreStu.testDate}</td>
-                                                    <td>
+                                            str+=`<td class="td-line">${scoreStu.testDate}</td>
+                                                    <td class="td-line">
                                                             <input type="button" class="btn btn-secondary btn-sm listBtn lib"  value="수정" onclick="mainTestChange(${scoreStu.testNum},this)">                               
                                                             <input type="button" class="btn btn-secondary btn-sm listBtn" style="margin-left: 2px;" value="삭제" onclick="deleteTestSC(${scoreStu.testNum})">
                                                                                         
                                                     </td>
-                                            <tr>` 
+                                            </tr>` 
                                 // 만약 메인총점 0 아니라면    
                                 if(scoreStu.testMaxScore !=0){
                                     str+= `</table>                                                                                      
@@ -804,15 +807,15 @@ function goSelectScore(testNum, tag){
                                                     <col width="20%">
                                                     <col width="20%">                                               
                                                     
-                                                    <tr style="font-size: 16px;" >
-                                                        <td><strong>과목번호</strong></td>                                    
-                                                        <td><strong>과목</strong></td>
-                                                        <td><strong>과목만점</strong></td>
-                                                        <td><strong>과목관리</strong></td>                                                                                                 
+                                                    <tr style="font-size: 16px;" class="th-noback">
+                                                        <th>과목번호</th>                                    
+                                                        <th>과목</th>
+                                                        <th>과목만점</th>
+                                                        <th>과목관리</th>  
                                                     </tr>
                                                     
-                                                    <tr style="font-size: 16px;" >
-                                                        <td colspan="4">--------------</td>  
+                                                    <tr class="tr-sel tr-line"> 
+                                                        <td class="td-line" colspan="4">--------------</td>  
                                                     </tr>
                                                 </table>
                                             </div>    
@@ -833,28 +836,29 @@ function goSelectScore(testNum, tag){
                                                         <col width="20%">
                                                         <col width="20%">                                               
                                                         
-                                                        <tr style="font-size: 16px;" id="subHead">
-                                                            <td><strong>과목번호</strong></td>                                    
-                                                            <td><strong>과목</strong></td>
-                                                            <td><strong>과목만점</strong></td>
-                                                            <td><strong>과목관리</strong></td>                                                                                                 
+                                                        <tr style="font-size: 16px;" id="subHead" class="th-noback">
+                                                            <th>과목번호</th>                                    
+                                                            <th>과목</th>
+                                                            <th>과목만점</th>
+                                                            <th>과목관리</th>                                                                                                  
                                                         </tr>`
 
                                                     data.subDetailList.forEach(function(subDetail){ 
-                                                            str+=  `<tr style="font-size: 16px;"  >
-                                                                        <td id="subtestNum1">${subDetail.subTestNum}</td>
-                                                                        <td>${subDetail.subName}</td>  
-                                                                        <td>${subDetail.subMaxScore}</td>  
-                                                                        <td id="subBtnStd">
+                                                            str+=  `<tr class="tr-line" style="font-size: 16px;"  >
+                                                                        <td class="td-line" id="subtestNum1">${subDetail.subTestNum}</td>
+                                                                        <td class="td-line">${subDetail.subName}</td>  
+                                                                        <td class="td-line">${subDetail.subMaxScore}</td>  
+                                                                        <td class="td-line" id="subBtnStd">
                                                                                 <input type="button" class="btn btn-secondary btn-sm listBtn" id="updateSubBtn" value="수정" onclick="selUpdateSub(${subDetail.subTestNum},this)">                             
                                                                                 <input type="button" class="btn btn-secondary btn-sm listBtn" style="margin-left: 2px;" value="삭제" onclick="deleteSubSC(${subDetail.subTestNum}, ${subDetail.testNum})">
-                                                                            </td>  
+                                                                        </td>  
                                                                     </tr>`
                                                     }); 
                                                         
                                                 str+= `</table>
                                                     </div>    
-                                                </div>`; 
+                                                </div>
+                                            </div>`; 
                                         }
                                     
                                 });                           
@@ -1100,13 +1104,13 @@ function showNewMain(testNum, testBtn){
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
             console.log(data);
-                testNameInput.innerHTML=`<td>${data.testName}</td>`;
+                testNameInput.innerHTML=`<td class="td-line">${data.testName}</td>`;
 
                 if(data.testMaxScore !=0){
-                    testMaxInput.innerHTML=`<td>${data.testMaxScore}</td>`;
+                    testMaxInput.innerHTML=`<td class="td-line">${data.testMaxScore}</td>`;
                 }                                    
                 
-                testDateInput.innerHTML=`<td>${data.testDate}</td>`;
+                testDateInput.innerHTML=`<td class="td-line">${data.testDate}</td>`;
 
             testBtn.value='수정';
             
@@ -1252,8 +1256,8 @@ function showNewSub(subTestNum, suBtn){
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
             console.log(data)
-                subNameInput.innerHTML=`<td>${data.subName}</td>`;
-                subMaxInput.innerHTML=`<td>${data.subMaxScore}</td>`;
+                subNameInput.innerHTML=`<td class="td-line">${data.subName}</td>`;
+                subMaxInput.innerHTML=`<td class="td-line">${data.subMaxScore}</td>`;
 
                 suBtn.value='수정';            
                 showUpSubMax(data.testNum);
@@ -1354,19 +1358,19 @@ function  updateSubList(testNum){
                                         <col width="20%">
                                         <col width="20%">                                               
                                         
-                                        <tr style="font-size: 16px;" id="subHead">
-                                            <td><strong>과목번호</strong></td>                                    
-                                            <td><strong>과목</strong></td>
-                                            <td><strong>과목만점</strong></td>
-                                            <td><strong>과목관리</strong></td>                                                                                                 
+                                        <tr style="font-size: 16px;" id="subHead" class="th-noback">
+                                            <td class="td-line"><strong>과목번호</strong></td>                                    
+                                            <td class="td-line"><strong>과목</strong></td>
+                                            <td class="td-line"><strong>과목만점</strong></td>
+                                            <td class="td-line"><strong>과목관리</strong></td>                                                                                                 
                                         </tr>`
 
                                     data.subNames.forEach(function(subDetail){ 
-                                            str+=   `<tr style="font-size: 16px;"  >
-                                                        <td id="subtestNum1">${subDetail.subTestNum}</td>
-                                                        <td>${subDetail.subName}</td>  
-                                                        <td>${subDetail.subMaxScore}</td>  
-                                                        <td id="subBtnStd">
+                                            str+=   `<tr style="font-size: 16px;" class="tr-line" >
+                                                        <td class="td-line" id="subtestNum1">${subDetail.subTestNum}</td>
+                                                        <td class="td-line">${subDetail.subName}</td>  
+                                                        <td class="td-line">${subDetail.subMaxScore}</td>  
+                                                        <td class="td-line" id="subBtnStd">
                                                                 <input type="button" class="btn btn-secondary btn-sm listBtn" id="updateSubBtn" value="수정" onclick="selUpdateSub(${subDetail.subTestNum},this)">                             
                                                                 <input type="button" class="btn btn-secondary btn-sm listBtn" style="margin-left: 2px;" value="삭제" onclick="deleteSubSC(${subDetail.subTestNum}, ${subDetail.testNum})">
                                                             </td>  
