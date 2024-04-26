@@ -95,5 +95,10 @@ public class MemberServiceImpl implements MemberService{
         return sqlSession.selectOne("member.selectMemberName",memberId);
     }
 
+    @Override
+    public List<MemberVO> selectMyAttendance(String memberId) {
+        return sqlSession.selectList("member.selectMyAttendance",memberId);
+    }
+
 
 }

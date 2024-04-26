@@ -23,6 +23,7 @@
         <result column="tardy"          property="tardy"/>
         <result column="early"          property="early"/>
         <result column="supple"         property="supple"/>
+        <result column="CLASS_NAME"     property="className"/>
         <collection property="operatorVOList"    resultMap="admin.operator"/>
     </resultMap>
 
@@ -230,6 +231,21 @@
             WHERE MEMBER_ID=#{memberId})
         AND TEST_DATE >= NOW()
         ORDER BY TEST_DATE ASC
+    </select>
+    <select id="selectMyAttendance" resultMap="memberMap">
+        SELECT c.CLASS_NAME
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 1 AND member_id = m.member_id AND CLASS_NUM = C.CLASS_NUM) 'check'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 2 AND member_id = m.member_id AND CLASS_NUM = C.CLASS_NUM) 'absent'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 3 AND member_id = m.member_id AND CLASS_NUM = C.CLASS_NUM) 'tardy'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 4 AND member_id = m.member_id AND CLASS_NUM = C.CLASS_NUM) 'early'
+        ,(SELECT COUNT(*) FROM attendance WHERE atdt_num = 5 AND member_id = m.member_id AND CLASS_NUM = C.CLASS_NUM) 'supple'
+        from member m
+        INNER JOIN operator o
+        ON m.member_id = o.MEMBER_ID
+        INNER JOIN class_info c
+        ON c.CLASS_NUM = o.CLASS_NUM
+        WHERE m.member_id = #{memberId}
+        AND c.class_num IN (SELECT class_num from operator WHERE member_id = #{memberId})
     </select>
 
 
