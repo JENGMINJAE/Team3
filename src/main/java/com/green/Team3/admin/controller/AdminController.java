@@ -368,7 +368,6 @@ public class AdminController {
     @PostMapping("/regBoardType")
     public BoardTypeVO regBoardType(@RequestBody BoardTypeVO boardTypeVO){
         adminService.regBoardType(boardTypeVO);
-        System.out.println(boardTypeVO);
         return boardTypeVO;
     }
 
