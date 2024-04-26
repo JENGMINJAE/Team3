@@ -12,8 +12,8 @@
 
 
 <style>
-    td ,th, tr{border: 2px solid rgba(58, 111, 228, 0.281); }
-    th{--bs-table-bg:  rgb(223, 238, 253); --bs-table-color: rgb(22, 58, 136); text-align: center;}
+    td ,th, tr{border: 1px solid rgba(22, 121, 55, 0.438); border-collapse: collapse; }
+    th{--bs-table-bg:  #36ad6442; text-align: center;}
 </style>
     <!-- html 코드 작성-->
     <div class="row">
@@ -21,8 +21,8 @@
             <div class="row">
                 <div class="col">
                     <div class="row" style="width:700px; margin-left: 1px;">
-                        <div class="col" style="color: white; background-color:rgb(28, 28, 78); border-bottom: 10px solid rgb(23, 141, 156); font-size:25px;">
-                            <h4><strong>나의 개인정보</strong></h4>
+                        <div class="col" style="color: white; padding-top: 6px; padding-bottom: 1px; background-color:#0a1657; border-bottom: 8px solid #25ac30;">
+                            <h3><strong>나의 개인정보</strong></h3>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
 
             <div class="row mt-3">
                 <div class="col">
-                    <table class="table" style="height: 200px;">
+                    <table class="table" style="height: 200px; border: 3px solid rgba(22, 121, 55, 0.438);">
                         <colgroup>
                             <col width="16%">
                             <col width="29%">
@@ -64,11 +64,12 @@
             </div>
             
             <div class="row mb-2" id="passwordInput">
-                <div class="col-3">
+                <div class="col-2">
                     <input type="button" value="개인정보 변경" class="btn btn-outline-secondary" onclick="passwordInput()">
+                
                 </div>
                 <div class="col-9">
-                    
+            
                 </div>
             </div>
         </div>
@@ -76,6 +77,8 @@
             
         </div>
     </div>
+
+
 </th:block>
 
 <th:block layout:fragment="content_js">
