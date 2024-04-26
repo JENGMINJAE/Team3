@@ -49,15 +49,15 @@ function crystal_consult(thishc){
                     </colgroup>
             <tr>
                 <td>
-                    소속
+                    <strong>소속</strong>
                 </td>
                 <td>
-                    학생명
+                    <strong>수강생명</strong>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <select name = "classNum" class="form-select" onchange="change()" id="class_select" style="text-align: center;">`;
+                    <select name = "classNum" class="form-select" onchange="change()" id="class_select" style="text-align: center; border: 1px solid rgb(23, 141, 156);">`;
                 
                     data.classList.forEach(function(e,idx){
                         str+=`<option value=${e.classNum} `
@@ -71,18 +71,18 @@ function crystal_consult(thishc){
                     </select>
                 </td>
                 <td>
-                    <select name = "memberId" class="form-select" id="stu_select">
+                    <select name = "memberId" class="form-select" id="stu_select" style="border: 1px solid rgb(23, 141, 156);">
                     </select>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    상담 일
+                <strong>상담 일자</strong>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="date" name="consultDate" class="form-control" style="text-align: center;" value="${data.consultVO.consultDate}">
+                    <input type="date" name="consultDate" class="form-control" style="text-align: center; border: 1px solid rgb(23, 141, 156);" value="${data.consultVO.consultDate}">
                 </td>
             </tr>
         </table>

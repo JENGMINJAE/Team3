@@ -158,6 +158,7 @@ public class StuTestController {
         User user=(User) authentication.getPrincipal();
         List<TestAskVO> testAskList = stuTestService.selectStuAsk(user.getUsername());
         model.addAttribute("testAskList",testAskList);
+        System.out.println(testAskList);
 
          return "content/student/student_test_ask";
     }
