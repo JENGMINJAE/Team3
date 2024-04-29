@@ -23,7 +23,7 @@
                     <form action="/admin/goMemberList" method="post">
                         <div class="row">
                             <div class="col-2 d-grid">
-                                <select name="searchType">
+                                <select name="searchType" class="form-select">
                                     <option value="" th:selected="${searchVO.searchType == null}">선택</option>
                                     <option value="1" th:selected="${searchVO.searchType == '1'}">학생</option>
                                     <option value="2" th:selected="${searchVO.searchType == '2'}">강사</option>

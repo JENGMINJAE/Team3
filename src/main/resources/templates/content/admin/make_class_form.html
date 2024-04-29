@@ -73,7 +73,7 @@
                                             <div class="row">
                                                 <div class="col-4">
                                                     <select name="teacherNum" class="form-select">
-                                                        <option  th:each="teacher : ${teachers}" th:value="${teacher.teacherNum}">[[${teacher.memberVO.memberName}]]</option>
+                                                        <option th:each="teacher : ${teachers}" th:value="${teacher.teacherNum}">[[${teacher.memberVO.memberName}]]</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-8"></div>
@@ -86,7 +86,7 @@
                         <div class="row">
                             <div class="col d-grid" style="margin-bottom: 20px;">
                                 <input type="hidden" value="3" name="accorNum">
-                                <input type="submit" class="btn btn-outline-success" value="생성" style="width: 10%; margin-left: 80%;">
+                                <input type="button" class="btn btn-outline-success" value="생성" onclick="submitClass()" style="width: 10%; margin-left: 80%;">
                             </div>
                         </div>
                     </div>
