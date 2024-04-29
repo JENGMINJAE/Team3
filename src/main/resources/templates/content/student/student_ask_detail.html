@@ -90,15 +90,23 @@
                             <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestGroupno}==0">
                                     <input type="button" class="btn btn-primary" th:onclick="goComment([[${testAskOne.protestNum}]])" value="답글">
                             
-                                <!-- 삭제 버튼(선생님) -->
+                                <!-- 삭제 버튼 -->
+                                    <!-- (학생) -->
                                     <th:block th:if="${testAskOne.protestOrigino}==0">
                                         <input type="button" class="btn btn-primary text-end"  value="삭제" th:onclick="goThDelete1([[${testAskOne.protestNum}]])">
                                     </th:block>
+                                    <!-- (선생님) -->
                                     <th:block th:if="${testAskOne.protestOrigino}!=0">
                                         <input type="button" class="btn btn-primary text-end"  value="삭제" th:onclick="goThDelete2([[${testAskOne.protestOrigino}]])">
-                                    </th:block>                                                  
+                                    </th:block>
+                                                                            
                             </th:block>
 
+                            <!-- 답글 수정버튼 (선생님) -->
+                            <th:block th:if="${thTestAskList}!=null and ${testAskOne.protestOrigino!=0} and ${testAskOne.protestGroupno!=0}">
+                                <input type="button" class="btn btn-primary text-end"  value="답글수정" th:onclick="goReply([[${testAskOne.protestNum}]])">
+                            </th:block>  
+                            
                             <!-- 목록 버튼(선생님) -->
                                 <input type="button" class="btn btn-primary" th:onclick="goList([[${thTestAskList}]],[[${testAskOne.protestOrigino}]])" value="목록">                              
                         </div>
@@ -142,6 +150,11 @@ function goList(thTestAskList,protestOrigino ){
         location.href='/test/teacherAskFirst';
     }
 }
+// ##########################   선생님 답글  수정 창 이동 ########################## 
+function goReply(protestNum){
+    location.href='/test/goTeacherUpdate?protestNum=' +protestNum;
+}
+
 </script>
 
 

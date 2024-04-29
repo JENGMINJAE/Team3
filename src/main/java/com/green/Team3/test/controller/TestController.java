@@ -461,6 +461,36 @@ public class TestController {
             return "redirect:/test/teacherAskFirst?memberId="+testAskVO.getMemberId();
         }
 
+
+            // 선생님  상세내용을 가지고 답글 수정 페이지로 가기
+            @GetMapping("/goTeacherUpdate")
+            public String goTeacherUpdate(TestAskVO testAskVO ,Model model, Authentication authentication){
+
+                User user=(User) authentication.getPrincipal();
+                MemberVO stuInfoService = stuTestService.selectStuTest(user.getUsername());
+                model.addAttribute("stuInfoService",stuInfoService);
+
+                List<TestAskVO> thTestAskList = testService.selTeacherAsk(user.getUsername());
+                model.addAttribute("thTestAskList", thTestAskList);
+
+                TestAskVO testAskOne = stuTestService.stuAskDetail(testAskVO);
+                model.addAttribute("testAskOne",testAskOne);
+
+                return "content/test/teacher_ask_wUpdate";
+            }
+
+            //선생님 답글 1개 수정하기
+            @PostMapping("/teacherUpdate")
+            public String teacherUpdate(TestAskVO testAskVO){
+                stuTestService.updateMyAsk(testAskVO);
+                return "redirect:/test/teacherAskFirst";
+            }
+
+
+
+
+
+
         // 선생님이 학생글 1개 삭제(1)
         @GetMapping("/goThDelete1")
         public String goThDelete1(TestAskVO testAskVO){

@@ -82,7 +82,14 @@ public class StuTestServiceImpl implements StuTestService {
             public void insertStuAsk(TestAskVO testAskVO) {
                 sqlSession.insert("testMapper.insertStuAsk", testAskVO);
             }
-            // [학생] 이의신청 글 목록
+
+            // [학생] 이의신청 글쓰기 버튼 조작위해서 스커넘버 가져오기
+            @Override
+            public List<TestScoreVO> isScore(String memberId) {
+                return sqlSession.selectList("testMapper.isScore", memberId);
+            }
+
+    // [학생] 이의신청 글 목록
             @Override
             public List<TestAskVO> selectStuAsk(String memberId) {
                 return sqlSession.selectList("testMapper.selectStuAsk", memberId);
