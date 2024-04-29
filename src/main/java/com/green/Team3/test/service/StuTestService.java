@@ -50,6 +50,8 @@ public interface StuTestService {
 
     // [학생] 이의신청 글 적기
     void insertStuAsk(TestAskVO testAskVO);
+    // [학생] 이의신청 글쓰기 버튼 조작위해서 스커넘버 가져오기
+    List<TestScoreVO> isScore(String memberId);
     // [학생] 이의신청 글 목록
     List<TestAskVO>selectStuAsk(String memberId);
     // [학생] 이의신청 글 상세보기
