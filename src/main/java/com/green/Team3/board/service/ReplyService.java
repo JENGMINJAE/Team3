@@ -15,6 +15,9 @@ public interface ReplyService {
     //댓글 삭제
     void deleteReply(int replyNum);
 
+    //댓글 삭제
+    void deleteReplyQna(int boardNum);
+
     //댓글 수정
     void updateReply(ReplyVO replyVO);
 

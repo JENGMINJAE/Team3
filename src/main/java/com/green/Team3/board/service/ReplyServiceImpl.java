@@ -30,6 +30,11 @@ public class ReplyServiceImpl implements ReplyService{
         sqlSession.delete("reply.deleteReply", replyNum);
     }
 
+    @Override
+    public void deleteReplyQna(int boardNum) {
+        sqlSession.delete("reply.deleteReplyQna", boardNum);
+    }
+
     //댓글 수정
     @Override
     public void updateReply(ReplyVO replyVO) {

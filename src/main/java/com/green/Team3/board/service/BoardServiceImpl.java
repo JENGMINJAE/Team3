@@ -8,14 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
 
-
     @Autowired
     private SqlSessionTemplate sqlSession;
+
+    @Autowired
+    private ReplyService replyService;
 
     //다음에 INSERT 할 BOARD_NUM 조회
     @Override
@@ -93,12 +97,16 @@ public class BoardServiceImpl implements BoardService {
         sqlSession.delete("board.deleteNotice", boardVO);
     }
 
-    //게시글 삭제 - 문의사항
+    //게시글 삭제 - 문의사항(게시글 + 댓글 삭제)
+    //트랜젝션
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteQna(int boardNum) {
+        // 댓글 삭제
+        replyService.deleteReplyQna(boardNum);
+        // 게시글 삭제
         sqlSession.delete("board.deleteQna", boardNum);
     }
-
 
     //공지사항 게시글 수정 시 첨부파일 이미지 삭제
     @Override
@@ -141,17 +149,37 @@ public class BoardServiceImpl implements BoardService {
         return sqlSession.selectOne("board.selectNoticeCnt", searchVO);
     }
 
+
     //게시글 상세 - 이전글 조회
     @Override
     public BoardVO prevPage(BoardVO boardNum) {
         return sqlSession.selectOne("board.prevPage", boardNum);
     }
 
+//    @Override
+//    public int prevPage(int currentBoardNum, int typeNum) {
+//        Map<String, Integer> params = new HashMap<>();
+//        params.put("currentBoardNum", currentBoardNum);
+//        params.put("typeNum", typeNum);
+//        return sqlSession.selectOne("board.prevPage", params);
+//    }
+
+
     //게시글 상세 - 다음글 조회
     @Override
-    public BoardVO nextPage(int boardNum) {
+    public BoardVO nextPage(BoardVO boardNum) {
         return sqlSession.selectOne("board.nextPage", boardNum);
     }
+
+//    @Override
+//    public int nextPage(int currentBoardNum, int typeNum) {
+//        Map<String, Integer> params = new HashMap<>();
+//        params.put("currentBoardNum", currentBoardNum);
+//        params.put("typeNum", typeNum);
+//        return sqlSession.selectOne("board.nextPage", params);
+//    }
+
+
 
     @Override
     public List<BoardTypeVO> selectType() {

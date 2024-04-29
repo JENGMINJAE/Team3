@@ -135,18 +135,19 @@ public class BoardController {
         //쿼리 실행
         boardService.insertNotice(boardVO);
 
-        if(boardVO.getTypeNum() == 1){
-            return "redirect:/board/noticeListStu";}
-        else if(boardVO.getTypeNum() == 2){
-            return "redirect:/board/noticeListTea";}
-        else{return null;}
+        if (boardVO.getTypeNum() == 1) {
+            return "redirect:/board/noticeListStu?typeNum=1";
+        } else if (boardVO.getTypeNum() == 2) {
+            return "redirect:/board/noticeListTea?typeNum=2";
+        } else {
+            return "redirect:/error";
+        }
     }
 
 
     // 공지사항 상세 조회
     @GetMapping("/noticeDetail")
-    public String noticeDetail(BoardVO boardVO
-                                , Model model){
+    public String noticeDetail(BoardVO boardVO, Model model){
         //조회수 증가
         boardService.updateBoardCnt(boardVO.getBoardNum());
 
@@ -156,7 +157,7 @@ public class BoardController {
         model.addAttribute("notice", vo);
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(boardVO);
+        BoardVO prevPage = boardService.prevPage(vo);
         if (prevPage != null){
             model.addAttribute("currentBoardNum", boardVO.getBoardNum());
             model.addAttribute("prevPage", prevPage);
@@ -167,7 +168,7 @@ public class BoardController {
         }
 
         // 다음글 조회
-        BoardVO nextPage = boardService.nextPage(boardVO.getBoardNum());
+        BoardVO nextPage = boardService.nextPage(vo);
         if(nextPage != null){
             model.addAttribute("currentBoardNum", boardVO.getBoardNum());
             model.addAttribute("nextPage", nextPage);
@@ -179,16 +180,17 @@ public class BoardController {
         return "content/common/notice_detail";
     }
 
-    // 공지사항 게시글 삭제(첨부 파일 있을 때 / 없을 때 모두 가능) //리턴페이지 어디로 감...
+    // 공지사항 게시글 삭제(첨부 파일 있을 때 / 없을 때 모두 가능)
     @GetMapping("/deleteNotice")
     public String deleteNotice(BoardVO boardVO){
         boardService.deleteNotice(boardVO);
-        //return "redirect:/board/noticeList";
-        if(boardVO.getTypeNum() == 1){
-            return "redirect:/board/noticeListStu";}
-        else if(boardVO.getTypeNum() == 2){
-            return "redirect:/board/noticeListTea";}
-        else{return null;}
+        if (boardVO.getTypeNum() == 1) {
+            return "redirect:/board/noticeListStu?typeNum=1";
+        } else if (boardVO.getTypeNum() == 2) {
+            return "redirect:/board/noticeListTea?typeNum=2";
+        } else {
+            return "redirect:/error";
+        }
     }
 
     // 공지사항 게시글 수정 양식 페이지 이동
@@ -199,30 +201,12 @@ public class BoardController {
     }
 
     //공지사항 게시글 수정 시 첨부파일 이미지 삭제(비동기)
-//    @ResponseBody
-//    @PostMapping("/deleteImgFile")
-//    public BoardVO deleteImgFile(@RequestParam(name="imgNum") int imgNum, BoardVO boardVO){
-//        boardService.deleteImgFile(imgNum);
-//        return boardService.selectNoticeDetail(boardVO.getBoardNum());
-//    }
-
-    //공지사항 게시글 수정 시 첨부파일 이미지 삭제(비동기)
     @ResponseBody
     @PostMapping("/deleteImgFile")
     public BoardVO deleteImgFile(@RequestParam(name="imgNum") int imgNum, @RequestParam(name="boardNum") int boardNum){
         boardService.deleteImgFile(imgNum);
         return boardService.selectNoticeDetail(boardNum);
     }
-
-
-
-    //공지사항 게시글 수정
-//    @PostMapping("/updateNotice")
-//    public String update(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
-//        boardVO.setBoardNum(boardNum);
-//        boardService.updateNotice(boardVO);
-//        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
-//    }
 
 
     // 공지사항 게시글 수정 + 이미지 첨부 기능 *******************************************************구현중
@@ -302,19 +286,24 @@ public class BoardController {
 
     // 문의사항 게시글 작성
     @PostMapping("/qnaWrite")
-    public String qnaWrite(BoardVO boardVO, Authentication authentication){
+    public String qnaWrite(BoardVO boardVO, Authentication authentication) {
         //로그인 정보
         User user = (User) authentication.getPrincipal();
         boardVO.setMemberId(user.getUsername());
         //문의사항 게시글 등록
         boardService.insertQna(boardVO);
-        return "redirect:/board/qnaList";
+
+        if (boardVO.getTypeNum() == 3) {
+            return "redirect:/board/qnaList?typeNum=3";
+        } else {
+            return "redirect:/error";
+        }
     }
+
 
     // 문의사항 상세 조회
     @GetMapping("/qnaDetail")
-    public String qnaDetail(@RequestParam(name = "boardNum") int boardNum
-            , Model model){
+    public String qnaDetail(@RequestParam(name = "boardNum") int boardNum, Model model){
         //조회수 증가
         boardService.updateBoardCnt(boardNum);
         System.out.println(boardNum);
@@ -339,7 +328,7 @@ public class BoardController {
         }
 
         // 다음글 조회
-        BoardVO nextPage = boardService.nextPage(boardNum);
+        BoardVO nextPage = boardService.nextPage(vo);
         if(nextPage != null){
             model.addAttribute("currentBoardNum", boardNum);
             model.addAttribute("nextPage", nextPage);
@@ -351,12 +340,47 @@ public class BoardController {
 
         return "content/common/qna_detail";
     }
+    //이전글 조회2
+//        int typeNum = vo.getTypeNum(); // 해당 글의 타입 번호 가져오기
+//        int currentBoardNum = vo.getBoardNum(); // 해당 글의 번호 가져오기
+//        int prevBoardNum = boardService.prevPage(currentBoardNum, typeNum);
+//        if (prevBoardNum != -1) {
+//            model.addAttribute("prevPage", prevBoardNum);
+//        } else {
+//            model.addAttribute("prevPageNotFound", true);
+//        }
+
+    //다음글 조회2
+//        int nextBoardNum = boardService.nextPage(currentBoardNum, typeNum);
+//        if (nextBoardNum != -1) {
+//            model.addAttribute("nextPage", nextBoardNum);
+//        } else {
+//            model.addAttribute("nextPageNotFound", true);
+//        }
+
+
+
+
+    // 문의사항 게시글 삭제
+//    @GetMapping("/deleteQna")
+//    public String deleteQna(@RequestParam(name = "boardNum") BoardVO boardVO, int boardNum){
+//        boardService.deleteQna(boardNum);
+//        if (boardVO.getTypeNum() == 3) {
+//            return "redirect:/board/qnaList?typeNum=3";
+//        } else {
+//            return "redirect:/error";
+//        }
+//    }
 
     // 문의사항 게시글 삭제
     @GetMapping("/deleteQna")
-    public String deleteQna(@RequestParam(name = "boardNum") int boardNum){
+    public String deleteQna(@RequestParam(name = "boardNum") int boardNum, BoardVO boardVO) {
         boardService.deleteQna(boardNum);
-        return "redirect:/board/qnaList";
+        if (boardVO.getTypeNum() == 3) {
+            return "redirect:/board/qnaList?typeNum=3";
+        } else {
+            return "redirect:/error";
+        }
     }
 
     // 문의사항 게시글 수정 양식 페이지 이동

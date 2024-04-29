@@ -23,5 +23,4 @@ public class BoardVO {
     private int currentBoardNum;
     private String memberName;
     private String createDate;
-
 }

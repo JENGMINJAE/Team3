@@ -49,7 +49,7 @@ public interface BoardService {
     //공지사항 첨부파일 이미지 등록
     void insertImgs(BoardVO boardVO);
 
-    //게시글 삭제 - 문의사항
+    //게시글 삭제 - 문의사항 (게시글 + 댓글 삭제) - 트랜젝션
     void deleteQna(int boardNum);
 
     //게시글 수정 - 문의사항
@@ -61,11 +61,22 @@ public interface BoardService {
     //게시글 수 조회
     int selectNoticeCnt(SearchVO searchVO);
 
+    // ***********************************************************
     //게시글 상세 - 이전글 조회
     BoardVO prevPage(BoardVO boardNum);
 
     //게시글 상세 - 다음글 조회
-    BoardVO nextPage(int boardNum);
+    BoardVO nextPage(BoardVO boardNum);
+
+
+    // 이전글 조회2
+//    int prevPage(int currentBoardNum, int typeNum);
+
+    // 다음글 조회2
+    //int nextPage(int currentBoardNum, int typeNum);
+    // ************************************************************
+
+
 
     List<BoardTypeVO> selectType();
 

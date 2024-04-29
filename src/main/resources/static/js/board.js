@@ -32,6 +32,7 @@ function noticeReg() {
     const boardTitle = document.querySelector('#boardTitle');
     if (boardTitle.value.trim() == '') {
         alert('공지사항 제목을 입력하세요.');
+        boardTitle.focus();
         return;
     }
 
@@ -46,14 +47,12 @@ function noticeReg() {
     const boardContent = document.querySelector('#boardContent');
     if (boardContent.value.trim() == '') {
         alert('공지사항 내용을 입력하세요.');
+        boardContent.focus(); // 사용자가 바로 수정할 수 있도록 포커스 추가
         return;
     }
 
+    // 모든 유효성 검사 통과 시, 폼 제출
     document.querySelector('#notice_reg').submit();
-
-    // 유효성 검사 모두 만족 시 true
-    return true;
-
 }
 
 
@@ -141,9 +140,9 @@ function goUpdateQna(boardNum) {
 }
 
 // 문의사항 게시글 삭제
-function goDeleteQna(boardNum) {
+function goDeleteQna(boardNum, typeNum) {
     if (confirm('게시글을 삭제하시겠습니까?')) {
-        location.href = `/board/deleteQna?boardNum=${boardNum}`;
+        location.href = `/board/deleteQna?boardNum=${boardNum}&typeNum=${typeNum}`;
     }
 }
 
@@ -153,20 +152,15 @@ function qnaReg() {
     const boardTitle = document.querySelector('#boardTitle');
     if (boardTitle.value.trim() == '') {
         alert('문의사항 제목을 입력하세요.');
+        boardTitle.focus();
         return false;
     }
-
-    // 열람대상 빈칸 시
-    // const typeNum = document.querySelector('input[name="typeNum"]:checked');
-    // if (!typeNum) {
-    //     alert('문의사항 열람대상을 선택하세요.');
-    //     return false;
-    // }
 
     // 내용 빈칸 시
     const boardContent = document.querySelector('#boardContent');
     if (boardContent.value.trim() == '') {
         alert('문의사항 내용을 입력하세요.');
+        boardTitle.focus();
         return false;
     }
 

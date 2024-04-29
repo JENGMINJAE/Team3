@@ -84,7 +84,7 @@
                                             </a>
                                         </td>
                                         <td class="border-end border border-success">
-                                            [[${qna.memberId}]], [[${qna.typeNum}]]
+                                            [[${qna.memberName}]]
                                         </td>
                                         <td>[[${qna.boardCnt}]]</td>
                                     </tr>
@@ -103,22 +103,22 @@
                             <ul class="pagination">
                                 <th:block th:if="${searchVO.prev}">
                                     <li class="page-item">
-                                        <a class="page-link" th:href="@{/board/qnaList(nowPage=${searchVO.beginPage - 1})}"  aria-label="Previous" style="color: rgb(116, 116, 116)">
+                                        <a class="page-link" th:href="@{/board/qnaList(nowPage=${searchVO.beginPage - 1}, typeNum=${searchVO.typeNum}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" aria-label="Previous" style="color: rgb(116, 116, 116)">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
                                 </th:block>
                                 <th:block th:each="i : ${#numbers.sequence(searchVO.beginPage, searchVO.endPage)}"> 
-                                    <!-- 목록에서 선택한 페이지 + 조회한 검색 데이터 함께 가져옴 -->   
+                                    <!-- 공지사항 목록에서 선택한 페이지 + 조회한 검색 데이터 함께 가져옴 -->   
                                     <li class="page-item">
-                                        <a class="page-link" th:href="@{/board/qnaList(nowPage=${i}, typeNum=3, typeNum=4, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
+                                        <a class="page-link" th:href="@{/board/qnaList(nowPage=${i}, typeNum=${searchVO.typeNum}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
                                             [[${i}]]
                                         </a>
                                     </li>
                                 </th:block>
                                 <th:block th:if="${searchVO.next}">
                                     <li class="page-item">
-                                        <a class="page-link" th:href="@{/board/qnaList(nowPage=${searchVO.endPage + 1})}" aria-label="Next" style="color: rgb(116, 116, 116)">
+                                        <a class="page-link" th:href="@{/board/qnaList(nowPage=${searchVO.endPage + 1}, typeNum=${searchVO.typeNum}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" aria-label="Next" style="color: rgb(116, 116, 116)">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>

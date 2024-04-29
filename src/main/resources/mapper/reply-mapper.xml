@@ -42,6 +42,12 @@
         WHERE REPLY_NUM = #{replyNum}
     </delete>
 
+    <!-- 댓글 삭제 -->
+    <delete id="deleteReplyQna">
+        DELETE FROM BOARD_REPLY
+        WHERE BOARD_NUM = #{boardNum}
+    </delete>
+
     <!-- 댓글 수정 -->
     <update id="updateReply">
         UPDATE BOARD_REPLY

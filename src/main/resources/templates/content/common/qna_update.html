@@ -10,46 +10,65 @@
     
 <th:block layout:fragment="contentFragment">
     <!-- 문의사항 게시글 수정 -->
-    <form action="/board/updateQna" method="post">
-        <div class="row">
-            <div class="col">
-                <h3>문의사항 게시글 수정</h3>
-                <input type="hidden" name="boardNum" th:value="${qna.boardNum}">
-                <table class="table table-striped table-hover text-center align-middle">
-                    <colgroup>
-                        <col width="20%">
-                        <col width="*">
-                    </colgroup>
-                        <tr>
-                            <td>제목</td>
-                            <td>
-                                <input type="text" class="form-control" name="boardTitle" th:value="${qna.boardTitle}">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>내용</td>
-                            <td>
-                                <textarea name="boardContent" cols="30" rows="10" class="form-control">[[${qna.boardContent}]]</textarea>
-                            </td>
-                        </tr>
-                </table>
+    <div class="row" style="padding-top: 10px; padding-left: 25px; padding-right: 25px;">
+        <div class="col">
+            <div class="row mb-3">
+                <div class="col d-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-question-circle-fill text-success mt-1" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+                    </svg>
+                    <h2 style="font-weight: bold; margin-left: 10px;">문의사항</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex" style="padding-top: 3px; padding-bottom: 10px;">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 18px; font-weight: bold; margin-left: 10px;">문의사항 > 게시글 수정</div>
+                    </div>
+                    <form action="/board/updateQna" method="post">
+                        <input type="hidden" name="boardNum" th:value="${qna.boardNum}">
+                        <table class="table text-center align-middle border-success">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="80%">
+                            </colgroup>
+                                <tr class="border-top border-success">
+                                    <td>제목</td>
+                                    <td>
+                                        <input type="text" class="form-control" name="boardTitle" th:value="${qna.boardTitle}">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>내용</td>
+                                    <td>
+                                        <textarea name="boardContent" cols="30" rows="10" class="form-control">[[${qna.boardContent}]]</textarea>
+                                    </td>
+                                </tr>
+                        </table>
+                        <div class="row mb-5">
+                            <div class="col-3"></div>
+                            <div class="col-2 d-grid">
+                                <th:block th:if="${qna.typeNum == 3}">
+                                    <input type="button" value="뒤로가기" class="btn btn-outline-secondary btn-lg rounded-0" th:onclick="|location.href='@{/board/qnaDetail(boardNum=${qna.boardNum})}'|">
+                                </th:block>
+                            </div>
+                            <div class="col-2"></div>
+                            <div class="col-2 d-grid">
+                                <input type="submit" value="수정 완료" class="btn btn-outline-secondary btn-lg rounded-0">
+                            </div>
+                            <div class="col-3"></div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="row mb-5">
-            <div class="col"></div>
-            <div class="col d-grid">
-                <th:block th:if="${qna.typeNum == 3}">
-                    <input type="button" value="뒤로가기" class="btn btn-primary" th:onclick="|location.href='@{/board/qnaDetail(boardNum=${qna.boardNum})}'|">
-                </th:block>
-            </div>
-            <div class="col"></div>
-            <div class="col d-grid">
-                <input type="submit" value="수정 완료" class="btn btn-primary">
-            </div>
-            <div class="col"></div>
-        </div>
-    </form>
-    
+    </div>
 </th:block>
 
 <th:block layout:fragment="content_js">
