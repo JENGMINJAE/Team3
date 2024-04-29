@@ -96,76 +96,44 @@
                     </div>
                 </div>
             </div>
+
             <!-- 문의사항 댓글 목록 -->
-            <div class="row mb-5 border-top border-bottom" style="padding-top: 15px; padding-bottom: 15px;">
-                <div class="col">
-                    <div class="row mt-2">
-                        <div class="col-1" style="padding-left: 25px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" fill="currentColor" class="bi bi-person-circle text-secondary" viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                            </svg>
-                        </div>
-                        <div class="col-11 text-start" style="padding-left: 0px;">
-                            <div>
-                                <span>작성자</span>
-                                <span>&nbsp|&nbsp</span>
-                                <span></span>
-                            </div>
-                            <div>
-                                <span>작성일</span>
-                                <span>&nbsp|&nbsp</span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col mt-2 mb-2" style="padding-left: 25px;">
-                            댓글내용
-                        </div>
-                    </div>
-                    <div class="row text-end">
-                        <div class="col">수정 삭제</div>
-                    </div>
-                </div>
-            </div>
-            
-
-
             <div class="row mb-5">
                 <div class="col">
-                    <th:block th:each="reply : ${replyList}">
-                        <div class="row mb-3">
-                            <div class="col-3 me-4 text-start d-flex">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" class="bi bi-person-fill me-2 text-secondary" viewBox="0 0 16 16">
-                                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                                </svg>
-                                <div>
-                                    <span>작성자</span>
-                                    <span>&nbsp|&nbsp</span>
-                                    <span>[[${reply.memberId}]]</span>
+                    <th:block th:each="reply,state : ${replyList}">
+                        <div class="row mt-2 mb-2 border-bottom" th:classappend="${state.index == 0 ? 'border-top': ''}" style="padding-top: 15px; padding-bottom: 15px;">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-1" style="padding-left: 25px; padding-top: 3px;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" fill="currentColor" class="bi bi-person-circle text-secondary" viewBox="0 0 16 16">
+                                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                        </svg>
+                                    </div>
+                                    <div class="col-11 text-start" style="padding-left: 0px;">
+                                        <div>
+                                            <span style="color:dimgrey;">작성자</span>
+                                            <span style="color:dimgrey;">&nbsp|&nbsp</span>
+                                            <span>[[${reply.memberId}]]</span>
+                                        </div>
+                                        <div>
+                                            <span style="color:dimgrey;">작성일</span>
+                                            <span style="color:dimgrey;">&nbsp|&nbsp</span>
+                                            <span>[[${reply.replyCreateDate}]]</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col me-4 text-start d-flex">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" class="bi bi-alarm-fill me-2 text-secondary" viewBox="0 0 16 16">
-                                    <path d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07a7.001 7.001 0 0 1 3.274 12.474l.601.602a.5.5 0 0 1-.707.708l-.746-.746A6.97 6.97 0 0 1 8 16a6.97 6.97 0 0 1-3.422-.892l-.746.746a.5.5 0 0 1-.707-.708l.602-.602A7.001 7.001 0 0 1 7 2.07V1h-.5A.5.5 0 0 1 6 .5m2.5 5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9zM.86 5.387A2.5 2.5 0 1 1 4.387 1.86 8.04 8.04 0 0 0 .86 5.387M11.613 1.86a2.5 2.5 0 1 1 3.527 3.527 8.04 8.04 0 0 0-3.527-3.527"/>
-                                </svg>
-                                <div>
-                                    <span>작성일</span>
-                                    <span>&nbsp|&nbsp</span>
-                                    <span>[[${reply.replyCreateDate}]]</span>
+                                <div class="row">
+                                    <div class="col mt-2 mb-2" style="padding-left: 25px;">
+                                        [[${reply.replyContent}]]
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2" style="padding-left: 12px; padding-right: 12px;">
-                            <div class="col border board-2 border-secondary-subtle rounded-2" style="padding: 25px;">
-                                [[${reply.replyContent}]]
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col text-end">
-                                <input type="button" value="수 정" class="btn btn-secondary" th:onclick="goUpdateReply(this, [[${qna.boardNum}]], [[${reply.replyNum}]], [[${reply.replyContent}]])">
-                                <input type="button" value="삭 제" class="btn btn-secondary" th:onclick="goDeleteReply([[${reply.replyNum}]], [[${qna.boardNum}]])">
+                                <div class="row text-end">
+                                    <div class="col">
+                                        <input type="button" value="수 정" class="btn btn-secondary btn-sm" th:onclick="goUpdateReply(this, [[${qna.boardNum}]], [[${reply.replyNum}]], [[${reply.replyContent}]])">
+                                        <input type="button" value="삭 제" class="btn btn-secondary btn-sm" th:onclick="goDeleteReply([[${reply.replyNum}]], [[${qna.boardNum}]])">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </th:block>
@@ -173,25 +141,36 @@
             </div>
 
             <!-- 문의사항 이전글 / 다음글 조회 -->
-            <div class="row border-bottom mt-3 mb-5" style="padding-top: 20px; padding-bottom: 20px;">
+            <div class="row mt-3 mb-5" style="padding-top: 30px; padding-bottom: 20px;">
                 <div class="col-1 text-start" style="padding-top: 7px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
                     </svg>
                 </div>
-                <div class="col-4 text-start">
+                <div class="col-5 text-start">
                     <div style="font-size: 20px; font-weight: bold;">이전글</div>
-                    <div>
-                        이전글 제목
+                    <div th:if="${prevPage != null}" >
+                        <th:block th:if="${qna.typeNum == 3}">
+                            <a th:href="@{/board/qnaDetail?typeNum=3(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
+                                이전글 제목
+                            </a>
+                        </th:block>
+                    </div>
+                    <div th:if="${prevPageNotFound}">
+                        <div>이전글이 없습니다.</div>
                     </div>
                 </div>
-                <div class="col-2 text-center">
-
-                </div>
-                <div class="col-4 text-end">
+                <div class="col-5 text-end" style="border-left: 2px solid dimgrey;">
                     <div style="font-size: 20px; font-weight: bold;">다음글</div>
-                    <div>
-                        다음글 제목
+                    <div th:if="${nextPage != null}">
+                        <th:block th:if="${qna.typeNum == 3}">
+                            <a th:href="@{/board/qnaDetail?typeNum=3(boardNum=${nextPage.boardNum})}" th:text="${nextPage.boardTitle}">
+                                다음글 제목
+                            </a>
+                        </th:block>
+                    </div>
+                    <div th:if="${nextPageNotFound}">
+                        <div>다음 글이 없습니다.</div>
                     </div>
                 </div>
                 <div class="col-1 text-end" style="padding-top: 7px;">
@@ -201,69 +180,21 @@
                 </div>
             </div>
 
-
-
-
-            <!-- <div class="mb-5">
-                <table class="table text-center">
-                    <tr th:if="${prevPage != null}">
-                        <td>
-                            <div class="d-flex">
-                                <div>이전글</div>
-                                <div>
-                                    <th:block th:if="${qna.typeNum == 3}">
-                                        <a th:href="@{/board/qnaDetail?typeNum=3(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
-                                            이전글 제목
-                                        </a>
-                                    </th:block>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:if="${prevPageNotFound}">
-                        <td>
-                            <div class="d-flex">
-                                <div>이전글</div>
-                                <div>이전글이 없습니다.</div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:if="${nextPage != null}">
-                        <td>
-                            <div>다음글</div>
-                            <div>
-                                <th:block th:if="${qna.typeNum == 3}">
-                                    <a th:href="@{/board/qnaDetail?typeNum=3(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
-                                        이전글 제목
-                                    </a>
-                                </th:block>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:if="${nextPageNotFound}">
-                        <td>
-                            <div class="d-flex">
-                                <div>다음글</div>
-                                <div>다음글이 없습니다.</div>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div> -->
-
             <div class="row mb-5">
                 <div class="col d-grid">
                     <th:block th:if="${qna.typeNum == 3}">
-                        <input type="button" value="목 록" class="btn btn-outline-secondary" onclick="location.href='/board/qnaList?typeNum=3'">
+                        <input type="button" value="목 록" class="btn btn-outline-secondary rounded-0" onclick="location.href='/board/qnaList?typeNum=3'">
                     </th:block>
                 </div>
                 <div class="col  d-grid">
-                    <input type="button" value="수 정" class="btn btn-outline-secondary" th:onclick="goUpdateQna([[${qna.boardNum}]])" th:if="${#authentication.principal.username eq qna.memberId}">
+                    <input type="button" value="수 정" class="btn btn-outline-secondary rounded-0" th:onclick="goUpdateQna([[${qna.boardNum}]])" th:if="${#authentication.principal.username eq qna.memberId}">
                 </div>
                 <div class="col  d-grid">
-                    <input type="button" value="삭 제" class="btn btn-outline-secondary" th:onclick="goDeleteQna([[${qna.boardNum}]])" th:if="${#authentication.principal.username eq qna.memberId}">
+                    <input type="button" value="삭 제" class="btn btn-outline-secondary rounded-0" th:onclick="goDeleteQna([[${qna.boardNum}]])" th:if="${#authentication.principal.username eq qna.memberId}">
                 </div>
             </div>
+            
+
             <!-- <div class="mb-5">
                 <table class="table table-striped table-hover text-center align-middle">
                     이전글

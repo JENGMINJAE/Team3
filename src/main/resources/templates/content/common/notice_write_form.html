@@ -10,7 +10,73 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- 공지사항 게시물 작성 폼 -->
-    <div class="row">
+    <div class="row" style="padding-top: 10px; padding-left: 25px; padding-right: 25px;">
+        <div class="col">
+            <div class="row mb-3">
+                <div class="col d-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-chat-right-text-fill text-success" viewBox="0 0 16 16">
+                        <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h9.586a1 1 0 0 1 .707.293l2.853 2.853a.5.5 0 0 0 .854-.353zM3.5 3h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1m0 2.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1m0 2.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1"/>
+                    </svg>
+                    <h2 style="font-weight: bold; margin-left: 10px;">공지사항</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <form action="/board/noticeWrite" method="post" enctype="multipart/form-data" id="notice_reg">
+                        <input type="hidden" id="selectedTypeNum" name="selectedTypeNum">
+                        <table class="table text-center align-middle border-success">
+                            <colgroup>
+                                <col width="20%"> 
+                                <col width="80">
+                            </colgroup>
+                            <tr class="border-top border-success">
+                                <td>제목</td>
+                                <td>
+                                    <input id="boardTitle" type="text" name="boardTitle" class="form-control">
+                                    <input type="hidden" name="pageNum">
+                                </td>
+                            </tr>
+                            <tr >
+                                <td >열람대상</td>
+                                <td>
+                                    <div class="mt-1 mb-1 text-start">
+                                        <input id="typeNum" type="radio" name="typeNum" value="1"> 학생
+                                        <input class="ms-4" id="typeNum" type="radio" name="typeNum" value="2"> 강사
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>내용</td>
+                                <td>
+                                    <textarea id="boardContent" name="boardContent" cols="30" rows="10" class="form-control"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>첨부파일</td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input class="form-control" type="file" name="subImgs" multiple>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                        <div class="row mt-5">
+                            <div class="col-4"></div>
+                            <div class="col-4 d-grid text-center">
+                                <input type="button" class="btn btn-outline-secondary btn-lg rounded-0" value="게시" onclick="noticeReg();">
+                            </div>
+                            <div class="col-4"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row">
         <div class="col">
             <form action="/board/noticeWrite" method="post" enctype="multipart/form-data" id="notice_reg">
                 <input type="hidden" id="selectedTypeNum" name="selectedTypeNum">
@@ -48,7 +114,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> -->
 
 </th:block>
 

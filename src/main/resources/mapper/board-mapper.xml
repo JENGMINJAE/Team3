@@ -129,13 +129,11 @@
             , BOARD_CONTENT
             , MEMBER_ID
             , TYPE_NUM
-            , CREATE_DATE
         ) VALUES (
             #{boardTitle}
             , #{boardContent}
             , #{memberId}
             , #{typeNum}
-            , #{createDate}
         )
     </insert>
 
@@ -180,6 +178,7 @@
         , M.MEMBER_ID
         , TYPE_NUM
         , BOARD_CNT
+        , CREATE_DATE
         , MEMBER_NAME
         , I.ATTACHED_FILE_NAME
         , I.ORIGIN_FILE_NAME
