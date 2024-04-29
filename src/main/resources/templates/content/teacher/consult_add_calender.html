@@ -5,7 +5,7 @@
 
 <th:block layout:fragment="content_css">
     <!-- html 파일이 열릴 때 같이 실행 되는 css -->
-    <link rel="stylesheet" href="/">
+    <link rel="stylesheet" href="/css/content/teacher/homework.css">
 </th:block>
 
 <th:block layout:fragment="contentFragment">
@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-8">
 
-        <div id='calendar-container'>
+        <div id='calendar-container' style="--fc-today-bg-color: rgba(36, 173, 24, 0.09);">
             <div id='calendar'></div>
         </div>
 
@@ -28,29 +28,29 @@
                     <col width="50%">
                 </colgroup>
                 <tr>
-                    <td colspan="2">
-                        <h3>상담 일정 추가하기</h3>
+                    <td colspan="2" style="color: white; padding-top: 6px; padding-bottom: 1px; background-color:#0a1657; border-bottom: 8px solid #25ac30;" >
+                        <h3><strong>상담 일정 추가</strong></h3>
                     </td>
                 </tr>
-                <tr>
-                    <td>학급</td>
-                    <td>성명</td>
+                <tr style="border-bottom: 2px solid rgb(23, 141, 156); text-align: center;">
+                    <td><strong>수강명</strong></td>
+                    <td><strong>수강생명</strong></td>
                 </tr>
                 <tr>
                     <td>
-                        <select name="classNum" onchange="change()" class="form-select" id="class_select">
+                        <select name="classNum" onchange="change()" class="form-select box-line" id="class_select">
                             <option th:each="class:${classInfo}" th:value="${class.classNum}">[[${class.className}]]</option>
                         </select>
                     </td>
                     <td>
-                        <select name="memberId" id="stu_select" class="form-select">
+                        <select name="memberId" id="stu_select" class="form-select box-line">
                                 
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input class="form-control" type="date" name="start">
+                        <input class="form-control box-line" type="date" name="start">
                     </td>
                 </tr>
             </table>
