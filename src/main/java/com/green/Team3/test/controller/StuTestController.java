@@ -158,10 +158,15 @@ public class StuTestController {
         User user=(User) authentication.getPrincipal();
         List<TestAskVO> testAskList = stuTestService.selectStuAsk(user.getUsername());
         model.addAttribute("testAskList",testAskList);
-        System.out.println(testAskList);
+
+        List<TestScoreVO> isScore  =stuTestService.isScore(user.getUsername());
+        model.addAttribute("isScore",isScore);
+        System.out.println(isScore);
 
          return "content/student/student_test_ask";
     }
+
+    //
 
     // (학생) 이의신청 글 적기 페이지
     @GetMapping("/stuAskWrite")
@@ -214,12 +219,10 @@ public class StuTestController {
 
     //상세내용을 가지고 글 수정 페이지로 가기
     @GetMapping("/goUpdatePG")
-    public String goUpdatePG(TestAskVO testAskVO ,Model model, Authentication authentication){
-
+    public String goUpdatePG(TestAskVO testAskVO ,Model model){
 
         TestAskVO testAskOne = stuTestService.stuAskDetail(testAskVO);
         model.addAttribute("testAskOne",testAskOne);
-        System.out.println("%%%%%%%%%%%%%%%%%%"+ testAskOne);
         return "content/student/student_ask_wUpdate";
     }
 
