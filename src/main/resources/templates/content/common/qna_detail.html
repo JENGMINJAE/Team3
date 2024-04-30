@@ -155,9 +155,9 @@
                 </div>
                 <div class="col-5 text-start">
                     <div style="font-size: 20px; font-weight: bold;">이전글</div>
-                    <div th:if="${prevPage != null and prevPage.typeNum == 3}">
-                        <a th:href="@{/board/qnaDetail(boardNum=${prevPage.boardNum})}" th:text="${prevPage.boardTitle}">
-                            이전글 제목
+                    <div th:unless="${prevPageNotFound}">
+                        <a th:href="@{/board/qnaDetail(boardNum=${prevPage.boardNum},typeNum=${prevPage.typeNum})}">
+                            [[${prevPage.boardTitle}]]
                         </a>
                     </div>
                     <div th:if="${prevPageNotFound}">
@@ -166,9 +166,9 @@
                 </div>
                 <div class="col-5 text-end" style="border-left: 2px solid dimgrey;">
                     <div style="font-size: 20px; font-weight: bold;">다음글</div>
-                    <div th:if="${nextPage != null and nextPage.typeNum == 3}">
-                        <a th:href="@{/board/qnaDetail(boardNum=${nextPage.boardNum})}" th:text="${nextPage.boardTitle}">
-                            다음글 제목
+                    <div th:unless="${nextPageNotFound}">
+                        <a th:href="@{/board/qnaDetail(boardNum=${nextPage.boardNum},typeNum=${nextPage.typeNum})}">
+                            [[${nextPage.boardTitle}]]
                         </a>
                     </div>
                     <div th:if="${nextPageNotFound}">

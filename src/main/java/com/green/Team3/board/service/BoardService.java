@@ -7,6 +7,7 @@ import com.green.Team3.board.vo.ImgVO;
 import com.green.Team3.board.vo.SearchVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
 
@@ -29,7 +30,7 @@ public interface BoardService {
     void insertQna(BoardVO boardVO);
 
     //게시글 상세 조회 - 공지사항
-    BoardVO selectNoticeDetail(int boardNum);
+    BoardVO selectNoticeDetail(BoardVO boardVO);
 
     //게시글 상세 조회 - 문의사항
     BoardVO selectQnaDetail(int boardNum);
@@ -63,17 +64,19 @@ public interface BoardService {
 
     // ***********************************************************
     //게시글 상세 - 이전글 조회
-    BoardVO prevPage(BoardVO boardNum);
+//    BoardVO prevPage(BoardVO boardNum);
+//
+//    //게시글 상세 - 다음글 조회
+//    BoardVO nextPage(BoardVO boardNum);
 
-    //게시글 상세 - 다음글 조회
-    BoardVO nextPage(BoardVO boardNum);
+    //**********************************************************
 
 
     // 이전글 조회2
-//    int prevPage(int currentBoardNum, int typeNum);
+    BoardVO prevPage(BoardVO boardVO);
 
     // 다음글 조회2
-    //int nextPage(int currentBoardNum, int typeNum);
+    BoardVO nextPage(BoardVO boardVO);
     // ************************************************************
 
 

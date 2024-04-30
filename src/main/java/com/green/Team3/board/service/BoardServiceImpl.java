@@ -67,9 +67,8 @@ public class BoardServiceImpl implements BoardService {
 
     //게시글 상세 조회 - 공지사항
     @Override
-    public BoardVO selectNoticeDetail(int boardNum) {
-        BoardVO result = sqlSession.selectOne("board.selectNoticeDetail", boardNum);
-        return result;
+    public BoardVO selectNoticeDetail(BoardVO boardVO) {
+        return sqlSession.selectOne("board.selectNoticeDetail", boardVO);
     }
 
     //게시글 상세 조회 - 문의사항
@@ -149,35 +148,32 @@ public class BoardServiceImpl implements BoardService {
         return sqlSession.selectOne("board.selectNoticeCnt", searchVO);
     }
 
-
+//*********************************************************************************************************
     //게시글 상세 - 이전글 조회
-    @Override
-    public BoardVO prevPage(BoardVO boardNum) {
-        return sqlSession.selectOne("board.prevPage", boardNum);
-    }
-
 //    @Override
-//    public int prevPage(int currentBoardNum, int typeNum) {
-//        Map<String, Integer> params = new HashMap<>();
-//        params.put("currentBoardNum", currentBoardNum);
-//        params.put("typeNum", typeNum);
-//        return sqlSession.selectOne("board.prevPage", params);
+//    public BoardVO prevPage(BoardVO boardNum) {
+//        return sqlSession.selectOne("board.prevPage", boardNum);
+//    }
+//
+//    //게시글 상세 - 다음글 조회
+//    @Override
+//    public BoardVO nextPage(BoardVO boardNum) {
+//        return sqlSession.selectOne("board.nextPage", boardNum);
 //    }
 
+    //*********************************************************************************************************
 
-    //게시글 상세 - 다음글 조회
     @Override
-    public BoardVO nextPage(BoardVO boardNum) {
-        return sqlSession.selectOne("board.nextPage", boardNum);
+    public BoardVO prevPage(BoardVO boardVO) {
+        return sqlSession.selectOne("board.prevPage",boardVO);
     }
 
-//    @Override
-//    public int nextPage(int currentBoardNum, int typeNum) {
-//        Map<String, Integer> params = new HashMap<>();
-//        params.put("currentBoardNum", currentBoardNum);
-//        params.put("typeNum", typeNum);
-//        return sqlSession.selectOne("board.nextPage", params);
-//    }
+    @Override
+    public BoardVO nextPage(BoardVO boardVO) {
+        return sqlSession.selectOne("board.nextPage",boardVO);
+    }
+
+    //*********************************************************************************************************
 
 
 

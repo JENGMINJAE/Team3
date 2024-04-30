@@ -79,7 +79,7 @@
                                     <tr th:each="qna, state : ${qnaList}">
                                         <td>[[${totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1) ) - state.index}]]</td>
                                         <td class="border-end border border-success">
-                                            <a style="text-decoration: none; color: black;" th:href="@{/board/qnaDetail(boardNum=${qna.boardNum})}">
+                                            <a style="text-decoration: none; color: black;" th:href="@{/board/qnaDetail(boardNum=${qna.boardNum},typeNum=3)}">
                                                 [[${qna.boardTitle}]]
                                             </a>
                                         </td>

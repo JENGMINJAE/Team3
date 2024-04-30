@@ -41,21 +41,23 @@ public class BoardController {
             , @RequestParam(name = "isSearch" ,required = false, defaultValue = "0") int isSearch
             , @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum){
         // 공지사항 전체 데이터 수
-        System.out.println(searchVO);
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
+
         // 페이지 정보 세팅
         searchVO.setPageInfo();
-        System.out.println(searchVO);
+
         // 공지사항 검색 시 페이징코드 정리
         List<BoardVO> noticeList = boardService.selectNoticeListStu(searchVO);
-        if(isSearch == 1){
-            searchVO.setTotalDataCnt(noticeList.size());
+
+        if (isSearch == 1 && totalDataCnt > 0) {
+            // 검색된 전체 데이터 수를 페이지 정보에 반영
+            searchVO.setTotalDataCnt(totalDataCnt);
             searchVO.setPageInfo();
-            if(searchVO.getTotalDataCnt() == 0){
-                isSearch = 2;
-            }
+        } else if (isSearch == 1 && totalDataCnt == 0) {
+            isSearch = 2; // 검색 결과 없음
         }
+
         model.addAttribute("isSearch", isSearch);
         // 공지사항 목록 조회
         model.addAttribute("noticeList", noticeList);
@@ -78,18 +80,20 @@ public class BoardController {
         // 공지사항 전체 데이터 수
         int totalDataCnt = boardService.selectNoticeCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
+
         // 페이지 정보 세팅
         searchVO.setPageInfo();
-        System.out.println(searchVO);
+
         // 공지사항 검색 시 페이징코드 정리
         List<BoardVO> noticeList = boardService.selectNoticeListTea(searchVO);
-        if(isSearch == 1){
-            searchVO.setTotalDataCnt(noticeList.size());
+
+        if (isSearch == 1 && totalDataCnt > 0) {
+            searchVO.setTotalDataCnt(totalDataCnt);
             searchVO.setPageInfo();
-            if(searchVO.getTotalDataCnt() == 0){
-                isSearch = 2;
-            }
+        } else if (isSearch == 1 && totalDataCnt == 0) {
+            isSearch = 2; // 검색 결과 없음
         }
+
         model.addAttribute("isSearch", isSearch);
         // 공지사항 목록 조회
         model.addAttribute("noticeList", noticeList);
@@ -147,34 +151,45 @@ public class BoardController {
 
     // 공지사항 상세 조회
     @GetMapping("/noticeDetail")
-    public String noticeDetail(BoardVO boardVO, Model model){
+    public String noticeDetail(@RequestParam(name = "boardNum") int boardNum
+                                , @RequestParam(name = "typeNum") int typeNum
+                                , Model model){
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNum(boardNum);
+        boardVO.setTypeNum(typeNum);
+
         //조회수 증가
         boardService.updateBoardCnt(boardVO.getBoardNum());
 
         //상세 조회
-        BoardVO vo = boardService.selectNoticeDetail(boardVO.getBoardNum());
-        System.out.println(vo);
+        BoardVO vo = boardService.selectNoticeDetail(boardVO);
         model.addAttribute("notice", vo);
+        System.out.println(vo.getBoardTitle());
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(vo);
-        if (prevPage != null){
-            model.addAttribute("currentBoardNum", boardVO.getBoardNum());
+        BoardVO prevPage = boardService.prevPage(boardVO);
+        System.out.println(prevPage + "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        if (prevPage.getBoardNum() != 0){
+            model.addAttribute("prevPageNotFound", false);
+            prevPage.setTypeNum(typeNum);
             model.addAttribute("prevPage", prevPage);
-        }
-        //이전 글이 없을 때
-        else {
+
+        } else {
             model.addAttribute("prevPageNotFound", true);
+            prevPage.setTypeNum(typeNum);
+            model.addAttribute("prevPage", prevPage);
         }
 
         // 다음글 조회
-        BoardVO nextPage = boardService.nextPage(vo);
-        if(nextPage != null){
-            model.addAttribute("currentBoardNum", boardVO.getBoardNum());
+        BoardVO nextPage = boardService.nextPage(boardVO);
+        System.out.println(nextPage + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        if (nextPage.getBoardNum() != 0){
+            model.addAttribute("nextPageNotFound", false);
+            nextPage.setTypeNum(typeNum);
             model.addAttribute("nextPage", nextPage);
-        }
-        //다음 글이 없을 때
-        else {
+        } else {
+            nextPage.setTypeNum(typeNum);
+            model.addAttribute("nextPage", nextPage);
             model.addAttribute("nextPageNotFound", true);
         }
         return "content/common/notice_detail";
@@ -195,17 +210,24 @@ public class BoardController {
 
     // 공지사항 게시글 수정 양식 페이지 이동
     @GetMapping("/updateNotice")
-    public String update(@RequestParam(name = "boardNum", required=false) int boardNum, Model model){
-        model.addAttribute("notice", boardService.selectNoticeDetail(boardNum));
+    public String update(@RequestParam(name = "boardNum", required=false) int boardNum,
+                         @RequestParam(name = "typeNum", required = false) int typeNum, Model model){
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNum(boardNum);
+        boardVO.setTypeNum(typeNum);
+        model.addAttribute("notice", boardService.selectNoticeDetail(boardVO));
         return "content/common/notice_update";
     }
 
     //공지사항 게시글 수정 시 첨부파일 이미지 삭제(비동기)
     @ResponseBody
     @PostMapping("/deleteImgFile")
-    public BoardVO deleteImgFile(@RequestParam(name="imgNum") int imgNum, @RequestParam(name="boardNum") int boardNum){
+    public BoardVO deleteImgFile(@RequestParam(name="imgNum") int imgNum, @RequestParam(name="boardNum") int boardNum,@RequestParam(name = "typeNum")int typeNum){
+        BoardVO boardVO = new BoardVO();
+        boardVO.setTypeNum(typeNum);
+        boardVO.setBoardNum(boardNum);
         boardService.deleteImgFile(imgNum);
-        return boardService.selectNoticeDetail(boardNum);
+        return boardService.selectNoticeDetail(boardVO);
     }
 
 
@@ -236,7 +258,7 @@ public class BoardController {
 
         //-------------------------공지사항 수정 쿼리 실행
         boardService.updateNotice(boardVO);
-        return "redirect:/board/noticeDetail?boardNum=" + boardNum;
+        return "redirect:/board/noticeDetail?boardNum=" + boardNum + "&typeNum=" + boardVO.getTypeNum();
     }
 
     ///////////////////////////////// 문의 사항 /////////////////////////////////////
@@ -254,18 +276,18 @@ public class BoardController {
 
         // 페이지 정보 세팅
         searchVO.setPageInfo();
-        System.out.println(searchVO);
 
         // 공지사항 검색 시 페이징코드 정리
         List<BoardVO> qnaList = boardService.selectQnaList(searchVO);
 
-        if(isSearch == 1){
-            searchVO.setTotalDataCnt(qnaList.size());
+        if (isSearch == 1 && totalDataCnt > 0) {
+            // 검색된 전체 데이터 수를 페이지 정보에 반영
+            searchVO.setTotalDataCnt(totalDataCnt);
             searchVO.setPageInfo();
-            if(searchVO.getTotalDataCnt() == 0){
-                isSearch = 2;
-            }
+        } else if (isSearch == 1 && totalDataCnt == 0) {
+            isSearch = 2; // 검색 결과 없음
         }
+
         model.addAttribute("isSearch", isSearch);
         // 문의사항 목록 조회
         model.addAttribute("qnaList", qnaList);
@@ -303,62 +325,54 @@ public class BoardController {
 
     // 문의사항 상세 조회
     @GetMapping("/qnaDetail")
-    public String qnaDetail(@RequestParam(name = "boardNum") int boardNum, Model model){
+    public String qnaDetail(@RequestParam(name = "boardNum") int boardNum,
+                            @RequestParam(name = "typeNum") int typeNum
+                            , Model model){
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoardNum(boardNum);
+        boardVO.setTypeNum(typeNum);
+
         //조회수 증가
-        boardService.updateBoardCnt(boardNum);
-        System.out.println(boardNum);
+        boardService.updateBoardCnt(boardVO.getBoardNum());
 
         //상세 조회
-        BoardVO vo = boardService.selectQnaDetail(boardNum);
+        BoardVO vo = boardService.selectQnaDetail(boardVO.getBoardNum());
         model.addAttribute("qna", vo);
+        System.out.println(vo.getBoardTitle());
 
         //댓글 조회
-        List<ReplyVO> replyList = replyService.selectReplyList(boardNum);
+        List<ReplyVO> replyList = replyService.selectReplyList(boardVO.getBoardNum());
         model.addAttribute("replyList", replyList);
 
         //이전글 조회
-        BoardVO prevPage = boardService.prevPage(vo);
-        if (prevPage != null){
-            model.addAttribute("currentBoardNum", boardNum);
+        BoardVO prevPage = boardService.prevPage(boardVO);
+        System.out.println(prevPage + "!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        if (prevPage.getBoardNum() != 0){
+            model.addAttribute("prevPageNotFound", false);
+            prevPage.setTypeNum(typeNum);
             model.addAttribute("prevPage", prevPage);
-        }
-        //이전 글이 없을 때
-        else {
+
+        } else {
             model.addAttribute("prevPageNotFound", true);
+            prevPage.setTypeNum(typeNum);
+            model.addAttribute("prevPage", prevPage);
         }
 
         // 다음글 조회
-        BoardVO nextPage = boardService.nextPage(vo);
-        if(nextPage != null){
-            model.addAttribute("currentBoardNum", boardNum);
+        BoardVO nextPage = boardService.nextPage(boardVO);
+        System.out.println(nextPage + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        if (nextPage.getBoardNum() != 0){
+            model.addAttribute("nextPageNotFound", false);
+            nextPage.setTypeNum(typeNum);
             model.addAttribute("nextPage", nextPage);
-        }
-        //다음 글이 없을 때
-        else {
+        } else {
+            nextPage.setTypeNum(typeNum);
+            model.addAttribute("nextPage", nextPage);
             model.addAttribute("nextPageNotFound", true);
         }
 
         return "content/common/qna_detail";
     }
-    //이전글 조회2
-//        int typeNum = vo.getTypeNum(); // 해당 글의 타입 번호 가져오기
-//        int currentBoardNum = vo.getBoardNum(); // 해당 글의 번호 가져오기
-//        int prevBoardNum = boardService.prevPage(currentBoardNum, typeNum);
-//        if (prevBoardNum != -1) {
-//            model.addAttribute("prevPage", prevBoardNum);
-//        } else {
-//            model.addAttribute("prevPageNotFound", true);
-//        }
-
-    //다음글 조회2
-//        int nextBoardNum = boardService.nextPage(currentBoardNum, typeNum);
-//        if (nextBoardNum != -1) {
-//            model.addAttribute("nextPage", nextBoardNum);
-//        } else {
-//            model.addAttribute("nextPageNotFound", true);
-//        }
-
-
 
 
     // 문의사항 게시글 삭제
@@ -385,8 +399,12 @@ public class BoardController {
 
     // 문의사항 게시글 수정 양식 페이지 이동
     @GetMapping("/updateQna")
-    public String updateQna(@RequestParam(name = "boardNum", required=false) int boardNum, Model model){
-        model.addAttribute("qna", boardService.selectNoticeDetail(boardNum));
+    public String updateQna(@RequestParam(name = "boardNum", required=false) int boardNum,
+                            @RequestParam(name = "typeNum", required = false) int typeNum,Model model){
+        BoardVO boardVO = new BoardVO();
+        boardVO.setTypeNum(typeNum);
+        boardVO.setBoardNum(boardNum);
+        model.addAttribute("qna", boardService.selectNoticeDetail(boardVO));
         return "content/common/qna_update";
     }
 

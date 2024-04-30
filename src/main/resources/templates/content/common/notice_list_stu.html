@@ -77,7 +77,7 @@
                             <tr th:each="notice, state : ${noticeList}" >
                                 <td>[[${totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1) ) - state.index}]]</td>
                                 <td class="border-end border border-success">
-                                    <a style="text-decoration: none; color: black;" th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
+                                    <a style="text-decoration: none; color: black;" th:href="@{/board/noticeDetail(boardNum=${notice.boardNum}, typeNum=1)}">
                                         [[${notice.boardTitle}]]
                                     </a>
                                     <th:block th:if="${notice.imgList[0].originFileName != null AND notice.imgList[0].originFileName != ''}">
@@ -138,7 +138,7 @@
             <div class="row">
                 <div class="col text-end align-middle">
                     <th:block sec:authorize="hasRole('ROLE_3')">
-                        <input type="button" class="btn btn-success rounded-0" value="게시글 작성" onclick="goWrite()">   
+                        <input type="button" class="btn btn-success rounded-0" value="공지사항 작성" onclick="goWrite()">   
                     </th:block>
                 </div>
             </div>

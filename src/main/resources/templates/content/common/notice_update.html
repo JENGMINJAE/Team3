@@ -57,7 +57,7 @@
                                         <div class="text-start mt-2 mb-2">
                                             [[${img.originFileName}]]
                                             <input type="button" class="btn btn-secondary btn-sm" value="삭제"
-                                                th:onclick="goDeleteImg(this, [[${img.imgNum}]], [[${notice.boardNum}]])"
+                                                th:onclick="goDeleteImg(this, [[${img.imgNum}]], [[${notice.boardNum}]], [[${notice.typeNum}]])"
                                                 data-img-num="[[${img.imgNum}]]" 
                                                 data-board-num="[[${notice.boardNum}]]">
                                         </div>
@@ -82,6 +82,7 @@
                     </div>
                     <div class="col-2"></div>
                     <div class="col-2 d-grid">
+                        <input type="hidden" name="typeNum" th:value="${notice.typeNum}">
                         <input type="button" value="수정 완료" class="btn btn-outline-secondary btn-lg rounded-0" onclick="submitForm()">
                     </div>
                     <div class="col-3"></div>
