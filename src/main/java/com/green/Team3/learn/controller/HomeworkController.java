@@ -23,19 +23,21 @@ public class HomeworkController {
 
     //과제 추가
     @GetMapping("/addHomework")
-    private String addHomework(Model model, Authentication authentication){
+    private String addHomework(Model model, Authentication authentication, @RequestParam(name = "accorNum", required = false, defaultValue = "5") int accorNum){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
+        model.addAttribute("accorNum", accorNum);
         return "/content/teacher/add_homework";
     }
     //과제 목록 클릭시
     @GetMapping("/homeworkList")
-    private String homeworkList(Model model, Authentication authentication){
+    private String homeworkList(Model model, Authentication authentication, @RequestParam(name = "accorNum", required = false, defaultValue = "5") int accorNum){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
         model.addAttribute("IngHomeworkList",homeworkService.selectIngHomework(user.getUsername()));
         model.addAttribute("EndHomeworkList",homeworkService.selectEndHomework(user.getUsername()));
         model.addAttribute("WillHomeworkList",homeworkService.selectWillHomework(user.getUsername()));
+        model.addAttribute("accorNum", accorNum);
         return "/content/teacher/homework_list";
     }
     //과제 추가시 과제 목록으로

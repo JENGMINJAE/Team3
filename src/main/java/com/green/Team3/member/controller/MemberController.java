@@ -134,13 +134,15 @@ public class MemberController {
     }
 
     @GetMapping("/stuInfoForm")
-    public String stuInfo(Authentication authentication,Model model){
+    public String stuInfo(Authentication authentication,Model model,
+                          @RequestParam(name = "accorNum", required = false, defaultValue = "3") int accorNum){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("member",memberService.selectMyInformation(user.getUsername()));
         model.addAttribute("homework",memberService.selectMyHomework(user.getUsername()));
         model.addAttribute("consult",memberService.selectMyConsult(user.getUsername()));
         model.addAttribute("test",memberService.selectMyTest(user.getUsername()));
         model.addAttribute("atd",memberService.selectMyAttendance(user.getUsername()));
+        model.addAttribute("accorNum", accorNum);
         return "/content/student/stu_info";
     }
 

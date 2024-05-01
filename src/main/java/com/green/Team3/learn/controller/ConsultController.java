@@ -65,27 +65,33 @@ public class ConsultController {
 
     //추가가 완료된 곳으로 이동할 때 그냥 이동
     @GetMapping("/contentComplete")
-    public String contentComplete(Model model,Authentication authentication){
+    public String contentComplete(Model model,Authentication authentication,
+                                  @RequestParam(name = "accorNum", required = false, defaultValue = "5") int accorNum){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("consultList",consultService.contentComplete(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        model.addAttribute("accorNum", accorNum);
         return "/content/teacher/content_complete";
     }
 
     //캘린더 추가화면으로 이동
     @GetMapping("/consultAddCalender")
-    public String consultAddCalender(Authentication authentication,Model model){
+    public String consultAddCalender(Authentication authentication,Model model,
+                                     @RequestParam(name = "accorNum", required = false, defaultValue = "5") int accorNum){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("classInfo",homeworkService.selectClassByThisTeacher(user.getUsername()));
+        model.addAttribute("accorNum", accorNum);
         return "/content/teacher/consult_add_calender";
     }
 
     //내용이 작성안된 상담 목록
     @GetMapping("/consultList")
-    public String consultList(Authentication authentication, Model model){
+    public String consultList(Authentication authentication, Model model,
+                              @RequestParam(name = "accorNum", required = false, defaultValue = "5") int accorNum){
         User user = (User) authentication.getPrincipal();
         model.addAttribute("endConsultList",consultService.selectEndConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
         model.addAttribute("willConsultList",consultService.selectWillConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
         model.addAttribute("todayConsultList",consultService.selectTodayConsultList(consultService.selectTeacherNumOfMemberId(user.getUsername())));
+        model.addAttribute("accorNum", accorNum);
         return "/content/teacher/consult_list";
     }
 
