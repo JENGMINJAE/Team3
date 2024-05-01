@@ -471,7 +471,6 @@ function chkDuples(){
 }
 // 수강 신청 버튼 클릭 시 실행
 function regClass(memberId, classNum){
-    alert(memberId, classNum);
     
     if(confirm(`결제하시겠습니까?`)){
         fetch('/admin/goPayment', { //요청경로

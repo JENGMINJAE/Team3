@@ -43,8 +43,10 @@
                             <tr>
                                 <td class="table-success border-success">담당 강사</td>
                                 <td class="select-teacherName ">
-                                    <select name="teacherNum " class="form-select">
-                                        <option  th:each="teacher : ${teachers}" th:value="${teacher.teacherNum}">[[${teacher.memberVO.memberName}]]</option>
+                                    <select name="teacherNum" class="form-select">
+                                        <th:block th:each="tea : ${teachers}">
+                                            <option th:value="${tea.teacherNum}">[[${tea.memberVO.memberName}]]</option>
+                                        </th:block>
                                     </select>
                                 </td>
                                 <td class="table-success border-success">상태</td>
