@@ -50,8 +50,8 @@
 <div class="modal fade" id="LoginStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">그린 학원 로그인</h1>
+            <div class="modal-header" style="border-bottom: 5px solid rgb(23, 141, 156);">
+                <h4 class="modal-title" id="staticBackdropLabel">그린아카데미 로그인</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/member/login" method="post">
@@ -63,7 +63,7 @@
                                     [[${errorMsg}]]
                                 </div>
                                 <div class="col-12 form-floating mb-3">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="ID" name="memberId">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="ID" name="memberId" style="border: 1px solid rgb(23, 141, 156);">
                                     <label for="floatingInput">ID</label>
                                 </div>
                             </td>
@@ -71,7 +71,7 @@
                         <tr>
                             <td>
                                 <div class="col-12 form-floating">
-                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="memberPw">
+                                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="memberPw" style="border: 1px solid rgb(23, 141, 156);">
                                     <label for="floatingPassword">Password</label>
                                 </div>
                             </td>

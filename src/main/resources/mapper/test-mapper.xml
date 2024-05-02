@@ -676,6 +676,14 @@
 
     </insert>
 
+    <select id="isScore" resultMap="scoreResult">
+        SELECT
+            SCORE_NUM
+            , SCORE
+        FROM test_score
+        WHERE MEMBER_ID= #{memberId}
+    </select>
+
     <!-- [학생] 이의신청 글 목록  -->
     <select id="selectStuAsk" resultMap="testAskResult">
         SELECT

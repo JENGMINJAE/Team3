@@ -141,7 +141,7 @@
                       <td class="border-end border border-success text-start">
                         <div class="text-over-cut">
                           <a style="text-decoration: none; color: black;"
-                            th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
+                            th:href="@{/board/noticeDetail(boardNum=${notice.boardNum},typeNum=1)}">
                             [[${notice.boardTitle}]]
                           </a>
                           <th:block
@@ -157,7 +157,7 @@
                           </th:block>
                         </div>
                       </td>
-                      <td class="border-end border border-success">[[${notice.memberId}]]</td>
+                      <td class="border-end border border-success">[[${notice.memberName}]]</td>
                       <td>[[${notice.boardCnt}]]</td>
                     </tr>
                   </th:block>
@@ -166,9 +166,9 @@
             </div>
             <div class="row">
               <div class="col">
-                <div class="row text-center" style="position: absolute; top: 53%; left:31%;">
+                <div class="row text-center" style="position: absolute; top: 52.1%; left:27.9%;">
                   <div class="col border border-secondary-subtle p-2"
-                    style="height: 200px; width: 200px; margin-right: 2px;">
+                    style="height: 200px; width: 260px; margin-right: 2px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor"
                       class="bi bi-telephone text-success mt-4 mb-2" viewBox="0 0 16 16">
                       <path
@@ -179,7 +179,7 @@
                     <div class="text-center">FAX | 052-293-9394</div>
                   </div>
                   <div class="col border border-secondary-subtle p-2"
-                    style="height: 200px; width: 200px; margin-left: 2px;">
+                    style="height: 200px; width: 260px; margin-left: 2px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor"
                       class="bi bi-geo text-success mt-4 mb-2" viewBox="0 0 16 16">
                       <path fill-rule="evenodd"

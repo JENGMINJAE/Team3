@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.Name;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,12 +78,10 @@ public class AdminController {
     // 회원 관리 페이지 이동
     @RequestMapping("/goMemberList")
     public String memberList(Model model, SearchVO searchVO,
-                             @RequestParam(name = "memberId", required = false, defaultValue = "")String updateMemberId){
-        System.out.println(searchVO.getSearchType());
+                             @RequestParam(name = "memberId", required = false, defaultValue = "")String updateMemberId,
+                             @RequestParam(name = "accorNum", required = false, defaultValue = "5")int accorNum){
         int totalDataCnt = adminService.memberCnt(searchVO);
         searchVO.setTotalDataCnt(totalDataCnt);
-        System.out.println("@@@@@@@@@@@@@@@@@@@");
-        System.out.println(totalDataCnt);
         searchVO.setDisplayDataCnt(10);
         searchVO.setPageInfo();
         // 전체 회원 목록 조회
@@ -91,6 +90,7 @@ public class AdminController {
         // MEMBER_ROLL 목록 조회 (관리, 강사, 회원)
         model.addAttribute("rollList", adminService.rollList());
         model.addAttribute("updateMemberId", updateMemberId);
+        model.addAttribute("accorNum", accorNum);
         return "content/admin/member_list";
     }
 
@@ -135,7 +135,7 @@ public class AdminController {
 
     // 학급 생성 페이지 이동
     @GetMapping("/makeClassForm")
-    public String makeClassForm(Model model, SearchVO searchVO, @RequestParam(name = "accorNum") int accorNum){
+    public String makeClassForm(Model model, SearchVO searchVO, @RequestParam(name = "accorNum", required = false, defaultValue = "3") int accorNum){
         int totalDataCnt = adminService.classInfoCnt();
         searchVO.setTotalDataCnt(totalDataCnt);
         searchVO.setPageInfo();
@@ -148,6 +148,7 @@ public class AdminController {
     // 학급 생성 버튼 클릭 시 실행 메소드
     @PostMapping("/makeClass")
     public String makeClass(ClsVO clsVO, @RequestParam(name = "accorNum",required = false,defaultValue = "3") int accorNum, Model model){
+        System.out.println("!!!!");
         adminService.makeCls(clsVO);
         return "redirect:/admin/makeClassForm?accorNum="+accorNum;
     }
@@ -303,8 +304,9 @@ public class AdminController {
 
     // 매출 관리 페이지 이동을 위해 비동기 컨트롤러 이동용
     @GetMapping("/goSales")
-    public String goSales(Model model){
+    public String goSales(Model model, @RequestParam(name = "accorNum", required = false, defaultValue = "5")int accorNum){
         model.addAttribute("years", adminService.findPayYear());
+        model.addAttribute("accorNum", accorNum);
         return "content/admin/sales_manage";
     }
 

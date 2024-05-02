@@ -78,7 +78,7 @@
                             <tr th:each="notice, state : ${noticeList}" >
                                 <td>[[${totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1) ) - state.index}]]</td>
                                 <td class="border-end border border-success">
-                                    <a style="text-decoration: none; color: black;" th:href="@{/board/noticeDetail(boardNum=${notice.boardNum})}">
+                                    <a style="text-decoration: none; color: black;" th:href="@{/board/noticeDetail(boardNum=${notice.boardNum}, typeNum=2)}">
                                         [[${notice.boardTitle}]]
                                     </a>
                                     <th:block th:if="${notice.imgList[0].originFileName != null AND notice.imgList[0].originFileName != ''}">
@@ -91,7 +91,7 @@
                                     </th:block>
                                 </td>
                                 <td class="border-end border border-success">
-                                    [[${notice.memberId}]], [[${notice.typeNum}]]
+                                    [[${notice.memberName}]]
                                 </td>
                                 <td>[[${notice.boardCnt}]]</td>
                             </tr>
@@ -108,7 +108,7 @@
                             <ul class="pagination">
                                 <th:block th:if="${searchVO.prev}">
                                     <li class="page-item">
-                                        <a class="page-link" th:href="@{/board/noticeListTea(nowPage=${searchVO.beginPage - 1})}" aria-label="Previous" style="color: rgb(116, 116, 116)">
+                                        <a class="page-link" th:href="@{/board/noticeListTea(nowPage=${searchVO.beginPage - 1}, typeNum=${searchVO.typeNum}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" aria-label="Previous" style="color: rgb(116, 116, 116)">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -116,14 +116,14 @@
                                 <th:block th:each="i : ${#numbers.sequence(searchVO.beginPage, searchVO.endPage)}"> 
                                     <!-- 목록에서 선택한 페이지 + 조회한 검색 데이터 함께 가져옴 -->   
                                     <li class="page-item">
-                                        <a class="page-link" th:href="@{/board/noticeListTea(nowPage=${i}, typeNum=2, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
+                                        <a class="page-link" th:href="@{/board/noticeListTea(nowPage=${i}, typeNum=${searchVO.typeNum}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
                                             [[${i}]]
                                         </a>
                                     </li>
                                 </th:block>
                                 <th:block th:if="${searchVO.next}">
                                     <li class="page-item">
-                                        <a class="page-link" th:href="@{/board/noticeListTea(nowPage=${searchVO.endPage + 1})}" aria-label="Next" style="color: rgb(116, 116, 116)">
+                                        <a class="page-link" th:href="@{/board/noticeListTea(nowPage=${searchVO.endPage + 1}, typeNum=${searchVO.typeNum}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" aria-label="Next" style="color: rgb(116, 116, 116)">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
@@ -139,7 +139,7 @@
             <div class="row">
                 <div class="col text-end align-middle">
                     <th:block sec:authorize="hasRole('ROLE_3')">
-                        <input type="button" class="btn btn-success" value="게시글 작성" onclick="goWrite()">   
+                        <input type="button" class="btn btn-success rounded-0" value="공지사항 작성" onclick="goWrite()">   
                     </th:block>
                 </div>
             </div>

@@ -13,9 +13,9 @@ function goWrite() {
 }
 
 //공지사항 게시글 수정(*관리자만)
-function goUpdateNotice(boardNum) {
+function goUpdateNotice(boardNum,typeNum) {
     if (confirm('공지사항을 수정하시겠습니까?')) {
-        location.href = `/board/updateNotice?boardNum=${boardNum}`;
+        location.href = `/board/updateNotice?boardNum=${boardNum}&typeNum=${typeNum}`;
     }
 }
 
@@ -32,6 +32,7 @@ function noticeReg() {
     const boardTitle = document.querySelector('#boardTitle');
     if (boardTitle.value.trim() == '') {
         alert('공지사항 제목을 입력하세요.');
+        boardTitle.focus();
         return;
     }
 
@@ -46,14 +47,12 @@ function noticeReg() {
     const boardContent = document.querySelector('#boardContent');
     if (boardContent.value.trim() == '') {
         alert('공지사항 내용을 입력하세요.');
+        boardContent.focus(); // 사용자가 바로 수정할 수 있도록 포커스 추가
         return;
     }
 
+    // 모든 유효성 검사 통과 시, 폼 제출
     document.querySelector('#notice_reg').submit();
-
-    // 유효성 검사 모두 만족 시 true
-    return true;
-
 }
 
 
@@ -68,7 +67,7 @@ function submitForm() {
 //////////////////////////////////////////////////////////////////////////////////////
 
 //공지사항 게시글 수정 시 첨부파일 삭제 - 비동기
-function goDeleteImg(button, imgNum, boardNum) {
+function goDeleteImg(button, imgNum, boardNum,typeNum) {
     const imgNumber = button.getAttribute('data-img-num');
     const boardNumber = button.getAttribute('data-board-num');
     fetch('/board/deleteImgFile', { //요청경로
@@ -82,6 +81,7 @@ function goDeleteImg(button, imgNum, boardNum) {
             // 데이터명 : 데이터값
             'imgNum': imgNum,
             'boardNum': boardNum
+            ,'typeNum' : typeNum
         })
     })
         .then((response) => {
@@ -127,6 +127,7 @@ function goDeleteImg(button, imgNum, boardNum) {
 
 //////////////////////////////////////[문의사항 관련]////////////////////////////////////////
 
+
 // 문의사항 게시글 작성
 function goWriteQna() {
     location.href = '/board/qnaWriteForm';
@@ -141,9 +142,9 @@ function goUpdateQna(boardNum) {
 }
 
 // 문의사항 게시글 삭제
-function goDeleteQna(boardNum) {
+function goDeleteQna(boardNum, typeNum) {
     if (confirm('게시글을 삭제하시겠습니까?')) {
-        location.href = `/board/deleteQna?boardNum=${boardNum}`;
+        location.href = `/board/deleteQna?boardNum=${boardNum}&typeNum=${typeNum}`;
     }
 }
 
@@ -153,20 +154,15 @@ function qnaReg() {
     const boardTitle = document.querySelector('#boardTitle');
     if (boardTitle.value.trim() == '') {
         alert('문의사항 제목을 입력하세요.');
+        boardTitle.focus();
         return false;
     }
-
-    // 열람대상 빈칸 시
-    // const typeNum = document.querySelector('input[name="typeNum"]:checked');
-    // if (!typeNum) {
-    //     alert('문의사항 열람대상을 선택하세요.');
-    //     return false;
-    // }
 
     // 내용 빈칸 시
     const boardContent = document.querySelector('#boardContent');
     if (boardContent.value.trim() == '') {
         alert('문의사항 내용을 입력하세요.');
+        boardTitle.focus();
         return false;
     }
 
@@ -254,10 +250,6 @@ function goUpdateReply(selectedTd, boardNum, replyNum, replyContent) {
     // if (!newReplyContent) {
     //     return; // 사용자가 입력을 취소하거나 아무것도 입력하지 않은 경우
     // }
-
-}
-
-function prev() {
 
 }
 

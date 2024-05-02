@@ -113,7 +113,9 @@
                         <div class="row">
                             <div class="col">
                                 <button type="button" class=" btn btn-primary" id="btn insertTestSubBtn" th:onclick="goInsertSubNtest([[${subsList[0].testNum}]],[[${stuCnt[0].operatorVOList[0].classNum}]])">성적등록</button>
+                                <input type="button" class="btn btn-primary" th:onclick="goTeacherList([[${stuCnt[0].operatorVOList[0].classNum}]])" value="목록가기">
                             </div>
+                            
                         </div>
                     </th:block>    
                 </form>

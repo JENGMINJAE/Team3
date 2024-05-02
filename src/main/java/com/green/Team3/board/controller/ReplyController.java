@@ -30,14 +30,14 @@ public class ReplyController {
         replyVO.setMemberId(user.getUsername());
         replyService.insertReply(replyVO);
 
-        return "redirect:/board/qnaDetail?boardNum=" + replyVO.getBoardNum();
+        return "redirect:/board/qnaDetail?boardNum=" + replyVO.getBoardNum()+"&typeNum="+3;
     }
 
     //댓글 삭제
     @GetMapping("/deleteReply")
     public String deleteReply(@RequestParam(name="replyNum") int replyNum, ReplyVO replyVO){
         replyService.deleteReply(replyNum);
-        return "redirect:/board/qnaDetail?boardNum=" + replyVO.getBoardNum();
+        return "redirect:/board/qnaDetail?boardNum=" + replyVO.getBoardNum()+"&typeNum="+3;
     }
 
     //댓글 수정 - 비동기

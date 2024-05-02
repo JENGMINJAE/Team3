@@ -46,8 +46,6 @@
         FROM BOARD_TYPE
     </select>
 
-<!--    ///////////////////////////////////////////////////////////////////////////////////// -->
-
     <!-- 게시물 목록 조회 - 공지사항 - 학사공지 -->
     <!-- boardType - typeNum: 1(학생/공지) -->
     <select id="selectNoticeListStu" resultMap="boardMap">
@@ -58,6 +56,7 @@
         TYPE_NUM,
         CREATE_DATE,
         BOARD_CNT,
+        MEMBER_NAME,
         M.MEMBER_ROLL,
         I.ORIGIN_FILE_NAME
         FROM BOARD B
@@ -83,6 +82,7 @@
         TYPE_NUM,
         CREATE_DATE,
         BOARD_CNT,
+        MEMBER_NAME,
         M.MEMBER_ROLL,
         I.ORIGIN_FILE_NAME
         FROM BOARD B
@@ -107,6 +107,7 @@
         , TYPE_NUM
         , CREATE_DATE
         , BOARD_CNT
+        , MEMBER_NAME
         , MEMBER_ROLL
         FROM BOARD B
         INNER JOIN MEMBER M
@@ -129,13 +130,11 @@
             , BOARD_CONTENT
             , MEMBER_ID
             , TYPE_NUM
-            , CREATE_DATE
         ) VALUES (
             #{boardTitle}
             , #{boardContent}
             , #{memberId}
             , #{typeNum}
-            , #{createDate}
         )
     </insert>
 
@@ -173,13 +172,14 @@
     </insert>
 
     <!-- 게시글 상세 조회 - 공지사항-->
-    <select id="selectNoticeDetail" parameterType="int" resultMap="boardMap">
+    <select id="selectNoticeDetail" resultMap="boardMap">
         SELECT B.BOARD_NUM
         , BOARD_TITLE
         , BOARD_CONTENT
         , M.MEMBER_ID
         , TYPE_NUM
         , BOARD_CNT
+        , CREATE_DATE
         , MEMBER_NAME
         , I.ATTACHED_FILE_NAME
         , I.ORIGIN_FILE_NAME
@@ -191,6 +191,7 @@
         INNER JOIN MEMBER M
         ON B.MEMBER_ID = M.MEMBER_ID
         WHERE B.BOARD_NUM = #{boardNum}
+        AND TYPE_NUM = #{typeNum}
     </select>
 
     <!-- 게시글 상세 조회 - 문의사항 -->
@@ -207,6 +208,7 @@
         INNER JOIN MEMBER M
         ON B.MEMBER_ID = M.MEMBER_ID
         WHERE BOARD_NUM = #{boardNum}
+        AND TYPE_NUM = 3
     </select>
 
     <!-- 게시글 조회수 증가 -->
@@ -242,6 +244,7 @@
         DELETE FROM BOARD
         WHERE BOARD_NUM = #{boardNum}
     </delete>
+
 
     <!-- 게시글 수정 - 문의사항 -->
     <update id="updateBoard">
@@ -280,26 +283,56 @@
         </where>
     </select>
 
+<!-- /////////////////////////////////////////////////////////////////////////////////////-->
+
     <!-- 게시글 상세 - 이전글 조회 -->
+<!--    <select id="prevPage" resultMap="boardMap">-->
+<!--        SELECT BOARD_NUM-->
+<!--            , BOARD_TITLE-->
+<!--        FROM BOARD-->
+<!--        WHERE ${currentBoardNum} > BOARD_NUM-->
+<!--        AND TYPE_NUM = #{typeNum}-->
+<!--        ORDER BY BOARD_NUM DESC-->
+<!--        LIMIT 1-->
+<!--    </select>-->
+
+    <!-- 이전글 조회 -->
     <select id="prevPage" resultMap="boardMap">
-        SELECT BOARD_NUM
-            , BOARD_TITLE
+        SELECT IFNULL((SELECT BOARD_NUM FROM BOARD WHERE #{boardNum} > BOARD_NUM AND TYPE_NUM = #{typeNum} ORDER BY BOARD_NUM DESC LIMIT 1),0) AS BOARD_NUM
+        ,IFNULL((SELECT BOARD_TITLE FROM BOARD WHERE #{boardNum} > BOARD_NUM AND TYPE_NUM = #{typeNum} ORDER BY BOARD_NUM DESC LIMIT 1),NULL) AS BOARD_TITLE
         FROM BOARD
-        WHERE ${currentBoardNum} > BOARD_NUM
-        AND TYPE_NUM = #{typeNum}
-        ORDER BY BOARD_NUM DESC
         LIMIT 1;
     </select>
 
     <!-- 게시글 상세 - 다음글 조회 -->
-    <select id="nextPage" resultMap="boardMap" resultType="int">
-        SELECT BOARD_NUM
-                , BOARD_TITLE
+    <select id="nextPage" resultMap="boardMap">
+        SELECT IFNULL((SELECT BOARD_NUM FROM BOARD WHERE BOARD_NUM > #{boardNum} AND TYPE_NUM = #{typeNum} ORDER BY BOARD_NUM ASC LIMIT 1),0) AS BOARD_NUM
+            ,IFNULL((SELECT BOARD_TITLE FROM BOARD WHERE BOARD_NUM > #{boardNum} AND TYPE_NUM = #{typeNum} ORDER BY BOARD_NUM ASC LIMIT 1),NULL) AS BOARD_TITLE
         FROM BOARD
-        WHERE BOARD_NUM > #{currentBoardNum} AND TYPE_NUM = #{typeNum}
-        ORDER BY BOARD_NUM ASC
         LIMIT 1;
     </select>
+
+<!--    <select id="nextPage" resultMap="boardMap" resultType="int">-->
+<!--        SELECT BOARD_NUM-->
+<!--                , BOARD_TITLE-->
+<!--        FROM BOARD-->
+<!--        WHERE BOARD_NUM > #{currentBoardNum} AND TYPE_NUM = #{typeNum}-->
+<!--        ORDER BY BOARD_NUM ASC-->
+<!--        LIMIT 1-->
+<!--    </select>-->
+
+
+<!--    <select id="nextPage" parameterType="map" resultType="int">-->
+<!--        <![CDATA[-->
+<!--            SELECT BOARD_NUM-->
+<!--            FROM BOARD-->
+<!--            WHERE BOARD_NUM > #{currentBoardNum} AND TYPE_NUM = #{typeNum}-->
+<!--            ORDER BY BOARD_NUM ASC-->
+<!--            LIMIT 1-->
+<!--        ]]>-->
+<!--    </select>-->
+
+<!-- /////////////////////////////////////////////////////////////////////////////////////-->
 
     <!-- 메인 페이지 게시물 목록 조회 - 학사공지 -->
     <select id="selectNoticeListFirst" resultMap="boardMap">
@@ -310,6 +343,7 @@
         TYPE_NUM,
         BOARD_CNT,
         M.MEMBER_ROLL,
+        MEMBER_NAME,
         I.ORIGIN_FILE_NAME
         FROM BOARD B
         INNER JOIN MEMBER M ON B.MEMBER_ID = M.MEMBER_ID
