@@ -113,6 +113,7 @@
         INNER JOIN TEACHER T
         ON C.TEACHER_NUM = T.TEACHER_NUM
         WHERE MEMBER_ID = #{memberId}
+        AND CLASS_EDATE > NOW()
     </select>
     <!--  과제 상세 조회  -->
     <select id="selectOneHomework" resultMap="homework">

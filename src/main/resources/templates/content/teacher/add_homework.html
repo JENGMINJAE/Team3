@@ -10,7 +10,7 @@
 
 <th:block layout:fragment="contentFragment">
     <!-- html 코드 작성-->
-    <form action="/homework/addHomeworkResult" method="post">
+    <form action="/homework/addHomeworkResult" method="post" id="formform">
         <div class="row">
             <div class="col">
                 <div class="row" >
@@ -54,8 +54,8 @@
                                         </select>
                                     </td>
                                     <td><input type="text" name="hwName" class="form-control box-line" style="text-align: center;"></td>
-                                    <td><input type="date" name="hwSdate" class="form-control box-line" style="text-align: center;"></td>
-                                    <td><input type="date" name="hwEdate" class="form-control box-line" style="text-align: center;"></td>
+                                    <td><input type="date" name="hwSdate" id="Sdate" class="form-control box-line" style="text-align: center;"></td>
+                                    <td><input type="date" name="hwEdate" id="Edate" class="form-control box-line" style="text-align: center;"></td>
                                 </tr>
                             
                             </tbody>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="row mt-3" style="width: 1000px; text-align: center;">
                     <div class="col">
-                        <input class="btn btn-outline-primary" type="submit" value="만들기">
+                        <input class="btn btn-outline-primary" type="button" value="만들기" onclick="bigyo()">
                     </div>
                 </div>
             </div>
@@ -74,6 +74,6 @@
 
 <th:block layout:fragment="content_js">
     <!-- html 파일이 열릴 때 같이 실행 되는 js-->
-    <!-- <script src="/"></script> -->
+    <script src="/js/teacher/add_homework.js"></script>
 </th:block>
 </html>
