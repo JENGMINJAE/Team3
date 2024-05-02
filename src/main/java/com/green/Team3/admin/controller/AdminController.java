@@ -147,8 +147,7 @@ public class AdminController {
 
     // 학급 생성 버튼 클릭 시 실행 메소드
     @PostMapping("/makeClass")
-    public String makeClass(ClsVO clsVO, @RequestParam(name = "accorNum",required = false,defaultValue = "3") int accorNum, Model model){
-        System.out.println("!!!!");
+    public String makeClass(ClsVO clsVO, @RequestParam(name = "accorNum",required = false,defaultValue = "3") int accorNum){
         adminService.makeCls(clsVO);
         return "redirect:/admin/makeClassForm?accorNum="+accorNum;
     }
@@ -307,9 +306,16 @@ public class AdminController {
     public String goSales(Model model, @RequestParam(name = "accorNum", required = false, defaultValue = "5")int accorNum){
         model.addAttribute("years", adminService.findPayYear());
         model.addAttribute("accorNum", accorNum);
+        int payYear = adminService.findThisYear();
+        model.addAttribute("showYears", adminService.yearSalesInfo(payYear));
         return "content/admin/sales_manage";
     }
 
+    @ResponseBody
+    @PostMapping("/drawTable")
+    public List<OperatorVO> drawTable(@RequestBody OperatorVO operatorVO){
+        return adminService.yearSalesInfo(operatorVO.getPayYear());
+    }
     // 매출 관리 페이지 이동
     @ResponseBody
     @RequestMapping("/showGraphic")

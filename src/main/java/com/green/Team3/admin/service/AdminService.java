@@ -91,4 +91,6 @@ public interface AdminService {
     void setBoardType(BoardTypeVO boardTypeVO);
     void regBoardType(BoardTypeVO boardTypeVO);
     void delBoardType(BoardTypeVO boardTypeVO);
+    List<OperatorVO> yearSalesInfo(int payYear);
+    int findThisYear();
 }
