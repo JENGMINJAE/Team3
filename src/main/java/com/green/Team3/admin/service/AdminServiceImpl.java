@@ -206,4 +206,15 @@ public class AdminServiceImpl implements AdminService{
         sqlSession.delete("admin.delBoardType", boardTypeVO);
     }
 
+    @Override
+    public List<OperatorVO> yearSalesInfo(int payYear) {
+        return sqlSession.selectList("admin.yearSalesInfo", payYear);
+    }
+
+    @Override
+    public int findThisYear() {
+        return sqlSession.selectOne("admin.findThisYear");
+    }
+
+
 }

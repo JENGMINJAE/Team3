@@ -44,16 +44,13 @@ const showTypes = () => {
 const goRegFx = (selectedTag) => {
   const changeTypeName = selectedTag.parentElement.previousElementSibling;
   const selectPart = selectedTag.parentElement;
-  const typeName = selectedTag.parentElement.previousElementSibling.lastElementChild;
-  console.log(typeName);
-  console.log(selectPart);
-  // console.log("typeName = " + typeName.value);
+  const typeName = selectedTag.parentElement.previousElementSibling.previousElementSibling.lastElementChild;
   
   changeTypeName.innerHTML = '';
   selectPart.innerHTML = '';
-
+  
   let str = `
-    <input type="text" name="typeName" class="txt-input" value="" >
+    <input type="text" name="typeName" class="txt-input" value="${typeName.value}">
   `;
   let str2 = `
     <td>
@@ -117,7 +114,6 @@ function delBoardType(selectedTag){
   const typeNum = selectedTag.parentElement.previousElementSibling.previousElementSibling;
   const typeName = selectedTag.parentElement.previousElementSibling;
   const pick_tr_tag = selectedTag.parentElement.parentElement;
-  console.log(typeNum.textContent);
 
   if(confirm(`${typeName.textContent} 을 삭제하시겠습니까?`)){
     fetch('/admin/delBoardType', { //요청경로
@@ -151,12 +147,12 @@ function delBoardType(selectedTag){
 function cancelUpdate(selectedTag){
   const input_tag = selectedTag.parentElement.previousElementSibling;
   const btn_tag = selectedTag.parentElement;
-  const type_name = selectedTag.parentElement.previousElementSibling.firstElementChild;
+  const type_name = selectedTag.parentElement.previousElementSibling.previousElementSibling.lastElementChild;
 
   input_tag.innerHTML = '';
   input_tag.textContent = type_name.value;
   const typeName = type_name.value;
-  console.log(typeName);
+
   btn_tag.innerHTML = '';
   let str = `
           <input type="button" class="btn btn-outline-success btn-button" value="수정" onclick="goRegFx(this)">

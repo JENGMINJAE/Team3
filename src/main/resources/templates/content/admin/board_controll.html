@@ -77,11 +77,14 @@
               </th:block>
               <th:block th:unless="${#lists.isEmpty(types)}" th:each="type : ${types}">
                 <tr>
-                  <td class="num-td" th:value="${type.typeName}">[[${type.typeNum}]]</td>
+                  <td class="num-td">
+                    <span>[[${type.typeNum}]]</span>
+                    <input type="hidden" name="typeName" th:value="${type.typeName}">
+                  </td>
                   <td>[[${type.typeName}]]
                   </td>
                   <td>
-                    <input type="button" class="btn btn-outline-success btn-button" value="수정" th:onclick="goRegFx(this, [[${type.typeName}]])">
+                    <input type="button" class="btn btn-outline-success btn-button" value="수정" onclick="goRegFx(this)">
                     <input type="button" class="btn btn-outline-primary btn-button" value="삭제" onclick="delBoardType(this)">
                   </td>
                 </tr>

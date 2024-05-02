@@ -58,7 +58,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="member, state : ${memberList}" class="pointer-span align-middle">
+                            <tr th:each="member, state : ${memberList}" class="align-middle">
                                 <td>[[${searchVO.totalDataCnt - (searchVO.displayDataCnt * (searchVO.nowPage - 1)) - state.index}]]</td>
                                 <td><input type="hidden" name="updateMemberId"
                                         th:value="${updateMemberId}">[[${member.memberName}]] ([[${member.memberId}]])</td>
