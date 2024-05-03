@@ -54,7 +54,6 @@
                                 <td><strong>수강기간</strong></td>
                                 <td><strong>수강 상태</strong></td>
                             </tr>
-    
                             <tr th:each= "classInfo : ${classList}">
                                 <td>[[${classInfo.classNum}]]</td>
                                 <td style="cursor:pointer;"><span class="point-span" th:onclick="goScore([[${classInfo.classNum}]])" >[[${classInfo.className}]]</span></td>

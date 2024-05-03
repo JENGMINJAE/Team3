@@ -86,8 +86,9 @@
         WHERE O.CLASS_NUM = CLS.CLASS_NUM) AS STU_CNT
         , CLASS_PERSONNEL
         , CASE
-        WHEN CLASS_EDATE &gt;= NOW() THEN '강의 중'
-        ELSE '종료'
+        WHEN NOW() >= CLASS_EDATE THEN '종료'
+        WHEN CLASS_SDATE > NOW() THEN '예정'
+        ELSE '강의 중'
         END AS STR_WORK
         FROM CLASS_INFO CLS INNER JOIN TEACHER T
         ON CLS.TEACHER_NUM = T.TEACHER_NUM
