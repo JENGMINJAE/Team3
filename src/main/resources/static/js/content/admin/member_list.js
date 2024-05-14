@@ -471,7 +471,6 @@ function chkDuples(){
 }
 // 수강 신청 버튼 클릭 시 실행
 function regClass(memberId, classNum){
-    alert(memberId, classNum);
     
     if(confirm(`결제하시겠습니까?`)){
         fetch('/admin/goPayment', { //요청경로
@@ -594,8 +593,6 @@ function reqSomePay(){
         })
         //fetch 통신 후 실행 영역
         .then((data) => {//data -> controller에서 리턴되는 데이터!
-            console.log(data);
-
             let classCnt = 0;
             let totalPay = 0;
             let operArray = [];

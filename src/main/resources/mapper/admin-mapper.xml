@@ -316,4 +316,24 @@
         DELETE FROM BOARD_TYPE
         WHERE TYPE_NUM = #{typeNum}
     </delete>
+
+    <select id="yearSalesInfo" resultMap="clsMapper.cls">
+        SELECT OPER_NUM
+        , OPER_PAY
+        , PAY_DAY
+        , MEMBER_ID
+        , CLASS_NUM
+        , (SELECT MEMBER_NAME
+        FROM MEMBER
+        WHERE member.MEMBER_ID = operator.MEMBER_ID) AS MEMBER_NAME
+        , (SELECT CLASS_NAME
+        FROM class_info AS CLS
+        WHERE CLS.CLASS_NUM = operator.CLASS_NUM) AS CLASS_NAME
+        FROM operator
+        WHERE SUBSTRING(PAY_DAY, 1, 4) = #{payYear} AND IS_PAY = 'Y'
+    </select>
+
+    <select id="findThisYear" resultType="int">
+        SELECT YEAR(NOW()) AS PAY_YEAR
+    </select>
 </mapper>

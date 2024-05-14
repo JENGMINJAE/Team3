@@ -104,7 +104,7 @@
         ON T.TEACHER_NUM = CI.TEACHER_NUM
         WHERE MEMBER_ID = #{memberId}
         AND NOW() > HW_EDATE
-        ORDER BY HW_EDATE ASC
+        ORDER BY HW_EDATE DESC
     </select>
     <!--  선생으로 반정보 조회  -->
     <select id="selectClassByThisTeacher" resultMap="clsMapper.cls">
@@ -113,6 +113,7 @@
         INNER JOIN TEACHER T
         ON C.TEACHER_NUM = T.TEACHER_NUM
         WHERE MEMBER_ID = #{memberId}
+        AND CLASS_EDATE > NOW()
     </select>
     <!--  과제 상세 조회  -->
     <select id="selectOneHomework" resultMap="homework">

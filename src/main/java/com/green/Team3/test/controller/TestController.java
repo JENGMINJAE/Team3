@@ -35,13 +35,13 @@ public class TestController {
 
 // ############################# 강사가 로그인해서 성적 처리 관리 #############################
     @GetMapping("/testList")
-    public String testList(Model model, Authentication authentication){
+    public String testList(Model model, Authentication authentication, @RequestParam(name = "accorNum", required = false, defaultValue = "4")int accorNum){
         User user=(User) authentication.getPrincipal();
-                // ------------- 강사가 수업하는 수강명 목록 조회 ---------------
-                // 로그인한 유저 아이디 user.getUsername()
-                List<ClsVO> classList = testService.selectTeacherClassList(user.getUsername());
-                model.addAttribute("classList", classList);
-
+        // ------------- 강사가 수업하는 수강명 목록 조회 ---------------
+        // 로그인한 유저 아이디 user.getUsername()
+        List<ClsVO> classList = testService.selectTeacherClassList(user.getUsername());
+        model.addAttribute("classList", classList);
+        model.addAttribute("accorNum", accorNum);
         return "content/test/teacher_first_sc";
 
     }
@@ -421,11 +421,11 @@ public class TestController {
 
         // 선생님 이의신청 글 목록
         @GetMapping("/teacherAskFirst")
-        public String teacherAskFirst(Model model, Authentication authentication){
+        public String teacherAskFirst(Model model, Authentication authentication, @RequestParam(name = "accorNum", required = false, defaultValue = "4") int accorNum){
             User user=(User) authentication.getPrincipal();
             List<TestAskVO> thTestAskList = testService.selTeacherAsk(user.getUsername());
             model.addAttribute("thTestAskList", thTestAskList);
-
+            model.addAttribute("accorNum", accorNum);
             return "/content/test/teacher_test_ask";
         }
 

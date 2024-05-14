@@ -40,4 +40,9 @@ public class CalenderServiceImpl implements CalenderService{
     public void autoDeleteCalender() {
         sqlSession.delete("calender.autoDeleteCalender");
     }
+
+    @Override
+    public String selectMemberNameByMemberId(String memberId) {
+        return sqlSession.selectOne("calender.selectMemberNameByMemberId",memberId);
+    }
 }

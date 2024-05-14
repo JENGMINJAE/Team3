@@ -37,7 +37,8 @@ public class StuTestController {
 
     // 성적 서치서비스 첫페이지
     @GetMapping("/stuTestFirst")
-    public String stuTestFirst(Model model, Authentication authentication){
+    public String stuTestFirst(Model model, Authentication authentication,
+                               @RequestParam(name = "accorNum", required = false, defaultValue = "4") int accorNum){
 
         User user=(User) authentication.getPrincipal();
 
@@ -47,7 +48,7 @@ public class StuTestController {
         List<OperatorVO> clCnt = stuTestService.stuClCnt(user.getUsername());
         model.addAttribute("clCnt",clCnt);
 
-
+        model.addAttribute("accorNum", accorNum);
         return "content/student/student_test_search";
     }
 
@@ -57,7 +58,6 @@ public class StuTestController {
     public List<TestVO> classListSearch(@RequestParam(name = "memberId") String memberId){
 
         List<TestVO> stuCLTest =stuTestService.selectStuCLTest(memberId);
-        System.out.println("$$$$$$$$$$$$$$$"+ stuCLTest);
         return stuCLTest;
     }
 
@@ -154,14 +154,15 @@ public class StuTestController {
 
     // (학생)이의신청 목록페이지 (첫페이지)
     @GetMapping("/stuAskFirst")
-    public String stuAskFirst(Model model, Authentication authentication){
+    public String stuAskFirst(Model model, Authentication authentication,
+                              @RequestParam(name = "accorNum", required = false, defaultValue = "4") int accorNum){
         User user=(User) authentication.getPrincipal();
         List<TestAskVO> testAskList = stuTestService.selectStuAsk(user.getUsername());
         model.addAttribute("testAskList",testAskList);
 
         List<TestScoreVO> isScore  =stuTestService.isScore(user.getUsername());
         model.addAttribute("isScore",isScore);
-        System.out.println(isScore);
+        model.addAttribute("accorNum", accorNum);
 
          return "content/student/student_test_ask";
     }

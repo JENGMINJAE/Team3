@@ -12,8 +12,6 @@ function submitClass(){
     const chk_classEdate = document.querySelector('input[name="classEdate"]').value;
     let today =new Date().toISOString().substring(0, 10);
 
-    console.log(chk_classEdate);
-
     if(chk_clsName == null || chk_clsName == ""){
         alert('반명을 입력하세요.');
         return;

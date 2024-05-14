@@ -1,5 +1,3 @@
-
-
 const showTypes = () => {
   const typeName = document.querySelector('.name-input').value;
   const showTypes = document.querySelector('.show-types');
@@ -27,7 +25,7 @@ const showTypes = () => {
       <td class="num-td">${data}</td>
       <td>${typeName}</td>
       <td>
-        <input type="button" class="btn btn-outline-success btn-button" value="수정" onclick="goRegFunc(this)">
+        <input type="button" class="btn btn-outline-success btn-button" value="수정" onclick="goRegFx(this)">
         <input type="button" class="btn btn-outline-primary btn-button" value="삭제" onclick="delBoardType(this)">
       </td>
     </tr>
@@ -46,16 +44,18 @@ const showTypes = () => {
 const goRegFx = (selectedTag) => {
   const changeTypeName = selectedTag.parentElement.previousElementSibling;
   const selectPart = selectedTag.parentElement;
+  const typeName = selectedTag.parentElement.previousElementSibling.previousElementSibling.lastElementChild;
   
   changeTypeName.innerHTML = '';
   selectPart.innerHTML = '';
-
+  
   let str = `
-    <input type="text" name="typeName" class="txt-input" placeholder="수정할 분류명 입력">
+    <input type="text" name="typeName" class="txt-input" value="${typeName.value}">
   `;
   let str2 = `
     <td>
       <input type="button" class="btn btn-outline-success btn-button" value="완료" onclick="regBoardType(this)">
+      <input type="button" class="btn btn-outline-success btn-button" value="취소" onclick="cancelUpdate(this)">
     </td>
   `;
   changeTypeName.insertAdjacentHTML('afterbegin', str);
@@ -114,7 +114,6 @@ function delBoardType(selectedTag){
   const typeNum = selectedTag.parentElement.previousElementSibling.previousElementSibling;
   const typeName = selectedTag.parentElement.previousElementSibling;
   const pick_tr_tag = selectedTag.parentElement.parentElement;
-  console.log(typeNum.textContent);
 
   if(confirm(`${typeName.textContent} 을 삭제하시겠습니까?`)){
     fetch('/admin/delBoardType', { //요청경로
@@ -142,5 +141,24 @@ function delBoardType(selectedTag){
       console.log(err);
   });
   }
+
+}
+
+function cancelUpdate(selectedTag){
+  const input_tag = selectedTag.parentElement.previousElementSibling;
+  const btn_tag = selectedTag.parentElement;
+  const type_name = selectedTag.parentElement.previousElementSibling.previousElementSibling.lastElementChild;
+
+  input_tag.innerHTML = '';
+  input_tag.textContent = type_name.value;
+  const typeName = type_name.value;
+
+  btn_tag.innerHTML = '';
+  let str = `
+          <input type="button" class="btn btn-outline-success btn-button" value="수정" onclick="goRegFx(this)">
+          <input type="button" class="btn btn-outline-primary btn-button" value="삭제" onclick="delBoardType(this)">
+        `;
+  btn_tag.insertAdjacentHTML('afterbegin', str);
+
 
 }

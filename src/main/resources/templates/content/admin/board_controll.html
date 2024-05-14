@@ -17,7 +17,7 @@
         <div class="col">
           <div class="row mb-2">
             <div class="col">
-              <h2 class="title-div" >게시판 관리</h2> 
+              <h3 class="title-div" >게시판 관리</h3> 
             </div>
           </div>
           <div class="row">
@@ -77,8 +77,12 @@
               </th:block>
               <th:block th:unless="${#lists.isEmpty(types)}" th:each="type : ${types}">
                 <tr>
-                  <td class="num-td">[[${type.typeNum}]]</td>
-                  <td>[[${type.typeName}]]</td>
+                  <td class="num-td">
+                    <span>[[${type.typeNum}]]</span>
+                    <input type="hidden" name="typeName" th:value="${type.typeName}">
+                  </td>
+                  <td>[[${type.typeName}]]
+                  </td>
                   <td>
                     <input type="button" class="btn btn-outline-success btn-button" value="수정" onclick="goRegFx(this)">
                     <input type="button" class="btn btn-outline-primary btn-button" value="삭제" onclick="delBoardType(this)">

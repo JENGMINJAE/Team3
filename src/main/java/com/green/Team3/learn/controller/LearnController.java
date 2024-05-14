@@ -33,10 +33,11 @@ public class LearnController {
 
     //출결 뿌려주기
     @GetMapping("/atd")
-    public String selectAtd(Model model, Authentication authentication){
+    public String selectAtd(Model model, Authentication authentication, @RequestParam(name = "accorNum", required = false, defaultValue = "3") int accorNum){
         User user = (User)authentication.getPrincipal();
         model.addAttribute("atds",learnService.selectAtd());
         model.addAttribute("classList",homeworkService.selectClassByThisTeacher(user.getUsername()));
+        model.addAttribute("accorNum", accorNum);
         return "/content/teacher/attendance";
     }
     //출석부
@@ -65,7 +66,8 @@ public class LearnController {
     }
     //진도율 보러가기
     @GetMapping("/classPercentForm")
-    public String classPercentForm(){
+    public String classPercentForm(@RequestParam(name = "accorNum", required = false, defaultValue = "3") int accorNum, Model model){
+        model.addAttribute("accorNum", accorNum);
         return "/content/teacher/class_percent";
     }
 

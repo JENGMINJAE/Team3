@@ -11,6 +11,7 @@ import com.green.Team3.learn.vo.HomeworkVO;
 import jakarta.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,13 +44,12 @@ public class CalenderController {
                               @RequestParam(name = "start")String start){
         EventTypeVO eventTypeVO = calenderService.selectEventTypeForTeacherByConsult();
         EventCalenderVO calenderVO = new EventCalenderVO();
-        String title = memberId;
+        String title = calenderService.selectMemberNameByMemberId(memberId);
         title = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(classNum) + "-" + title + "-" + start;
         calenderVO.setMemberId(memberId);
         calenderVO.setEventTypeNum(eventTypeVO.getEventTypeNum());
         calenderVO.setStart(start);
         calenderVO.setTitle(title);
-        System.out.println(calenderVO);
         calenderService.insertEventCalender(calenderVO);
         ConsultVO vo = new ConsultVO();
         vo.setClassNum(classNum);

@@ -153,7 +153,8 @@ public class BoardController {
     @GetMapping("/noticeDetail")
     public String noticeDetail(@RequestParam(name = "boardNum") int boardNum
                                 , @RequestParam(name = "typeNum") int typeNum
-                                , Model model){
+                                , Model model,
+                               @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum){
         BoardVO boardVO = new BoardVO();
         boardVO.setBoardNum(boardNum);
         boardVO.setTypeNum(typeNum);
@@ -192,6 +193,8 @@ public class BoardController {
             model.addAttribute("nextPage", nextPage);
             model.addAttribute("nextPageNotFound", true);
         }
+
+        model.addAttribute("accorNum", accorNum);
         return "content/common/notice_detail";
     }
 
@@ -326,7 +329,8 @@ public class BoardController {
     // 문의사항 상세 조회
     @GetMapping("/qnaDetail")
     public String qnaDetail(@RequestParam(name = "boardNum") int boardNum,
-                            @RequestParam(name = "typeNum") int typeNum
+                            @RequestParam(name = "typeNum") int typeNum,
+                            @RequestParam(name = "accorNum", required = false, defaultValue = "1") int accorNum
                             , Model model){
         BoardVO boardVO = new BoardVO();
         boardVO.setBoardNum(boardNum);
@@ -370,7 +374,7 @@ public class BoardController {
             model.addAttribute("nextPage", nextPage);
             model.addAttribute("nextPageNotFound", true);
         }
-
+        model.addAttribute("accorNum", accorNum);
         return "content/common/qna_detail";
     }
 
