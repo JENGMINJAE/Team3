@@ -400,7 +400,7 @@ public class BoardController {
     // 문의사항 게시글 수정 양식 페이지 이동
     @GetMapping("/updateQna")
     public String updateQna(@RequestParam(name = "boardNum", required=false) int boardNum,
-                            @RequestParam(name = "typeNum", required = false) int typeNum,Model model){
+                            @RequestParam(name = "typeNum", required = false, defaultValue = "3") int typeNum,Model model){
         BoardVO boardVO = new BoardVO();
         boardVO.setTypeNum(typeNum);
         boardVO.setBoardNum(boardNum);
@@ -413,7 +413,7 @@ public class BoardController {
     public String updateQna(BoardVO boardVO, @RequestParam("boardNum") int boardNum){
         boardVO.setBoardNum(boardNum);
         boardService.updateBoard(boardVO);
-        return "redirect:/board/qnaDetail?boardNum=" + boardNum;
+        return "redirect:/board/qnaDetail?boardNum=" + boardNum + "&typeNum=" + boardVO.getTypeNum();
     }
 
 }

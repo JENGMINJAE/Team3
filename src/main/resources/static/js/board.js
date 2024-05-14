@@ -112,7 +112,6 @@ function goDeleteImg(button, imgNum, boardNum,typeNum) {
             }
             // '새로운 첨부파일' 영역에 새로운 파일 선택을 위한 input 태그를 추가
             str += `<div>
-                        새로운 첨부파일
                     <input type="file" id="file-input" class="form-control" name="subImgs" multiple>
                 </div>`;
 
@@ -196,61 +195,42 @@ function goDeleteReply(replyNum, boardNum) {
 }
 
 
-//문의사항 댓글 변경
+// 문의사항 댓글 변경
 function goUpdateReply(selectedTd, boardNum, replyNum, replyContent) {
     const Td = selectedTd.parentElement.parentElement.previousElementSibling.lastElementChild;
 
-    Td.innerText = '';
-    Td.innerHTML = `<input class="form-control" type="text" name="replyContent" id="changeInput" value="${replyContent}"/>
-                    <input id="rcb" class="btn btn-primary" type="button" value="진짜수정"/>`;
-    const rcb = document.querySelector("#rcb")
-    rcb.addEventListener('click', function () {
+    Td.innerHTML = `<input class="form-control" type="text" name="replyContent" id="changeInput" value="${replyContent}"/>`;
+
+    const changeInput = document.getElementById('changeInput');
+    changeInput.addEventListener('change', function () {
         const newReplyContent = changeInput.value;
-        fetch('/reply/updateReply', { //요청경로
+        fetch('/reply/updateReply', {
             method: 'POST',
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            //컨트롤러로 전달할 데이터
             body: new URLSearchParams({
-                // 데이터명 : 데이터값
                 'boardNum': boardNum,
                 'replyNum': replyNum,
-                'replyContent': newReplyContent //수정된 댓글 내용
+                'replyContent': newReplyContent
             })
         })
-            .then((response) => {
-                if (!response.ok) {
-                    alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
-                    return;
-                }
-
-                return response.text(); //컨트롤러에서 return하는 데이터가 없거나 int, String 일 때 사용
-                //return response.json(); //나머지 경우에 사용
-            })
-            //fetch 통신 후 실행 영역
-
-            .then((data) => {//data -> controller에서 리턴되는 데이터!
-                //수정된 댓글 화면 갱신
-                alert('댓글이 변경되었습니다.');
-                Td.textContent = data;
-
-            })
-
-
-            //fetch 통신 실패 시 실행 영역
-            .catch(err => {
-                alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
-                console.log(err);
-            });
+        .then((response) => {
+            if (!response.ok) {
+                alert('fetch error!\n컨트롤러로 통신중에 오류가 발생했습니다.');
+                return;
+            }
+            return response.text();
+        })
+        .then((data) => {
+            alert('댓글이 변경되었습니다.');
+            Td.textContent = data;
+        })
+        .catch(err => {
+            alert('fetch error!\nthen 구문에서 오류가 발생했습니다.\n콘솔창을 확인하세요!');
+            console.log(err);
+        });
     })
-
-    // const newReplyContent = prompt('댓글 내용을 입력하세요:', replyContent);
-    // if (!newReplyContent) {
-    //     return; // 사용자가 입력을 취소하거나 아무것도 입력하지 않은 경우
-    // }
-
 }
-
 
