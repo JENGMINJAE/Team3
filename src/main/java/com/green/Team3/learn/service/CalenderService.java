@@ -12,4 +12,5 @@ public interface CalenderService {
     List<EventCalenderVO> addEventBar();
     void deleteCalender(String title);
     void autoDeleteCalender();
+    String selectMemberNameByMemberId(String memberId);
 }

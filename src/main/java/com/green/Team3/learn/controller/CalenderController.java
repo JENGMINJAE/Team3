@@ -44,13 +44,12 @@ public class CalenderController {
                               @RequestParam(name = "start")String start){
         EventTypeVO eventTypeVO = calenderService.selectEventTypeForTeacherByConsult();
         EventCalenderVO calenderVO = new EventCalenderVO();
-        String title = memberId;
+        String title = calenderService.selectMemberNameByMemberId(memberId);
         title = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(classNum) + "-" + title + "-" + start;
         calenderVO.setMemberId(memberId);
         calenderVO.setEventTypeNum(eventTypeVO.getEventTypeNum());
         calenderVO.setStart(start);
         calenderVO.setTitle(title);
-        System.out.println(calenderVO);
         calenderService.insertEventCalender(calenderVO);
         ConsultVO vo = new ConsultVO();
         vo.setClassNum(classNum);
