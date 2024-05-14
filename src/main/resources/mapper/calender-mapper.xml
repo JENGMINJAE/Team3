@@ -41,6 +41,11 @@
         )
     </insert>
 
+    <select id="selectMemberNameByMemberId" resultType="String">
+        select MEMBER_NAME
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
     <select id="addEventBar" resultMap="eventCalender">
         SELECT TITLE ,START
         FROM EVENT_CALENDER EC
