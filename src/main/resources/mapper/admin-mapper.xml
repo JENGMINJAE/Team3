@@ -336,4 +336,17 @@
     <select id="findThisYear" resultType="int">
         SELECT YEAR(NOW()) AS PAY_YEAR
     </select>
+    <select id="selectLoopCnt" resultType="int">
+        SELECT COUNT(CLASS_NUM) FROM class_info
+    </select>
+    <select id="selectClassName" resultType="String">
+        SELECT CLASS_NAME FROM CLASS_INFO
+    </select>
+    <select id="selectTotalDayForClass" resultType="int">
+        SELECT DATEDIFF(CLASS_EDATE,CLASS_SDATE) FROM class_info
+    </select>
+    <!--  해당 반의 진행 일수 계산  -->
+    <select id="selectIngDayForClass" resultType="int">
+        SELECT DATEDIFF(NOW(),CLASS_SDATE) FROM class_info
+    </select>
 </mapper>

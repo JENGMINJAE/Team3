@@ -39,7 +39,7 @@ public class SecurityConfig {
                             new AntPathRequestMatcher("/member/findIdFetch"),
                             new AntPathRequestMatcher("/member/idCheckFetch")
                             ).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/admin")).hasRole("3")
+                                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("3")
                                 .requestMatchers(new AntPathRequestMatcher("/teacher")).hasRole("2")
                                 .requestMatchers(new AntPathRequestMatcher("/board")).hasAnyRole("1","2","3")
                                 .requestMatchers(new AntPathRequestMatcher("/reply")).hasAnyRole("1","2","3")
