@@ -7,11 +7,15 @@ import com.green.Team3.board.vo.BoardTypeVO;
 import com.green.Team3.board.vo.SearchVO;
 import com.green.Team3.cls.service.ClsService;
 import com.green.Team3.cls.vo.ClsVO;
-import com.green.Team3.learn.service.ConsultService;
+import com.green.Team3.learn.service.*;
+import com.green.Team3.learn.vo.ChartVO;
+import com.green.Team3.learn.vo.DataSetsVO;
 import com.green.Team3.member.service.MemberService;
 import com.green.Team3.member.vo.MemberVO;
 import com.green.Team3.member.vo.TeacherVO;
 import jakarta.annotation.Resource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +41,13 @@ public class AdminController {
 
     @Resource(name = "consultService")
     private ConsultService consultService;
+
+    @Resource(name = "learnService")
+    private LearnServiceImpl learnService;
+    @Resource(name = "homeworkService")
+    private HomeworkServiceImpl homeworkService;
+    @Resource(name = "chartService")
+    private ChartService chartService;
 
     // 관리자 클릭 시 페이지 이동
     @GetMapping("/notice")
@@ -386,4 +397,34 @@ public class AdminController {
         adminService.delBoardType(boardTypeVO);
     }
 
+    @GetMapping("/classPercentForm")
+    public String classPercentForm(@RequestParam(name = "accorNum", required = false) int accorNum,Model model){
+        model.addAttribute("accorNum",accorNum);
+
+        System.out.println(3);
+        return "/content/admin/class_percent";
+    }
+    @ResponseBody
+    @PostMapping("/classPercent")
+    public ChartVO classPercent(){
+        System.out.println(1);
+        int loopCnt = adminService.selectLoopCnt();
+        List<Integer> totalList = adminService.selectTotalDayForClass();
+        List<Integer> ingList = adminService.selectIngDayForClass();
+        String[] labels = new String[loopCnt];
+        String[] randomColor = new String[loopCnt];
+        double[] datas = new double[loopCnt];
+        for (int i = 0 ; i < loopCnt; i++){
+            randomColor[i] = chartService.createRandomColor();
+            labels[i] = adminService.selectClassName().get(i);
+            datas[i] = (double)ingList.get(i) / (double)totalList.get(i) * 100;
+        }
+        ChartVO chartVO = new ChartVO();
+        chartVO.setLabels(labels);
+        DataSetsVO dataSetsVO = new DataSetsVO();
+        dataSetsVO.setBackgroundColor(randomColor);
+        dataSetsVO.setData(datas);
+        chartVO.setDatasets(dataSetsVO);
+        return chartVO;
+    }
 }

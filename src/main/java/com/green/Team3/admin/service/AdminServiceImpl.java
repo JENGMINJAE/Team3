@@ -216,5 +216,24 @@ public class AdminServiceImpl implements AdminService{
         return sqlSession.selectOne("admin.findThisYear");
     }
 
+    @Override
+    public int selectLoopCnt() {
+        return sqlSession.selectOne("admin.selectLoopCnt");
+    }
+
+    @Override
+    public List<String> selectClassName() {
+        return sqlSession.selectList("admin.selectClassName");
+    }
+
+    @Override
+    public List<Integer> selectTotalDayForClass() {
+        return sqlSession.selectList("admin.selectTotalDayForClass");
+    }
+
+    @Override
+    public List<Integer> selectIngDayForClass() {
+        return sqlSession.selectList("admin.selectIngDayForClass");
+    }
 
 }

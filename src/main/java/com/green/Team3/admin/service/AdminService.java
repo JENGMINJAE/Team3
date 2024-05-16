@@ -93,4 +93,8 @@ public interface AdminService {
     void delBoardType(BoardTypeVO boardTypeVO);
     List<OperatorVO> yearSalesInfo(int payYear);
     int findThisYear();
+    int selectLoopCnt();
+    List<String> selectClassName();
+    List<Integer> selectTotalDayForClass();
+    List<Integer> selectIngDayForClass();
 }
