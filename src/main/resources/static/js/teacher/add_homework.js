@@ -1,4 +1,3 @@
-
 const bigyo = () => {
   const Sdate = document.querySelector("#Sdate").value;
   const Edate = document.querySelector("#Edate").value;

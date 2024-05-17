@@ -113,12 +113,17 @@
                                     </li>
                                 </th:block>
                                 <th:block th:each="i : ${#numbers.sequence(searchVO.beginPage, searchVO.endPage)}"> 
-                                    <!-- 공지사항 목록에서 선택한 페이지 + 조회한 검색 데이터 함께 가져옴 -->   
-                                    <li class="page-item">
-                                        <a class="page-link" th:href="@{/board/noticeListStu(nowPage=${i}, typeNum=${searchVO.typeNum}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
-                                            [[${i}]]
-                                        </a>
-                                    </li>
+                                    <!-- 공지사항 목록에서 선택한 페이지 + 조회한 검색 데이터 함께 가져옴 -->
+                                    <th:block th:if="${searchVO.endPage+1} == ${searchVO.beginPage}">
+
+                                    </th:block>
+                                    <th:block th:if="${searchVO.endPage+1} != ${searchVO.beginPage}">
+                                        <li class="page-item">
+                                            <a class="page-link" th:href="@{/board/noticeListStu(nowPage=${i}, typeNum=${searchVO.typeNum}, searchValue=${searchVO.searchValue}, searchType=${searchVO.searchType})}" style="color: rgb(116, 116, 116)">
+                                                [[${i}]]
+                                            </a>
+                                        </li>
+                                    </th:block>
                                 </th:block>
                                 <th:block th:if="${searchVO.next}">
                                     <li class="page-item">

@@ -120,7 +120,7 @@ public class ConsultController {
         EventTypeVO eventTypeVO = calenderService.selectEventTypeForTeacherByConsult();
         eVO.setStart(consultVO.getConsultDate());
         eVO.setMemberId(consultVO.getMemberId());
-        String tt = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(consultVO.getClassNum()) + "-" + consultVO.getMemberId() + "-" + consultVO.getConsultDate();
+        String tt = eventTypeVO.getEventTypeName() + "-" + calenderService.selectClassNameByClassNum(consultVO.getClassNum()) + "-" + calenderService.selectMemberNameByMemberId(consultVO.getMemberId()) + "-" + consultVO.getConsultDate();
         eVO.setTitle(tt);
         eVO.setEventTypeNum(eventTypeVO.getEventTypeNum());
         calenderService.insertEventCalender(eVO);//달력 추가

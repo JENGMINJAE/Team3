@@ -164,7 +164,7 @@ function happyBtn(classNum){
                                     testAddBtn.innerHTML=``;                         
                                     let str= `<div class="row" style="margin-top: 5px;">
                                                     <div class="col-2">
-                                                        <input type="button"  class="btn btn-secondary btn-sm" value="시험당" id="btn insertTestNameBtn " onclick="insertScore()"
+                                                        <input type="button"  class="btn btn-secondary btn-sm" value="시험등록" id="btn insertTestNameBtn " onclick="insertScore()"
                                                         style="--bs-btn-hover-border-color:rgb(179, 179, 180);  --bs-btn-border-color:rgb(179, 179, 180); --bs-btn-bg: rgb(179, 179, 180);--bs-btn-hover-bg:rgb(179, 179, 180);">
                                                     </div>
                                             </div>`
