@@ -47,7 +47,6 @@ public class IndexController {
         searchVO.setTotalDataCnt(totalDataCnt);
         // 페이지 정보 세팅
         searchVO.setPageInfo();
-        System.out.println(searchVO);
         // 공지사항 검색 시 페이징코드 정리
         List<BoardVO> noticeList = boardService.selectNoticeListFirst(searchVO);
         model.addAttribute("isSearch", isSearch);
